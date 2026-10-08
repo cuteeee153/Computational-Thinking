@@ -1,0 +1,84 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+:root{--bg:#17110E;--ink:#FFF5EA;--sub:#A39486;--amber:#FFB566;--peach:#FF8F6B;--cream:#FFE3B8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1920px}
+.f{position:relative;width:1920px;height:1080px;overflow:hidden;color:var(--ink);font-family:'Noto Sans TC';-webkit-font-smoothing:antialiased;
+  background:radial-gradient(900px 700px at 30% 55%,rgba(255,150,80,.22),transparent 70%),radial-gradient(800px 600px at 85% 20%,rgba(255,110,90,.12),transparent 70%),var(--bg)}
+.grain{position:absolute;inset:0;opacity:.12;mix-blend-mode:overlay}
+.eyebrow{position:absolute;font-size:24px;letter-spacing:.14em;color:var(--amber);font-weight:500}
+.phone{position:absolute;width:400px;height:820px;border-radius:66px;background:linear-gradient(160deg,#3A2E28,#1E1714);padding:12px;
+  box-shadow:0 0 0 1.5px rgba(255,200,150,.25),0 0 120px 10px rgba(255,150,80,.25),0 60px 100px -30px rgba(0,0,0,.8)}
+.screen{width:100%;height:100%;border-radius:56px;background:linear-gradient(180deg,#2A201B,#211915);overflow:hidden;position:relative}
+.island{position:absolute;top:16px;left:50%;transform:translateX(-50%);width:110px;height:32px;border-radius:18px;background:#000}
+.res{margin:0 26px;padding:24px 0;border-bottom:1px solid rgba(255,230,200,.1)}
+.res small{font-size:17px;color:var(--sub);display:block;margin-bottom:8px;font-family:'Inter','Noto Sans TC'}
+.res h5{font-size:25px;font-weight:500;line-height:1.4;color:#F3E6D8}
+.res em{font-style:normal;color:var(--amber);text-shadow:0 0 18px rgba(255,180,100,.7)}
+.orb{position:absolute;border-radius:36px;padding:26px 36px;background:linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.03));
+  border:1.5px solid rgba(255,220,180,.28);backdrop-filter:blur(14px);box-shadow:0 30px 60px -20px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.2)}
+.orb b{font-family:'Inter';font-weight:300;font-size:150px;line-height:1;letter-spacing:-.04em}
+.orb span{font-weight:300;font-size:46px;margin-left:8px}
+.orb small{display:block;font-size:20px;color:var(--sub);margin-top:6px;letter-spacing:.08em}
+.glowtxt{background:linear-gradient(90deg,#FFE3B8,#FFB566 45%,#FF8F6B);-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 0 30px rgba(255,150,80,.45))}
+.panel{position:absolute;border-radius:30px;background:linear-gradient(170deg,rgba(255,255,255,.10),rgba(255,255,255,.02));border:1.5px solid rgba(255,220,180,.22);padding:30px 34px;box-shadow:0 40px 80px -30px rgba(0,0,0,.7)}
+.panel .n{font-family:'Inter';font-weight:500;font-size:20px;letter-spacing:.14em;color:var(--amber)}
+.panel h3{font-size:36px;font-weight:700;margin-top:12px}
+</style></head><body>
+<script src="dog.js"></script>
+<svg width="0" height="0" style="position:absolute"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0"/></filter></svg>
+
+<!-- ============ FRAME 1 : HOOK ============ -->
+<section class="f">
+  <div class="eyebrow" style="left:120px;top:110px">狗關節保養 ・ 幾歲開始？</div>
+
+  <div class="phone" style="left:300px;top:150px;transform:rotate(-6deg)"><div class="screen">
+    <div class="island"></div>
+    <div style="margin:80px 24px 8px;padding:16px 20px;border-radius:16px;background:rgba(255,255,255,.06);font-size:21px;color:#BFAF9F">🔍 狗 關節保養 幾歲開始</div>
+    <div class="res"><small>文章 A</small><h5>老狗照護：<em>七歲</em>才要顧關節</h5></div>
+    <div class="res"><small>文章 B</small><h5>大型犬<em>五歲</em>就要吃保健品</h5></div>
+    <div class="res"><small>文章 C</small><h5><em>三到五歲</em>就開始退化</h5></div>
+  </div></div>
+
+  <!-- connector lines with ≠ -->
+  <svg width="1920" height="1080" style="position:absolute;inset:0">
+    <defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#FFB566" stop-opacity="0"/><stop offset="1" stop-color="#FFB566" stop-opacity=".7"/></linearGradient></defs>
+    <path d="M700 330 C820 300 860 260 960 250" stroke="url(#lg)" stroke-width="2" fill="none"/>
+    <path d="M700 500 C900 500 1100 530 1300 530" stroke="url(#lg)" stroke-width="2" fill="none"/>
+    <path d="M700 650 C820 690 860 760 960 790" stroke="url(#lg)" stroke-width="2" fill="none"/>
+    <g font-family="Inter" font-weight="300" font-size="64" fill="#FF8F6B" opacity=".9"><text x="1190" y="410">≠</text><text x="1190" y="700">≠</text></g>
+  </svg>
+  <div class="orb" style="left:960px;top:150px"><b style="color:var(--cream)">7</b><span>歲？</span><small>文章 A</small></div>
+  <div class="orb" style="left:1300px;top:420px"><b style="color:var(--amber)">5</b><span>歲？</span><small>文章 B</small></div>
+  <div class="orb" style="left:960px;top:700px"><b style="color:var(--peach)">3</b><span>歲？</span><small>文章 C</small></div>
+
+  <!-- dog lit by phone glow -->
+  <div style="position:absolute;left:1580px;top:640px;width:260px;filter:drop-shadow(-20px 0 40px rgba(255,160,90,.35))" id="dogF1"></div>
+  <div style="position:absolute;left:1560px;top:940px;width:300px;height:30px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.6),transparent)"></div>
+  <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#n)"/></svg>
+</section>
+
+<!-- ============ FRAME 2 : CORE ============ -->
+<section class="f" style="background:radial-gradient(1000px 700px at 50% 30%,rgba(255,150,80,.2),transparent 70%),radial-gradient(900px 600px at 80% 90%,rgba(255,110,90,.12),transparent 70%),#17110E">
+  <div class="eyebrow" style="left:0;right:0;text-align:center;top:120px">先講結論</div>
+  <div style="position:absolute;left:0;right:0;top:175px;text-align:center;font-size:100px;font-weight:700;letter-spacing:-.01em">
+    <span style="color:#5E524A;font-weight:300;text-decoration:line-through;text-decoration-thickness:4px;text-decoration-color:#FF8F6B">幾歲</span>
+    <span style="color:#5E524A;font-weight:300">→</span>
+    <span class="glowtxt">風險等級</span>
+  </div>
+  <div style="position:absolute;left:0;right:0;top:330px;text-align:center;font-size:32px;color:var(--sub)">要不要開始，看的是風險因子，不是生日。</div>
+
+  <!-- ascending glass panels -->
+  <div class="panel" style="left:300px;top:690px;width:420px"><div class="n">STEP 01</div><h3>有風險因子嗎？</h3></div>
+  <div class="panel" style="left:750px;top:590px;width:420px;opacity:.55"><div class="n">STEP 02</div><h3>有蛛絲馬跡嗎？</h3></div>
+  <div class="panel" style="left:1200px;top:490px;width:420px;opacity:.3"><div class="n">STEP 03</div><h3>該做什麼？</h3></div>
+  <svg width="1920" height="1080" style="position:absolute;inset:0;pointer-events:none"><g stroke="#FFB566" stroke-width="3" style="filter:drop-shadow(0 0 10px #FFB566)"><path d="M300 690 L720 690"/><path d="M750 590 L1170 590" opacity=".35"/><path d="M1200 490 L1620 490" opacity=".18"/></g></svg>
+  <div style="position:absolute;left:340px;top:528px;width:150px;filter:drop-shadow(0 0 30px rgba(255,160,90,.3))" id="dogF2"></div>
+  <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#n)"/></svg>
+</section>
+<script>
+const P={mode:'flat',body:'#E6A060',dark:'#A9663A',light:'#FFF1DE',nose:'#1E1714',collar:'#FF8F6B',tag:'#FFD08A',blush:'#F49A80'};
+dogF1.innerHTML = dogSVG(Object.assign({id:'f1',tilt:-12,mood:'curious'},P));
+dogF2.innerHTML = dogSVG(Object.assign({id:'f2',tilt:4,mood:'determined'},P));
+</script>
+</body></html>

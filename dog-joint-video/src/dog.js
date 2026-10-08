@@ -7,7 +7,7 @@ function dogSVG(o) {
     collar: '#2F7F7A', tag: '#F2C14E', stroke: '#3B2A20', sw: 5, blush: '#F5927A'
   }, o);
   const id = o.id, m = o.mode;
-  const line = m === 'line';
+  const line = m === 'line'; const flat = m === 'flat';
   const S = line ? `stroke="${o.stroke}" stroke-width="${o.sw}" stroke-linejoin="round" stroke-linecap="round"` :
             m === 'ink' ? `stroke="${o.stroke}" stroke-width="${o.sw}" stroke-linejoin="round" stroke-linecap="round"` : '';
   const f = (c, g) => line ? `fill="${c === 'collar' ? o.collar : (c === 'nose' ? o.stroke : '#fff')}"` :
@@ -29,7 +29,7 @@ function dogSVG(o) {
   if (m === 'ink') {
     defs = `<defs><filter id="${id}-wob"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="3.2"/></filter></defs>`;
   }
-  const grp = m === 'clay' ? `filter="url(#${id}-soft)"` : m === 'ink' ? `filter="url(#${id}-wob)"` : '';
+  const grp = flat ? '' : m === 'clay' ? `filter="url(#${id}-soft)"` : m === 'ink' ? `filter="url(#${id}-wob)"` : '';
   const eyeR = o.mood === 'happy' ? null : 1;
   const eyes = o.mood === 'happy'
     ? `<path d="M112 122 Q122 110 132 122 M168 122 Q178 110 188 122" fill="none" stroke="${o.nose}" stroke-width="6" stroke-linecap="round"/>`
