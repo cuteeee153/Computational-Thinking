@@ -1,0 +1,111 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+:root{--navy:#2B2D5B;--mint:#7FD8B8;--coral:#FF8A7A;--butter:#FFD36B;--lilac:#B9A8FF;--sky:#8EC9FF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1920px}
+.f{position:relative;width:1920px;height:1080px;overflow:hidden;color:var(--navy);font-family:'Huninn';
+  background:radial-gradient(1200px 800px at 15% 10%,#F3EEFF 0,transparent 60%),radial-gradient(1000px 900px at 95% 100%,#FFE6DA 0,transparent 60%),linear-gradient(135deg,#EAE4FF,#FFF1E8)}
+.puff{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,rgba(255,255,255,0) 70%);opacity:.8}
+.pill{position:absolute;border-radius:999px;box-shadow:0 30px 50px -18px rgba(70,50,130,.35), inset 0 -12px 0 rgba(0,0,0,.08), inset 0 10px 18px rgba(255,255,255,.6)}
+.glass{position:absolute;border-radius:40px;background:rgba(255,255,255,.55);backdrop-filter:blur(10px);box-shadow:0 30px 60px -20px rgba(70,50,130,.35),inset 0 2px 0 rgba(255,255,255,.9);border:1.5px solid rgba(255,255,255,.8)}
+.phone{position:absolute;left:230px;top:140px;width:470px;height:840px;border-radius:78px;
+  background:linear-gradient(145deg,#8E86E8,#5B53B8);box-shadow:0 60px 80px -30px rgba(50,30,120,.55),inset 6px 6px 14px rgba(255,255,255,.35),inset -8px -10px 20px rgba(0,0,0,.25);transform:rotate(-8deg)}
+.screen{position:absolute;inset:22px;border-radius:60px;background:linear-gradient(180deg,#FFFFFF,#F4F0FF);overflow:hidden}
+.card{position:absolute;left:24px;right:24px;height:170px;border-radius:34px;background:#fff;box-shadow:0 16px 30px -14px rgba(70,50,130,.35);display:flex;align-items:center;gap:20px;padding:0 24px}
+.ic{width:96px;height:96px;border-radius:28px;flex:none;box-shadow:inset 0 -8px 0 rgba(0,0,0,.08),inset 0 8px 12px rgba(255,255,255,.6)}
+.card h4{font-size:30px;line-height:1.35;font-weight:400}
+.ball{position:absolute;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2','Huninn';font-weight:800;color:#fff;
+  box-shadow:0 40px 60px -20px rgba(70,50,130,.45), inset -18px -24px 40px rgba(0,0,0,.18), inset 18px 22px 30px rgba(255,255,255,.55)}
+.ball span{font-family:'Huninn';font-weight:400}
+.ball:after{content:'';position:absolute;left:22%;top:14%;width:28%;height:16%;border-radius:50%;background:rgba(255,255,255,.65);transform:rotate(-25deg);filter:blur(2px)}
+.q3d{position:absolute;font-family:'Baloo 2';font-weight:800;color:var(--coral);
+  text-shadow:0 2px 0 #E86F60,0 4px 0 #E26A5B,0 6px 0 #DB6556,0 8px 0 #D46051,0 10px 0 #CD5B4C,0 26px 30px rgba(90,40,90,.35)}
+.sub{position:absolute;left:50%;bottom:54px;transform:translateX(-50%);padding:16px 44px;border-radius:999px;background:rgba(43,45,91,.9);color:#fff;font-size:44px;white-space:nowrap;box-shadow:0 20px 40px -16px rgba(43,45,91,.6)}
+.chip{position:absolute;left:80px;top:60px;padding:12px 28px;border-radius:999px;background:#fff;font-size:30px;box-shadow:0 12px 24px -12px rgba(70,50,130,.4);display:flex;gap:12px;align-items:center}
+.chip i{width:18px;height:18px;border-radius:50%;background:var(--coral);display:inline-block}
+.block{position:absolute;border-radius:36px}
+</style></head><body>
+<script src="dog.js"></script>
+
+<!-- ============ FRAME 1 : HOOK ============ -->
+<section class="f">
+  <div class="puff" style="left:1250px;top:60px;width:260px;height:260px"></div>
+  <div class="puff" style="left:60px;top:780px;width:200px;height:200px"></div>
+  <div class="chip"><i></i>狗關節保養・幾歲開始？</div>
+
+  <div class="phone"><div class="screen">
+    <div style="position:absolute;top:20px;left:50%;transform:translateX(-50%);width:120px;height:30px;border-radius:15px;background:#2B2D5B"></div>
+    <div class="card" style="top:90px"><div class="ic" style="background:var(--coral)"></div><h4>老狗照護：<b style="color:#E8604F">七歲</b>才要顧關節</h4></div>
+    <div class="card" style="top:290px"><div class="ic" style="background:var(--mint)"></div><h4>大型犬<b style="color:#2FA57E">五歲</b>就要吃保健品</h4></div>
+    <div class="card" style="top:490px"><div class="ic" style="background:var(--butter)"></div><h4><b style="color:#D9A21C">三到五歲</b>就開始退化</h4></div>
+    <div class="card" style="top:690px;opacity:.5"><div class="ic" style="background:var(--lilac)"></div><h4>⋯⋯</h4></div>
+  </div></div>
+
+  <!-- floating 3D number balls -->
+  <div class="ball" style="left:760px;top:120px;width:300px;height:300px;background:radial-gradient(circle at 35% 30%,#FFB3A6,#FF7A68 60%,#E8604F);font-size:170px">7<span style="font-size:58px;margin-top:40px">歲</span></div>
+  <div class="ball" style="left:1010px;top:390px;width:260px;height:260px;background:radial-gradient(circle at 35% 30%,#B8F0DC,#62CFA8 60%,#3FB38C);font-size:150px">5<span style="font-size:52px;margin-top:36px">歲</span></div>
+  <div class="ball" style="left:770px;top:600px;width:230px;height:230px;background:radial-gradient(circle at 35% 30%,#FFF0B8,#FFD05E 60%,#F0B636);font-size:130px;color:#7A5300">3<span style="font-size:46px;margin-top:30px">歲</span></div>
+  <!-- collision pops -->
+  <svg style="position:absolute;left:1000px;top:330px" width="110" height="110" viewBox="0 0 110 110"><g stroke="#2B2D5B" stroke-width="8" stroke-linecap="round"><path d="M55 8 L55 30"/><path d="M90 20 L76 38"/><path d="M102 60 L80 58"/><path d="M20 22 L34 38"/></g></svg>
+  <svg style="position:absolute;left:965px;top:610px" width="90" height="90" viewBox="0 0 110 110"><g stroke="#2B2D5B" stroke-width="9" stroke-linecap="round"><path d="M55 8 L55 30"/><path d="M90 20 L76 38"/><path d="M20 22 L34 38"/></g></svg>
+
+  <!-- floor shadow + dog -->
+  <div style="position:absolute;left:1380px;top:850px;width:380px;height:50px;border-radius:50%;background:radial-gradient(closest-side,rgba(70,50,130,.28),transparent)"></div>
+  <div style="position:absolute;left:1350px;top:400px;width:440px" id="dogC1"></div>
+  <div class="q3d" style="left:1640px;top:130px;font-size:300px;transform:rotate(14deg)">?</div>
+
+  <div class="sub">你滑完三篇文章，數字完全對不上</div>
+</section>
+
+<!-- ============ FRAME 2 : CORE ============ -->
+<section class="f">
+  <div class="puff" style="left:900px;top:40px;width:300px;height:300px"></div>
+  <div class="chip"><i style="background:var(--mint)"></i>先講結論</div>
+
+  <!-- old question pill, dimmed and crossed -->
+  <div class="pill" style="left:120px;top:190px;padding:20px 60px;background:#E4E0F2;font-size:120px;color:#A9A4C4;transform:rotate(-6deg)">幾歲？</div>
+  <div style="position:absolute;left:100px;top:270px;width:560px;height:26px;border-radius:13px;background:var(--coral);transform:rotate(-12deg);box-shadow:0 10px 20px -6px rgba(232,96,79,.6)"></div>
+
+  <!-- new answer pill -->
+  <div class="pill" style="left:120px;top:480px;padding:34px 70px 40px;background:linear-gradient(135deg,#6E66D9,#4A42A8);color:#fff;font-size:150px;line-height:1">風險等級</div>
+  <div class="glass" style="left:150px;top:740px;padding:22px 34px;font-size:34px">判斷依據是 <b style="color:#4A42A8">風險因子</b>，不是生日</div>
+
+  <!-- 3D stairs -->
+  <svg style="position:absolute;left:1000px;top:230px;overflow:visible" width="860" height="680" viewBox="0 0 860 680">
+    <defs>
+      <linearGradient id="t1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C4F2E0"/><stop offset="1" stop-color="#8FE0C2"/></linearGradient>
+      <linearGradient id="s1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FD8B8"/><stop offset="1" stop-color="#55BF99"/></linearGradient>
+      <linearGradient id="t2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFEBB0"/><stop offset="1" stop-color="#FFDB80"/></linearGradient>
+      <linearGradient id="s2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD36B"/><stop offset="1" stop-color="#F2B940"/></linearGradient>
+      <linearGradient id="t3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD2CA"/><stop offset="1" stop-color="#FFB0A3"/></linearGradient>
+      <linearGradient id="s3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF9C8E"/><stop offset="1" stop-color="#F07563"/></linearGradient>
+      <filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="30" stdDeviation="22" flood-color="#463282" flood-opacity=".3"/></filter>
+    </defs>
+    <g filter="url(#sh)" opacity=".98">
+      <!-- step 3 (back, tallest) -->
+      <path d="M570 150 Q570 130 590 130 L820 130 Q840 130 840 150 L840 640 Q840 660 820 660 L570 660 Z" fill="url(#s3)" opacity=".45"/>
+      <path d="M590 100 L820 100 Q850 100 840 130 L570 130 Q560 100 590 100 Z" fill="url(#t3)" opacity=".45"/>
+      <!-- step 2 -->
+      <path d="M300 330 Q300 310 320 310 L560 310 Q580 310 580 330 L580 660 L300 660 Z" fill="url(#s2)" opacity=".7"/>
+      <path d="M320 280 L560 280 Q590 280 580 310 L300 310 Q290 280 320 280 Z" fill="url(#t2)" opacity=".7"/>
+      <!-- step 1 -->
+      <path d="M20 510 Q20 490 40 490 L290 490 Q310 490 310 510 L310 640 Q310 660 290 660 L40 660 Q20 660 20 640 Z" fill="url(#s1)"/>
+      <path d="M40 460 L290 460 Q320 460 310 490 L20 490 Q10 460 40 460 Z" fill="url(#t1)"/>
+    </g>
+    <g font-family="Baloo 2" font-weight="800" fill="#fff">
+      <text x="165" y="612" font-size="100" text-anchor="middle">1</text>
+      <text x="440" y="490" font-size="100" text-anchor="middle" opacity=".85">2</text>
+      <text x="705" y="400" font-size="100" text-anchor="middle" opacity=".7">3</text>
+    </g>
+  </svg>
+  <div style="position:absolute;left:1050px;top:470px;width:220px" id="dogC2"></div>
+  <!-- star sparkle on top -->
+  <svg style="position:absolute;left:1650px;top:200px" width="120" height="120" viewBox="0 0 100 100"><path d="M50 4 C54 38 62 46 96 50 C62 54 54 62 50 96 C46 62 38 54 4 50 C38 46 46 38 50 4 Z" fill="#FFD36B"/></svg>
+
+  <div class="sub">要不要開始，從來不是看年齡，而是看風險因子</div>
+</section>
+<script>
+dogC1.innerHTML = dogSVG({id:'c1',mode:'clay',collar:'#7B6FE0',tag:'#FFD36B',tilt:-12,mood:'curious',nose:'#2B2D5B',blush:'#FF8A7A'});
+dogC2.innerHTML = dogSVG({id:'c2',mode:'clay',collar:'#7B6FE0',tag:'#FFD36B',tilt:6,mood:'determined',nose:'#2B2D5B',blush:'#FF8A7A'});
+</script>
+</body></html>

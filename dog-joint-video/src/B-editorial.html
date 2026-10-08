@@ -1,0 +1,93 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+:root{--bg:#F3EFE6;--ink:#141414;--red:#E5322D;--mute:#8C867A;--line:#D9D2C3}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1920px}
+.f{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink);font-family:'Noto Sans TC'}
+.grid{position:absolute;inset:0;background-image:linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:160px 100%;opacity:.55}
+.mono{font-family:'JetBrains Mono','Noto Sans TC';font-weight:500;letter-spacing:.04em}
+.top{position:absolute;left:80px;right:80px;top:52px;display:flex;justify-content:space-between;font-size:22px;border-bottom:2px solid var(--ink);padding-bottom:14px}
+.num{position:absolute;font-family:'Inter';font-weight:900;line-height:.8;letter-spacing:-.04em}
+.note{position:absolute;font-size:22px;line-height:1.5}
+.note b{font-family:'Noto Sans TC';font-weight:900;font-size:30px;display:block;letter-spacing:0}
+.lead{position:absolute;stroke:var(--ink);stroke-width:2}
+.serif{font-family:'Noto Serif TC';font-weight:900}
+.cap{position:absolute;left:80px;bottom:64px;font-size:40px;font-weight:700;display:flex;align-items:center;gap:20px}
+.cap:before{content:'';width:60px;height:8px;background:var(--red)}
+</style></head><body>
+<script src="dog.js"></script>
+
+<!-- ============ FRAME 1 : HOOK ============ -->
+<section class="f">
+  <div class="grid"></div>
+  <div class="top mono"><span>狗關節保養 ／ 幾歲開始？</span><span>01 — 鉤子</span></div>
+
+  <!-- phone outline that the numbers overflow -->
+  <div style="position:absolute;left:560px;top:150px;width:380px;height:760px;border:3px solid var(--ink);border-radius:54px"></div>
+  <div style="position:absolute;left:700px;top:172px;width:100px;height:20px;border-radius:10px;background:var(--ink)"></div>
+
+  <div class="num" style="left:190px;top:160px;font-size:820px;color:var(--ink)">7</div>
+  <div class="num" style="left:700px;top:230px;font-size:740px;color:var(--red);mix-blend-mode:multiply">5</div>
+  <div class="num" style="left:1150px;top:300px;font-size:660px;color:transparent;-webkit-text-stroke:5px var(--ink)">3</div>
+
+  <!-- annotations -->
+  <div class="note mono" style="left:90px;top:840px;width:360px"><b>七歲才要顧關節？</b>文章 A ／ 常見說法</div>
+  <div class="note mono" style="left:1060px;top:150px;width:380px"><b style="color:var(--red)">大型犬五歲就要吃保健品？</b>文章 B ／ 常見說法</div>
+  <div class="note mono" style="left:1520px;top:250px;width:330px"><b>三到五歲就開始退化？</b>文章 C ／ 常見說法</div>
+  <svg width="1920" height="1080" style="position:absolute;inset:0">
+    <path d="M1460 300 L1520 300" class="lead"/><circle cx="1460" cy="300" r="6" fill="#141414"/>
+    <path d="M1060 270 L960 360" class="lead" stroke="#E5322D"/><circle cx="960" cy="360" r="6" fill="#E5322D"/>
+    <path d="M300 830 L300 790" class="lead"/><circle cx="300" cy="790" r="6" fill="#141414"/>
+  </svg>
+
+  <!-- the dog, small, as the reader -->
+  <div style="position:absolute;left:1560px;top:610px;width:250px" id="dogB1"></div>
+  <div class="serif" style="position:absolute;left:1760px;top:560px;font-size:120px;color:var(--red)">?</div>
+
+  <div class="cap"><span>三個數字，完全對不上。</span></div>
+  <div class="mono" style="position:absolute;right:80px;bottom:72px;font-size:20px;color:var(--mute)">7 ≠ 5 ≠ 3</div>
+</section>
+
+<!-- ============ FRAME 2 : CORE ============ -->
+<section class="f">
+  <div class="grid"></div>
+  <div class="top mono"><span>狗關節保養 ／ 幾歲開始？</span><span>02 — 結論</span></div>
+
+  <div class="serif" style="position:absolute;left:80px;top:170px;font-size:200px;line-height:1;color:var(--mute)">幾歲？</div>
+  <div style="position:absolute;left:66px;top:262px;width:640px;height:22px;background:var(--red);transform:rotate(-3deg)"></div>
+  <div class="mono" style="position:absolute;left:740px;top:240px;font-size:24px;color:var(--red)">✕ 問錯了</div>
+
+  <div style="position:absolute;left:80px;top:440px;background:var(--ink);color:var(--bg);padding:26px 44px 34px">
+    <div class="serif" style="font-size:190px;line-height:1">風險等級</div>
+  </div>
+  <div class="mono" style="position:absolute;left:84px;top:700px;font-size:26px;line-height:1.7">
+    判斷依據 ＝ <span style="background:var(--red);color:#fff;padding:2px 10px">風險因子</span><br>
+    <span style="color:var(--mute)">不是生日，不是體型平均年齡</span>
+  </div>
+
+  <!-- ladder -->
+  <svg style="position:absolute;left:1000px;top:200px" width="840" height="720" viewBox="0 0 840 720">
+    <g fill="none" stroke="#141414" stroke-width="3">
+      <path d="M20 700 L20 520 L290 520 L290 340 L560 340 L560 160 L830 160 L830 700 Z" stroke-dasharray="10 10"/>
+    </g>
+    <path d="M20 700 L830 700" stroke="#141414" stroke-width="4"/>
+    <g font-family="JetBrains Mono" font-weight="700" font-size="34" fill="#141414">
+      <text x="40" y="570">01</text><text x="310" y="390" opacity=".4">02</text><text x="580" y="210" opacity=".25">03</text>
+    </g>
+    <g font-family="Noto Sans TC" font-weight="700" font-size="26" fill="#141414">
+      <text x="40" y="612">有風險因子嗎？</text>
+      <text x="310" y="432" opacity=".4">有蛛絲馬跡嗎？</text>
+      <text x="580" y="252" opacity=".25">該做什麼？</text>
+    </g>
+    <rect x="20" y="516" width="270" height="8" fill="#E5322D"/>
+  </svg>
+  <div style="position:absolute;left:1060px;top:510px;width:190px" id="dogB2"></div>
+
+  <div class="cap"><span>不是幾歲，是風險等級。</span></div>
+  <div class="mono" style="position:absolute;right:80px;bottom:72px;font-size:20px;color:var(--mute)">3 STEPS →</div>
+</section>
+<script>
+dogB1.innerHTML = dogSVG({id:'b1',mode:'line',stroke:'#141414',collar:'#E5322D',sw:4,tilt:-12,mood:'curious',nose:'#141414'});
+dogB2.innerHTML = dogSVG({id:'b2',mode:'line',stroke:'#141414',collar:'#E5322D',sw:5,tilt:4,mood:'determined',nose:'#141414'});
+</script>
+</body></html>
