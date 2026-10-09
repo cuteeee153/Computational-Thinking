@@ -1,6 +1,6 @@
 // 由旁白對時結果產生影片要用的時間資料。
 // 用法：node build-timing.mjs
-// 讀：../../narration/audio/timeline.json（align.py 的輸出：每一句旁白的成片時間）
+// 讀：../../narration/audio/timeline-placed.json（align.py 對時＋place.py 插入停頓後，每一句旁白的成片時間）
 //     ../../narration/scene-map.json（旁白稿每一段屬於哪一幕）
 //     timing/warp.json（設計時間 → 成片時間的對照點）
 // 寫：timing/narration.json（字幕、各幕旁白）與 timing/timing.js（給 intro.html／part2.html 載入）
@@ -9,7 +9,7 @@ import path from 'node:path';
 
 const here = path.dirname(new URL(import.meta.url).pathname);
 const N = path.join(here, '../../narration');
-const tl = JSON.parse(fs.readFileSync(path.join(N, 'audio/timeline.json'), 'utf8'));
+const tl = JSON.parse(fs.readFileSync(path.join(N, 'audio/timeline-placed.json'), 'utf8'));
 const map = JSON.parse(fs.readFileSync(path.join(N, 'scene-map.json'), 'utf8')).scenes;
 const warp = JSON.parse(fs.readFileSync(path.join(here, 'timing/warp.json'), 'utf8')).anchors;
 

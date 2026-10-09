@@ -16,7 +16,11 @@ import { W, NARR } from './timing/timing.mjs';
 const here = path.dirname(new URL(import.meta.url).pathname);
 const out = process.argv[2];
 if (!out) { console.error('用法：node build-music.mjs <輸出.wav>'); process.exit(1); }
-const SR = 48000, LEN = Math.ceil(W(160) * 100) / 100, BAR = W(45) / 16, BEAT = BAR / 4, E8 = BEAT / 2, SWING = .09;
+const SR = 48000, LEN = Math.ceil(W(160) * 100) / 100;
+// 小節長度：讓 0:45（深色段）轉場剛好落在小節線上，速度維持在 85 BPM 左右
+const DARK_BAR = Math.round(W(45) / 2.8125), BAR = W(45) / DARK_BAR, BEAT = BAR / 4, E8 = BEAT / 2, SWING = .09;
+// 段落切換（成片時間 → 小節）：鉤子段結束、深色段開始、第一步開始、最後一個和弦
+const CORE_BAR = Math.round(W(19.7) / BAR), STEP_BAR = Math.round(W(98.4) / BAR), END_BAR = Math.floor((LEN - 4.5) / BAR);
 const L = new Float32Array(LEN * SR), R = new Float32Array(LEN * SR);
 
 let seed = 777;
@@ -99,8 +103,8 @@ const MEL_DARK = [ // 深色段：低八度、音少
 ];
 const eighth = (bar, k) => bar * BAR + k * E8 + (k % 2 ? SWING * E8 * 2 : 0);
 
-for (let bar = 0; bar < 57; bar++) {
-  const sec = bar < 7 ? 'hook' : bar < 16 ? 'core' : bar < 35 ? 'dark' : bar < 55 ? 'step' : 'end';
+for (let bar = 0; bar <= END_BAR; bar++) {
+  const sec = bar < CORE_BAR ? 'hook' : bar < DARK_BAR ? 'core' : bar < STEP_BAR ? 'dark' : bar < END_BAR ? 'step' : 'end';
   const prog = sec === 'dark' ? MINOR : MAJOR, ch = prog[bar % 4], t0 = bar * BAR;
   // 和弦墊底
   if (sec === 'end') { const [l, r] = epChord([48, 55, 59, 62, 64], 4.2, .9); put(l, t0, .15, -.5); put(r, t0, .15, .5); continue; }
@@ -111,7 +115,7 @@ for (let bar = 0; bar < 57; bar++) {
   const vol = sec === 'hook' ? .17 : sec === 'dark' ? .13 : .16;
   for (const [k, m, v] of mel[bar % 4]) put(marimba(m, v), eighth(bar, k), vol, .15);
   // 鉤子段最後一小節：木琴往上爬，帶進節奏
-  if (bar === 6) [72, 74, 76, 79].forEach((m, i) => put(marimba(m, .6 + i * .1), eighth(bar, 4 + i), .13, .2));
+  if (bar === CORE_BAR - 1) [72, 74, 76, 79].forEach((m, i) => put(marimba(m, .6 + i * .1), eighth(bar, 4 + i), .13, .2));
   // 節奏（鉤子段沒有）
   if (sec === 'hook') continue;
   put(KICK, t0, .32); put(KICK, t0 + 2 * BEAT + (sec === 'dark' ? 0 : E8 + SWING * E8 * 2), sec === 'dark' ? .22 : .26);

@@ -16,22 +16,29 @@ Claude 處理流程（給之後的 session）：
 
 ## 旁白與字幕（成片時間）
 
-旁白錄音 → 對時 → 動畫跟著旁白移動 → 字幕顯示在畫面最下方。
+旁白錄音 → 語音辨識逐字對時 → 插入轉場停頓 → 動畫跟著旁白移動 → 字幕顯示在畫面最下方。
 
 ```
 narration/narration-tts.txt          旁白稿（給 AI 配音用的純文字）
 narration/scene-map.json             旁白稿每一段屬於哪一幕（依序拼起來＝旁白稿全文）
-narration/audio/*.mp3                錄好的旁白（ElevenLabs）
-narration/align.py                   加速（預設 1.5 倍）＋依停頓和旁白稿逐句對時 → narration/audio/timeline.json
-src/video/timing/warp.json           時間對照表：[設計時間, 成片時間]（手動依 timeline.json 設定）
+narration/audio/elevenlabs-*.mp3     錄好的完整旁白（ElevenLabs）
+narration/align.py                   加速 1.5 倍＋離線語音辨識（sherpa-onnx Paraformer 中文）逐字對回旁白稿
+                                     → audio/narration-1.5x.wav、audio/timeline.json、audio/recognized.txt（辨識結果）
+narration/gaps.json                  在哪些停頓插入幾秒空白（給畫面轉場）
+narration/place.py                   插入停頓 → 成片旁白音軌 video/narration-0000-0240.wav、audio/timeline-placed.json
+src/video/timing/warp.json           時間對照表：[設計時間, 成片時間]，每個點把一幕的關鍵動作對到旁白念到的字
 src/video/build-timing.mjs           產生 timing/narration.json（字幕、各幕旁白）與 timing/timing.js（頁面載入）
 ```
 
 - 各幕檔案裡的秒數是「設計時間」；引擎排動畫時用 `Intro.W()` 換成「成片時間」，動畫長度不變、只移動開始時間。
   分鏡板、SRT、音效、音樂都用成片時間。
-- 換新錄音：`python3 ../../narration/align.py <mp3> ../../narration/narration-tts.txt ../../narration/audio --speed 1.5`
-  → 看輸出的每句時間，調整 `timing/warp.json` 的對照點（把每幕的關鍵動作對到該句旁白開始）→ `node build-timing.mjs` → 重新輸出。
-- 沒有語音辨識：對時靠停頓＋字數，換錄音後要看一下輸出的句子時間是否合理。
+- 換新錄音：
+  1. `pip install sherpa-onnx opencc-python-reimplemented`，下載模型（網址見 align.py 開頭）
+  2. `python3 ../../narration/align.py <mp3> ../../narration/narration-tts.txt ../../narration/audio --model <模型資料夾>`
+     （會印出每一句的時間與對上的字數比例；看 audio/recognized.txt 檢查辨識結果）
+  3. 視需要調 `narration/gaps.json`（停頓點取兩句之間）與 `timing/warp.json`（把關鍵動作對到旁白的字）
+  4. `node build-timing.mjs` → 重新輸出（`place.py` 產生旁白音軌）
+- 字幕：同一行連續短句合併、一則最多 18 字，句尾標點不顯示；樣式在兩份 core.css 的 `#caption`。
 - 混音：旁白 ×1.12、背景音樂（旁白時自動降 6 dB）、音效 ×0.65，最後 alimiter。
 
 ## 音效
