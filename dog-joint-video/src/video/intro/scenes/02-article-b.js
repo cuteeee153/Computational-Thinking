@@ -7,6 +7,10 @@ Intro.scene({
   key: 5.0,
   visuals: ["回答泡泡：「文章 B：大型犬五歲就要吃保健品。」", "卡片右上方背景的標籤「5 歲？」"],
   motions: ["2.9 秒｜文章 B 泡泡彈出", "3.6 秒｜背景標籤「5 歲？」彈出，之後緩慢上下漂移"],
+  sfx: [
+    [2.9, "pop", "文章 B 泡泡彈出：「啵」", { pitch: 1.12 }],
+    [3.6, "pop-low", "背景標籤「5 歲？」：低音「啵」", { pitch: 1.12 }],
+  ],
   mount: [
     { into: '#answers', html: `<div class="bub" id="bB">文章 B：大型犬<b style="color:var(--or)">五歲</b>就要吃保健品。</div>` },
     { into: '#A-bg', html: `<div class="bigchip" id="c5" style="left:1420px;top:200px"><b>5</b>歲？</div>` },

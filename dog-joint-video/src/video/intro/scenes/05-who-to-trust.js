@@ -7,6 +7,9 @@ Intro.scene({
   key: 15.2,
   visuals: ["卡片底部輸入框：「所以⋯⋯到底要聽誰的？」", "橘色打字游標"],
   motions: ["13.0 秒｜打字游標出現", "13.3 秒｜逐字打出，約 1.6 秒", "15.0 秒｜游標開始閃爍"],
+  sfx: [
+    [13.3, "typing", "輸入框打字：鍵盤聲（約 1.6 秒）", { dur: 1.6, gain: 0.8 }],
+  ],
   init() {
     document.querySelector('#inpText').dataset.text = '所以⋯⋯到底要聽誰的？';
     gsap.set('#caret', { opacity: 0 });

@@ -63,6 +63,9 @@ h1{font-size:clamp(26px,4vw,36px);font-weight:900;letter-spacing:-.02em;margin:0
 .lists button:focus-visible{outline:2px solid var(--accent)}
 .lists button i{font:700 11px/1.9 var(--mono);color:var(--accent);font-style:normal}
 .hint{font-size:12.5px;color:var(--sub);margin-top:6px}
+.lists .sfx{grid-column:1/-1}
+.lists .sfx ol{grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr))}
+.lists .none{margin:0;font-size:13.5px;color:var(--sub)}
 /* 修改需求 */
 .req{margin-top:16px}
 .reqs{display:grid;gap:8px;margin-bottom:10px}
@@ -109,7 +112,7 @@ html{scroll-behavior:smooth}
   </header>
 
   <section class="how" aria-label="使用方式">
-    <div><span class="n">1 看</span><b>點影片看這一幕</b>右邊列出這一幕有哪些畫面元素、每個動畫幾秒出現、配哪一句字幕。</div>
+    <div><span class="n">1 看</span><b>點影片看這一幕</b>右邊列出這一幕有哪些畫面元素、每個動畫幾秒出現、配哪一句字幕和哪些音效（影片有聲音，記得開喇叭）。</div>
     <div><span class="n">2 寫</span><b>用一般的話寫下想怎麼改</b>點清單裡的項目會自動帶入編號和原本的描述，你只要寫「改成」什麼；不點項目直接描述也可以。</div>
     <div><span class="n">3 交給 Claude</span><b>在對話裡說「分鏡板有新需求」</b>Claude 會照著改、重新輸出，並在每則需求下面回覆改了什麼。</div>
   </section>
@@ -153,7 +156,7 @@ $('#tlbar').innerHTML = PARTS.map(p => `<div class="tl-row"><span>${esc(p.label.
 const sceneHTML = s => `
   <article class="scene" id="s${s.id}">
     <div class="media">
-      <video src="clips/${s.id}.mp4" poster="frames/${s.id}.jpg" controls muted loop playsinline preload="none" aria-label="幕 ${s.id} 預覽"></video>
+      <video src="clips/${s.id}.mp4" poster="frames/${s.id}.jpg" controls loop playsinline preload="none" aria-label="幕 ${s.id} 預覽"></video>
       <div class="file">程式檔：${esc(s.file.includes('/') ? s.file : 'intro/scenes/' + s.file)}</div>
     </div>
     <div class="info">
@@ -162,13 +165,14 @@ const sceneHTML = s => `
       <div class="lists">
         <div><h4>畫面</h4><ol>${s.visuals.map((v, i) => `<li><button type="button" data-ref="${s.id}|畫面 ${i + 1}" data-desc="${esc(v)}"><i>畫面${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
         <div><h4>動畫</h4><ol>${s.motions.map((v, i) => `<li><button type="button" data-ref="${s.id}|動畫 ${i + 1}" data-desc="${esc(v)}"><i>動畫${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
+        <div class="sfx"><h4>音效</h4>${(s.sfx || []).length ? `<ol>${s.sfx.map((v, i) => `<li><button type="button" data-ref="${s.id}|音效 ${i + 1}" data-desc="${esc(v)}"><i>音效${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol>` : '<p class="none">（這一幕沒有音效；想加可以直接寫「在 X 秒加一個…聲」）</p>'}</div>
       </div>
       <div class="hint">點任一項目，會把它的編號和原本的描述帶進下面的輸入框，接著寫「改成」什麼就好。</div>
       <div class="req">
         <div class="reqs" data-reqs="${s.id}"></div>
         <form data-scene="${s.id}">
           <label for="ta-${s.id}" hidden>幕 ${s.id} 修改需求</label>
-          <textarea id="ta-${s.id}" placeholder="想怎麼改這一幕？例如：動畫 3 慢一點；畫面 2 的文字改成「…」；字幕改成「…」"></textarea>
+          <textarea id="ta-${s.id}" placeholder="想怎麼改這一幕？例如：動畫 3 慢一點；畫面 2 的文字改成「…」；音效 1 小聲一點；字幕改成「…」"></textarea>
           <div class="row"><button class="send" type="submit">送出需求</button><span class="status"></span></div>
         </form>
       </div>

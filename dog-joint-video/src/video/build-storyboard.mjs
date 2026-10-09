@@ -1,7 +1,7 @@
 // 產生「分鏡修改板」要用的素材：每一幕的資料、關鍵畫面、預覽短片。
 // 用法：node build-storyboard.mjs <整支 0:00–2:40 影片.mp4> <輸出資料夾> [版本說明]
 // 涵蓋兩段：intro/scenes/（0:00–0:45，intro.html）與 part2/scenes/（0:45–2:40，part2.html）
-// 輸出：storyboard.json、frames/NN.jpg（960×540）、clips/NN.mp4（960×540，無聲）
+// 輸出：storyboard.json、frames/NN.jpg（960×540）、clips/NN.mp4（960×540，含音效）
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -46,7 +46,7 @@ await b.close();
 // 預覽短片：從成品影片切出每一幕
 for (const s of scenes)
   execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', String(s.start), '-to', String(s.end), '-i', video,
-    '-vf', 'scale=960:-2', '-c:v', 'libx264', '-crf', '27', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-an', '-movflags', '+faststart',
+    '-vf', 'scale=960:-2', '-c:v', 'libx264', '-crf', '27', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart',
     path.join(out, 'clips', s.id + '.mp4')]);
 
 const prev = fs.existsSync(path.join(out, 'storyboard.json')) ? JSON.parse(fs.readFileSync(path.join(out, 'storyboard.json'))) : null;
@@ -55,8 +55,8 @@ const data = {
   updatedAt: new Date().toISOString(),
   note,
   parts: PARTS.map(({ id, label, start, end }) => ({ id, label, start, end })),
-  scenes: scenes.map(({ id, title, start, end, narration, visuals, motions, file, part }) =>
-    ({ id, title, start, end, file, part, narration: narration.map(n => n[2]).join(''), narrationTimes: narration, visuals, motions })),
+  scenes: scenes.map(({ id, title, start, end, narration, visuals, motions, sfx = [], file, part }) =>
+    ({ id, title, start, end, file, part, sfx: sfx.map(([t, kind, label]) => `${t.toFixed(1)} 秒｜${label}`), narration: narration.map(n => n[2]).join(''), narrationTimes: narration, visuals, motions })),
 };
 fs.writeFileSync(path.join(out, 'storyboard.json'), JSON.stringify(data, null, 1));
 // 分鏡頁：把資料直接寫進頁面，打開就是完整內容

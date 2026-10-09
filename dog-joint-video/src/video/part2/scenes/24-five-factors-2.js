@@ -7,6 +7,10 @@ Intro.scene({
   key: 128.0,
   visuals: ["卡片 04：家族圖示＋「狗爸、狗媽有髖、肘關節發育不良」", "卡片 05：飯碗圖示＋「幼犬期快速生長或營養失衡」"],
   motions: ["119.1 秒｜卡片 04 浮上來", "123.5 秒｜卡片 05 浮上來"],
+  sfx: [
+    [119.09, "pop-card", "卡片 04 浮上：「啵」", { pitch: 1.34 }],
+    [123.47, "pop-card", "卡片 05 浮上：「啵」", { pitch: 1.5 }],
+  ],
   mount: [
     { into: '#rfs', html: `
       <div class="rf card" id="rf3" style="left:1152px"><div class="num">04</div><div class="ic" id="rfi3"></div><div class="tt" id="rft3">狗爸、狗媽有髖、<br>肘關節發育不良</div></div>

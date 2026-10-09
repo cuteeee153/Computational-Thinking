@@ -8,6 +8,12 @@ Intro.scene({
   key: 2.6,
   visuals: ["左上角頻道 logo 與名稱「汪探｜WanTan」，右上角標語「不是幾歲．是風險等級」", "畫面中央一張聊天卡片，標題「犬助理」，左邊是狗的大頭貼", "使用者泡泡：「狗關節保養，到底幾歲開始？」", "回答泡泡：「文章 A：7 歲以後才要開始顧關節。」", "卡片左側背景的標籤「7 歲？」"],
   motions: ["0.1 秒｜頻道名稱和標語由上往下淡入", "0.15 秒｜聊天卡片從下方浮上來", "0.45 秒｜使用者泡泡彈出", "0.85 秒｜出現「輸入中」三個點並跳動", "1.55 秒｜文章 A 泡泡彈出", "2.1 秒｜背景標籤「7 歲？」彈出，之後緩慢上下漂移", "2.3 秒｜卡片小字從「正在搜尋⋯」換成「搜尋了 3 篇文章」"],
+  sfx: [
+    [0.15, "slide", "聊天卡片浮上來：輕「咻」"],
+    [0.45, "pop", "使用者泡泡彈出：「啵」"],
+    [1.55, "pop", "文章 A 泡泡彈出：「啵」", { pitch: 1.12 }],
+    [2.1, "pop-low", "背景標籤「7 歲？」：低音「啵」"],
+  ],
   mount: [
     { into: '#chrome', html: `
       <div class="logo" id="logo"><i><img src="brand/wantan-logo.svg" alt=""></i>汪探<span class="sep">｜</span>WanTan</div>
@@ -16,7 +22,7 @@ Intro.scene({
     { into: '#A-card', html: `
       <div class="card abs" id="chat" style="left:1110px;top:150px;width:740px;height:830px">
         <div style="display:flex;align-items:center;gap:22px;padding:34px 40px;border-bottom:1.5px solid var(--line)">
-          <div style="width:76px;height:76px;border-radius:50%;background:#F6E3CC;overflow:hidden;display:flex;align-items:flex-end;justify-content:center"><div style="width:84px;margin-bottom:-26px" id="dogA"></div></div>
+          <div style="width:76px;height:76px;border-radius:50%;background:#F6E3CC;overflow:hidden"><div style="width:76px;height:76px" id="dogA"></div></div>
           <div style="position:relative"><div style="font-weight:700;font-size:32px">犬助理</div>
             <div id="subs" style="font-size:22px;color:var(--mute);margin-top:4px;height:32px;position:relative"><span id="sub1" class="abs" style="left:0;top:0;white-space:nowrap">正在搜尋⋯</span><span id="sub2" class="abs" style="left:0;top:0;white-space:nowrap">搜尋了 3 篇文章</span></div></div>
         </div>
@@ -32,7 +38,7 @@ Intro.scene({
       </div>` },
   ],
   assets() {
-    Intro.dog('#dogA', { id: 'da', tilt: -10, mood: 'curious' });
+    Intro.dog('#dogA', { pose: 'avatar' });
     av.innerHTML = '<div style="width:32px;height:32px">' + iconPaw('#fff') + '</div>';
   },
   init() {

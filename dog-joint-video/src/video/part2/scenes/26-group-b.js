@@ -8,6 +8,15 @@ Intro.scene({
   key: 154.0,
   visuals: ["往右下的橘色分岔線，標籤「一項以上」（橘字）", "右下卡片：「加強留意組」（橘），右上角橘色折角，右下角放大鏡圖示", "重點一：「! 就算現在完全沒跛行或僵硬」", "重點二：「✓ 也建議提早、更頻繁的健檢追蹤」", "左邊的基礎預防組卡片變淡"],
   motions: ["142.5 秒｜基礎預防組變淡", "142.7 秒｜橘色分岔線往右下畫出", "142.9 秒｜狗往右歪頭", "143.0 秒｜「一項以上」彈出", "143.3 秒｜「加強留意組」卡片浮上來", "143.7 秒｜橘色折角彈開", "146.3 秒｜重點一由左滑入", "149.0 秒｜重點二由左滑入", "149.6 秒｜加強留意組卡片浮起、加上橘框", "150.5 秒起｜狗輕輕上下晃，停格到 2:40"],
+  sfx: [
+    [142.7, "draw", "橘色分岔線畫出：鉛筆沙沙聲", { dur: 0.8, gain: 0.7 }],
+    [143.0, "pop", "「一項以上」：「啵」", { pitch: 1.12 }],
+    [143.3, "slide", "加強留意組卡片浮上：輕「咻」"],
+    [143.7, "flip", "橘色折角彈開：「啪」"],
+    [146.27, "tick-soft", "重點一：輕點"],
+    [149.02, "tick", "重點二：「叮咚」"],
+    [149.62, "ding-soft", "卡片加上橘框：輕「叮」", { pitch: 1.5 }],
+  ],
   mount: [
     { into: '#branches', html: `<path id="brR" d="M960 392 L960 420 Q960 440 980 440 L1390 440 Q1410 440 1410 460 L1410 530" stroke="#F97316" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` },
     { into: '#S4-flow', html: `
@@ -36,7 +45,7 @@ Intro.scene({
     L('#brlR', { opacity: 1, scale: 1, duration: .4, ease: 'back.out(2)' }, 143.0);
     L('#gB', { opacity: 1, y: 0, duration: .6, ease: E }, 143.3);
     L('#gBfold', { scale: 1, duration: .5, ease: 'back.out(2)' }, 143.7);
-    tl.to('#d4', { rotation: 14, transformOrigin: '50% 90%', duration: .5, ease: 'sine.inOut' }, 142.9);
+    tl.to('#d4', { rotation: 6, transformOrigin: '50% 90%', duration: .5, ease: 'sine.inOut' }, 142.9);
     L('#b1x', { opacity: 1, x: 0, duration: .5, ease: E }, 146.27);
     L('#b2x', { opacity: 1, x: 0, duration: .5, ease: E }, 149.02);
     L('#gB', { y: -8, boxShadow: '0 0 0 4px #F97316, 0 50px 90px -40px rgba(107,74,42,.35)', duration: .5, ease: E }, 149.62);

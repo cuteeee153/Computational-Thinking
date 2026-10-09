@@ -7,6 +7,9 @@ Intro.scene({
   key: 19.5,
   visuals: ["下一段的米色畫面，從送出鍵的位置展開"],
   motions: ["18.9 秒｜以送出鍵為圓心，圓形向外擴大蓋滿畫面，約 1.1 秒", "19.2 秒｜游標淡出"],
+  sfx: [
+    [18.9, "whoosh-big", "圓形擦除轉場：大「咻」"],
+  ],
   init() {
     gsap.set('#B', { clipPath: 'circle(0px at 1767px 902px)' });
   },

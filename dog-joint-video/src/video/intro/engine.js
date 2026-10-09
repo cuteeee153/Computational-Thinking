@@ -11,9 +11,14 @@
   // start／duration：這一頁負責的影片時段（0:45–2:40 那頁在載入各幕前設成 45／160）
   const Intro = window.Intro = { scenes: [], typers: [], start: 0, duration: 45 };
 
-  // 狗的外型（毛色、耳朵、項圈）只改這裡，全片的狗都會套用
-  Intro.DOG = { mode: 'flat', body: '#E3A266', dark: '#B87240', light: '#FFF6EA', nose: '#231B15', collar: '#F97316', tag: '#FFD08A', blush: '#F2A08A' };
-  Intro.dog = (el, opts) => { document.querySelector(el).innerHTML = dogSVG(Object.assign({}, opts, Intro.DOG)); };
+  // 狗：使用者提供的黑柴插畫（assets/dogs/，由 source/black-shiba-sheet.jpg 切出，見 assets/dogs/cut.py）
+  //   pose：puppy-sit 幼犬坐／stand-side 側站（朝右）／young-sit 正面坐／senior-sit 老犬坐／stand-front 正面站
+  //         lying 趴／stand-side-2 側站 2（朝右）／sit-tilt 歪頭坐／play-bow 邀玩（朝左）／avatar 大頭貼
+  //   tilt：整張圖旋轉的角度
+  Intro.dog = (el, { pose, tilt = 0 }) => {
+    document.querySelector(el).innerHTML =
+      `<img src="assets/dogs/${pose}.png" alt="" style="display:block;width:100%;height:auto;transform:rotate(${tilt}deg);transform-origin:50% 90%">`;
+  };
 
   Intro.scene = def => Intro.scenes.push(def);
 

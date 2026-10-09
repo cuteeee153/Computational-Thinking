@@ -7,6 +7,9 @@ Intro.scene({
   key: 32.8,
   visuals: ["橘色方塊「✓ 風險等級」"],
   motions: ["30.7 秒｜「✓ 風險等級」方塊浮現", "31.0 秒｜打勾彈出"],
+  sfx: [
+    [31.0, "tick", "打勾彈出：「叮咚」"],
+  ],
   mount: [
     { into: '#boxes', html: `
       <div id="boxYes" style="flex:1;padding:20px 24px;border-radius:18px;background:#FDE6D5;display:flex;align-items:center;gap:14px"><div class="ck" id="tick" style="background:var(--or-b);color:#fff">✓</div><div><div style="font-size:30px;font-weight:700;color:var(--or)">風險等級</div></div></div>` },

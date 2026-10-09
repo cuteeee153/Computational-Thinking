@@ -8,6 +8,15 @@ Intro.scene({
   key: 141.0,
   visuals: ["五張風險因子卡縮小成一排，排在畫面上方（只留放大的編號和圖示）", "卡片上方小字：「數一數你家狗狗符合幾項？」", "左上方一隻狗", "往左下的灰色分岔線，標籤「一項都沒有」", "左下卡片：「基礎預防組」，右下角飯碗圖示", "重點一：「✓ 不需要額外保健品」", "重點二：「✓ 把資源放在飲食與運動管理」"],
   motions: ["128.7 秒｜大標往上退出，「5 類」淡出，卡片文字淡出", "128.9 秒｜五張卡縮小移到上方排成一排，編號和圖示同時放大", "129.6 秒｜「數一數你家狗狗符合幾項？」淡入", "129.7 秒｜狗從下方彈出", "130.1 秒｜灰色分岔線往左下畫出", "130.4 秒｜「一項都沒有」彈出", "130.7 秒｜「基礎預防組」卡片浮上來", "133.7 秒｜重點一由左滑入", "136.5 秒｜重點二由左滑入"],
+  sfx: [
+    [128.94, "whoosh", "五張卡收成一排：「咻」"],
+    [129.74, "boing", "狗彈出：小彈簧聲"],
+    [130.14, "draw", "灰色分岔線畫出：鉛筆沙沙聲", { dur: 0.8, gain: 0.7 }],
+    [130.44, "pop", "「一項都沒有」：「啵」"],
+    [130.74, "slide", "基礎預防組卡片浮上：輕「咻」"],
+    [133.71, "tick-soft", "重點一：輕點"],
+    [136.46, "tick-soft", "重點二：輕點", { pitch: 1.12 }],
+  ],
   mount: [
     { into: '#S4-text', html: `<div class="abs k" style="left:0;right:0;top:132px;text-align:center;font-size:22px" id="stripLbl">數一數你家狗狗符合幾項？</div>` },
     { into: '#S4-flow', html: `
@@ -21,10 +30,10 @@ Intro.scene({
         <div class="bl" id="a2"><i style="background:#F1E8DC;color:#9A8C7C">✓</i>把資源放在飲食與運動管理</div>
         <div class="abs" style="right:40px;bottom:36px;width:140px" id="gAic"></div>
       </div>
-      <div class="abs" style="left:395px;top:222px;width:130px" id="d4"></div>` },
+      <div class="abs" style="left:400px;top:197px;width:120px" id="d4"></div>` },
   ],
   assets() {
-    Intro.dog('#d4', { id: 'd4', mood: 'curious', tilt: 8 });
+    Intro.dog('#d4', { pose: 'sit-tilt' });
     gAic.innerHTML = iconBowl('ga');
   },
   init() {

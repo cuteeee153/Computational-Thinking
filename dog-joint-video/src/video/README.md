@@ -14,6 +14,22 @@ Claude 處理流程（給之後的 session）：
 - 需求不清楚時，把該則設成 `status: "question"` 並在 `reply` 寫問題，不要猜。
 - 改完：重新輸出有改到的那段影片（改了幕 14 的結尾畫面要同時更新 `intro-last.png` 並重出 0:45–2:40）→ `node build-srt.mjs intro|part2|all` 更新三份 SRT → 串接整支 → `node build-storyboard.mjs <整支影片> <分鏡板資料夾> "<這版改了什麼>"` → 以同一個 URL 重新發佈分鏡板（含 frames/、clips/）→ 把處理過的需求設成 `done`（`doneIn` 填新版本號，`reply` 寫改了什麼）。
 
+## 音效
+
+- 每一幕檔案裡的 `sfx: [[秒數, '種類', '說明', { gain, pitch, dur }], ...]`；分鏡板的「音效 N」就是這個陣列的第 N 項。
+- `node build-sfx.mjs <輸出.wav>` 依各幕清單合成整支音軌（全部用程式合成，無素材、無授權問題）；`--list` 列出所有音效。
+- 種類（定義在 `build-sfx.mjs` 的 `SOUNDS`）：pop／pop-low／pop-card（啵）、slide／whoosh／whoosh-big（咻）、typing（鍵盤）、click、ding／ding-soft（叮）、
+  tick／tick-soft（打勾、輕點）、marker（螢光筆）、scribble（劃掉）、draw（鉛筆畫線）、shake（互撞）、fall（掉落）、flip（折角）、boing（狗彈出）、
+  bounce（彈跳）、chime（叮鈴）、thud（印章）、note（木琴，用 pitch 調音高）、brush（上色）。
+- 輸出：先輸出無聲畫面，再把 `video/sfx-0000-0240.wav` 合進三支 mp4（0:45–2:40 從音軌的 45 秒開始取）。
+- 整體音量刻意偏小（峰值約 -5 dB），留空間給之後加的旁白。
+
+## 狗
+
+- `assets/dogs/`：使用者提供的黑柴插畫，從 `assets/dogs/source/black-shiba-sheet.jpg` 用 `assets/dogs/cut.py` 去背切出（背景白從邊緣灌水判斷，狗身上的白毛保留）。
+- 各幕用 `Intro.dog('#容器', { pose: '…', tilt })` 放狗；pose 對照見 `intro/engine.js`。
+- `assets/dogs/source/` 另外兩張是其他犬種的素材，目前沒用到。
+
 ## 0:00–0:45：一幕一個檔案
 
 ```
@@ -56,7 +72,6 @@ Intro.scene({
 
 - 後面的幕可以把內容放進前面幕建立的容器（例如第 02 幕把文章 B 放進第 01 幕的 `#answers`）。
 - 改某一句旁白的時間：同時改該幕 `narration` 和 `animate` 裡對應的秒數，再重新產生 SRT。
-- 換成自家狗：只改 `intro/engine.js` 的 `Intro.DOG`。
 - 頻道 logo：`brand/wantan-logo.svg`（使用者提供的原稿），左上角放在米色圓底上，深色段也看得清楚；樣式在兩份 core.css 的 `.logo`。
 
 ### 預覽與輸出

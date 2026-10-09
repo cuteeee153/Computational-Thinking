@@ -7,6 +7,11 @@ Intro.scene({
   key: 23.5,
   visuals: ["畫面中間三顆大標籤：「7 歲？」「5 歲？」「3 歲？」"],
   motions: ["21.7 秒起｜三顆標籤依序彈出，間隔 0.25 秒", "22.4 秒起｜三顆標籤輕輕上下漂浮"],
+  sfx: [
+    [21.7, "pop-low", "標籤 1 彈出：低音「啵」"],
+    [21.95, "pop-low", "標籤 2 彈出", { pitch: 1.12 }],
+    [22.2, "pop-low", "標籤 3 彈出", { pitch: 1.26 }],
+  ],
   mount: [
     { into: '#B-bg', html: `
       <div class="bigchip" id="k7" style="left:470px;top:430px"><b>7</b>歲？</div>

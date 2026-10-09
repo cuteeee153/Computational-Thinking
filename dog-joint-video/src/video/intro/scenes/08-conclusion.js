@@ -7,6 +7,7 @@ Intro.scene({
   key: 21.5,
   visuals: ["左側小標「02 ／ 怎麼判斷？」（橘色）"],
   motions: ["20.2 秒｜小標逐字打出"],
+  sfx: [],
   mount: [
     { into: '#B-text', html: `
       <div class="abs" style="left:72px;top:250px;width:1000px">

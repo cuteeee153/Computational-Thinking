@@ -7,6 +7,13 @@ Intro.scene({
   key: 67.5,
   visuals: ["右上角來源標籤「SOURCE ／ COAST 國際共識（Cachon 等，2023）」", "大標第一行：「由國際獸醫專家團隊提出」（白）", "大標第二行：「COAST 犬骨關節炎分期工具：」（橘）", "示意圖卡片標籤「COAST 分期概念」", "四個由低到高的灰色階梯方塊：01 沒有風險因子／02 有風險因子・沒症狀／03 輕度臨床徵象／04 中重度臨床徵象"],
   motions: ["61.6 秒｜上一個大標往上退出", "61.8 秒｜舊來源標籤與時間軸淡出", "62.3 秒｜新來源標籤淡入；示意圖換成階梯；大標第一行冒出", "65.6 秒｜大標第二行冒出", "65.8 秒｜四個方塊由左到右依序浮上來"],
+  sfx: [
+    [61.62, "whoosh", "大標退場：「咻」", { gain: 0.7 }],
+    [65.82, "note", "方塊 01 浮上：木琴 Do"],
+    [65.97, "note", "方塊 02：Mi", { pitch: 1.26 }],
+    [66.12, "note", "方塊 03：Sol", { pitch: 1.5 }],
+    [66.27, "note", "方塊 04：高音 Do", { pitch: 2 }],
+  ],
   mount: [
     { into: '#S3-text', html: `
       <div class="h abs" style="left:72px;top:196px;font-size:92px" id="h3b"><span class="ln"><span id="h3b1">由國際獸醫專家團隊提出</span></span><span class="ln"><span id="h3b2" class="o">COAST 犬骨關節炎分期工具：</span></span></div>
