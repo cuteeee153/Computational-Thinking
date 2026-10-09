@@ -1,0 +1,46 @@
+/* 0:45–2:40 共用樣式：色票、版面元件。各幕只放自己的版位與內容。 */
+:root{--bg:#F7EFE4;--dark:#241C17;--card:#FFFBF6;--ink:#231B15;--or:#E2620E;--or-l:#FF9A4D;--or-b:#F97316;--mute:#8F8377;--line:#EADFD1}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;color:var(--ink);font-family:'Noto Sans TC';-webkit-font-smoothing:antialiased}
+.scene{position:absolute;inset:0}
+.abs{position:absolute}
+.logo{position:absolute;left:72px;top:52px;font-weight:900;font-size:30px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;z-index:50}
+.logo i{width:38px;height:38px;border-radius:50%;background:var(--or-b);display:flex;align-items:center;justify-content:center}
+.tagline{position:absolute;right:72px;top:62px;font-family:'Space Mono','Noto Sans TC';font-size:19px;letter-spacing:.22em;color:#9B8F82;z-index:50}
+.eyebrow{font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:24px;letter-spacing:.24em;color:var(--or);height:34px;white-space:nowrap}
+.h{font-weight:900;letter-spacing:-.045em;line-height:1.14;white-space:nowrap}
+.h .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.h .ln>span{display:inline-block}
+.o{color:var(--or)}
+.k{font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:19px;letter-spacing:.2em;color:var(--or)}
+.card{background:var(--card);border-radius:34px;box-shadow:0 1px 0 #fff inset,0 50px 90px -40px rgba(107,74,42,.35),0 0 0 1px rgba(107,74,42,.05)}
+/* dark section */
+#S3{background:radial-gradient(900px 700px at 80% 30%,#30251E 0,transparent 70%),var(--dark);color:#FFF6EC}
+#S3 .eyebrow{color:#E9DCCB}
+#S3 .o{color:var(--or-l)}
+.gridbg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,240,220,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,240,220,.035) 1px,transparent 1px);background-size:80px 80px}
+.src{position:absolute;right:72px;top:150px;font-family:'Space Mono','Noto Sans TC';font-size:18px;letter-spacing:.1em;color:#CDBEAC;padding:12px 20px;border:1.5px solid rgba(255,230,200,.22);border-radius:999px;white-space:nowrap}
+.panel{position:absolute;left:72px;top:470px;width:1776px;height:520px;color:var(--ink);overflow:hidden}
+.plabel{position:absolute;left:48px;top:40px}
+.stop{position:absolute;top:360px;transform:translateX(-50%);font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:22px;letter-spacing:.14em;color:#9A8C7C;white-space:nowrap}
+.qp{position:absolute;padding:14px 26px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:28px;box-shadow:0 14px 28px -16px rgba(107,74,42,.45);white-space:nowrap}
+.blk{position:absolute;width:340px;bottom:50px;border-radius:24px;padding:26px 28px;background:#F1E8DC;color:#B5A898}
+.blk .n{font-family:'Space Mono';font-weight:700;font-size:20px;letter-spacing:.14em}
+.blk .t{font-size:30px;font-weight:900;letter-spacing:-.02em;margin-top:8px;white-space:nowrap}
+.pin{position:absolute;top:110px;transform:translateX(-50%);text-align:center}
+.pin b{display:block;font-family:'Bricolage Grotesque';font-weight:800;font-size:120px;line-height:1;color:var(--or)}
+.pin i{display:block;width:4px;height:96px;margin:6px auto 0;background:var(--or);border-radius:2px}
+/* step 1 */
+#S4{background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg)}
+.rf{position:absolute;top:520px;width:336px;height:440px;padding:34px 34px;transform-origin:0 0}
+.rf .num{font-family:'Space Mono';font-weight:700;font-size:24px;color:var(--or)}
+.rf .ic{width:176px;height:176px;margin:4px auto 0}
+.rf .ic svg,.ic svg{overflow:visible}
+.rf .tt{position:absolute;left:34px;right:20px;bottom:38px;font-size:32px;font-weight:900;letter-spacing:-.03em;line-height:1.3}
+.grp{position:absolute;top:530px;width:820px;height:430px;padding:46px 52px;overflow:hidden}
+.grp .ttl{font-size:60px;font-weight:900;letter-spacing:-.04em;margin-top:14px}
+.bl{display:flex;align-items:center;gap:18px;font-size:34px;font-weight:700;margin-top:26px}
+.bl i{width:40px;height:40px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:22px;font-weight:900}
+.fold{position:absolute;right:0;top:0;width:110px;height:110px;background:linear-gradient(225deg,transparent 50%,#F97316 50%);border-bottom-left-radius:16px;box-shadow:-6px 6px 12px rgba(0,0,0,.12);transform-origin:100% 0}
+.brl{position:absolute;padding:10px 22px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:24px;font-weight:700;white-space:nowrap;transform:translate(-50%,-50%)}

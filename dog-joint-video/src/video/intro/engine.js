@@ -1,4 +1,4 @@
-// 0:00–0:45 動畫引擎：收集各幕 → 掛上版面 → 設定初始狀態 → 排進同一條 GSAP 時間軸。
+// 動畫引擎（0:00–0:45 與 0:45–2:40 共用）：收集各幕 → 掛上版面 → 設定初始狀態 → 排進同一條 GSAP 時間軸。
 // 每一幕是 intro/scenes/ 裡的一個檔案，用 Intro.scene({...}) 註冊：
 //   id, title       幕號與名稱
 //   start, end      這一幕在整支影片中的秒數（只用來預覽與對照，動畫本身寫絕對秒數）
@@ -8,9 +8,10 @@
 //   init(ctx)       gsap.set 初始狀態
 //   animate(ctx)    排動畫；ctx.L(selector, vars, 秒數) 等同 tl.to
 (function () {
-  const Intro = window.Intro = { scenes: [], typers: [], duration: 45 };
+  // start／duration：這一頁負責的影片時段（0:45–2:40 那頁在載入各幕前設成 45／160）
+  const Intro = window.Intro = { scenes: [], typers: [], start: 0, duration: 45 };
 
-  // 狗的外型（毛色、耳朵、項圈）只改這裡，第 01、14 幕都會套用
+  // 狗的外型（毛色、耳朵、項圈）只改這裡，全片的狗都會套用
   Intro.DOG = { mode: 'flat', body: '#E3A266', dark: '#B87240', light: '#FFF6EA', nose: '#231B15', collar: '#F97316', tag: '#FFD08A', blush: '#F2A08A' };
   Intro.dog = (el, opts) => { document.querySelector(el).innerHTML = dogSVG(Object.assign({}, opts, Intro.DOG)); };
 
@@ -43,10 +44,10 @@
     for (const sc of scenes) sc.animate && sc.animate(ctx);
     tl.to({}, { duration: .01 }, Intro.duration);
 
-    window.DURATION = Intro.duration;
+    window.START = Intro.start; window.DURATION = Intro.duration;
     window.seek = t => { tl.seek(t, false); renderTypers(t); hud(t); };
     window.SCENES = scenes.map(({ id, title, start, end, narration }) => ({ id, title, start, end, narration }));
-    seek(0);
+    seek(Intro.start);
     preview(scenes);
   };
 
@@ -69,14 +70,14 @@
       hudEl = document.createElement('div');
       hudEl.style.cssText = 'position:fixed;left:16px;bottom:16px;z-index:999;padding:10px 16px;border-radius:12px;background:rgba(35,27,21,.85);color:#fff;font:500 20px/1.5 "Noto Sans TC";';
       document.body.appendChild(hudEl);
-      hud(0);
+      hud(Intro.start);
     }
     if (q.has('t')) return seek(+q.get('t'));
-    let from = 0, to = Intro.duration, loop = false;
+    let from = Intro.start, to = Intro.duration, loop = false;
     if (q.has('scene')) {
       const sc = scenes.find(s => s.id === q.get('scene').padStart(2, '0'));
       if (!sc) return;
-      from = Math.max(0, sc.start - .5); to = Math.min(Intro.duration, sc.end + .5); loop = true;
+      from = Math.max(Intro.start, sc.start - .5); to = Math.min(Intro.duration, sc.end + .5); loop = true;
     } else if (!q.has('play')) return;
     let t0 = null;
     requestAnimationFrame(function step(now) {

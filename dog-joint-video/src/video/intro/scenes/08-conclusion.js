@@ -12,7 +12,7 @@ Intro.scene({
       <div class="abs" style="left:72px;top:250px;width:1000px">
         <div class="eyebrow" id="bEye" data-text="02 ／ 怎麼判斷？"></div>
         <div class="h" id="bHead" style="font-size:110px;margin-top:30px"></div>
-        <div class="lead" id="bLead" style="margin-top:40px"></div>
+        <div class="lead" id="bLead" style="margin-top:24px"></div>
       </div>` },
   ],
   animate({ type }) {

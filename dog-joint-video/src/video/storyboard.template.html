@@ -1,4 +1,4 @@
-<title>狗關節開場分鏡板</title>
+<title>狗關節分鏡板</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap">
 <style>
@@ -26,13 +26,19 @@ h1{font-size:clamp(26px,4vw,36px);font-weight:900;letter-spacing:-.02em;margin:0
 .how .n{font:700 12px var(--mono);color:var(--accent);letter-spacing:.08em}
 /* 時間軸總覽 */
 .tl{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px 12px;border-bottom:1px solid var(--line);margin-bottom:24px}
-.tl-bar{display:flex;gap:3px;height:44px}
+.tl-row{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:10px;align-items:center}
+.tl-row+.tl-row{margin-top:6px}
+.tl-row>span{font:700 11.5px/1.3 var(--mono);color:var(--sub)}
+.tl-bar{display:flex;gap:3px;height:40px}
 .tl-bar a{position:relative;flex:var(--w) 1 0;min-width:0;border-radius:6px;background:var(--panel);border:1px solid var(--line);text-decoration:none;color:var(--ink);display:flex;align-items:center;justify-content:center;font:700 12px var(--mono)}
 .tl-bar a:hover,.tl-bar a:focus-visible{border-color:var(--accent);outline:none}
 .tl-bar a.has{background:var(--accent-soft);border-color:var(--accent)}
 .tl-bar a .dot{position:absolute;top:-5px;right:-3px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--accent);color:#fff;font:700 10px/16px var(--mono)}
-.tl-scale{display:flex;justify-content:space-between;font:400 11px var(--mono);color:var(--sub);margin-top:4px}
-.tl-legend{font-size:12.5px;color:var(--sub);margin-top:2px}
+.tl-legend{font-size:12.5px;color:var(--sub);margin-top:6px}
+/* 段落標題 */
+.part{font-size:22px;font-weight:900;letter-spacing:-.01em;margin:36px 0 0;padding-bottom:8px;border-bottom:2px solid var(--ink);scroll-margin-top:110px}
+.part:first-child{margin-top:0}
+.part small{font:400 13px var(--mono);color:var(--sub);margin-left:8px}
 /* 整體修改 */
 .global{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:28px}
 .global h2{font-size:18px;margin:0 0 4px}
@@ -88,6 +94,7 @@ body.nodb form .send{display:none}
   .scene{grid-template-columns:1fr}
   .how{grid-template-columns:1fr}
   .tl-bar a{font-size:0}
+  .tl-row{grid-template-columns:1fr;gap:4px}
   .tl-bar a .dot{font-size:10px}
 }
 @media (max-width:520px){.lists{grid-template-columns:1fr}}
@@ -97,7 +104,7 @@ html{scroll-behavior:smooth}
 
 <div class="wrap">
   <header>
-    <h1>狗關節開場分鏡板｜0:00–0:45</h1>
+    <h1>狗關節影片分鏡板｜0:00–2:40</h1>
     <div class="meta" id="meta"></div>
   </header>
 
@@ -110,9 +117,8 @@ html{scroll-behavior:smooth}
   <p class="offline" id="offline">這個檢視無法儲存修改需求（可能沒有登入或沒有編輯權限）。你仍然可以看分鏡，修改請直接在對話裡告訴 Claude，例如「幕 05 的打字慢一點」。</p>
 
   <nav class="tl" aria-label="時間軸">
-    <div class="tl-bar" id="tlbar"></div>
-    <div class="tl-scale"><span>0s</span><span>10s</span><span>20s</span><span>30s</span><span>45s</span></div>
-    <div class="tl-legend">每格是一幕，寬度代表長短。橘色＝有還沒處理的修改需求。</div>
+    <div id="tlbar"></div>
+    <div class="tl-legend">每格是一幕，寬度代表長短（每一列各自比例）。橘色＝有還沒處理的修改需求。</div>
   </nav>
 
   <section class="global" id="all">
@@ -133,22 +139,25 @@ const BOARD = /*__DATA__*/null;
 const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmtT = t => t.toFixed(1);
+const fmtM = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+const PARTS = BOARD.parts || [{ id: 'intro', label: '0:00–0:45', start: 0, end: 45 }];
+const inPart = p => BOARD.scenes.filter(s => (s.part || 'intro') === p.id);
 
 $('#meta').textContent = `版本 v${BOARD.version}｜更新於 ${new Date(BOARD.updatedAt).toLocaleString('zh-TW', { hour12: false })}${BOARD.note ? '｜' + BOARD.note : ''}`;
 
-// 時間軸
-$('#tlbar').innerHTML = BOARD.scenes.map(s =>
-  `<a href="#s${s.id}" style="--w:${(s.end - s.start).toFixed(2)}" title="幕 ${s.id}｜${esc(s.title)}｜${fmtT(s.start)}–${fmtT(s.end)} 秒" data-tl="${s.id}">${s.id}</a>`).join('');
+// 時間軸：一段一列
+$('#tlbar').innerHTML = PARTS.map(p => `<div class="tl-row"><span>${esc(p.label.split('　')[0])}</span><div class="tl-bar">${inPart(p).map(s =>
+  `<a href="#s${s.id}" style="--w:${(s.end - s.start).toFixed(2)}" title="幕 ${s.id}｜${esc(s.title)}｜${fmtT(s.start)}–${fmtT(s.end)} 秒" data-tl="${s.id}">${s.id}</a>`).join('')}</div></div>`).join('');
 
-// 每一幕
-$('#scenes').innerHTML = BOARD.scenes.map(s => `
+// 每一幕（依段落分組）
+const sceneHTML = s => `
   <article class="scene" id="s${s.id}">
     <div class="media">
       <video src="clips/${s.id}.mp4" poster="frames/${s.id}.jpg" controls muted loop playsinline preload="none" aria-label="幕 ${s.id} 預覽"></video>
-      <div class="file">程式檔：intro/scenes/${esc(s.file)}</div>
+      <div class="file">程式檔：${esc(s.file.includes('/') ? s.file : 'intro/scenes/' + s.file)}</div>
     </div>
     <div class="info">
-      <div class="sh"><span class="sid">幕 ${s.id}</span><h3>${esc(s.title)}</h3><span class="tc">${fmtT(s.start)}–${fmtT(s.end)} 秒</span></div>
+      <div class="sh"><span class="sid">幕 ${s.id}</span><h3>${esc(s.title)}</h3><span class="tc">${fmtT(s.start)}–${fmtT(s.end)} 秒（${fmtM(s.start)}–${fmtM(s.end)}）</span></div>
       <div class="sub"><small>字幕</small>${s.narration ? s.narrationTimes.map(n => `${esc(n[2])} <span class="tc" style="margin:0">(${fmtT(n[0])}–${fmtT(n[1])})</span>`).join('<br>') : '（這一幕沒有旁白）'}</div>
       <div class="lists">
         <div><h4>畫面</h4><ol>${s.visuals.map((v, i) => `<li><button type="button" data-ref="${s.id}|畫面 ${i + 1}" data-desc="${esc(v)}"><i>畫面${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
@@ -164,7 +173,8 @@ $('#scenes').innerHTML = BOARD.scenes.map(s => `
         </form>
       </div>
     </div>
-  </article>`).join('');
+  </article>`;
+$('#scenes').innerHTML = PARTS.map(p => `<h2 class="part" id="part-${esc(p.id)}">${esc(p.label)}<small>幕 ${inPart(p)[0]?.id}–${inPart(p).at(-1)?.id}</small></h2>` + inPart(p).map(sceneHTML).join('')).join('');
 
 // 點項目 → 帶入編號
 document.addEventListener('click', e => {
