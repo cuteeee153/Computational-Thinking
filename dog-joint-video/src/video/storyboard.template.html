@@ -103,7 +103,7 @@ html{scroll-behavior:smooth}
 
   <section class="how" aria-label="使用方式">
     <div><span class="n">1 看</span><b>點影片看這一幕</b>右邊列出這一幕有哪些畫面元素、每個動畫幾秒出現、配哪一句字幕。</div>
-    <div><span class="n">2 寫</span><b>用一般的話寫下想怎麼改</b>點清單裡的項目會自動帶入「畫面 2」這類編號；不帶編號直接描述也可以。</div>
+    <div><span class="n">2 寫</span><b>用一般的話寫下想怎麼改</b>點清單裡的項目會自動帶入編號和原本的描述，你只要寫「改成」什麼；不點項目直接描述也可以。</div>
     <div><span class="n">3 交給 Claude</span><b>在對話裡說「分鏡板有新需求」</b>Claude 會照著改、重新輸出，並在每則需求下面回覆改了什麼。</div>
   </section>
 
@@ -151,10 +151,10 @@ $('#scenes').innerHTML = BOARD.scenes.map(s => `
       <div class="sh"><span class="sid">幕 ${s.id}</span><h3>${esc(s.title)}</h3><span class="tc">${fmtT(s.start)}–${fmtT(s.end)} 秒</span></div>
       <div class="sub"><small>字幕</small>${s.narration ? s.narrationTimes.map(n => `${esc(n[2])} <span class="tc" style="margin:0">(${fmtT(n[0])}–${fmtT(n[1])})</span>`).join('<br>') : '（這一幕沒有旁白）'}</div>
       <div class="lists">
-        <div><h4>畫面</h4><ol>${s.visuals.map((v, i) => `<li><button type="button" data-ref="${s.id}|畫面 ${i + 1}"><i>畫面${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
-        <div><h4>動畫</h4><ol>${s.motions.map((v, i) => `<li><button type="button" data-ref="${s.id}|動畫 ${i + 1}"><i>動畫${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
+        <div><h4>畫面</h4><ol>${s.visuals.map((v, i) => `<li><button type="button" data-ref="${s.id}|畫面 ${i + 1}" data-desc="${esc(v)}"><i>畫面${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
+        <div><h4>動畫</h4><ol>${s.motions.map((v, i) => `<li><button type="button" data-ref="${s.id}|動畫 ${i + 1}" data-desc="${esc(v)}"><i>動畫${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
       </div>
-      <div class="hint">點任一項目，會把它的編號帶進下面的輸入框。</div>
+      <div class="hint">點任一項目，會把它的編號和原本的描述帶進下面的輸入框，接著寫「改成」什麼就好。</div>
       <div class="req">
         <div class="reqs" data-reqs="${s.id}"></div>
         <form data-scene="${s.id}">
@@ -172,7 +172,7 @@ document.addEventListener('click', e => {
   const [id, ref] = b.dataset.ref.split('|');
   const ta = $('#ta-' + id);
   const pre = ta.value && !ta.value.endsWith('\n') ? '\n' : '';
-  ta.value += `${pre}${ref}：`;
+  ta.value += `${pre}${ref}（原本：${b.dataset.desc}）\n→ 改成：`;
   ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length);
 });
 
