@@ -1,267 +1,37 @@
 <!doctype html><html><head><meta charset="utf-8">
 <title>狗關節保養 0:00–0:45</title>
-<style>
-:root{--bg:#F7EFE4;--card:#FFFBF6;--ink:#231B15;--or:#E2620E;--or-b:#F97316;--mute:#8F8377;--line:#EDE3D6}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
-#stage{position:relative;width:1920px;height:1080px;overflow:hidden;color:var(--ink);font-family:'Noto Sans TC';-webkit-font-smoothing:antialiased}
-.scene{position:absolute;inset:0;background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg)}
-.abs{position:absolute}
-/* shared chrome */
-.logo{position:absolute;left:72px;top:52px;font-weight:900;font-size:30px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;z-index:50}
-.logo i{width:38px;height:38px;border-radius:50%;background:var(--or-b);display:flex;align-items:center;justify-content:center}
-.tagline{position:absolute;right:72px;top:62px;font-family:'Space Mono','Noto Sans TC';font-size:19px;letter-spacing:.22em;color:#9B8F82;z-index:50}
-.eyebrow{font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:24px;letter-spacing:.24em;color:var(--or);height:34px;white-space:nowrap}
-.h{font-weight:900;letter-spacing:-.045em;line-height:1.14}
-.h .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
-.h .ln>span{display:inline-block}
-.o{color:var(--or)}
-.lead{font-size:32px;line-height:1.6;color:#83776B}
-.card{background:var(--card);border-radius:34px;box-shadow:0 1px 0 #fff inset,0 50px 90px -40px rgba(107,74,42,.35),0 0 0 1px rgba(107,74,42,.05)}
-/* chat */
-.av{width:62px;height:62px;border-radius:50%;background:var(--or-b);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 8px 18px -6px rgba(249,115,22,.6)}
-.bub{display:inline-block;padding:20px 28px;border-radius:26px;background:#fff;border:1.5px solid var(--line);font-size:28px;box-shadow:0 10px 24px -16px rgba(107,74,42,.35);transform-origin:0 50%}
-.me{background:#F2E9DD;border:none;transform-origin:100% 50%}
-.pill{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:26px;box-shadow:0 10px 24px -16px rgba(107,74,42,.35)}
-.pill b{font-family:'Bricolage Grotesque','Noto Sans TC';font-weight:800;color:var(--or)}
-.input{height:84px;border-radius:999px;border:2px solid #F3A46B;background:#F3EBE0;display:flex;align-items:center;padding:0 14px 0 34px;font-size:26px;color:#7E7266}
-.send{margin-left:auto;width:58px;height:58px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--ink);box-shadow:0 4px 10px rgba(0,0,0,.08)}
-.dots{display:inline-flex;gap:8px;padding:24px 28px;border-radius:26px;background:#fff;border:1.5px solid var(--line)}
-.dots i{width:12px;height:12px;border-radius:50%;background:#CDBFAE;display:block}
-.ghost{position:absolute;font-family:'Bricolage Grotesque';font-weight:800;color:#F0E3D2;line-height:1;letter-spacing:-.05em}
-.caret{display:inline-block;width:2px;height:1em;background:var(--or);vertical-align:-.12em;margin-left:3px}
-/* knowledge doc */
-.doc{position:absolute;background:var(--card);color:var(--ink);border-radius:30px;padding:56px 60px;overflow:hidden;box-shadow:0 1px 0 #fff inset,0 50px 90px -40px rgba(107,74,42,.35),0 0 0 1px rgba(107,74,42,.05)}
-.fold{position:absolute;right:0;top:0;width:110px;height:110px;background:linear-gradient(225deg,transparent 50%,#F97316 50%);border-bottom-left-radius:16px;box-shadow:-6px 6px 12px rgba(0,0,0,.12);transform-origin:100% 0}
-.k{font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:19px;letter-spacing:.2em;color:var(--or)}
-.row{position:relative;padding:24px 0;border-top:1.5px solid var(--line);display:flex;align-items:center;gap:26px}
-.row .t{font-size:32px;font-weight:700}
-.row .hl{position:absolute;left:-60px;right:-60px;top:0;bottom:0;background:#FDEBDD;z-index:-1;transform-origin:0 50%}
-.row .bar{position:absolute;left:-60px;top:16px;bottom:16px;width:8px;border-radius:0 6px 6px 0;background:var(--or-b);transform-origin:50% 50%}
-.ck{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:26px;flex:none}
-.fn{position:absolute;font-size:20px;color:#8E8073;line-height:1.6}
-.bigchip{position:absolute;display:inline-flex;align-items:baseline;gap:8px;padding:22px 42px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:44px;box-shadow:0 30px 50px -24px rgba(107,74,42,.45)}
-.bigchip b{font-family:'Bricolage Grotesque';font-weight:800;font-size:84px;color:var(--or);line-height:1}
-</style></head><body>
+<!-- 這一頁只負責圖層；每一幕的版面與動畫在 intro/scenes/ 裡，一幕一個檔案。 -->
+<link rel="stylesheet" href="intro/core.css">
+</head><body>
 <div id="stage">
-
-<!-- persistent chrome -->
-<div class="logo" id="logo"><i id="paw"></i>狗關節保養</div>
-<div class="tagline" id="tagline">不是幾歲．是風險等級</div>
-
-<!-- ================= SCENE A : HOOK (warm) ================= -->
-<section class="scene" id="A" style="z-index:1">
-  <div class="ghost" id="g7" style="left:120px;top:120px;font-size:760px">7</div>
-  <div class="ghost" id="g5" style="left:1380px;top:60px;font-size:640px">5</div>
-  <div class="ghost" id="g3" style="left:1340px;top:420px;font-size:600px">3</div>
-
-  <div class="abs" style="left:72px;top:250px;width:1000px">
-    <div class="eyebrow" id="aEye" data-text="01 ／ 你是不是也這樣"></div>
-    <div class="h" style="font-size:118px;margin-top:30px">
-      <span class="ln"><span id="aH1">滑了三篇文章，</span></span>
-      <span class="ln"><span id="aH2" class="o">三個答案。</span></span>
-    </div>
-    <div class="lead" style="margin-top:44px"><div id="aL1">七歲？五歲？三到五歲？</div><div id="aL2">你只想知道：我家這隻，現在要開始嗎？</div></div>
-  </div>
-
-  <svg class="abs" id="arrow" style="left:900px;top:600px" width="200" height="170" viewBox="0 0 200 170"><path id="arrP1" d="M10 160 C30 70 90 20 180 40" stroke="#E2620E" stroke-width="5" fill="none" stroke-linecap="round"/><path id="arrP2" d="M150 18 L182 40 L148 62" stroke="#E2620E" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-
-  <div class="card abs" id="chat" style="left:1110px;top:150px;width:740px;height:830px">
-    <div style="display:flex;align-items:center;gap:22px;padding:34px 40px;border-bottom:1.5px solid var(--line)">
-      <div style="width:76px;height:76px;border-radius:50%;background:#F6E3CC;overflow:hidden;display:flex;align-items:flex-end;justify-content:center"><div style="width:84px;margin-bottom:-26px" id="dogA"></div></div>
-      <div style="position:relative"><div style="font-weight:700;font-size:32px">我家這隻的關節</div>
-        <div style="font-size:22px;color:var(--mute);margin-top:4px;height:32px;position:relative"><span id="sub1" class="abs" style="left:0;top:0;white-space:nowrap">正在搜尋⋯</span><span id="sub2" class="abs" style="left:0;top:0;white-space:nowrap">搜尋了 3 篇文章</span><span id="sub3" class="abs" style="left:0;top:0;white-space:nowrap;color:var(--or)">現在要開始嗎？</span></div></div>
-    </div>
-    <div style="padding:36px 40px;display:flex;flex-direction:column;gap:22px">
-      <div style="align-self:flex-end" class="bub me" id="q">狗關節保養，到底幾歲開始？</div>
-      <div style="display:flex;gap:18px;align-items:flex-start"><div class="av" id="av"></div>
-        <div style="display:flex;flex-direction:column;gap:16px;position:relative">
-          <div class="dots abs" id="dots" style="left:0;top:0"><i></i><i></i><i></i></div>
-          <div class="bub" id="bA">文章 A：老狗<b style="color:var(--or)">七歲</b>才要開始顧。</div>
-          <div class="bub" id="bB">文章 B：大型犬<b style="color:var(--or)">五歲</b>就要吃保健品。</div>
-          <div class="bub" id="bC">文章 C：<b style="color:var(--or)">三到五歲</b>就開始退化。</div>
-        </div></div>
-      <div style="display:flex;gap:14px;margin-left:80px">
-        <span class="pill" id="c7"><b>7</b>歲？</span><span class="pill" id="c5"><b>5</b>歲？</span><span class="pill" id="c3"><b>3</b>歲？</span>
-      </div>
-    </div>
-    <div style="position:absolute;left:40px;right:40px;bottom:36px" class="input" id="inp"><span id="inpText" data-text="所以⋯⋯到底要聽誰的？"></span><span class="caret" id="caret"></span><div class="send" id="send">↑</div></div>
-  </div>
-
-  <svg class="abs" id="cursor" style="left:0;top:0;width:54px;height:54px;z-index:5" viewBox="0 0 24 24"><path d="M4 2 L4 20 L9 15.5 L12.5 22.5 L15.5 21 L12 14 L19 14 Z" fill="#231B15" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
-</section>
-
-<!-- ================= SCENE B : CORE (knowledge) ================= -->
-<section class="scene" id="B" style="z-index:2">
-  <div class="bigchip" id="k7" style="left:470px;top:430px"><b>7</b>歲？</div>
-  <div class="bigchip" id="k5" style="left:830px;top:520px"><b>5</b>歲？</div>
-  <div class="bigchip" id="k3" style="left:1190px;top:420px"><b>3</b>歲？</div>
-
-  <div class="abs" style="left:72px;top:250px;width:1000px">
-    <div class="eyebrow" id="bEye" data-text="02 ／ 先講結論"></div>
-    <div class="h" style="font-size:110px;margin-top:30px">
-      <span class="ln"><span id="bH1">問題問錯了。</span></span>
-      <span class="ln"><span id="bH2" class="o">要看風險因子。</span></span>
-    </div>
-    <div class="lead" style="margin-top:40px"><div id="bL1">會這麼亂，不是誰在騙你。</div><div id="bL2">要不要開始，從來不是看年齡。</div></div>
-  </div>
-
-  <div class="doc" id="doc" style="left:1110px;top:220px;width:740px">
-    <div class="fold" id="fold"></div>
-    <div class="k" style="height:28px" id="docK" data-text="判斷框架 ・ 3 STEPS"></div>
-    <div style="display:flex;gap:18px;margin:26px 0 34px">
-      <div id="boxNo" style="flex:1;padding:20px 24px;border-radius:18px;background:#F4EBDF;display:flex;align-items:center;gap:14px"><div class="ck" style="background:#E5DBCD;color:#A79A8B">✕</div><div><div class="k" style="font-size:15px;color:#A79A8B">不是</div><div style="font-size:30px;font-weight:700;color:#A79A8B;position:relative;display:inline-block">年齡<span id="strike" class="abs" style="left:-4px;right:-4px;top:52%;height:4px;border-radius:2px;background:#A79A8B;transform-origin:0 50%"></span></div></div></div>
-      <div id="boxYes" style="flex:1;padding:20px 24px;border-radius:18px;background:#FDE6D5;display:flex;align-items:center;gap:14px"><div class="ck" id="tick" style="background:var(--or-b);color:#fff">✓</div><div><div class="k" style="font-size:15px">而是</div><div style="font-size:30px;font-weight:700;color:var(--or)">風險等級</div></div></div>
-    </div>
-    <div class="row" id="r1"><div class="hl" id="r1hl"></div><div class="bar" id="r1bar"></div><div class="k" style="width:110px">STEP 01</div><div class="t">有風險因子嗎？</div></div>
-    <div class="row" id="r2"><div class="k" style="width:110px">STEP 02</div><div class="t">有沒有蛛絲馬跡？</div></div>
-    <div class="row" id="r3" style="padding-bottom:0"><div class="k" style="width:110px">STEP 03</div><div class="t">該做什麼？</div></div>
-  </div>
-  <div class="fn" id="fn" style="left:1110px;top:822px">參考：AAHA《Mobility Matters》、COAST 國際共識（Cachon 等，2023）<br>完整來源見說明欄</div>
-  <div class="abs" style="left:915px;top:592px;width:170px" id="dogB"></div>
-</section>
+  <!-- 鉤子段（溫暖風格）：背景數字 → 文字 → 聊天卡片 → 游標 -->
+  <section class="scene" id="A" style="z-index:1">
+    <div id="A-bg"></div><div id="A-text"></div><div id="A-card"></div><div id="A-fg"></div>
+  </section>
+  <!-- 核心段（知識型風格）：浮動年齡標籤 → 文字 → 文件卡 → 註記與狗 -->
+  <section class="scene" id="B" style="z-index:2">
+    <div id="B-bg"></div><div id="B-text"></div><div id="B-doc"></div><div id="B-fg"></div>
+  </section>
+  <!-- 全片固定的頻道名稱與標語 -->
+  <div id="chrome"></div>
 </div>
 
 <script src="node_modules/gsap/dist/gsap.min.js"></script>
 <script src="dog.js"></script><script src="icons.js"></script>
-<script>
-// ---------- assets ----------
-const P={mode:'flat',body:'#E3A266',dark:'#B87240',light:'#FFF6EA',nose:'#231B15',collar:'#F97316',tag:'#FFD08A',blush:'#F2A08A'};
-dogA.innerHTML = dogSVG(Object.assign({id:'da',tilt:-10,mood:'curious'},P));
-dogB.innerHTML = dogSVG(Object.assign({id:'db',tilt:8,mood:'curious'},P));
-paw.innerHTML = '<div style="width:24px;height:24px">'+iconPaw('#fff')+'</div>';
-av.innerHTML = '<div style="width:32px;height:32px">'+iconPaw('#fff')+'</div>';
-
-// ---------- typing helpers (driven directly by time) ----------
-const typers=[];
-function type(el,start,dur){typers.push({el,text:el.dataset.text,start,dur});}
-function renderTypers(t){for(const y of typers){const p=Math.max(0,Math.min(1,(t-y.start)/y.dur));y.el.textContent=[...y.text].slice(0,Math.round(p*[...y.text].length)).join('');}}
-
-// ---------- timeline ----------
-const E='power3.out', tl=gsap.timeline({paused:true});
-const L=(sel,vars,at)=>tl.to(sel,vars,at);
-// initial states
-gsap.set('#B',{clipPath:'circle(0px at 1767px 902px)'});
-gsap.set(['#logo','#tagline'],{opacity:0,y:-12});
-gsap.set('#chat',{x:-520,y:60,opacity:0});
-gsap.set(['#q','#bA','#bB','#bC'],{opacity:0,scale:.85,y:16});
-gsap.set('#dots',{opacity:0});
-gsap.set(['#c7','#c5','#c3'],{opacity:0,scale:.6});
-gsap.set(['#g7','#g5','#g3'],{opacity:0,scale:.9});
-gsap.set(['#aH1','#aH2','#bH1','#bH2'],{yPercent:110});
-gsap.set(['#aL1','#aL2','#bL1','#bL2','#fn'],{opacity:0,y:14});
-gsap.set(['#sub2','#sub3'],{opacity:0,y:10});
-gsap.set(['#arrP1','#arrP2'],{strokeDasharray:400,strokeDashoffset:400});
-gsap.set('#cursor',{x:1500,y:1120,opacity:0});
-gsap.set('#caret',{opacity:0});
-gsap.set(['#k7','#k5','#k3'],{opacity:0,scale:.6,y:40});
-gsap.set('#doc',{opacity:0,x:120});
-gsap.set('#fold',{scale:0});
-gsap.set(['#boxNo','#boxYes'],{opacity:0,y:16});
-gsap.set('#strike',{scaleX:0});
-gsap.set('#tick',{scale:0});
-gsap.set(['#r1','#r2','#r3'],{opacity:0,x:-30});
-gsap.set('#r1hl',{scaleX:0}); gsap.set('#r1bar',{scaleY:0});
-gsap.set('#dogB',{opacity:0,y:60});
-
-// ===== 0:00–0:20 HOOK =====
-L(['#logo','#tagline'],{opacity:1,y:0,duration:.6,ease:E},0.1);
-L('#chat',{opacity:1,y:0,duration:.8,ease:E},0.15);
-L('#q',{opacity:1,scale:1,y:0,duration:.45,ease:'back.out(1.6)'},0.45);
-// typing dots then answer A  (旁白：七歲才要顧關節？ 0.5–2.6)
-L('#dots',{opacity:1,duration:.2},0.85);
-tl.fromTo('#dots i',{y:0},{y:-8,duration:.22,yoyo:true,repeat:3,stagger:.08,ease:'sine.inOut'},0.9);
-L('#dots',{opacity:0,duration:.15},1.55);
-L('#bA',{opacity:1,scale:1,y:0,duration:.5,ease:'back.out(1.5)'},1.55);
-L('#g7',{opacity:1,scale:1,duration:1.2,ease:E},1.55);
-L('#c7',{opacity:1,scale:1,duration:.5,ease:'back.out(2)'},2.1);
-L('#sub1',{opacity:0,y:-10,duration:.3},2.3);
-L('#sub2',{opacity:1,y:0,duration:.3},2.4);
-// answer B (大型犬五歲就要吃保健品？ 2.8–5.6)
-L('#bB',{opacity:1,scale:1,y:0,duration:.5,ease:'back.out(1.5)'},2.9);
-L('#g5',{opacity:1,scale:1,duration:1.2,ease:E},2.9);
-L('#c5',{opacity:1,scale:1,duration:.5,ease:'back.out(2)'},3.6);
-// answer C (還有人說三到五歲就開始退化 5.8–9.0)
-L('#bC',{opacity:1,scale:1,y:0,duration:.5,ease:'back.out(1.5)'},6.0);
-L('#g3',{opacity:1,scale:1,duration:1.2,ease:E},6.0);
-L('#c3',{opacity:1,scale:1,duration:.5,ease:'back.out(2)'},6.9);
-// conflict: chips knock into each other
-tl.to('#c7',{x:10,rotation:-4,duration:.08,yoyo:true,repeat:5,ease:'sine.inOut'},7.7);
-tl.to('#c5',{x:-8,rotation:4,duration:.08,yoyo:true,repeat:5,ease:'sine.inOut'},7.74);
-tl.to('#c3',{x:8,rotation:-3,duration:.08,yoyo:true,repeat:5,ease:'sine.inOut'},7.78);
-// ghosts drift
-L('#g7',{x:-30,y:20,duration:9,ease:'none'},1.55);
-L('#g5',{x:24,y:-16,duration:7,ease:'none'},2.9);
-L('#g3',{x:30,y:24,duration:5,ease:'none'},6.0);
-// headline + card moves right (你滑完三篇文章，數字完全對不上 9.4–13.0)
-L(['#g7','#g5','#g3'],{opacity:0,duration:.8,ease:'power2.in'},9.0);
-L('#chat',{x:0,duration:1.1,ease:'power3.inOut'},9.2);
-type(aEye,9.6,.7);
-L('#aH1',{yPercent:0,duration:.8,ease:'power4.out'},10.0);
-L('#aH2',{yPercent:0,duration:.8,ease:'power4.out'},10.9);
-L('#aL1',{opacity:1,y:0,duration:.6,ease:E},11.8);
-// 只想知道一件事 13.2–15.2 → input types
-L('#caret',{opacity:1,duration:.1},13.0);
-type(inpText,13.3,1.6);
-tl.to('#caret',{opacity:0,duration:.01,repeat:9,yoyo:true,repeatDelay:.25},15.0);
-// 我家這隻，現在到底要不要開始？ 15.4–19.2
-L('#aL2',{opacity:1,y:0,duration:.6,ease:E},15.4);
-L('#arrP1',{strokeDashoffset:0,duration:.7,ease:'power2.inOut'},15.6);
-L('#arrP2',{strokeDashoffset:0,duration:.3,ease:'power2.out'},16.25);
-L('#sub2',{opacity:0,y:-10,duration:.3},15.6);
-L('#sub3',{opacity:1,y:0,duration:.3},15.7);
-tl.to('#dogA',{rotation:-6,transformOrigin:'50% 90%',duration:.35,yoyo:true,repeat:3,ease:'sine.inOut'},15.8);
-// cursor → send
-L('#cursor',{opacity:1,duration:.2},17.2);
-L('#cursor',{x:1758,y:892,duration:1.2,ease:'power3.inOut'},17.2);
-tl.to('#send',{scale:.86,background:'#F97316',color:'#fff',duration:.12},18.55);
-tl.to('#send',{scale:1,duration:.25,ease:'back.out(3)'},18.67);
-tl.to('#cursor',{scale:.85,duration:.1,yoyo:true,repeat:1},18.5);
-L('#cursor',{opacity:0,duration:.3},19.2);
-// wipe into knowledge scene
-L('#B',{clipPath:'circle(2300px at 1767px 902px)',duration:1.1,ease:'power3.in'},18.9);
-
-// ===== 0:20–0:45 CORE =====
-type(bEye,20.2,.6);                                   // 先講結論 20.3–21.6
-L('#k7',{opacity:1,scale:1,y:0,duration:.6,ease:'back.out(1.8)'},21.7);   // 會這麼亂，不是誰在騙你 21.8–24.6
-L('#k5',{opacity:1,scale:1,y:0,duration:.6,ease:'back.out(1.8)'},21.95);
-L('#k3',{opacity:1,scale:1,y:0,duration:.6,ease:'back.out(1.8)'},22.2);
-L('#k7',{y:-14,rotation:-3,duration:1.2,yoyo:true,repeat:1,ease:'sine.inOut'},22.4);
-L('#k5',{y:12,rotation:2,duration:1.1,yoyo:true,repeat:1,ease:'sine.inOut'},22.6);
-L('#k3',{y:-10,rotation:3,duration:1.3,yoyo:true,repeat:1,ease:'sine.inOut'},22.8);
-// 是問題問錯了 24.8–26.6 → chips fall away, headline in
-L('#k7',{y:640,rotation:-28,opacity:0,duration:.8,ease:'power2.in'},24.7);
-L('#k5',{y:640,rotation:20,opacity:0,duration:.8,ease:'power2.in'},24.78);
-L('#k3',{y:640,rotation:-14,opacity:0,duration:.8,ease:'power2.in'},24.86);
-L('#bH1',{yPercent:0,duration:.8,ease:'power4.out'},25.0);
-L('#bL1',{opacity:1,y:0,duration:.6,ease:E},25.9);
-// 要不要開始，從來不是看年齡 27.0–30.3
-L('#doc',{opacity:1,x:0,duration:.9,ease:E},26.9);
-L('#fold',{scale:1,duration:.5,ease:'back.out(2)'},27.5);
-type(docK,27.4,.8);
-L('#bL2',{opacity:1,y:0,duration:.6,ease:E},27.4);
-L('#boxNo',{opacity:1,y:0,duration:.5,ease:E},27.9);
-L('#strike',{scaleX:1,duration:.45,ease:'power2.inOut'},29.0);
-L('#boxNo',{opacity:.75,duration:.4},29.4);
-// 而是看風險因子 30.5–32.6
-L('#bH2',{yPercent:0,duration:.8,ease:'power4.out'},30.5);
-L('#boxYes',{opacity:1,y:0,duration:.5,ease:E},30.7);
-L('#tick',{scale:1,duration:.5,ease:'back.out(3)'},31.0);
-// 這支影片用三步驟 33.2–35.4
-L('#r1',{opacity:1,x:0,duration:.5,ease:E},33.3);
-L('#r2',{opacity:.55,x:0,duration:.5,ease:E},33.7);
-L('#r3',{opacity:.35,x:0,duration:.5,ease:E},34.1);
-// 幫你找到家裡那隻現在的位置 35.6–39.0
-L('#dogB',{opacity:1,y:0,duration:.7,ease:'back.out(1.8)'},35.7);
-L('#r1hl',{scaleX:1,duration:.6,ease:'power3.inOut'},36.6);
-L('#r1bar',{scaleY:1,duration:.4,ease:E},36.9);
-L('#fn',{opacity:1,y:0,duration:.6,ease:E},37.6);
-// idle to 0:45
-tl.to('#dogB',{y:-8,duration:.9,yoyo:true,repeat:5,ease:'sine.inOut'},38.4);
-tl.to({}, {duration:.01}, 45);
-
-window.DURATION=45;
-window.seek=t=>{tl.seek(t,false);renderTypers(t);};
-seek(0);
-</script>
+<script src="intro/engine.js"></script>
+<script src="intro/scenes/01-question.js"></script>
+<script src="intro/scenes/02-article-b.js"></script>
+<script src="intro/scenes/03-article-c.js"></script>
+<script src="intro/scenes/04-headline.js"></script>
+<script src="intro/scenes/05-who-to-trust.js"></script>
+<script src="intro/scenes/06-my-dog.js"></script>
+<script src="intro/scenes/07-wipe.js"></script>
+<script src="intro/scenes/08-conclusion.js"></script>
+<script src="intro/scenes/09-ages-float.js"></script>
+<script src="intro/scenes/10-wrong-question.js"></script>
+<script src="intro/scenes/11-not-age.js"></script>
+<script src="intro/scenes/12-risk-factors.js"></script>
+<script src="intro/scenes/13-three-steps.js"></script>
+<script src="intro/scenes/14-your-dog.js"></script>
+<script>Intro.boot();</script>
 </body></html>

@@ -1,0 +1,42 @@
+/* 0:00–0:45 共用樣式：色票、版面元件。各幕只放自己的版位與內容。 */
+:root{--bg:#F7EFE4;--card:#FFFBF6;--ink:#231B15;--or:#E2620E;--or-b:#F97316;--mute:#8F8377;--line:#EDE3D6}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;color:var(--ink);font-family:'Noto Sans TC';-webkit-font-smoothing:antialiased}
+.scene{position:absolute;inset:0;background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg)}
+.abs{position:absolute}
+/* shared chrome */
+.logo{position:absolute;left:72px;top:52px;font-weight:900;font-size:30px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;z-index:50}
+.logo i{width:38px;height:38px;border-radius:50%;background:var(--or-b);display:flex;align-items:center;justify-content:center}
+.tagline{position:absolute;right:72px;top:62px;font-family:'Space Mono','Noto Sans TC';font-size:19px;letter-spacing:.22em;color:#9B8F82;z-index:50}
+.eyebrow{font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:24px;letter-spacing:.24em;color:var(--or);height:34px;white-space:nowrap}
+.h{font-weight:900;letter-spacing:-.045em;line-height:1.14}
+.h .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.h .ln>span{display:inline-block}
+.o{color:var(--or)}
+.lead{font-size:32px;line-height:1.6;color:#83776B}
+.card{background:var(--card);border-radius:34px;box-shadow:0 1px 0 #fff inset,0 50px 90px -40px rgba(107,74,42,.35),0 0 0 1px rgba(107,74,42,.05)}
+/* chat */
+.av{width:62px;height:62px;border-radius:50%;background:var(--or-b);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 8px 18px -6px rgba(249,115,22,.6)}
+.bub{display:inline-block;padding:20px 28px;border-radius:26px;background:#fff;border:1.5px solid var(--line);font-size:28px;box-shadow:0 10px 24px -16px rgba(107,74,42,.35);transform-origin:0 50%}
+.me{background:#F2E9DD;border:none;transform-origin:100% 50%}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:26px;box-shadow:0 10px 24px -16px rgba(107,74,42,.35)}
+.pill b{font-family:'Bricolage Grotesque','Noto Sans TC';font-weight:800;color:var(--or)}
+.input{height:84px;border-radius:999px;border:2px solid #F3A46B;background:#F3EBE0;display:flex;align-items:center;padding:0 14px 0 34px;font-size:26px;color:#7E7266}
+.send{margin-left:auto;width:58px;height:58px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--ink);box-shadow:0 4px 10px rgba(0,0,0,.08)}
+.dots{display:inline-flex;gap:8px;padding:24px 28px;border-radius:26px;background:#fff;border:1.5px solid var(--line)}
+.dots i{width:12px;height:12px;border-radius:50%;background:#CDBFAE;display:block}
+.ghost{position:absolute;font-family:'Bricolage Grotesque';font-weight:800;color:#F0E3D2;line-height:1;letter-spacing:-.05em}
+.caret{display:inline-block;width:2px;height:1em;background:var(--or);vertical-align:-.12em;margin-left:3px}
+/* knowledge doc */
+.doc{position:absolute;background:var(--card);color:var(--ink);border-radius:30px;padding:56px 60px;overflow:hidden;box-shadow:0 1px 0 #fff inset,0 50px 90px -40px rgba(107,74,42,.35),0 0 0 1px rgba(107,74,42,.05)}
+.fold{position:absolute;right:0;top:0;width:110px;height:110px;background:linear-gradient(225deg,transparent 50%,#F97316 50%);border-bottom-left-radius:16px;box-shadow:-6px 6px 12px rgba(0,0,0,.12);transform-origin:100% 0}
+.k{font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:19px;letter-spacing:.2em;color:var(--or)}
+.row{position:relative;padding:24px 0;border-top:1.5px solid var(--line);display:flex;align-items:center;gap:26px}
+.row .t{font-size:32px;font-weight:700}
+.row .hl{position:absolute;left:-60px;right:-60px;top:0;bottom:0;background:#FDEBDD;z-index:-1;transform-origin:0 50%}
+.row .bar{position:absolute;left:-60px;top:16px;bottom:16px;width:8px;border-radius:0 6px 6px 0;background:var(--or-b);transform-origin:50% 50%}
+.ck{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:26px;flex:none}
+.fn{position:absolute;font-size:20px;color:#8E8073;line-height:1.6}
+.bigchip{position:absolute;display:inline-flex;align-items:baseline;gap:8px;padding:22px 42px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:44px;box-shadow:0 30px 50px -24px rgba(107,74,42,.45)}
+.bigchip b{font-family:'Bricolage Grotesque';font-weight:800;font-size:84px;color:var(--or);line-height:1}
