@@ -6,16 +6,16 @@ Intro.scene({
   narration: [[108.24, 109.61, '一共五類。'], [109.91, 112.64, '特定品種的好發疾病、'], [112.94, 115.66, '體重過重或骨架偏大、'], [115.96, 118.69, '曾經關節或韌帶受傷、']],
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 118.5,
-  visuals: ["右上角大大的橘色「5」，旁邊「類」與小字「RISK FACTORS」", "卡片 01：標籤圖示＋「特定品種的好發疾病」", "卡片 02：體重計圖示＋「體重過重或骨架偏大」", "卡片 03：繃帶圖示＋「曾經關節或韌帶受傷」"],
+  visuals: ["右上角大大的橘色「5」，旁邊「類」與小字「你該注意的風險因子」", "卡片 01：標籤圖示＋「特定的好發品種」", "卡片 02：體重計圖示＋「體重過重或骨架偏大」", "卡片 03：繃帶圖示＋「曾經關節或韌帶受傷」"],
   motions: ["108.2 秒｜「5 類」由右滑入", "110.0 秒｜卡片 01 浮上來", "113.0 秒｜卡片 02 浮上來", "116.1 秒｜卡片 03 浮上來"],
   mount: [
     { into: '#S4-text', html: `
       <div class="abs" style="right:72px;top:150px;display:flex;align-items:flex-end;gap:20px" id="five">
         <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:250px;line-height:.8;color:var(--or);letter-spacing:-.05em">5</div>
-        <div style="padding-bottom:10px"><div style="font-size:60px;font-weight:900;letter-spacing:-.04em">類</div><div class="k" style="font-size:18px;margin-top:6px">RISK FACTORS</div></div>
+        <div style="padding-bottom:10px"><div style="font-size:60px;font-weight:900;letter-spacing:-.04em">類</div><div class="k" style="font-size:18px;margin-top:6px">你該注意的風險因子</div></div>
       </div>` },
     { into: '#rfs', html: `
-      <div class="rf card" id="rf0" style="left:72px"><div class="num">01</div><div class="ic" id="rfi0"></div><div class="tt" id="rft0">特定品種的<br>好發疾病</div></div>
+      <div class="rf card" id="rf0" style="left:72px"><div class="num">01</div><div class="ic" id="rfi0"></div><div class="tt" id="rft0">特定的<br>好發品種</div></div>
       <div class="rf card" id="rf1" style="left:432px"><div class="num">02</div><div class="ic" id="rfi1"></div><div class="tt" id="rft1">體重過重<br>或骨架偏大</div></div>
       <div class="rf card" id="rf2" style="left:792px"><div class="num">03</div><div class="ic" id="rfi2"></div><div class="tt" id="rft2">曾經關節<br>或韌帶受傷</div></div>` },
   ],

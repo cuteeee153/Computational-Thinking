@@ -5,18 +5,18 @@ Intro.scene({
   narration: [[62.22, 65.12, '另一份國際共識，叫做 COAST，'], [65.42, 67.6, '把狗分成四個階段：']],
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 67.5,
-  visuals: ["右上角來源標籤「SOURCE ／ COAST 國際共識（Cachon 等，2023）」", "大標第一行：「COAST 國際共識：」（白）", "大標第二行：「四個階段，看的是風險。」（橘）", "示意圖卡片標籤「示意圖 ・ COAST 分期概念」", "四個由低到高的灰色階梯方塊：01 沒有風險因子／02 有風險因子・沒症狀／03 輕度／04 中重度"],
+  visuals: ["右上角來源標籤「SOURCE ／ COAST 國際共識（Cachon 等，2023）」", "大標第一行：「由國際獸醫專家團隊提出」（白）", "大標第二行：「COAST 犬骨關節炎分期工具：」（橘）", "示意圖卡片標籤「COAST 分期概念」", "四個由低到高的灰色階梯方塊：01 沒有風險因子／02 有風險因子・沒症狀／03 輕度臨床徵象／04 中重度臨床徵象"],
   motions: ["61.6 秒｜上一個大標往上退出", "61.8 秒｜舊來源標籤與時間軸淡出", "62.3 秒｜新來源標籤淡入；示意圖換成階梯；大標第一行冒出", "65.6 秒｜大標第二行冒出", "65.8 秒｜四個方塊由左到右依序浮上來"],
   mount: [
     { into: '#S3-text', html: `
-      <div class="h abs" style="left:72px;top:196px;font-size:92px" id="h3b"><span class="ln"><span id="h3b1">COAST 國際共識：</span></span><span class="ln"><span id="h3b2" class="o">四個階段，看的是風險。</span></span></div>
+      <div class="h abs" style="left:72px;top:196px;font-size:92px" id="h3b"><span class="ln"><span id="h3b1">由國際獸醫專家團隊提出</span></span><span class="ln"><span id="h3b2" class="o">COAST 犬骨關節炎分期工具：</span></span></div>
       <div class="src" id="src2">SOURCE ／ COAST 國際共識（Cachon 等，2023）</div>` },
     { into: '#LB', html: `
-      <div class="k plabel">示意圖 ・ COAST 分期概念</div>
+      <div class="k plabel">COAST 分期概念</div>
       <div class="blk" id="b1" style="left:140px;height:140px"><div class="n">01</div><div class="t">沒有風險因子</div></div>
       <div class="blk" id="b2" style="left:520px;height:200px"><div class="n">02</div><div class="t">有風險因子・沒症狀</div></div>
-      <div class="blk" id="b3" style="left:900px;height:260px"><div class="n">03</div><div class="t">輕度</div></div>
-      <div class="blk" id="b4" style="left:1280px;height:320px"><div class="n">04</div><div class="t">中重度</div></div>` },
+      <div class="blk" id="b3" style="left:900px;height:260px"><div class="n">03</div><div class="t">輕度臨床徵象</div></div>
+      <div class="blk" id="b4" style="left:1280px;height:320px"><div class="n">04</div><div class="t">中重度臨床徵象</div></div>` },
   ],
   init() {
     gsap.set('#LB', { opacity: 0 });

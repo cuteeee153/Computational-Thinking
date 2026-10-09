@@ -6,18 +6,17 @@ Intro.scene({
   narration: [[45.8, 49.18, '美國動物醫院協會的指引指出，']],
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 49.2,
-  visuals: ["深色背景，淡淡的方格線", "左上角頻道名稱變成白字", "小標「03 ／ 為什麼問錯」", "右上角來源標籤「SOURCE ／ AAHA《Mobility Matters》」", "大標第一行：「關節的基礎，」（白）", "下方示意圖卡片，左上角標籤「示意圖 ・ 狗的一生」", "時間軸上四隻狗：幼犬、青壯年、中年、老年"],
+  visuals: ["深色背景，淡淡的方格線", "左上角頻道名稱變成白字", "小標「03 ／ 為什麼問題問錯了？」", "右上角來源標籤「SOURCE ／ AAHA《Mobility Matters》」", "大標第一行：「美國動物醫院協會（AAHA）關節照護指引」（白）", "下方示意圖卡片", "時間軸上四隻狗：幼犬、青壯年、中年、老年"],
   motions: ["45.0 秒｜深色畫面由下往上蓋過前一格，約 0.85 秒", "45.4 秒｜頻道名稱變白", "45.7 秒｜小標逐字打出", "46.0 秒｜來源標籤淡入", "46.3 秒｜大標第一行冒出", "46.7 秒｜示意圖卡片浮上來", "47.1 秒｜時間軸由左往右畫出", "47.4 秒｜四隻狗依序彈出，下方年齡標字淡入"],
   mount: [
     { into: '#chrome', html: `
       <div class="logo" id="logo"><i id="paw"></i>狗關節保養</div>
       <div class="tagline">不是幾歲．是風險等級</div>` },
     { into: '#S3-text', html: `
-      <div class="abs" style="left:72px;top:140px"><div class="eyebrow" id="e3" data-text="03 ／ 為什麼問錯"></div></div>
-      <div class="h abs" style="left:72px;top:196px;font-size:92px" id="h3a"><span class="ln"><span id="h3a1">關節的基礎，</span></span></div>
+      <div class="abs" style="left:72px;top:140px"><div class="eyebrow" id="e3" data-text="03 ／ 為什麼問題問錯了？"></div></div>
+      <div class="h abs" style="left:72px;top:196px;font-size:80px" id="h3a"><span class="ln"><span id="h3a1">美國動物醫院協會（AAHA）關節照護指引</span></span></div>
       <div class="src" id="src1">SOURCE ／ AAHA《Mobility Matters》</div>` },
     { into: '#LA', html: `
-      <div class="k plabel">示意圖 ・ 狗的一生</div>
       <div class="abs" style="left:140px;top:328px;width:1500px;height:5px;border-radius:3px;background:#E7DCCD" id="axisA"></div>
       <div class="abs" style="left:175px;top:236px;width:90px" id="dP"></div>
       <div class="abs" style="left:590px;top:180px;width:140px" id="dY"></div>

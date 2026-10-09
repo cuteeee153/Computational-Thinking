@@ -6,18 +6,17 @@ Intro.scene({
   narration: [[142.7, 145.97, '有一項以上，是加強留意組：'], [146.27, 148.72, '就算現在完全沒跛，'], [149.02, 152.83, '也建議提早、更頻繁地健檢追蹤。']],
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 154.0,
-  visuals: ["往右下的橘色分岔線，標籤「一項以上」（橘字）", "右下卡片：「GROUP B ・ ≥ 1 項」「加強留意組」（橘），右上角橘色折角，右下角放大鏡圖示", "重點一：「! 就算現在完全沒跛，」", "重點二：「✓ 也建議提早、更頻繁地健檢追蹤」", "左邊的基礎預防組卡片變淡"],
+  visuals: ["往右下的橘色分岔線，標籤「一項以上」（橘字）", "右下卡片：「加強留意組」（橘），右上角橘色折角，右下角放大鏡圖示", "重點一：「! 就算現在完全沒跛行或僵硬」", "重點二：「✓ 也建議提早、更頻繁的健檢追蹤」", "左邊的基礎預防組卡片變淡"],
   motions: ["142.5 秒｜基礎預防組變淡", "142.7 秒｜橘色分岔線往右下畫出", "142.9 秒｜狗往右歪頭", "143.0 秒｜「一項以上」彈出", "143.3 秒｜「加強留意組」卡片浮上來", "143.7 秒｜橘色折角彈開", "146.3 秒｜重點一由左滑入", "149.0 秒｜重點二由左滑入", "149.6 秒｜加強留意組卡片浮起、加上橘框", "150.5 秒起｜狗輕輕上下晃，停格到 2:40"],
   mount: [
-    { into: '#branches', html: `<path id="brR" d="M960 372 L960 420 Q960 440 980 440 L1390 440 Q1410 440 1410 460 L1410 530" stroke="#F97316" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` },
+    { into: '#branches', html: `<path id="brR" d="M960 392 L960 420 Q960 440 980 440 L1390 440 Q1410 440 1410 460 L1410 530" stroke="#F97316" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` },
     { into: '#S4-flow', html: `
       <div class="brl" style="left:1185px;top:440px;color:var(--or);border-color:#F3A46B" id="brlR">一項以上</div>
       <div class="grp card" id="gB" style="left:1000px">
         <div class="fold" id="gBfold"></div>
-        <div class="k">GROUP B ・ ≥ 1 項</div>
         <div class="ttl o">加強留意組</div>
-        <div class="bl" id="b1x"><i style="background:#FDE6D5;color:var(--or)">!</i>就算現在完全沒跛，</div>
-        <div class="bl" id="b2x"><i style="background:var(--or-b);color:#fff">✓</i>也建議提早、更頻繁地健檢追蹤</div>
+        <div class="bl" id="b1x"><i style="background:#FDE6D5;color:var(--or)">!</i>就算現在完全沒跛行或僵硬</div>
+        <div class="bl" id="b2x"><i style="background:var(--or-b);color:#fff">✓</i>也建議提早、更頻繁的健檢追蹤</div>
         <div class="abs" style="right:40px;bottom:36px;width:140px" id="gBic"></div>
       </div>` },
   ],
