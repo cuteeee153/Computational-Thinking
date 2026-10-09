@@ -6,10 +6,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
+import { W } from './timing/timing.mjs';
 
 const here = path.dirname(new URL(import.meta.url).pathname);
 const args = process.argv.slice(2), flag = args.find(a => a === '--list'), out = args.find(a => a !== '--list');
-const SR = 48000, LEN = 160;
+const SR = 48000, LEN = Math.ceil(W(160) * 100) / 100;   // 秒數寫設計時間，合成時用 W() 換成成片時間
 
 const scenes = [];
 for (const part of ['intro', 'part2']) {
@@ -18,7 +19,7 @@ for (const part of ['intro', 'part2']) {
     vm.runInNewContext(fs.readFileSync(path.join(dir, f), 'utf8'), { Intro: { scene: d => scenes.push(d) } });
 }
 scenes.sort((a, b) => a.start - b.start);
-const cues = scenes.flatMap(s => (s.sfx || []).map(([t, kind, label, o = {}]) => ({ scene: s.id, t, kind, label, ...o })));
+const cues = scenes.flatMap(s => (s.sfx || []).map(([t, kind, label, o = {}]) => ({ scene: s.id, t: W(t), kind, label, ...o })));
 if (flag === '--list') { for (const c of cues) console.log(`幕 ${c.scene}  ${c.t.toFixed(2).padStart(6)}  ${c.kind.padEnd(10)} ${c.label}`); process.exit(0); }
 if (!out) { console.error('用法：node build-sfx.mjs <輸出.wav> [--list]'); process.exit(1); }
 
@@ -122,7 +123,7 @@ const SOUNDS = {
 };
 
 // ---------- 混音 ----------
-const mix = new Float32Array(LEN * SR);
+const mix = new Float32Array(Math.round(LEN * SR));
 for (const c of cues) {
   const make = SOUNDS[c.kind];
   if (!make) throw new Error(`幕 ${c.scene}：不認得的音效種類 ${c.kind}`);

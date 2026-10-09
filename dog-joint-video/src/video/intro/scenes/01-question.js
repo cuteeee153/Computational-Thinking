@@ -3,7 +3,6 @@
 // 卡片後方的背景浮出「7 歲？」標籤。
 Intro.scene({
   id: '01', title: '開場：問題與文章 A（七歲）', start: 0, end: 2.8,
-  narration: [[0.5, 2.6, '七歲才要顧關節？']],
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 2.6,
   visuals: ["左上角頻道 logo 與名稱「汪探｜WanTan」，右上角標語「不是幾歲．是風險等級」", "畫面中央一張聊天卡片，標題「犬助理」，左邊是狗的大頭貼", "使用者泡泡：「狗關節保養，到底幾歲開始？」", "回答泡泡：「文章 A：7 歲以後才要開始顧關節。」", "卡片左側背景的標籤「7 歲？」"],
@@ -20,7 +19,7 @@ Intro.scene({
       <div class="tagline" id="tagline">不是幾歲．是風險等級</div>` },
     { into: '#A-bg', html: `<div class="bigchip" id="c7" style="left:190px;top:300px"><b>7</b>歲？</div>` },
     { into: '#A-card', html: `
-      <div class="card abs" id="chat" style="left:1110px;top:150px;width:740px;height:830px">
+      <div class="card abs" id="chat" style="left:1110px;top:150px;width:740px;height:780px">
         <div style="display:flex;align-items:center;gap:22px;padding:34px 40px;border-bottom:1.5px solid var(--line)">
           <div style="width:76px;height:76px;border-radius:50%;background:#F6E3CC;overflow:hidden"><div style="width:76px;height:76px" id="dogA"></div></div>
           <div style="position:relative"><div style="font-weight:700;font-size:32px">犬助理</div>

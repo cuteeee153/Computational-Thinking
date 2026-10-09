@@ -2,11 +2,14 @@
 // 每一幕是 intro/scenes/ 裡的一個檔案，用 Intro.scene({...}) 註冊：
 //   id, title       幕號與名稱
 //   start, end      這一幕在整支影片中的秒數（只用來預覽與對照，動畫本身寫絕對秒數）
-//   narration       [[開始秒, 結束秒, '旁白'], ...]，SRT 由這裡產生
 //   mount           [{ into: '#容器', html: '...', at: 'beforeend' | 'afterbegin' }, ...]
 //   assets()        掛上版面後要動態填入的內容（狗、圖示）
 //   init(ctx)       gsap.set 初始狀態
 //   animate(ctx)    排動畫；ctx.L(selector, vars, 秒數) 等同 tl.to
+//
+// 時間：各幕檔案裡寫的是「設計時間」，經過 W()（timing/warp.json 的對照點）換成「成片時間」再排進時間軸，
+// 這樣旁白錄好之後，只要調對照點，動畫就會整段跟著旁白移動，動畫本身的長度不變。
+// 旁白字幕（window.CAPTIONS，成片時間）由 build-timing.mjs 產生，顯示在畫面最下方。
 (function () {
   // start／duration：這一頁負責的影片時段（0:45–2:40 那頁在載入各幕前設成 45／160）
   const Intro = window.Intro = { scenes: [], typers: [], start: 0, duration: 45 };
@@ -22,10 +25,29 @@
 
   Intro.scene = def => Intro.scenes.push(def);
 
+  // 設計時間 → 成片時間
+  const W = Intro.W = t => {
+    const a = window.WARP || [[0, 0]];
+    if (t <= a[0][0]) return t - a[0][0] + a[0][1];
+    for (let i = 1; i < a.length; i++)
+      if (t <= a[i][0]) return a[i - 1][1] + (t - a[i - 1][0]) * (a[i][1] - a[i - 1][1]) / (a[i][0] - a[i - 1][0]);
+    return t - a[a.length - 1][0] + a[a.length - 1][1];
+  };
+
+  // 字幕：畫面最下方，前後 0.12 秒淡入淡出
+  let capEl = null;
+  function renderCaption(t) {
+    if (!capEl) return;
+    const c = (window.CAPTIONS || []).find(c => t >= c[0] && t < c[1]);
+    if (!c) { capEl.style.opacity = 0; return; }
+    if (capEl.textContent !== c[2]) capEl.textContent = c[2];
+    capEl.style.opacity = Math.min(1, (t - c[0]) / .12, (c[1] - t) / .12);
+  }
+
   // 打字效果直接由時間算出，不靠 GSAP callback，逐格輸出才會精準。
   function type(el, start, dur) {
     el = typeof el === 'string' ? document.querySelector(el) : el;
-    Intro.typers.push({ el, text: el.dataset.text, start, dur });
+    Intro.typers.push({ el, text: el.dataset.text, start: W(start), dur });
   }
   function renderTypers(t) {
     for (const y of Intro.typers) {
@@ -44,16 +66,20 @@
 
     // 2. 初始狀態全部設好之後，才開始排動畫
     const tl = gsap.timeline({ paused: true });
-    const ctx = { tl, E: 'power3.out', L: (sel, vars, at) => tl.to(sel, vars, at), type };
+    // 各幕只會用到 tl.to／tl.fromTo；位置參數一律換成成片時間
+    const wtl = { to: (s, v, at) => tl.to(s, v, W(at)), fromTo: (s, a, b, at) => tl.fromTo(s, a, b, W(at)) };
+    const ctx = { tl: wtl, E: 'power3.out', L: (sel, vars, at) => tl.to(sel, vars, W(at)), type };
+    capEl = document.createElement('div'); capEl.id = 'caption'; document.querySelector('#stage').appendChild(capEl);
     for (const sc of scenes) sc.init && sc.init(ctx);
     for (const sc of scenes) sc.animate && sc.animate(ctx);
-    tl.to({}, { duration: .01 }, Intro.duration);
+    tl.to({}, { duration: .01 }, W(Intro.duration));
 
-    window.START = Intro.start; window.DURATION = Intro.duration;
-    window.seek = t => { tl.seek(t, false); renderTypers(t); hud(t); };
-    window.SCENES = scenes.map(({ id, title, start, end, narration }) => ({ id, title, start, end, narration }));
-    seek(Intro.start);
-    preview(scenes);
+    // 影片輸出與預覽都用成片時間
+    window.START = W(Intro.start); window.DURATION = W(Intro.duration);
+    window.seek = t => { tl.seek(t, false); renderTypers(t); renderCaption(t); hud(t); };
+    window.SCENES = scenes.map(({ id, title, start, end }) => ({ id, title, start: W(start), end: W(end) }));
+    seek(START);
+    preview(window.SCENES);
   };
 
   // ---------- 預覽模式（輸出影片時不帶參數，不會啟動） ----------
@@ -65,24 +91,23 @@
   function hud(t) {
     if (!hudEl) return;
     const sc = hudScenes.find(s => t >= s.start && t < s.end) || hudScenes[hudScenes.length - 1];
-    const line = (sc.narration || []).find(n => t >= n[0] && t <= n[1]);
-    hudEl.innerHTML = `<b>幕 ${sc.id}</b>　${sc.title}　<span>${t.toFixed(2)}s</span>${line ? `<br>🎙 ${line[2]}` : ''}`;
+    hudEl.innerHTML = `<b>幕 ${sc.id}</b>　${sc.title}　<span>${t.toFixed(2)}s</span>`;
   }
   function preview(scenes) {
     const q = new URLSearchParams(location.search);
     if (q.has('hud')) {
       hudScenes = scenes;
       hudEl = document.createElement('div');
-      hudEl.style.cssText = 'position:fixed;left:16px;bottom:16px;z-index:999;padding:10px 16px;border-radius:12px;background:rgba(35,27,21,.85);color:#fff;font:500 20px/1.5 "Noto Sans TC";';
+      hudEl.style.cssText = 'position:fixed;left:16px;top:16px;z-index:999;padding:10px 16px;border-radius:12px;background:rgba(35,27,21,.85);color:#fff;font:500 20px/1.5 "Noto Sans TC";';
       document.body.appendChild(hudEl);
-      hud(Intro.start);
+      hud(START);
     }
     if (q.has('t')) return seek(+q.get('t'));
-    let from = Intro.start, to = Intro.duration, loop = false;
+    let from = START, to = DURATION, loop = false;
     if (q.has('scene')) {
       const sc = scenes.find(s => s.id === q.get('scene').padStart(2, '0'));
       if (!sc) return;
-      from = Math.max(Intro.start, sc.start - .5); to = Math.min(Intro.duration, sc.end + .5); loop = true;
+      from = Math.max(START, sc.start - .5); to = Math.min(DURATION, sc.end + .5); loop = true;
     } else if (!q.has('play')) return;
     let t0 = null;
     requestAnimationFrame(function step(now) {

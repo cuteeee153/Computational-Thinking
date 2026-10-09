@@ -1,21 +1,22 @@
 // 背景音樂：輕柔的 lo-fi 木琴小曲，全部用程式合成（無素材、無授權問題）。
 // 用法：node build-music.mjs <輸出.wav>
 //
-// 速度 85.33 BPM，一小節 2.8125 秒，讓段落切換剛好落在影片的轉場上：
+// 一小節約 2.83 秒（85 BPM 左右），小節長度＝0:45 轉場的成片時間 ÷ 16，讓段落切換落在影片的轉場上
+// （以下時間是設計時間，實際依 timing/warp.json 換算）：
 //   第 1–7 小節（0:00–0:19.7）     鉤子段：只有電鋼琴和弦＋木琴，溫暖安靜
 //   第 8–16 小節（0:19.7–0:45）    知識段：加入輕鼓、貝斯、沙鈴，節奏出來
 //   第 17–35 小節（0:45–1:38.4）   深色段：改成小調和弦，鼓只留大鼓，木琴降八度、音變少
 //   第 36–55 小節（1:38.4–2:34.7） 第一步：回到大調，完整節奏，旋律變化版
 //   第 56 小節起（2:34.7–2:40）    最後一個和弦延音、淡出
-// 每一句旁白出現時，音樂自動降低約 3 dB（ducking），之後錄旁白時不會打架。
+// 每一句旁白（timing/narration.json 的字幕時間）出現時，音樂自動降低約 6 dB（ducking），讓出旁白。
 import fs from 'node:fs';
 import path from 'node:path';
-import vm from 'node:vm';
+import { W, NARR } from './timing/timing.mjs';
 
 const here = path.dirname(new URL(import.meta.url).pathname);
 const out = process.argv[2];
 if (!out) { console.error('用法：node build-music.mjs <輸出.wav>'); process.exit(1); }
-const SR = 48000, LEN = 160, BAR = 2.8125, BEAT = BAR / 4, E8 = BEAT / 2, SWING = .09;
+const SR = 48000, LEN = Math.ceil(W(160) * 100) / 100, BAR = W(45) / 16, BEAT = BAR / 4, E8 = BEAT / 2, SWING = .09;
 const L = new Float32Array(LEN * SR), R = new Float32Array(LEN * SR);
 
 let seed = 777;
@@ -128,14 +129,8 @@ for (let bar = 0; bar < 57; bar++) {
 { const lp = onePole(3000); for (let i = 0; i < L.length; i++) { const c = lp(noise()) * .004 + (rnd() < .00004 ? noise() * .05 : 0); L[i] += c; R[i] += c; } }
 
 // ---------- 旁白時自動降音量、頭尾淡入淡出 ----------
-const lines = [];
-for (const part of ['intro', 'part2']) {
-  const dir = path.join(here, part, 'scenes');
-  for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.js')).sort())
-    vm.runInNewContext(fs.readFileSync(path.join(dir, f), 'utf8'), { Intro: { scene: d => lines.push(...d.narration) } });
-}
 const duck = new Float32Array(L.length).fill(1);
-for (const [a, b] of lines) for (let i = Math.round((a - .25) * SR); i < Math.round((b + .3) * SR) && i < duck.length; i++) if (i >= 0) duck[i] = .7;
+for (const [a, b] of NARR.captions) for (let i = Math.round((a - .25) * SR); i < Math.round((b + .3) * SR) && i < duck.length; i++) if (i >= 0) duck[i] = .5;
 let g = 1;
 for (let i = 0; i < L.length; i++) {
   g += (duck[i] - g) * .00012;                       // 約 0.2 秒平滑
@@ -150,4 +145,4 @@ h.write('RIFF', 0); h.writeUInt32LE(36 + data.length, 4); h.write('WAVE', 8); h.
 h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(2, 22); h.writeUInt32LE(SR, 24);
 h.writeUInt32LE(SR * 4, 28); h.writeUInt16LE(4, 32); h.writeUInt16LE(16, 34); h.write('data', 36); h.writeUInt32LE(data.length, 40);
 fs.writeFileSync(out, Buffer.concat([h, data]));
-console.log(`背景音樂 ${LEN} 秒 → ${out}`);
+console.log(`背景音樂 ${LEN.toFixed(2)} 秒 → ${out}`);

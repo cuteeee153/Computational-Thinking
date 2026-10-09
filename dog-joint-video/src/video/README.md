@@ -14,6 +14,26 @@ Claude 處理流程（給之後的 session）：
 - 需求不清楚時，把該則設成 `status: "question"` 並在 `reply` 寫問題，不要猜。
 - 改完：重新輸出有改到的那段影片（改了幕 14 的結尾畫面要同時更新 `intro-last.png` 並重出 0:45–2:40）→ `node build-srt.mjs intro|part2|all` 更新三份 SRT → 串接整支 → `node build-storyboard.mjs <整支影片> <分鏡板資料夾> "<這版改了什麼>"` → 以同一個 URL 重新發佈分鏡板（含 frames/、clips/）→ 把處理過的需求設成 `done`（`doneIn` 填新版本號，`reply` 寫改了什麼）。
 
+## 旁白與字幕（成片時間）
+
+旁白錄音 → 對時 → 動畫跟著旁白移動 → 字幕顯示在畫面最下方。
+
+```
+narration/narration-tts.txt          旁白稿（給 AI 配音用的純文字）
+narration/scene-map.json             旁白稿每一段屬於哪一幕（依序拼起來＝旁白稿全文）
+narration/audio/*.mp3                錄好的旁白（ElevenLabs）
+narration/align.py                   加速（預設 1.5 倍）＋依停頓和旁白稿逐句對時 → narration/audio/timeline.json
+src/video/timing/warp.json           時間對照表：[設計時間, 成片時間]（手動依 timeline.json 設定）
+src/video/build-timing.mjs           產生 timing/narration.json（字幕、各幕旁白）與 timing/timing.js（頁面載入）
+```
+
+- 各幕檔案裡的秒數是「設計時間」；引擎排動畫時用 `Intro.W()` 換成「成片時間」，動畫長度不變、只移動開始時間。
+  分鏡板、SRT、音效、音樂都用成片時間。
+- 換新錄音：`python3 ../../narration/align.py <mp3> ../../narration/narration-tts.txt ../../narration/audio --speed 1.5`
+  → 看輸出的每句時間，調整 `timing/warp.json` 的對照點（把每幕的關鍵動作對到該句旁白開始）→ `node build-timing.mjs` → 重新輸出。
+- 沒有語音辨識：對時靠停頓＋字數，換錄音後要看一下輸出的句子時間是否合理。
+- 混音：旁白 ×1.12、背景音樂（旁白時自動降 6 dB）、音效 ×0.65，最後 alimiter。
+
 ## 音效
 
 - 每一幕檔案裡的 `sfx: [[秒數, '種類', '說明', { gain, pitch, dur }], ...]`；分鏡板的「音效 N」就是這個陣列的第 N 項。
@@ -28,7 +48,7 @@ Claude 處理流程（給之後的 session）：
 
 - `node build-music.mjs <輸出.wav>`：lo-fi 木琴小曲，全部程式合成。段落、和弦、旋律寫在檔案開頭的註解與 `MAJOR`／`MINOR`／`MEL_*`。
 - 速度 85.33 BPM（一小節 2.8125 秒），段落切換對齊 0:19.7（加入節奏）、0:45（深色段改小調）、1:38.4（回到大調）。
-- 每句旁白（各幕 `narration`）出現時自動降約 3 dB；平均音量約 -29 dB，當旁白的墊底。
+- 每句旁白（`timing/narration.json` 的字幕時間）出現時自動降約 6 dB；平均音量約 -29 dB，當旁白的墊底。
 
 ### 合成聲音、放進影片
 
@@ -78,7 +98,6 @@ build-srt.mjs           由各幕的旁白產生 SRT
 ```js
 Intro.scene({
   id: '05', title: '輸入框「到底要聽誰的？」', start: 13.0, end: 15.4,
-  narration: [[13.2, 15.2, '只想知道一件事：']],        // 字幕也從這裡產生
   mount: [{ into: '#容器', html: `...` }],             // 這一幕新增的版面
   assets() { ... },                                    // 動態填入（狗、圖示）
   init() { gsap.set(...) },                            // 初始狀態

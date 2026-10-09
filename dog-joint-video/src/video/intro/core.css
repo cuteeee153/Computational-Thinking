@@ -42,3 +42,6 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
 .fn{position:absolute;font-size:20px;color:#8E8073;line-height:1.6}
 .bigchip{position:absolute;display:inline-flex;align-items:baseline;gap:8px;padding:22px 42px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:44px;box-shadow:0 30px 50px -24px rgba(107,74,42,.45)}
 .bigchip b{font-family:'Bricolage Grotesque';font-weight:800;font-size:84px;color:var(--or);line-height:1}
+
+/* 旁白字幕：畫面最下方置中 */
+#caption{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;padding:10px 30px;border-radius:14px;background:rgba(36,28,23,.8);color:#FFF8EF;font-weight:700;font-size:38px;line-height:1.35;letter-spacing:.03em;white-space:nowrap;opacity:0;pointer-events:none}

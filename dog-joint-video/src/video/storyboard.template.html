@@ -161,7 +161,7 @@ const sceneHTML = s => `
     </div>
     <div class="info">
       <div class="sh"><span class="sid">幕 ${s.id}</span><h3>${esc(s.title)}</h3><span class="tc">${fmtT(s.start)}–${fmtT(s.end)} 秒（${fmtM(s.start)}–${fmtM(s.end)}）</span></div>
-      <div class="sub"><small>字幕</small>${s.narration ? s.narrationTimes.map(n => `${esc(n[2])} <span class="tc" style="margin:0">(${fmtT(n[0])}–${fmtT(n[1])})</span>`).join('<br>') : '（這一幕沒有旁白）'}</div>
+      <div class="sub"><small>旁白・字幕</small>${s.narration ? s.narrationTimes.map(n => `${esc(n[2])} <span class="tc" style="margin:0">${n[0] == null ? '（尚未錄音）' : `(${fmtT(n[0])}–${fmtT(n[1])})`}</span>`).join('<br>') : '（這一幕沒有旁白）'}</div>
       <div class="lists">
         <div><h4>畫面</h4><ol>${s.visuals.map((v, i) => `<li><button type="button" data-ref="${s.id}|畫面 ${i + 1}" data-desc="${esc(v)}"><i>畫面${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
         <div><h4>動畫</h4><ol>${s.motions.map((v, i) => `<li><button type="button" data-ref="${s.id}|動畫 ${i + 1}" data-desc="${esc(v)}"><i>動畫${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>

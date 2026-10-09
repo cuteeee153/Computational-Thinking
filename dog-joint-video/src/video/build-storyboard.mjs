@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import { execFileSync } from 'node:child_process';
+import { W, NARR } from './timing/timing.mjs';
 import { chromium } from '/opt/node-tools/node_modules/playwright/index.mjs';
 
 const here = path.dirname(new URL(import.meta.url).pathname);
@@ -36,7 +37,7 @@ for (const part of PARTS) {
   await p.evaluate(() => document.fonts.ready);
   await p.waitForTimeout(500);
   for (const s of scenes.filter(s => s.part === part.id)) {
-    await p.evaluate(t => seek(t), s.key);
+    await p.evaluate(t => seek(t), W(s.key));
     await p.screenshot({ path: path.join(out, 'frames', s.id + '.jpg'), type: 'jpeg', quality: 86 });
   }
   await p.close();
@@ -45,7 +46,7 @@ await b.close();
 
 // 預覽短片：從成品影片切出每一幕
 for (const s of scenes)
-  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', String(s.start), '-to', String(s.end), '-i', video,
+  execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', String(W(s.start)), '-to', String(W(s.end)), '-i', video,
     '-vf', 'scale=960:-2', '-c:v', 'libx264', '-crf', '27', '-preset', 'slow', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart',
     path.join(out, 'clips', s.id + '.mp4')]);
 
@@ -54,9 +55,17 @@ const data = {
   version: (prev?.version || 0) + 1,
   updatedAt: new Date().toISOString(),
   note,
-  parts: PARTS.map(({ id, label, start, end }) => ({ id, label, start, end })),
-  scenes: scenes.map(({ id, title, start, end, narration, visuals, motions, sfx = [], file, part }) =>
-    ({ id, title, start, end, file, part, sfx: sfx.map(([t, kind, label]) => `${t.toFixed(1)} 秒｜${label}`), narration: narration.map(n => n[2]).join(''), narrationTimes: narration, visuals, motions })),
+  parts: PARTS.map(({ id, label, start, end }) => ({ id, label, start: W(start), end: W(end) })),
+  // 分鏡板上顯示的秒數一律是成片時間（動畫、音效說明開頭的「X 秒」也換算）
+  scenes: scenes.map(({ id, title, start, end, visuals, motions, sfx = [], file, part }) => {
+    const narr = (NARR.scenes[id] || []);
+    return {
+      id, title, start: +W(start).toFixed(2), end: +W(end).toFixed(2), file, part, visuals,
+      motions: motions.map(m => m.replace(/^([\d.]+) 秒/, (_, t) => `${W(+t).toFixed(1)} 秒`)),
+      sfx: sfx.map(([t, kind, label]) => `${W(t).toFixed(1)} 秒｜${label}`),
+      narration: narr.map(n => n[2]).join(''), narrationTimes: narr,
+    };
+  }),
 };
 fs.writeFileSync(path.join(out, 'storyboard.json'), JSON.stringify(data, null, 1));
 // 分鏡頁：把資料直接寫進頁面，打開就是完整內容
