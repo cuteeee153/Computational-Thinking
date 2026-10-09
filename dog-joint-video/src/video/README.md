@@ -24,6 +24,22 @@ Claude 處理流程（給之後的 session）：
 - 輸出：先輸出無聲畫面，再把 `video/sfx-0000-0240.wav` 合進三支 mp4（0:45–2:40 從音軌的 45 秒開始取）。
 - 整體音量刻意偏小（峰值約 -5 dB），留空間給之後加的旁白。
 
+## 背景音樂
+
+- `node build-music.mjs <輸出.wav>`：lo-fi 木琴小曲，全部程式合成。段落、和弦、旋律寫在檔案開頭的註解與 `MAJOR`／`MINOR`／`MEL_*`。
+- 速度 85.33 BPM（一小節 2.8125 秒），段落切換對齊 0:19.7（加入節奏）、0:45（深色段改小調）、1:38.4（回到大調）。
+- 每句旁白（各幕 `narration`）出現時自動降約 3 dB；平均音量約 -29 dB，當旁白的墊底。
+
+### 合成聲音、放進影片
+
+```
+node build-sfx.mjs ../../video/sfx-0000-0240.wav
+node build-music.mjs ../../video/music-0000-0240.wav
+ffmpeg -i ../../video/sfx-0000-0240.wav -i ../../video/music-0000-0240.wav \
+  -filter_complex "[0][1]amix=inputs=2:normalize=0,alimiter=limit=0.89" mix.wav
+# 無聲畫面 + mix.wav → 三支 mp4（0:45–2:40 用 -ss 45 從音軌 45 秒開始取）
+```
+
 ## 狗
 
 - `assets/dogs/`：使用者提供的黑柴插畫，從 `assets/dogs/source/black-shiba-sheet.jpg` 用 `assets/dogs/cut.py` 去背切出（背景白從邊緣灌水判斷，狗身上的白毛保留）。
