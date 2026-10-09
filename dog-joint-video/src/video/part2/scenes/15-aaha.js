@@ -6,11 +6,11 @@ Intro.scene({
   narration: [[45.8, 49.18, '美國動物醫院協會的指引指出，']],
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 49.2,
-  visuals: ["深色背景，淡淡的方格線", "左上角頻道名稱變成白字", "小標「03 ／ 為什麼問題問錯了？」", "右上角來源標籤「SOURCE ／ AAHA《Mobility Matters》」", "大標第一行：「美國動物醫院協會（AAHA）關節照護指引」（白）", "下方示意圖卡片", "時間軸上四隻狗：幼犬、青壯年、中年、老年"],
+  visuals: ["深色背景，淡淡的方格線", "左上角頻道名稱「汪探｜WanTan」變成白字（logo 在米色圓底上）", "小標「03 ／ 為什麼問題問錯了？」", "右上角來源標籤「SOURCE ／ AAHA《Mobility Matters》」", "大標第一行：「美國動物醫院協會（AAHA）關節照護指引」（白）", "下方示意圖卡片", "時間軸上四隻狗：幼犬、青壯年、中年、老年"],
   motions: ["45.0 秒｜深色畫面由下往上蓋過前一格，約 0.85 秒", "45.4 秒｜頻道名稱變白", "45.7 秒｜小標逐字打出", "46.0 秒｜來源標籤淡入", "46.3 秒｜大標第一行冒出", "46.7 秒｜示意圖卡片浮上來", "47.1 秒｜時間軸由左往右畫出", "47.4 秒｜四隻狗依序彈出，下方年齡標字淡入"],
   mount: [
     { into: '#chrome', html: `
-      <div class="logo" id="logo"><i id="paw"></i>狗關節保養</div>
+      <div class="logo" id="logo"><i><img src="brand/wantan-logo.svg" alt=""></i>汪探<span class="sep">｜</span>WanTan</div>
       <div class="tagline">不是幾歲．是風險等級</div>` },
     { into: '#S3-text', html: `
       <div class="abs" style="left:72px;top:140px"><div class="eyebrow" id="e3" data-text="03 ／ 為什麼問題問錯了？"></div></div>
@@ -25,7 +25,6 @@ Intro.scene({
       <div class="stop" style="left:220px" id="st1">幼犬</div><div class="stop" style="left:660px" id="st2">青壯年</div><div class="stop" style="left:1100px" id="st3">中年</div><div class="stop" style="left:1540px" id="st4">老年</div>` },
   ],
   assets() {
-    paw.innerHTML = '<div style="width:24px;height:24px">' + iconPaw('#fff') + '</div>';
     Intro.dog('#dP', { id: 'p', mood: 'happy' });
     Intro.dog('#dY', { id: 'y', mood: 'happy', tilt: 4 });
     Intro.dog('#dM', { id: 'm', mood: 'curious', tilt: -4 });

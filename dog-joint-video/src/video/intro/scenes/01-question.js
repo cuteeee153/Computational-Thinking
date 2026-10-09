@@ -6,11 +6,11 @@ Intro.scene({
   narration: [[0.5, 2.6, '七歲才要顧關節？']],
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 2.6,
-  visuals: ["左上角頻道名稱「狗關節保養」，右上角標語「不是幾歲．是風險等級」", "畫面中央一張聊天卡片，標題「犬助理」，左邊是狗的大頭貼", "使用者泡泡：「狗關節保養，到底幾歲開始？」", "回答泡泡：「文章 A：7 歲以後才要開始顧關節。」", "卡片左側背景的標籤「7 歲？」"],
+  visuals: ["左上角頻道 logo 與名稱「汪探｜WanTan」，右上角標語「不是幾歲．是風險等級」", "畫面中央一張聊天卡片，標題「犬助理」，左邊是狗的大頭貼", "使用者泡泡：「狗關節保養，到底幾歲開始？」", "回答泡泡：「文章 A：7 歲以後才要開始顧關節。」", "卡片左側背景的標籤「7 歲？」"],
   motions: ["0.1 秒｜頻道名稱和標語由上往下淡入", "0.15 秒｜聊天卡片從下方浮上來", "0.45 秒｜使用者泡泡彈出", "0.85 秒｜出現「輸入中」三個點並跳動", "1.55 秒｜文章 A 泡泡彈出", "2.1 秒｜背景標籤「7 歲？」彈出，之後緩慢上下漂移", "2.3 秒｜卡片小字從「正在搜尋⋯」換成「搜尋了 3 篇文章」"],
   mount: [
     { into: '#chrome', html: `
-      <div class="logo" id="logo"><i id="paw"></i>狗關節保養</div>
+      <div class="logo" id="logo"><i><img src="brand/wantan-logo.svg" alt=""></i>汪探<span class="sep">｜</span>WanTan</div>
       <div class="tagline" id="tagline">不是幾歲．是風險等級</div>` },
     { into: '#A-bg', html: `<div class="bigchip" id="c7" style="left:190px;top:300px"><b>7</b>歲？</div>` },
     { into: '#A-card', html: `
@@ -33,7 +33,6 @@ Intro.scene({
   ],
   assets() {
     Intro.dog('#dogA', { id: 'da', tilt: -10, mood: 'curious' });
-    paw.innerHTML = '<div style="width:24px;height:24px">' + iconPaw('#fff') + '</div>';
     av.innerHTML = '<div style="width:32px;height:32px">' + iconPaw('#fff') + '</div>';
   },
   init() {

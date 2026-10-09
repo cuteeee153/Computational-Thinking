@@ -57,6 +57,7 @@ Intro.scene({
 - 後面的幕可以把內容放進前面幕建立的容器（例如第 02 幕把文章 B 放進第 01 幕的 `#answers`）。
 - 改某一句旁白的時間：同時改該幕 `narration` 和 `animate` 裡對應的秒數，再重新產生 SRT。
 - 換成自家狗：只改 `intro/engine.js` 的 `Intro.DOG`。
+- 頻道 logo：`brand/wantan-logo.svg`（使用者提供的原稿），左上角放在米色圓底上，深色段也看得清楚；樣式在兩份 core.css 的 `.logo`。
 
 ### 預覽與輸出
 
