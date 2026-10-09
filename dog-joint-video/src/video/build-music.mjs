@@ -1,13 +1,13 @@
-// 背景音樂：輕柔的 lo-fi 木琴小曲，全部用程式合成（無素材、無授權問題）。
+// 背景音樂：輕快的木琴小曲（lo-fi 底），全部用程式合成（無素材、無授權問題）。
 // 用法：node build-music.mjs <輸出.wav>
 //
-// 一小節約 2.83 秒（85 BPM 左右），小節長度＝0:45 轉場的成片時間 ÷ 16，讓段落切換落在影片的轉場上
+// 一小節約 2.46 秒（98 BPM 左右），小節長度＝0:45 轉場的成片時間 ÷ 整數小節，讓段落切換落在影片的轉場上
 // （以下時間是設計時間，實際依 timing/warp.json 換算）：
-//   第 1–7 小節（0:00–0:19.7）     鉤子段：只有電鋼琴和弦＋木琴，溫暖安靜
-//   第 8–16 小節（0:19.7–0:45）    知識段：加入輕鼓、貝斯、沙鈴，節奏出來
-//   第 17–35 小節（0:45–1:38.4）   深色段：改成小調和弦，鼓只留大鼓，木琴降八度、音變少
-//   第 36–55 小節（1:38.4–2:34.7） 第一步：回到大調，完整節奏，旋律變化版
-//   第 56 小節起（2:34.7–2:40）    最後一個和弦延音、淡出
+//   鉤子段（0:00–0:19.7）  電鋼琴和弦＋木琴＋彈指、沙鈴，輕快但不吵
+//   知識段（0:19.7–0:45）  加入鼓、拍手、跳動的八分音符貝斯，節奏出來
+//   深色段（0:45–1:38.4）  改成小調和弦，鼓組簡化但保持律動，木琴降八度
+//   第一步（1:38.4–結尾）  回到大調，完整節奏＋十六分音符沙鈴，旋律變化版
+//   最後一個和弦延音、淡出
 // 每一句旁白（timing/narration.json 的字幕時間）出現時，音樂自動降低約 6 dB（ducking），讓出旁白。
 import fs from 'node:fs';
 import path from 'node:path';
@@ -17,8 +17,8 @@ const here = path.dirname(new URL(import.meta.url).pathname);
 const out = process.argv[2];
 if (!out) { console.error('用法：node build-music.mjs <輸出.wav>'); process.exit(1); }
 const SR = 48000, LEN = Math.ceil(W(160) * 100) / 100;
-// 小節長度：讓 0:45（深色段）轉場剛好落在小節線上，速度維持在 85 BPM 左右
-const DARK_BAR = Math.round(W(45) / 2.8125), BAR = W(45) / DARK_BAR, BEAT = BAR / 4, E8 = BEAT / 2, SWING = .09;
+// 小節長度：讓 0:45（深色段）轉場剛好落在小節線上，速度維持在 98 BPM 左右
+const DARK_BAR = Math.round(W(45) / 2.45), BAR = W(45) / DARK_BAR, BEAT = BAR / 4, E8 = BEAT / 2, SWING = .04;
 // 段落切換（成片時間 → 小節）：鉤子段結束、深色段開始、第一步開始、最後一個和弦
 const CORE_BAR = Math.round(W(19.7) / BAR), STEP_BAR = Math.round(W(98.4) / BAR), END_BAR = Math.floor((LEN - 4.5) / BAR);
 const L = new Float32Array(LEN * SR), R = new Float32Array(LEN * SR);
@@ -71,7 +71,10 @@ function bass(m, dur) {
 function kick() { const n = Math.round(.35 * SR), b = new Float32Array(n); let ph = 0; for (let i = 0; i < n; i++) { const t = i / SR; ph += 2 * Math.PI * (45 + 80 * Math.exp(-t / .03)) / SR; b[i] = Math.sin(ph) * Math.exp(-t / .11); } return b; }
 function snare() { const n = Math.round(.25 * SR), b = new Float32Array(n), lp = onePole(2600); for (let i = 0; i < n; i++) { const t = i / SR; b[i] = lp(noise()) * Math.exp(-t / .06) * 1.6 + Math.sin(2 * Math.PI * 190 * t) * Math.exp(-t / .03) * .3; } return b; }
 function hat() { const n = Math.round(.06 * SR), b = new Float32Array(n), lp = onePole(9000); let prev = 0; for (let i = 0; i < n; i++) { const t = i / SR, x = noise(); const hp = x - prev; prev = x; b[i] = lp(hp) * Math.exp(-t / .015); } return b; }
-const KICK = kick(), SNARE = snare(), HAT = hat();
+function clap() { const n = Math.round(.2 * SR), b = new Float32Array(n), lp = onePole(3500); let prev = 0; for (let i = 0; i < n; i++) { const t = i / SR, x = noise(), hp = x - prev; prev = x; const burst = [0, .008, .016].reduce((s, d) => s + (t >= d ? Math.exp(-(t - d) / (d < .016 ? .004 : .05)) : 0), 0); b[i] = lp(hp) * burst; } return b; }
+function snap() { const n = Math.round(.08 * SR), b = new Float32Array(n), lp = onePole(5000); let prev = 0; for (let i = 0; i < n; i++) { const t = i / SR, x = noise(), hp = x - prev; prev = x; b[i] = lp(hp) * Math.exp(-t / .012) * 1.4 + Math.sin(2 * Math.PI * 1800 * t) * Math.exp(-t / .006) * .3; } return b; }
+function shaker() { const n = Math.round(.09 * SR), b = new Float32Array(n), lp = onePole(7000); let prev = 0; for (let i = 0; i < n; i++) { const t = i / SR, x = noise(), hp = x - prev; prev = x; b[i] = lp(hp) * Math.min(1, t / .02) * Math.exp(-t / .03); } return b; }
+const KICK = kick(), SNARE = snare(), HAT = hat(), CLAP = clap(), SNAP = snap(), SHAKER = shaker();
 
 // ---------- 曲子 ----------
 const MAJOR = [ // Fmaj7 – Em7 – Dm7 – Cmaj9（各一小節）
@@ -114,18 +117,32 @@ for (let bar = 0; bar <= END_BAR; bar++) {
   const mel = sec === 'dark' ? MEL_DARK : (sec === 'step' && Math.floor(bar / 4) % 2 ? MEL_B : (sec === 'core' && bar % 8 >= 4 ? MEL_B : MEL_A));
   const vol = sec === 'hook' ? .17 : sec === 'dark' ? .13 : .16;
   for (const [k, m, v] of mel[bar % 4]) put(marimba(m, v), eighth(bar, k), vol, .15);
+  // 知識段、第一步：每個旋律音後面跟一個高八度的小回音，聽起來更跳
+  if (sec === 'core' || sec === 'step') for (const [k, m, v] of mel[bar % 4]) put(marimba(m + 12, v * .6), eighth(bar, k) + E8, vol * .35, -.25);
   // 鉤子段最後一小節：木琴往上爬，帶進節奏
   if (bar === CORE_BAR - 1) [72, 74, 76, 79].forEach((m, i) => put(marimba(m, .6 + i * .1), eighth(bar, 4 + i), .13, .2));
-  // 節奏（鉤子段沒有）
-  if (sec === 'hook') continue;
-  put(KICK, t0, .32); put(KICK, t0 + 2 * BEAT + (sec === 'dark' ? 0 : E8 + SWING * E8 * 2), sec === 'dark' ? .22 : .26);
+  const S16 = BEAT / 4;
+  // 鉤子段：彈指在 2、4 拍，沙鈴八分音符，輕輕把節奏帶起來
+  if (sec === 'hook') {
+    if (bar >= 2) { put(SNAP, t0 + BEAT, .1, .25); put(SNAP, t0 + 3 * BEAT, .1, .25); }
+    if (bar >= 4) for (let k = 0; k < 8; k++) put(SHAKER, eighth(bar, k), k % 2 ? .04 : .025, -.35);
+    if (bar >= 4) put(bass(ch.root, BEAT * 1.6), t0, .14);
+    continue;
+  }
   if (sec !== 'dark') {
-    put(SNARE, t0 + BEAT, .07, .1); put(SNARE, t0 + 3 * BEAT, .07, .1);
-    for (let k = 0; k < 8; k++) put(HAT, eighth(bar, k), k % 2 ? .035 : .05, -.3);
-    put(bass(ch.root, BEAT * 1.6), t0, .2); put(bass(ch.root, BEAT * .8), t0 + 2.5 * BEAT, .14); put(bass(ch.root + 7, BEAT), t0 + 3 * BEAT, .12);
+    // 大鼓：1、2&、3、4& 的跳躍型；小鼓＋拍手在 2、4 拍
+    put(KICK, t0, .34); put(KICK, t0 + BEAT + E8, .2); put(KICK, t0 + 2 * BEAT, .3); put(KICK, t0 + 3 * BEAT + E8, .18);
+    put(SNARE, t0 + BEAT, .09, .1); put(SNARE, t0 + 3 * BEAT, .09, .1);
+    put(CLAP, t0 + BEAT, .12, -.1); put(CLAP, t0 + 3 * BEAT, .12, -.1);
+    for (let k = 0; k < 8; k++) put(HAT, eighth(bar, k), k % 2 ? .04 : .055, -.3);
+    if (sec === 'step') for (let k = 0; k < 16; k++) put(SHAKER, t0 + k * S16, k % 4 === 2 ? .045 : .025, .35);
+    // 貝斯：八分音符根音、八度跳動
+    [0, 1, 2, 3, 4, 5, 6, 7].forEach(k => put(bass(ch.root + (k % 4 === 3 ? 12 : k === 6 ? 7 : 0), E8 * .85), eighth(bar, k), k % 2 ? .12 : .17));
   } else {
-    put(bass(ch.root, BEAT * 3.5), t0, .17);
-    for (let k = 0; k < 8; k += 2) put(HAT, eighth(bar, k), .02, -.3);
+    put(KICK, t0, .3); put(KICK, t0 + 2 * BEAT + E8, .22);
+    put(SNAP, t0 + BEAT, .07, .2); put(SNAP, t0 + 3 * BEAT, .07, .2);
+    put(bass(ch.root, BEAT * 1.6), t0, .17); put(bass(ch.root + 7, BEAT * .8), t0 + 2.5 * BEAT, .11);
+    for (let k = 0; k < 8; k++) put(HAT, eighth(bar, k), k % 2 ? .02 : .03, -.3);
   }
 }
 

@@ -4,7 +4,7 @@ Intro.scene({
   id: '24', title: '五類風險因子（04–05）', start: 118.9, end: 128.7,
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 128.0,
-  visuals: ["卡片 04：家族圖示＋「狗爸、狗媽有髖、肘關節發育不良」", "卡片 05：飯碗圖示＋「幼犬期快速生長或營養失衡」"],
+  visuals: ["卡片 04：家族圖示＋「狗爸、狗媽／髖肘關節發育不良」", "卡片 05：飯碗圖示＋「幼犬期快速生長或營養失衡」"],
   motions: ["119.1 秒｜卡片 04 浮上來", "123.5 秒｜卡片 05 浮上來"],
   sfx: [
     [119.09, "pop-card", "卡片 04 浮上：「啵」", { pitch: 1.34 }],
@@ -12,7 +12,7 @@ Intro.scene({
   ],
   mount: [
     { into: '#rfs', html: `
-      <div class="rf card" id="rf3" style="left:1152px"><div class="num">04</div><div class="ic" id="rfi3"></div><div class="tt" id="rft3">狗爸、狗媽有髖、<br>肘關節發育不良</div></div>
+      <div class="rf card" id="rf3" style="left:1152px"><div class="num">04</div><div class="ic" id="rfi3"></div><div class="tt" id="rft3">狗爸、狗媽<br>髖肘關節發育不良</div></div>
       <div class="rf card" id="rf4" style="left:1512px"><div class="num">05</div><div class="ic" id="rfi4"></div><div class="tt" id="rft4">幼犬期快速生長<br>或營養失衡</div></div>` },
   ],
   assets() {
