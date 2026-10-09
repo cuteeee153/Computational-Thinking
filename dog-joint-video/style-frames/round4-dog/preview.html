@@ -1,0 +1,9 @@
+<!doctype html><meta charset="utf-8"><body style="margin:0;background:#F7EFE4;display:grid;grid-template-columns:repeat(3,400px);gap:20px;padding:20px">
+<script src="shiba.js"></script>
+<script>
+for (const s of ['A','B','C']) {
+  const d=document.createElement('div');
+  d.innerHTML=`<div style="width:400px">${shibaSit('s'+s,s)}</div><div style="width:400px">${shibaStand('t'+s,s)}</div><div style="width:160px;height:160px;border-radius:50%;overflow:hidden;background:#F6E3CC">${shibaAvatar('a'+s,s)}</div>`;
+  document.body.appendChild(d);
+}
+</script>
