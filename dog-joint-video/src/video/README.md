@@ -10,7 +10,7 @@
 
 Claude 處理流程（給之後的 session）：
 - 用 ArtifactData `list` 讀分鏡板資料庫的 `requests` 集合，取 `status: "new"` 的需求（欄位：scene、text、status、reply、createdAt）。
-- 「畫面 N／動畫 N」對應該幕檔案（幕 01–14 在 `intro/scenes/`，幕 15–26 在 `part2/scenes/`）裡 `visuals`／`motions` 陣列的第 N 項；改動畫時同步更新這兩個白話說明與 `narration`。
+- 「畫面 N／動畫 N」對應該幕檔案（幕 01–14 在 `intro/scenes/`，幕 15–26 在 `part2/scenes/`）裡 `visuals`／`motions` 陣列的第 N 項；改動畫時同步更新這兩個白話說明。旁白改在 `narration/` 與 `timing/warp.json`（見下方「旁白與字幕」）。
 - 需求不清楚時，把該則設成 `status: "question"` 並在 `reply` 寫問題，不要猜。
 - 改完：重新輸出有改到的那段影片（改了幕 14 的結尾畫面要同時更新 `intro-last.png` 並重出 0:45–2:40）→ `node build-srt.mjs intro|part2|all` 更新三份 SRT → 串接整支 → `node build-storyboard.mjs <整支影片> <分鏡板資料夾> "<這版改了什麼>"` → 以同一個 URL 重新發佈分鏡板（含 frames/、clips/）→ 把處理過的需求設成 `done`（`doneIn` 填新版本號，`reply` 寫改了什麼）。
 
@@ -106,7 +106,7 @@ Intro.scene({
 ```
 
 - 後面的幕可以把內容放進前面幕建立的容器（例如第 02 幕把文章 B 放進第 01 幕的 `#answers`）。
-- 改某一句旁白的時間：同時改該幕 `narration` 和 `animate` 裡對應的秒數，再重新產生 SRT。
+- 旁白與動畫的對時：改 `timing/warp.json`，不用改各幕的秒數。
 - 頻道 logo：`brand/wantan-logo.svg`（使用者提供的原稿），左上角放在米色圓底上，深色段也看得清楚；樣式在兩份 core.css 的 `.logo`。
 
 ### 預覽與輸出
