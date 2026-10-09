@@ -66,6 +66,23 @@ h1{font-size:clamp(26px,4vw,36px);font-weight:900;letter-spacing:-.02em;margin:0
 .lists .sfx{grid-column:1/-1}
 .lists .sfx ol{grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr))}
 .lists .none{margin:0;font-size:13.5px;color:var(--sub)}
+/* 字幕（可編輯） */
+.sub .lines{margin:2px 0 0;padding:0;list-style:none}
+.sub .lines li{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.sub .lines .tc{margin:0}
+.sub .edited{display:inline-block;margin-left:6px;font:700 11px var(--mono);padding:1px 8px;border-radius:999px;background:var(--ask-soft);color:var(--ask);letter-spacing:.04em}
+.sub .acts{display:flex;gap:12px;margin-top:6px}
+.sub .acts button,.export button.link{all:unset;cursor:pointer;font-size:13px;color:var(--accent);text-decoration:underline}
+.sub .acts button:focus-visible,.export button.link:focus-visible{outline:2px solid var(--accent)}
+.sub textarea{margin-top:6px;min-height:110px;font-size:15px}
+.sub .orig{margin-top:6px;font-size:12.5px;color:var(--sub);white-space:pre-wrap}
+.export{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:20px}
+.export h2{font-size:18px;margin:0 0 4px}
+.export p{margin:0 0 10px;color:var(--sub);font-size:14px}
+.export .row{gap:10px}
+.export .ghost{all:unset;cursor:pointer;font-weight:700;font-size:14.5px;padding:7px 16px;border-radius:999px;border:1.5px solid var(--accent);color:var(--accent)}
+.export .ghost:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.export textarea{margin-top:10px;min-height:220px;font-size:14px}
 /* 修改需求 */
 .req{margin-top:16px}
 .reqs{display:grid;gap:8px;margin-bottom:10px}
@@ -107,13 +124,13 @@ html{scroll-behavior:smooth}
 
 <div class="wrap">
   <header>
-    <h1>狗關節影片分鏡板｜0:00–2:40</h1>
+    <h1>狗關節影片分鏡板｜0:00–4:05</h1>
     <div class="meta" id="meta"></div>
   </header>
 
   <section class="how" aria-label="使用方式">
-    <div><span class="n">1 看</span><b>點影片看這一幕</b>右邊列出這一幕有哪些畫面元素、每個動畫幾秒出現、配哪一句字幕和哪些音效（影片有聲音，記得開喇叭）。</div>
-    <div><span class="n">2 寫</span><b>用一般的話寫下想怎麼改</b>點清單裡的項目會自動帶入編號和原本的描述，你只要寫「改成」什麼；不點項目直接描述也可以。</div>
+    <div><span class="n">1 看</span><b>點影片看這一幕</b>右邊列出這一幕有哪些畫面元素、每個動畫幾秒出現、配哪一句字幕和哪些音效（0:00–2:02 有聲音，記得開喇叭；第二、三步還沒有聲音）。</div>
+    <div><span class="n">2 寫</span><b>用一般的話寫下想怎麼改</b>點清單裡的項目會自動帶入編號和原本的描述，你只要寫「改成」什麼。字幕可以直接按「改字幕」修改。</div>
     <div><span class="n">3 交給 Claude</span><b>在對話裡說「分鏡板有新需求」</b>Claude 會照著改、重新輸出，並在每則需求下面回覆改了什麼。</div>
   </section>
 
@@ -121,8 +138,20 @@ html{scroll-behavior:smooth}
 
   <nav class="tl" aria-label="時間軸">
     <div id="tlbar"></div>
-    <div class="tl-legend">每格是一幕，寬度代表長短（每一列各自比例）。橘色＝有還沒處理的修改需求。</div>
+    <div class="tl-legend">每格是一幕，寬度代表長短（每一列各自比例）。橘色＝有還沒處理的修改需求或改過的字幕。</div>
   </nav>
+
+  <section class="export" id="export">
+    <h2>字幕匯出</h2>
+    <p>每一幕的旁白字幕都可以在下面按「改字幕」直接修改（一行一句）。改好後按這裡匯出 txt，會用你改過的版本；沒改的幕用原本的字幕。</p>
+    <div class="row">
+      <button class="send" type="button" data-export="plain">匯出字幕 txt</button>
+      <button class="ghost" type="button" data-export="scenes">匯出 txt（含幕號）</button>
+      <span class="status" id="exSt"></span>
+    </div>
+    <label for="exText" hidden>匯出的字幕</label>
+    <textarea id="exText" readonly hidden></textarea>
+  </section>
 
   <section class="global" id="all">
     <h2>整體修改</h2>
@@ -161,7 +190,7 @@ const sceneHTML = s => `
     </div>
     <div class="info">
       <div class="sh"><span class="sid">幕 ${s.id}</span><h3>${esc(s.title)}</h3><span class="tc">${fmtT(s.start)}–${fmtT(s.end)} 秒（${fmtM(s.start)}–${fmtM(s.end)}）</span></div>
-      <div class="sub"><small>旁白・字幕</small>${s.narration ? s.narrationTimes.map(n => `${esc(n[2])} <span class="tc" style="margin:0">${n[0] == null ? '（尚未錄音）' : `(${fmtT(n[0])}–${fmtT(n[1])})`}</span>`).join('<br>') : '（這一幕沒有旁白）'}</div>
+      <div class="sub" data-sub="${s.id}"></div>
       <div class="lists">
         <div><h4>畫面</h4><ol>${s.visuals.map((v, i) => `<li><button type="button" data-ref="${s.id}|畫面 ${i + 1}" data-desc="${esc(v)}"><i>畫面${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
         <div><h4>動畫</h4><ol>${s.motions.map((v, i) => `<li><button type="button" data-ref="${s.id}|動畫 ${i + 1}" data-desc="${esc(v)}"><i>動畫${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
@@ -202,6 +231,69 @@ document.querySelectorAll('textarea').forEach(ta => {
   ta.addEventListener('input', () => { try { localStorage.setItem(DRAFT + ta.id, ta.value); } catch {} });
 });
 
+// ---------- 字幕：原本的字幕＋改過的版本（存在 subtitles 資料表，一幕一筆） ----------
+const toLines = t => (t || '').replace(/([。？！；])/g, '$1\n').split('\n').map(x => x.trim()).filter(Boolean);
+// 原稿的每一段（scene-map 的片段）各自斷行，沒有標點的行也不會黏在一起
+const ORIG = Object.fromEntries(BOARD.scenes.map(s => [s.id, (s.narrationTimes || []).flatMap(n => toLines(n[2])).join('\n')]));
+let EDITS = {};               // scene → { text, _id }（只放還沒套用的修改）
+const editing = new Set();
+let subsCol = null;
+const curText = id => EDITS[id] ? EDITS[id].text : ORIG[id];
+function renderSub(id) {
+  const box = document.querySelector(`[data-sub="${id}"]`); if (!box) return;
+  const s = BOARD.scenes.find(x => x.id === id), ed = EDITS[id];
+  if (editing.has(id)) {
+    const ta = box.querySelector('textarea');
+    if (ta) return;           // 正在編輯就不打斷
+    box.innerHTML = `<small>旁白・字幕｜編輯中</small>
+      <label for="subta-${id}" hidden>幕 ${id} 字幕</label>
+      <textarea id="subta-${id}" placeholder="一行一句。這一幕不要旁白就留空。">${esc(curText(id))}</textarea>
+      <div class="acts"><button type="button" data-subsave="${id}">儲存字幕</button><button type="button" data-subcancel="${id}">取消</button><span class="status" data-subst="${id}"></span></div>
+      ${ORIG[id] ? `<div class="orig">原本：${esc(ORIG[id])}</div>` : ''}`;
+    return;
+  }
+  const est = (s.narrationTimes || []).some(n => n[3] === 'est');
+  let body;
+  if (ed) body = `<ol class="lines">${toLines(ed.text).map(l => `<li>${esc(l)}</li>`).join('') || '<li>（改成沒有旁白）</li>'}</ol>`;
+  else if (s.narration) body = `<ol class="lines">${s.narrationTimes.map(n => `<li>${esc(n[2])} <span class="tc">${n[0] == null ? '（尚未錄音）' : `(${fmtT(n[0])}–${fmtT(n[1])}${est ? '，預估' : ''})`}</span></li>`).join('')}</ol>`;
+  else body = '<p class="none" style="margin:0">（這一幕沒有旁白）</p>';
+  box.innerHTML = `<small>旁白・字幕${est && !ed ? '｜還沒錄音，時間是預估' : ''}${ed ? '<span class="edited">已修改・等 Claude 套用</span>' : ''}</small>${body}
+    ${subsCol ? `<div class="acts"><button type="button" data-subedit="${id}">改字幕</button>${ed ? `<button type="button" data-subreset="${id}">還原成原本的字幕</button>` : ''}</div>` : ''}`;
+}
+const renderSubs = () => BOARD.scenes.forEach(s => renderSub(s.id));
+renderSubs();
+
+// 匯出：一行一句；「含幕號」每一幕前面加【幕 NN｜標題】
+function exportText(mode) {
+  const out = [];
+  for (const p of PARTS) {
+    const block = [];
+    for (const s of inPart(p)) {
+      const lines = toLines(curText(s.id));
+      if (mode === 'scenes') { block.push(`【幕 ${s.id}｜${s.title}】`, ...(lines.length ? lines : ['（沒有旁白）']), ''); }
+      else block.push(...lines);
+    }
+    if (mode === 'scenes') out.push(`＝＝ ${p.label} ＝＝`, '', ...block);
+    else out.push(...block, '');
+  }
+  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-export]'); if (!b) return;
+  const text = exportText(b.dataset.export), st = $('#exSt');
+  const name = `狗關節保養-字幕${b.dataset.export === 'scenes' ? '-含幕號' : ''}-v${BOARD.version}.txt`;
+  const dl = await window.claude?.use?.('downloads');
+  const showText = msg => { const ta = $('#exText'); ta.hidden = false; ta.value = text; ta.focus(); ta.select(); st.textContent = msg; };
+  if (!dl) return showText('這個檢視不能直接下載，字幕已經放在下面，可以全選複製後存成 txt。');
+  st.textContent = '準備下載…';
+  try { await dl.save({ filename: name, data: text }); st.textContent = '已下載：' + name; }
+  catch (err) {
+    if (err?.code === 'declined') st.textContent = '已取消下載。';
+    else if (err?.code === 'rate_limited') st.textContent = '下載視窗已經開著，請先處理那一個。';
+    else showText('下載沒有成功，字幕已經放在下面，可以全選複製後存成 txt。');
+  }
+});
+
 const LABEL = { new: '等 Claude 處理', done: '已改好', question: 'Claude 想確認', skip: '這次不改' };
 function renderRequests(docs) {
   const by = {};
@@ -217,8 +309,14 @@ function renderRequests(docs) {
         ${r.reply ? `<div class="reply"><b>Claude：</b>${esc(r.reply)}</div>` : ''}
       </div>`).join('');
   });
-  const pending = {};
-  for (const d of docs) if (d.status === 'new' || d.status === 'question') pending[d.scene] = (pending[d.scene] || 0) + 1;
+  REQ_PENDING = {};
+  for (const d of docs) if (d.status === 'new' || d.status === 'question') REQ_PENDING[d.scene] = (REQ_PENDING[d.scene] || 0) + 1;
+  markPending();
+}
+let REQ_PENDING = {};
+function markPending() {
+  const pending = { ...REQ_PENDING };
+  for (const id in EDITS) pending[id] = (pending[id] || 0) + 1;
   document.querySelectorAll('[data-tl]').forEach(a => {
     const n = pending[a.dataset.tl] || 0;
     a.classList.toggle('has', n > 0);
@@ -230,6 +328,29 @@ function renderRequests(docs) {
   const db = await window.claude?.use?.('db');
   if (!db) { document.body.classList.add('nodb'); return; }
   const col = db.collection('requests');
+  subsCol = db.collection('subtitles');
+  renderSubs();
+  subsCol.onSnapshot(snap => {
+    EDITS = {};
+    for (const d of snap.docs) { const v = d.data(); if (v.status !== 'applied' && BOARD.scenes.some(s => s.id === d.id)) EDITS[d.id] = { text: v.text || '', _id: d.id }; }
+    renderSubs(); markPending();
+  }, () => {});
+  document.addEventListener('click', async e => {
+    const ed = e.target.closest('[data-subedit]'), sv = e.target.closest('[data-subsave]'), cc = e.target.closest('[data-subcancel]'), rs = e.target.closest('[data-subreset]');
+    if (ed) { editing.add(ed.dataset.subedit); renderSub(ed.dataset.subedit); const ta = $('#subta-' + ed.dataset.subedit); ta?.focus(); }
+    if (cc) { editing.delete(cc.dataset.subcancel); const box = document.querySelector(`[data-sub="${cc.dataset.subcancel}"]`); box.innerHTML = ''; renderSub(cc.dataset.subcancel); }
+    if (sv) {
+      const id = sv.dataset.subsave, ta = $('#subta-' + id), st = document.querySelector(`[data-subst="${id}"]`);
+      const text = toLines(ta.value).join('\n');
+      sv.disabled = true; st.textContent = '儲存中…';
+      try {
+        if (text === ORIG[id]) await subsCol.doc(id).delete().catch(() => {});
+        else await subsCol.doc(id).set({ scene: id, text, status: 'edited', updatedAt: new Date().toISOString(), boardVersion: BOARD.version });
+        editing.delete(id); const box = document.querySelector(`[data-sub="${id}"]`); box.innerHTML = ''; renderSub(id);
+      } catch (err) { st.textContent = err?.code === 'invalid_argument' ? '你目前的權限不能改字幕。' : '沒存到，請再按一次。'; sv.disabled = false; }
+    }
+    if (rs) { rs.textContent = '還原中…'; try { await subsCol.doc(rs.dataset.subreset).delete(); } catch { rs.textContent = '還原失敗，再試一次'; } }
+  });
   col.orderBy('createdAt').onSnapshot(
     snap => renderRequests(snap.docs.map(d => ({ ...d.data(), _id: d.id }))),
     () => document.body.classList.add('nodb'));

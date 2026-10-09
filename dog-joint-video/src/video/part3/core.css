@@ -1,0 +1,24 @@
+/* 2:40–4:05 第二步、第三步：在 part2/core.css 之上，只放這一段新增的元件。 */
+#S5,#S6{background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg)}
+#S5{box-shadow:-40px 0 80px rgba(60,40,20,.18)}
+#S6{box-shadow:0 -40px 80px rgba(60,40,20,.14)}
+/* 徵兆卡：沿用 .rf 的尺寸；左上角的小標籤 */
+.badge{position:absolute;right:22px;top:28px;padding:6px 14px;border-radius:999px;background:var(--or-b);color:#fff;font-size:20px;font-weight:700;white-space:nowrap}
+.src.lt{color:#8F8377;border-color:var(--line);background:#FFFBF6}
+.lbl{position:absolute;transform:translateX(-50%);font-size:30px;font-weight:700;white-space:nowrap;color:var(--mute)}
+.stamp{position:absolute;padding:20px 40px;border:6px solid #E2620E;border-radius:22px;font-size:66px;font-weight:900;color:#E2620E;letter-spacing:-.02em;white-space:nowrap}
+.say{position:absolute;padding:20px 36px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:40px;font-weight:700;box-shadow:0 14px 28px -16px rgba(107,74,42,.45);white-space:nowrap}
+.say .x{position:absolute;left:24px;right:24px;top:50%;height:5px;border-radius:3px;background:#E2620E;transform-origin:0 50%}
+.node{position:absolute;left:960px;top:228px;transform:translateX(-50%);padding:16px 34px;border-radius:999px;background:var(--ink);color:#FFF6EC;font-size:34px;font-weight:700;white-space:nowrap}
+.node b{font-family:'Space Mono';color:var(--or-l);margin-right:14px;font-size:26px}
+/* 第三步：三張「該做的事」卡 */
+.do{position:absolute;top:478px;width:568px;height:476px;padding:34px 38px;overflow:hidden}
+.do .tag{display:inline-block;padding:6px 16px;border-radius:999px;font-size:22px;font-weight:700;background:#F1E8DC;color:#8F8377;white-space:nowrap}
+.do .ttl{font-size:54px;font-weight:900;letter-spacing:-.04em;margin-top:14px}
+.do .ic{position:absolute;right:26px;top:22px;width:110px;height:110px}
+.do .bl{font-size:28px;margin-top:18px;gap:14px}
+.do .bl i{width:34px;height:34px;font-size:18px}
+.step{position:absolute;top:560px;width:568px;height:300px;padding:40px 44px;display:flex;flex-direction:column;justify-content:center;gap:26px}
+.step .ck{width:84px;height:84px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--or-b);color:#fff;font-size:44px;font-weight:900}
+.step .n{font-family:'Space Mono';font-weight:700;font-size:20px;letter-spacing:.16em;color:var(--or)}
+.step .t{font-size:44px;font-weight:900;letter-spacing:-.03em;white-space:nowrap;margin-top:4px}

@@ -1,0 +1,45 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>汪探 WanTan｜狗關節保養 2:40–4:05</title>
+<!-- 這一頁只負責圖層；每一幕的版面與動畫在 part3/scenes/ 裡，一幕一個檔案。共用樣式沿用 part2/core.css。 -->
+<link rel="stylesheet" href="part2/core.css">
+<link rel="stylesheet" href="part3/core.css">
+</head><body>
+<div id="stage">
+  <div id="chrome"></div>
+  <!-- 接續 2:40 的最後一格（由 part2.html 停在 2:40 截圖） -->
+  <img class="scene" src="part2-last.png" style="z-index:0">
+
+  <!-- 2:40–3:20 第二步（米色，由右滑進來）：文字 → 五張徵兆卡 → 中間示意 → 分岔 -->
+  <section class="scene" id="S5" style="z-index:2">
+    <div id="S5-text"></div>
+    <div id="sg"></div>
+    <div id="S5-mid"></div>
+    <div id="S5-flow"></div>
+  </section>
+
+  <!-- 3:20–4:05 第三步（米色，由下往上蓋）：文字 → 三張「該做的事」卡 → 回顧 -->
+  <section class="scene" id="S6" style="z-index:3">
+    <div id="S6-text"></div>
+    <div id="dos"></div>
+    <div id="S6-mid"></div>
+  </section>
+</div>
+
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="icons.js"></script>
+<script src="timing/timing.js"></script>
+<script src="intro/engine.js"></script>
+<script>Intro.start = 160; Intro.duration = 245;</script>
+<script src="part3/scenes/27-step-two.js"></script>
+<script src="part3/scenes/28-signs-1.js"></script>
+<script src="part3/scenes/29-signs-2.js"></script>
+<script src="part3/scenes/30-few-seconds.js"></script>
+<script src="part3/scenes/31-self-comfort.js"></script>
+<script src="part3/scenes/32-branch.js"></script>
+<script src="part3/scenes/33-step-three.js"></script>
+<script src="part3/scenes/34-do-basic.js"></script>
+<script src="part3/scenes/35-do-track.js"></script>
+<script src="part3/scenes/36-do-vet.js"></script>
+<script src="part3/scenes/37-not-supplement-first.js"></script>
+<script>Intro.boot();</script>
+</body></html>

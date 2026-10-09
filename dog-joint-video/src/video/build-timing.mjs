@@ -3,6 +3,7 @@
 // 讀：../../narration/audio/timeline-placed.json（align.py 對時＋place.py 插入停頓後，每一句旁白的成片時間）
 //     ../../narration/scene-map.json（旁白稿每一段屬於哪一幕）
 //     timing/warp.json（設計時間 → 成片時間的對照點）
+//     ../../narration/draft-part3.json（2:40 之後還沒錄音的旁白草稿：時間用已錄旁白的語速推算，標記為預估）
 // 寫：timing/narration.json（字幕、各幕旁白）與 timing/timing.js（給 intro.html／part2.html 載入）
 import fs from 'node:fs';
 import path from 'node:path';
@@ -29,6 +30,25 @@ for (const l of tl.lines) {
   }
   if (cur) captions.push(cur);
 }
+// 還沒錄音的段落（draft-part3.json）：照語速推算每個短句的設計時間，再換成成片時間
+const draft = JSON.parse(fs.readFileSync(path.join(N, 'draft-part3.json'), 'utf8'));
+const W = t => { const a = warp; if (t <= a[0][0]) return t - a[0][0] + a[0][1];
+  for (let i = 1; i < a.length; i++) if (t <= a[i][0]) return a[i - 1][1] + (t - a[i - 1][0]) * (a[i][1] - a[i - 1][1]) / (a[i][0] - a[i - 1][0]);
+  return t - a[a.length - 1][0] + a[a.length - 1][1]; };
+const estScenes = {}; let dt = draft.start;
+for (const sc of draft.scenes) {
+  dt += sc.pre; let cur = null; const ph = [];
+  for (const p of sc.text.match(/[^，。、：；？！]+[，。、：；？！]?/g) || []) {
+    const t0 = dt; dt += (p.match(/[一-鿿A-Za-z0-9]/g) || []).length / draft.rate; ph.push([W(t0), W(dt), p]);
+    dt += /[。？！；：]$/.test(p) ? draft.stopGap : draft.commaGap;
+  }
+  for (const [t0, t1, text] of ph) {
+    if (cur && !/[：。？！；]$/.test(cur.text) && (strip(cur.text) + text).length <= 18) { cur.text += text; cur.t1 = t1; }
+    else { if (cur) captions.push(cur); cur = { t0, t1, text, est: true }; }
+  }
+  if (cur) captions.push(cur);
+  estScenes[sc.scene] = [[+ph[0][0].toFixed(3), +ph[ph.length - 1][1].toFixed(3), sc.text, 'est']];
+}
 captions.forEach((c, i) => {
   const next = captions[i + 1];
   c.t1 = Math.min(c.t1 + .35, next ? next.t0 - .04 : Infinity);
@@ -44,7 +64,8 @@ for (const m of map) {
   (scenes[m.scene] ||= []).push([rec.length ? rec[0].t0 : null, rec.length === ps.length && rec.length ? rec[rec.length - 1].t1 : null, m.text]);
 }
 
-const out = { speed: tl.speed, offset: tl.offset, recordedUntil: captions.length ? captions[captions.length - 1].t1 : 0, captions: captions.map(c => [+c.t0.toFixed(3), +c.t1.toFixed(3), c.text]), scenes };
+Object.assign(scenes, estScenes);
+const out = { estimatedFrom: +W(draft.start).toFixed(3), speed: tl.speed, offset: tl.offset, recordedUntil: Math.max(0, ...captions.filter(c => !c.est).map(c => c.t1)), captions: captions.map(c => [+c.t0.toFixed(3), +c.t1.toFixed(3), c.text]), scenes };
 fs.writeFileSync(path.join(here, 'timing/narration.json'), JSON.stringify(out, null, 1));
 fs.writeFileSync(path.join(here, 'timing/timing.js'),
   `// 自動產生（node build-timing.mjs），不要手改：改 timing/warp.json 或重新對時\n` +

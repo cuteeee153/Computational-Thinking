@@ -1,16 +1,20 @@
 # 動畫原始檔
 
-## 用自然語言修改整支影片（分鏡修改板，0:00–2:40）
+## 用自然語言修改整支影片（分鏡修改板，0:00–4:05）
 
 分鏡修改板：https://claude.ai/artifact/CDtrVSLQYiUuPH9vPLkDDn
 
 1. 在分鏡板上看每一幕的預覽、畫面清單、動畫清單、字幕。
+   字幕可以在每一幕按「改字幕」直接修改（一行一句），上方「字幕匯出」可以下載 txt（只有字幕／含幕號），用的是改過的版本。
 2. 在該幕下方用一般的話寫修改需求並送出（可點清單項目帶入「畫面 2」「動畫 3」編號）；不屬於某一幕的寫在「整體修改」。
 3. 在對話裡告訴 Claude「分鏡板有新需求」。
 
 Claude 處理流程（給之後的 session）：
 - 用 ArtifactData `list` 讀分鏡板資料庫的 `requests` 集合，取 `status: "new"` 的需求（欄位：scene、text、status、reply、createdAt）。
-- 「畫面 N／動畫 N」對應該幕檔案（幕 01–14 在 `intro/scenes/`，幕 15–26 在 `part2/scenes/`）裡 `visuals`／`motions` 陣列的第 N 項；改動畫時同步更新這兩個白話說明。旁白改在 `narration/` 與 `timing/warp.json`（見下方「旁白與字幕」）。
+- 「畫面 N／動畫 N」對應該幕檔案（幕 01–14 在 `intro/scenes/`，幕 15–26 在 `part2/scenes/`，幕 27–37 在 `part3/scenes/`）裡 `visuals`／`motions` 陣列的第 N 項；改動畫時同步更新這兩個白話說明。旁白改在 `narration/` 與 `timing/warp.json`（見下方「旁白與字幕」）。
+- 字幕修改存在 `subtitles` 集合（文件 id＝幕號；欄位 scene、text（一行一句）、status、updatedAt）。取 `status: "edited"` 的：
+  幕 01–26 改 `narration/narration-tts.txt` 與 `scene-map.json`（已錄音的段落要提醒使用者重錄，否則聲音和字幕會對不上）；
+  幕 27 起改 `narration/draft-part3.json`。套用後把該筆設成 `status: "applied"`（分鏡板就會改回顯示新的原稿）。
 - 需求不清楚時，把該則設成 `status: "question"` 並在 `reply` 寫問題，不要猜。
 - 改完：重新輸出有改到的那段影片（改了幕 14 的結尾畫面要同時更新 `intro-last.png` 並重出 0:45–2:40）→ `node build-srt.mjs intro|part2|all` 更新三份 SRT → 串接整支 → `node build-storyboard.mjs <整支影片> <分鏡板資料夾> "<這版改了什麼>"` → 以同一個 URL 重新發佈分鏡板（含 frames/、clips/）→ 把處理過的需求設成 `done`（`doneIn` 填新版本號，`reply` 寫改了什麼）。
 
@@ -162,3 +166,30 @@ part2/scenes/NN-*.js    幕 15–26
 PAGE=part2.html node render.mjs video part2.mp4 30   # 輸出 0:45–2:40
 part2.html?scene=20&hud                               # 預覽單一幕
 ```
+
+## 2:40–4:05：第二步、第三步（還沒錄音）
+
+寫法相同；`part3.html` 設定 `Intro.start = 160`、`Intro.duration = 245`，開頭墊的 `part2-last.png` 是 `part2.html` 停在 W(160) 的畫面。
+這段還沒有旁白錄音、音效和音樂。旁白草稿在 `narration/draft-part3.json`（每幕一段＋開口前停頓），
+`build-timing.mjs` 用已錄旁白的語速（每秒約 7.3 字）推算字幕時間（標記為預估），動畫的秒數照這個預估寫。
+錄好音之後：把這段併進 `narration-tts.txt`／`scene-map.json` 重新對時，再用 `timing/warp.json` 把動畫對到真正的旁白。
+
+```
+part3.html              組合頁：圖層（第二步 S5、第三步 S6）
+part3/core.css          這段新增的樣式（其餘沿用 part2/core.css）
+part3/scenes/NN-*.js    幕 27–37
+```
+
+| 幕 | 時間（設計） | 內容 |
+|---|---|---|
+| 27 | 160.0–166.3 | 第二步：我的狗狗，有沒有蛛絲馬跡？ |
+| 28 | 166.3–171.5 | 五種蛛絲馬跡 01–02 |
+| 29 | 171.5–176.4 | 五種蛛絲馬跡 03–05 |
+| 30 | 176.4–182.4 | 只出現幾秒鐘，也不代表沒事 |
+| 31 | 182.4–189.7 | AAHA 提醒：別自我安慰 |
+| 32 | 189.7–200.0 | 沒徵兆留在原分組／有徵兆跳到第三步 |
+| 33 | 200.0–203.6 | 第三步：該做的事 |
+| 34 | 203.6–212.5 | 無風險因子・無徵兆：基礎保養 |
+| 35 | 212.5–224.9 | 有風險因子・無徵兆：提早追蹤 |
+| 36 | 224.9–232.8 | 出現任何徵兆：先看獸醫 |
+| 37 | 232.8–245.0 | 保健品不是先吃再說＋三步驟回顧、停格 |

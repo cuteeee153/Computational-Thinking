@@ -1,7 +1,8 @@
 // 產生「分鏡修改板」要用的素材：每一幕的資料、關鍵畫面、預覽短片。
-// 用法：node build-storyboard.mjs <整支 0:00–2:40 影片.mp4> <輸出資料夾> [版本說明]
-// 涵蓋兩段：intro/scenes/（0:00–0:45，intro.html）與 part2/scenes/（0:45–2:40，part2.html）
-// 輸出：storyboard.json、frames/NN.jpg（960×540）、clips/NN.mp4（960×540，含音效）
+// 用法：node build-storyboard.mjs <整支 0:00–4:05 影片.mp4> <輸出資料夾> [版本說明]
+// 涵蓋三段：intro/scenes/（0:00–0:45，intro.html）、part2/scenes/（0:45–2:40，part2.html）、part3/scenes/（2:40–4:05，part3.html）
+// （段落名稱用設計時間；分鏡板上每一幕的秒數是成片時間）
+// 輸出：storyboard.json、frames/NN.jpg（960×540）、clips/NN.mp4（960×540，有聲音的段落含旁白、音效、音樂）
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
@@ -18,6 +19,7 @@ fs.mkdirSync(path.join(out, 'clips'), { recursive: true });
 const PARTS = [
   { id: 'intro', label: '0:00–0:45　開場', page: 'intro.html', start: 0, end: 45 },
   { id: 'part2', label: '0:45–2:40　為什麼問錯・第一步', page: 'part2.html', start: 45, end: 160 },
+  { id: 'part3', label: '2:40–4:05　第二步・第三步', page: 'part3.html', start: 160, end: 245 },
 ];
 
 // 讀各幕設定（只取資料，不跑動畫）

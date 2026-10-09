@@ -1,7 +1,7 @@
 // 音效：讀每一幕的 sfx 清單，用程式合成每個音效、照秒數混成一條音軌（48kHz 立體聲 WAV）。
 // 用法：node build-sfx.mjs <輸出.wav> [--list]
 //   每一幕的寫法：sfx: [[秒數, '種類', '給分鏡板看的說明', { gain, pitch, dur }], ...]
-//   種類見下方 SOUNDS；gain 是音量倍率（預設 1），pitch 是音高倍率，dur 只給 typing 用（打字長度）。
+//   種類見下方 SOUNDS；gain 是音量倍率（預設 1），pitch 是音高倍率，dur、chars 只給 typing 用（打字長度、字數）。
 // 全部音效都是當場合成的，不需要任何音效素材檔，也沒有授權問題。
 import fs from 'node:fs';
 import path from 'node:path';
@@ -73,6 +73,19 @@ function click(f = 2400, g = 1) {
   return b;
 }
 
+// 一次按鍵：按下（帶通雜音的「喀」＋鍵帽的低頻「咚」）＋約 0.08 秒後放開的輕「答」
+function keystroke() {
+  const b = buf(.16), f = 1700 + rnd() * 700, body = 170 + rnd() * 70, up = .065 + rnd() * .03;
+  const bp = biquad('bp'), bp2 = biquad('bp'), lp = biquad('lp');
+  for (let i = 0; i < b.length; i++) {
+    const t = i / SR, n = noise();
+    let v = bp(n, f, 1.3) * 1.8 * Math.exp(-t / .005) + Math.sin(2 * Math.PI * body * t) * .55 * Math.exp(-t / .014);
+    if (t >= up) v += bp2(n, f * 1.25, 1.5) * .7 * Math.exp(-(t - up) / .004);
+    b[i] = lp(v, 6500, .7) * Math.min(1, t / .0008);
+  }
+  return b;
+}
+
 // ---------- 音效種類 ----------
 const SOUNDS = {
   pop: (o) => mixInto(tone(760 * o.pitch, 330 * o.pitch, .12, .035), click(2600, .25), 0, 1),             // 泡泡彈出：啵
@@ -84,9 +97,9 @@ const SOUNDS = {
     const b = noiseSweep(1.05, 160, 1900, { q: .55, shape: p => Math.sin(Math.PI * Math.min(1, p * 1.25)) ** 1.2 });
     return mixInto(b, tone(70, 45, 1.0, .5, { att: .25 }), 0, .35);
   },
-  typing: (o) => {                                                                                     // 打字：一個字一聲鍵盤
-    const b = buf(o.dur + .1), n = Math.max(2, Math.round(o.dur / .2));
-    for (let k = 0; k < n; k++) mixInto(b, click(1700 + rnd() * 900, .55 + rnd() * .35), k * o.dur / n + rnd() * .03);
+  typing: (o) => {                                                                                     // 打字：電腦鍵盤，一個字一聲（對準畫面上每個字出現的瞬間）
+    const n = o.chars || Math.max(2, Math.round(o.dur / .15)), b = buf(o.dur + .25);
+    for (let k = 0; k < n; k++) mixInto(b, keystroke(), o.dur * (k + .5) / n + (rnd() - .5) * .02, .7 + rnd() * .3);
     return b;
   },
   click: () => mixInto(click(2200, 1), tone(1400, 900, .04, .01), 0, .4),                              // 滑鼠按下：喀
@@ -127,7 +140,7 @@ const mix = new Float32Array(Math.round(LEN * SR));
 for (const c of cues) {
   const make = SOUNDS[c.kind];
   if (!make) throw new Error(`幕 ${c.scene}：不認得的音效種類 ${c.kind}`);
-  mixInto(mix, make({ pitch: c.pitch || 1, dur: c.dur || 1 }), c.t, .4 * (c.gain ?? 1));   // .4：整體音量留空間給之後的旁白
+  mixInto(mix, make({ pitch: c.pitch || 1, dur: c.dur || 1, chars: c.chars }), c.t, .4 * (c.gain ?? 1));   // .4：整體音量留空間給之後的旁白
 }
 // 柔性限幅，避免爆音
 for (let i = 0; i < mix.length; i++) mix[i] = Math.tanh(mix[i] * 1.1) * .9;
