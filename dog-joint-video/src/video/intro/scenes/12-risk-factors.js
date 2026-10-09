@@ -3,6 +3,10 @@
 Intro.scene({
   id: '12', title: '而是風險因子', start: 30.5, end: 33.2,
   narration: [[30.5, 32.6, '而是看風險因子。']],
+  // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
+  key: 32.8,
+  visuals: ["大標第二行：「要看風險因子。」（橘）", "橘色方塊「✓ 而是 風險等級」"],
+  motions: ["30.5 秒｜大標第二行冒出", "30.7 秒｜「而是 風險等級」方塊浮現", "31.0 秒｜打勾彈出"],
   mount: [
     { into: '#bHead', html: `<span class="ln"><span id="bH2" class="o">要看風險因子。</span></span>` },
     { into: '#boxes', html: `

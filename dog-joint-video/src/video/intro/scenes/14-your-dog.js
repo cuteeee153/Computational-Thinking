@@ -4,6 +4,10 @@
 Intro.scene({
   id: '14', title: '你家狗的位置＋停格', start: 35.6, end: 45,
   narration: [[35.6, 39.0, '幫你找到家裡那隻現在的位置。']],
+  // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
+  key: 40.0,
+  visuals: ["文件卡左側的狗", "STEP 01 整列淡橘底色，左側一條橘線（代表「你在這裡」）", "卡片下方來源註記：「參考：AAHA《Mobility Matters》、COAST 國際共識（Cachon 等，2023）／完整來源見說明欄」"],
+  motions: ["35.7 秒｜狗從下方彈出", "36.6 秒｜STEP 01 亮起", "37.6 秒｜來源註記淡入", "38.4 秒起｜狗輕輕上下晃，停格到 0:45"],
   mount: [
     { into: '#r1', at: 'afterbegin', html: `<div class="hl" id="r1hl"></div><div class="bar" id="r1bar"></div>` },
     { into: '#B-fg', html: `

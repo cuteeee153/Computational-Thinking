@@ -1,0 +1,243 @@
+<title>狗關節開場分鏡板</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* 版面：上方時間軸總覽，下方一幕一列（左影片、右說明＋修改需求） */
+:root{
+  --bg:#F6F1EA; --panel:#FFFDFA; --ink:#241C17; --sub:#7D7166; --line:#E7DED2;
+  --accent:#D85C0C; --accent-soft:#FBE7D8; --ok:#2F7D5B; --ok-soft:#DFF0E7; --ask:#8A5A00; --ask-soft:#FBF0D2;
+  --sans:'Noto Sans TC',system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;
+  --mono:'Space Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1B1613; --panel:#251E1A; --ink:#F3EAE0; --sub:#B3A596; --line:#3A302A;
+  --accent:#FF8A3D; --accent-soft:#4A2C18; --ok:#6CCB9C; --ok-soft:#1E3A2D; --ask:#F2C46B; --ask-soft:#3D3115; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1B1613; --panel:#251E1A; --ink:#F3EAE0; --sub:#B3A596; --line:#3A302A;
+  --accent:#FF8A3D; --accent-soft:#4A2C18; --ok:#6CCB9C; --ok-soft:#1E3A2D; --ask:#F2C46B; --ask-soft:#3D3115; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--sans);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 80px}
+h1{font-size:clamp(26px,4vw,36px);font-weight:900;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.meta{font:400 13px/1.5 var(--mono);color:var(--sub);margin-top:6px}
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0 26px}
+.how div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:14.5px;min-width:0}
+.how b{display:block;font-size:15px;margin-bottom:2px}
+.how .n{font:700 12px var(--mono);color:var(--accent);letter-spacing:.08em}
+/* 時間軸總覽 */
+.tl{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px 12px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.tl-bar{display:flex;gap:3px;height:44px}
+.tl-bar a{position:relative;flex:var(--w) 1 0;min-width:0;border-radius:6px;background:var(--panel);border:1px solid var(--line);text-decoration:none;color:var(--ink);display:flex;align-items:center;justify-content:center;font:700 12px var(--mono)}
+.tl-bar a:hover,.tl-bar a:focus-visible{border-color:var(--accent);outline:none}
+.tl-bar a.has{background:var(--accent-soft);border-color:var(--accent)}
+.tl-bar a .dot{position:absolute;top:-5px;right:-3px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--accent);color:#fff;font:700 10px/16px var(--mono)}
+.tl-scale{display:flex;justify-content:space-between;font:400 11px var(--mono);color:var(--sub);margin-top:4px}
+.tl-legend{font-size:12.5px;color:var(--sub);margin-top:2px}
+/* 整體修改 */
+.global{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:28px}
+.global h2{font-size:18px;margin:0 0 4px}
+.global p{margin:0 0 10px;color:var(--sub);font-size:14px}
+/* 每一幕 */
+.scene{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:22px;padding-block:26px;border-top:1px solid var(--line);scroll-margin-top:96px}
+.media{min-width:0}
+.media video{display:block;width:100%;aspect-ratio:16/9;border-radius:10px;background:#000;border:1px solid var(--line)}
+.media .file{font:400 11.5px var(--mono);color:var(--sub);margin-top:6px}
+.info{min-width:0}
+.sh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.sid{font:700 14px var(--mono);color:var(--accent)}
+.sh h3{font-size:20px;font-weight:700;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.tc{font:400 12.5px var(--mono);color:var(--sub);margin-left:auto}
+.sub{margin:12px 0 14px;padding:10px 14px;border-radius:10px;background:var(--accent-soft);font-size:15px}
+.sub small{display:block;font:700 11px var(--mono);letter-spacing:.1em;color:var(--accent)}
+.lists{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.lists h4{font:700 11px var(--mono);letter-spacing:.12em;color:var(--sub);margin:0 0 6px}
+.lists ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.lists button{all:unset;display:grid;grid-template-columns:auto 1fr;gap:8px;width:100%;box-sizing:border-box;padding:6px 8px;border-radius:8px;font-size:14px;line-height:1.5;cursor:pointer}
+.lists button:hover,.lists button:focus-visible{background:var(--accent-soft)}
+.lists button:focus-visible{outline:2px solid var(--accent)}
+.lists button i{font:700 11px/1.9 var(--mono);color:var(--accent);font-style:normal}
+.hint{font-size:12.5px;color:var(--sub);margin-top:6px}
+/* 修改需求 */
+.req{margin-top:16px}
+.reqs{display:grid;gap:8px;margin-bottom:10px}
+.r{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px 12px;font-size:14.5px}
+.r .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pill{font:700 11px var(--mono);padding:2px 8px;border-radius:999px;letter-spacing:.04em;white-space:nowrap}
+.pill.new{background:var(--accent-soft);color:var(--accent)}
+.pill.done{background:var(--ok-soft);color:var(--ok)}
+.pill.question{background:var(--ask-soft);color:var(--ask)}
+.pill.skip{background:var(--line);color:var(--sub)}
+.r .when{font:400 11px var(--mono);color:var(--sub);margin-left:auto}
+.r .txt{margin-top:4px;white-space:pre-wrap;overflow-wrap:anywhere}
+.r .reply{margin-top:6px;padding-left:10px;border-left:3px solid var(--line);color:var(--sub);white-space:pre-wrap;overflow-wrap:anywhere}
+.r .reply b{color:var(--ink);font-weight:700}
+.r button{all:unset;cursor:pointer;font-size:12.5px;color:var(--sub);text-decoration:underline}
+.r button:focus-visible{outline:2px solid var(--accent)}
+form{display:grid;gap:8px}
+textarea{width:100%;min-height:76px;resize:vertical;font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+textarea:focus{outline:2px solid var(--accent);border-color:transparent}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.send{all:unset;cursor:pointer;background:var(--accent);color:#fff;font-weight:700;font-size:14.5px;padding:8px 18px;border-radius:999px}
+.send:disabled{opacity:.5;cursor:default}
+.send:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.status{font-size:13px;color:var(--sub)}
+.offline{display:none;margin:0 0 20px;padding:12px 16px;border-radius:10px;background:var(--ask-soft);color:var(--ask);font-size:14px}
+body.nodb .offline{display:block}
+body.nodb form .send{display:none}
+@media (max-width:820px){
+  .scene{grid-template-columns:1fr}
+  .how{grid-template-columns:1fr}
+  .tl-bar a{font-size:0}
+  .tl-bar a .dot{font-size:10px}
+}
+@media (max-width:520px){.lists{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+html{scroll-behavior:smooth}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>狗關節開場分鏡板｜0:00–0:45</h1>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <section class="how" aria-label="使用方式">
+    <div><span class="n">1 看</span><b>點影片看這一幕</b>右邊列出這一幕有哪些畫面元素、每個動畫幾秒出現、配哪一句字幕。</div>
+    <div><span class="n">2 寫</span><b>用一般的話寫下想怎麼改</b>點清單裡的項目會自動帶入「畫面 2」這類編號；不帶編號直接描述也可以。</div>
+    <div><span class="n">3 交給 Claude</span><b>在對話裡說「分鏡板有新需求」</b>Claude 會照著改、重新輸出，並在每則需求下面回覆改了什麼。</div>
+  </section>
+
+  <p class="offline" id="offline">這個檢視無法儲存修改需求（可能沒有登入或沒有編輯權限）。你仍然可以看分鏡，修改請直接在對話裡告訴 Claude，例如「幕 05 的打字慢一點」。</p>
+
+  <nav class="tl" aria-label="時間軸">
+    <div class="tl-bar" id="tlbar"></div>
+    <div class="tl-scale"><span>0s</span><span>10s</span><span>20s</span><span>30s</span><span>45s</span></div>
+    <div class="tl-legend">每格是一幕，寬度代表長短。橘色＝有還沒處理的修改需求。</div>
+  </nav>
+
+  <section class="global" id="all">
+    <h2>整體修改</h2>
+    <p>不屬於某一幕的需求寫這裡，例如整體節奏、配色、字型、狗的長相。</p>
+    <div class="reqs" data-reqs="all"></div>
+    <form data-scene="all"><label class="sr" for="ta-all" hidden>整體修改需求</label>
+      <textarea id="ta-all" placeholder="例如：整支的動畫再快一點；狗改成黑色立耳、胸口白毛"></textarea>
+      <div class="row"><button class="send" type="submit">送出需求</button><span class="status"></span></div>
+    </form>
+  </section>
+
+  <main id="scenes"></main>
+</div>
+
+<script>
+const BOARD = /*__DATA__*/null;
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmtT = t => t.toFixed(1);
+
+$('#meta').textContent = `版本 v${BOARD.version}｜更新於 ${new Date(BOARD.updatedAt).toLocaleString('zh-TW', { hour12: false })}${BOARD.note ? '｜' + BOARD.note : ''}`;
+
+// 時間軸
+$('#tlbar').innerHTML = BOARD.scenes.map(s =>
+  `<a href="#s${s.id}" style="--w:${(s.end - s.start).toFixed(2)}" title="幕 ${s.id}｜${esc(s.title)}｜${fmtT(s.start)}–${fmtT(s.end)} 秒" data-tl="${s.id}">${s.id}</a>`).join('');
+
+// 每一幕
+$('#scenes').innerHTML = BOARD.scenes.map(s => `
+  <article class="scene" id="s${s.id}">
+    <div class="media">
+      <video src="clips/${s.id}.mp4" poster="frames/${s.id}.jpg" controls muted loop playsinline preload="none" aria-label="幕 ${s.id} 預覽"></video>
+      <div class="file">程式檔：intro/scenes/${esc(s.file)}</div>
+    </div>
+    <div class="info">
+      <div class="sh"><span class="sid">幕 ${s.id}</span><h3>${esc(s.title)}</h3><span class="tc">${fmtT(s.start)}–${fmtT(s.end)} 秒</span></div>
+      <div class="sub"><small>字幕</small>${s.narration ? s.narrationTimes.map(n => `${esc(n[2])} <span class="tc" style="margin:0">(${fmtT(n[0])}–${fmtT(n[1])})</span>`).join('<br>') : '（這一幕沒有旁白）'}</div>
+      <div class="lists">
+        <div><h4>畫面</h4><ol>${s.visuals.map((v, i) => `<li><button type="button" data-ref="${s.id}|畫面 ${i + 1}"><i>畫面${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
+        <div><h4>動畫</h4><ol>${s.motions.map((v, i) => `<li><button type="button" data-ref="${s.id}|動畫 ${i + 1}"><i>動畫${i + 1}</i><span>${esc(v)}</span></button></li>`).join('')}</ol></div>
+      </div>
+      <div class="hint">點任一項目，會把它的編號帶進下面的輸入框。</div>
+      <div class="req">
+        <div class="reqs" data-reqs="${s.id}"></div>
+        <form data-scene="${s.id}">
+          <label for="ta-${s.id}" hidden>幕 ${s.id} 修改需求</label>
+          <textarea id="ta-${s.id}" placeholder="想怎麼改這一幕？例如：動畫 3 慢一點；畫面 2 的文字改成「…」；字幕改成「…」"></textarea>
+          <div class="row"><button class="send" type="submit">送出需求</button><span class="status"></span></div>
+        </form>
+      </div>
+    </div>
+  </article>`).join('');
+
+// 點項目 → 帶入編號
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-ref]'); if (!b) return;
+  const [id, ref] = b.dataset.ref.split('|');
+  const ta = $('#ta-' + id);
+  const pre = ta.value && !ta.value.endsWith('\n') ? '\n' : '';
+  ta.value += `${pre}${ref}：`;
+  ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length);
+});
+
+// 一次只播一支
+document.addEventListener('play', e => {
+  document.querySelectorAll('video').forEach(v => { if (v !== e.target) v.pause(); });
+}, true);
+
+// 草稿留在這台裝置
+const DRAFT = 'board-draft-';
+document.querySelectorAll('textarea').forEach(ta => {
+  try { ta.value = localStorage.getItem(DRAFT + ta.id) || ''; } catch {}
+  ta.addEventListener('input', () => { try { localStorage.setItem(DRAFT + ta.id, ta.value); } catch {} });
+});
+
+const LABEL = { new: '等 Claude 處理', done: '已改好', question: 'Claude 想確認', skip: '這次不改' };
+function renderRequests(docs) {
+  const by = {};
+  for (const d of docs) (by[d.scene] ||= []).push(d);
+  document.querySelectorAll('[data-reqs]').forEach(box => {
+    const list = by[box.dataset.reqs] || [];
+    box.innerHTML = list.map(r => `
+      <div class="r">
+        <div class="top"><span class="pill ${esc(r.status)}">${LABEL[r.status] || esc(r.status)}${r.status === 'done' && r.doneIn ? '・v' + esc(r.doneIn) : ''}</span>
+          <span class="when">${new Date(r.createdAt).toLocaleString('zh-TW', { hour12: false, month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+          ${r.status === 'new' ? `<button type="button" data-withdraw="${esc(r._id)}">撤回</button>` : ''}</div>
+        <div class="txt">${esc(r.text)}</div>
+        ${r.reply ? `<div class="reply"><b>Claude：</b>${esc(r.reply)}</div>` : ''}
+      </div>`).join('');
+  });
+  const pending = {};
+  for (const d of docs) if (d.status === 'new' || d.status === 'question') pending[d.scene] = (pending[d.scene] || 0) + 1;
+  document.querySelectorAll('[data-tl]').forEach(a => {
+    const n = pending[a.dataset.tl] || 0;
+    a.classList.toggle('has', n > 0);
+    a.innerHTML = a.dataset.tl + (n ? `<span class="dot">${n}</span>` : '');
+  });
+}
+
+(async () => {
+  const db = await window.claude?.use?.('db');
+  if (!db) { document.body.classList.add('nodb'); return; }
+  const col = db.collection('requests');
+  col.orderBy('createdAt').onSnapshot(
+    snap => renderRequests(snap.docs.map(d => ({ ...d.data(), _id: d.id }))),
+    () => document.body.classList.add('nodb'));
+
+  document.addEventListener('submit', async e => {
+    e.preventDefault();
+    const f = e.target, ta = $('textarea', f), btn = $('.send', f), st = $('.status', f);
+    const text = ta.value.trim(); if (!text) { st.textContent = '先寫下想怎麼改。'; return; }
+    btn.disabled = true; st.textContent = '送出中…';
+    try {
+      await col.add({ scene: f.dataset.scene, text, status: 'new', reply: '', createdAt: new Date().toISOString(), boardVersion: BOARD.version });
+      ta.value = ''; try { localStorage.removeItem(DRAFT + ta.id); } catch {}
+      st.textContent = '已送出。回到對話告訴 Claude「分鏡板有新需求」。';
+    } catch (err) {
+      st.textContent = err?.code === 'invalid_argument' ? '你目前的權限不能送出需求，請直接在對話裡告訴 Claude。' : '沒送出，請再按一次。';
+    } finally { btn.disabled = false; }
+  });
+
+  document.addEventListener('click', async e => {
+    const b = e.target.closest('[data-withdraw]'); if (!b) return;
+    b.textContent = '撤回中…';
+    try { await col.doc(b.dataset.withdraw).delete(); } catch { b.textContent = '撤回失敗，再試一次'; }
+  });
+})();
+</script>

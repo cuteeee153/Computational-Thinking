@@ -3,6 +3,10 @@
 Intro.scene({
   id: '09', title: '三個年齡浮起', start: 21.7, end: 24.7,
   narration: [[21.8, 24.6, '會這麼亂，不是誰在騙你，']],
+  // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
+  key: 23.5,
+  visuals: ["畫面中間三顆大標籤：「7 歲？」「5 歲？」「3 歲？」"],
+  motions: ["21.7 秒起｜三顆標籤依序彈出，間隔 0.25 秒", "22.4 秒起｜三顆標籤輕輕上下漂浮"],
   mount: [
     { into: '#B-bg', html: `
       <div class="bigchip" id="k7" style="left:470px;top:430px"><b>7</b>歲？</div>

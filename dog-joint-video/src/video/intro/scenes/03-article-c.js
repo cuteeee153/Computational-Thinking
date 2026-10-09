@@ -3,6 +3,10 @@
 Intro.scene({
   id: '03', title: '文章 C（三到五歲）＋數字打架', start: 5.8, end: 9.2,
   narration: [[5.8, 9.0, '還有人說，三到五歲就開始退化。']],
+  // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
+  key: 8.0,
+  visuals: ["回答泡泡：「文章 C：三到五歲就開始退化。」", "小標籤「3 歲？」", "背景右下淡淡的大數字 3"],
+  motions: ["6.0 秒｜文章 C 泡泡彈出；大數字 3 浮現", "6.9 秒｜「3 歲？」標籤彈出", "7.7 秒｜三顆標籤互相撞擊抖動，約 0.5 秒", "9.0 秒｜背景三個大數字淡出"],
   mount: [
     { into: '#A-bg', html: `<div class="ghost" id="g3" style="left:1340px;top:420px;font-size:600px">3</div>` },
     { into: '#answers', html: `<div class="bub" id="bC">文章 C：<b style="color:var(--or)">三到五歲</b>就開始退化。</div>` },

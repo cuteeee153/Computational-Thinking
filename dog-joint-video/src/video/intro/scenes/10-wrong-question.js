@@ -3,6 +3,10 @@
 Intro.scene({
   id: '10', title: '問題問錯了', start: 24.7, end: 26.9,
   narration: [[24.8, 26.6, '是問題問錯了。']],
+  // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
+  key: 26.6,
+  visuals: ["大標第一行：「問題問錯了。」（黑）", "說明文字：「會這麼亂，不是誰在騙你。」"],
+  motions: ["24.7 秒｜三顆標籤旋轉著掉出畫面", "25.0 秒｜大標第一行由下往上冒出", "25.9 秒｜說明文字淡入"],
   mount: [
     { into: '#bHead', html: `<span class="ln"><span id="bH1">問題問錯了。</span></span>` },
     { into: '#bLead', html: `<div id="bL1">會這麼亂，不是誰在騙你。</div>` },

@@ -3,6 +3,10 @@
 Intro.scene({
   id: '08', title: '先講結論', start: 20.2, end: 21.7,
   narration: [[20.3, 21.6, '先講結論。']],
+  // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
+  key: 21.5,
+  visuals: ["左側小標「02 ／ 先講結論」（橘色）"],
+  motions: ["20.2 秒｜小標逐字打出"],
   mount: [
     { into: '#B-text', html: `
       <div class="abs" style="left:72px;top:250px;width:1000px">

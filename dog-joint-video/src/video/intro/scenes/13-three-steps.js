@@ -3,6 +3,10 @@
 Intro.scene({
   id: '13', title: '三步驟', start: 33.2, end: 35.6,
   narration: [[33.2, 35.4, '這支影片用三步驟，']],
+  // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
+  key: 35.2,
+  visuals: ["文件卡內三列：STEP 01 有風險因子嗎？／STEP 02 有沒有蛛絲馬跡？／STEP 03 該做什麼？", "越後面的步驟顏色越淡"],
+  motions: ["33.3 秒｜STEP 01 從左滑入", "33.7 秒｜STEP 02 滑入", "34.1 秒｜STEP 03 滑入"],
   mount: [
     { into: '#doc', html: `
       <div class="row" id="r1"><div class="k" style="width:110px">STEP 01</div><div class="t">有風險因子嗎？</div></div>

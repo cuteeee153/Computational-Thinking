@@ -1,5 +1,19 @@
 # 動畫原始檔
 
+## 用自然語言修改 0:00–0:45（分鏡修改板）
+
+分鏡修改板：https://claude.ai/artifact/CDtrVSLQYiUuPH9vPLkDDn
+
+1. 在分鏡板上看每一幕的預覽、畫面清單、動畫清單、字幕。
+2. 在該幕下方用一般的話寫修改需求並送出（可點清單項目帶入「畫面 2」「動畫 3」編號）；不屬於某一幕的寫在「整體修改」。
+3. 在對話裡告訴 Claude「分鏡板有新需求」。
+
+Claude 處理流程（給之後的 session）：
+- 用 ArtifactData `list` 讀分鏡板資料庫的 `requests` 集合，取 `status: "new"` 的需求（欄位：scene、text、status、reply、createdAt）。
+- 「畫面 N／動畫 N」對應該幕檔案 `intro/scenes/NN-*.js` 裡 `visuals`／`motions` 陣列的第 N 項；改動畫時同步更新這兩個白話說明與 `narration`。
+- 需求不清楚時，把該則設成 `status: "question"` 並在 `reply` 寫問題，不要猜。
+- 改完：重新輸出影片 → `node build-srt.mjs` 更新 SRT → `node build-storyboard.mjs <影片> <分鏡板資料夾> "<這版改了什麼>"` → 以同一個 URL 重新發佈分鏡板（含 frames/、clips/）→ 把處理過的需求設成 `done`（`doneIn` 填新版本號，`reply` 寫改了什麼）。
+
 ## 0:00–0:45：一幕一個檔案
 
 ```
