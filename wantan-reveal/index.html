@@ -40,7 +40,6 @@ svg{position:absolute;left:0;top:0;overflow:visible}
 .tag{position:absolute;left:1010px;top:738px;font-family:"Noto Sans TC",sans-serif;font-weight:500;font-size:27px;letter-spacing:.18em;color:#4A423A;white-space:nowrap}
 
 /* HUD */
-.hud{position:absolute;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:19px;letter-spacing:.08em;color:var(--cream);white-space:pre}
 #grain{position:absolute;inset:-64px;pointer-events:none;mix-blend-mode:overlay;opacity:.16}
 #vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 45%,rgba(0,0,0,.55) 100%)}
 #flash{position:absolute;inset:0;pointer-events:none;background:#fff;opacity:0}
@@ -126,7 +125,6 @@ body.capture #frame{box-shadow:none;border-radius:0}
     <div class="en" id="en"></div>
     <div id="rule"></div><div id="dot"></div>
     <div class="tag" id="tag">國際研究與權威指引，翻成白話給你</div>
-    <div class="hud" id="hudTxt"></div>
   </div>
   <div id="vignette"></div>
   <div id="flash"></div>
@@ -223,7 +221,7 @@ function drawFX(t){
 function hud(t){
   const N=toStage(NOSE,HERO);
   const a=prog(t,40,380), fade=1-prog(t,560,760);
-  const g=$('hudG'); g.style.opacity=fade; $('hudTxt').style.opacity=fade;
+  const g=$('hudG'); g.style.opacity=fade;
   if(fade<=0){return}
   const reach=outExpo(a)*1100;
   const set=(id,x1,y1,x2,y2)=>{const e=$(id);e.setAttribute('x1',x1);e.setAttribute('y1',y1);e.setAttribute('x2',x2);e.setAttribute('y2',y2)};
@@ -234,9 +232,6 @@ function hud(t){
   const d=lerp(300,82,outExpo(prog(t,120,520))), l=26; let p='';
   [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(([sx,sy])=>{const x=N.x+sx*d,y=N.y+sy*d*.8;p+=`M${x-sx*-0},${y+sy*-l}L${x},${y}L${x-sx*l},${y}`});
   const br=$('br'); br.setAttribute('d',p); br.setAttribute('stroke-width',3); br.style.opacity=prog(t,120,220);
-  const txt='CLUE #01\nX '+String(Math.round(N.x)).padStart(4,'0')+'  Y '+String(Math.round(N.y)).padStart(4,'0')+'\nSCENT ▸ 98.6%';
-  const n=Math.floor(prog(t,180,520)*txt.length);
-  const h=$('hudTxt'); h.textContent=txt.slice(0,n)+(n<txt.length&&n>0?'▌':''); h.style.left=(N.x+112)+'px'; h.style.top=(N.y+64)+'px';
 }
 
 /* ---------- master render: everything is a pure function of t ---------- */
@@ -403,9 +398,8 @@ function buildScore(ac){
   noise({t:.04,dur:.075,f:2300,q:2.2,gain:.32,a:.025,pan:-.1}); noise({t:.16,dur:.09,f:2600,q:2.2,gain:.36,a:.03,pan:.1});
   // clue bloom: sub thump
   tone({t:0,f:72,f2:36,gain:.6,a:.008,d:.9}); noise({t:0,dur:.6,type:'lowpass',f:240,gain:.25,a:.1});
-  // HUD: crosshair zip, typing, focus lock
+  // HUD: crosshair zip, focus lock
   tone({t:.04,f:2500,f2:6200,gain:.03,a:.02,d:.3,pan:.2});
-  for(let i=0;i<13;i++)tone({t:.19+i*.026+R()*.006,f:2200+R()*900,type:'square',gain:.035,a:.001,d:.012,pan:.35});
   tone({t:.42,f:1760,gain:.1,a:.002,d:.06,pan:.1}); tone({t:.49,f:2349.3,gain:.1,a:.002,d:.09,pan:.1,send:.2});
   // lens fly-in whoosh (right → centre) + glass landing
   noise({t:.24,dur:.62,f:380,f2:3200,q:1.6,gain:.55,a:.44,pan:.85,pan2:.05,send:.15});
