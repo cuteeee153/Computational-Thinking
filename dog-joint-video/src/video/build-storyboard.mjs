@@ -1,6 +1,6 @@
 // 產生「分鏡修改板」要用的素材：每一幕的資料、關鍵畫面、預覽短片。
 // 用法：node build-storyboard.mjs <整支影片.mp4> <輸出資料夾> [版本說明]
-// 涵蓋四段動畫頁：intro、part2、part3、part4（品種對照表，影片裡插在幕 23 和 23b 之間），各自的 .html
+// 涵蓋四段動畫頁：intro、part2、part3、part4（品種對照表，影片裡插在幕 23 和 23b 之間）、part5（真實畫面＋收尾），各自的 .html
 // （分鏡板依影片順序分組；每一幕的秒數都是成片時間）
 // 輸出：storyboard.json、frames/NN.jpg（960×540）、clips/NN.mp4（960×540，有聲音的段落含旁白、音效、音樂）
 import fs from 'node:fs';
@@ -22,6 +22,7 @@ const PARTS = [
   { id: 'part2', page: 'part2.html', start: 45, end: 160 },
   { id: 'part3', page: 'part3.html', start: 160, end: 244.9 },
   { id: 'part4', page: 'part4.html', start: 245, end: 309.1 },
+  { id: 'part5', page: 'part5.html', start: 310, end: 368.5 },
 ];
 // 分鏡板上的分組：照影片裡的順序（品種對照表 part4 插在幕 23 和 23b 之間）；設計時間範圍 → 標題
 const GROUPS = [
@@ -30,6 +31,8 @@ const GROUPS = [
   { id: 'breeds', title: '品種對照表', start: 245, end: 309.1 },
   { id: 'part2b', title: '第一步（續）', start: 112.01, end: 160 },
   { id: 'part3', title: '第二步・第三步', start: 160, end: 244.9 },
+  { id: 'footage', title: '真實畫面', start: 310, end: 351.5 },
+  { id: 'ending', title: '最後提醒・片尾', start: 351.5, end: 368.5 },
 ];
 const fmtM = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 

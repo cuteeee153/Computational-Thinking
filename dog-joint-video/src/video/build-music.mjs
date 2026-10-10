@@ -9,6 +9,8 @@
 //   第一步（1:38.4–2:40）  回到大調，完整節奏＋十六分音符沙鈴，旋律變化版（品種對照表插在這一段中間，一樣是這個節奏）
 //   第二步（2:40–3:20）    像知識段的節奏；幕 31（深色背景）那幾小節改回小調
 //   第三步（3:20–4:05）    木琴往上爬帶進來，完整節奏，到回顧
+//   真實畫面（幕 44）      輕一點（同鉤子段）
+//   收尾（幕 45）          回到知識段的節奏，最後一個和弦淡出
 //   最後一個和弦延音、淡出
 // 每一句旁白（timing/narration.json 的字幕時間）出現時，音樂自動降低約 6 dB（ducking），讓出旁白。
 import fs from 'node:fs';
@@ -18,13 +20,15 @@ import { W, NARR } from './timing/timing.mjs';
 const here = path.dirname(new URL(import.meta.url).pathname);
 const out = process.argv[2];
 if (!out) { console.error('用法：node build-music.mjs <輸出.wav>'); process.exit(1); }
-const SR = 48000, LEN = Math.ceil(W(244.9) * 100) / 100;
+const SR = 48000, LEN = Math.ceil(W(368.5) * 100) / 100;
 // 小節長度：讓 0:45（深色段）轉場剛好落在小節線上，速度維持在 98 BPM 左右
 const DARK_BAR = Math.round(W(45) / 2.45), BAR = W(45) / DARK_BAR, BEAT = BAR / 4, E8 = BEAT / 2, SWING = .04;
 // 段落切換（成片時間 → 小節）：鉤子段結束、深色段開始、第一步開始、最後一個和弦
 const CORE_BAR = Math.round(W(19.7) / BAR), STEP_BAR = Math.round(W(98.4) / BAR), END_BAR = Math.floor((LEN - 4.5) / BAR);
 // 第二步、幕 31 深色、第三步
 const S2_BAR = Math.round(W(160) / BAR), D2_BAR = Math.round(W(182.4) / BAR), D2_END = Math.round(W(189.7) / BAR), S3_BAR = Math.round(W(200) / BAR);
+// 真實畫面（輕一點，像鉤子段）、收尾（回到知識段的節奏）
+const FT_BAR = Math.round(W(310) / BAR), EN_BAR = Math.round(W(351.5) / BAR);
 const L = new Float32Array(LEN * SR), R = new Float32Array(LEN * SR);
 
 let seed = 777;
@@ -112,7 +116,7 @@ const eighth = (bar, k) => bar * BAR + k * E8 + (k % 2 ? SWING * E8 * 2 : 0);
 
 for (let bar = 0; bar <= END_BAR; bar++) {
   const sec = bar >= END_BAR ? 'end' : bar < CORE_BAR ? 'hook' : bar < DARK_BAR ? 'core' : bar < STEP_BAR ? 'dark' : bar < S2_BAR ? 'step'
-    : bar < D2_BAR ? 'core' : bar < D2_END ? 'dark' : bar < S3_BAR ? 'core' : 'step';
+    : bar < D2_BAR ? 'core' : bar < D2_END ? 'dark' : bar < S3_BAR ? 'core' : bar < FT_BAR ? 'step' : bar < EN_BAR ? 'hook' : 'core';
   const prog = sec === 'dark' ? MINOR : MAJOR, ch = prog[bar % 4], t0 = bar * BAR;
   // 和弦墊底
   if (sec === 'end') { const [l, r] = epChord([48, 55, 59, 62, 64], 4.2, .9); put(l, t0, .15, -.5); put(r, t0, .15, .5); continue; }

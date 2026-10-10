@@ -1,0 +1,21 @@
+/* 真實畫面（幕 44，先放佔位卡）＋收尾（幕 45）：在 part2/core.css 之上，只放這一段新增的元件。 */
+#S8{background:radial-gradient(900px 700px at 50% 40%,#3A2E26 0,transparent 70%),var(--dark);color:#FFF6EC}
+#S8 .ph{position:absolute;left:0;right:0;top:330px;text-align:center}
+#S8 .ph b{display:block;font-size:150px;font-weight:900;letter-spacing:-.05em}
+#S8 .ph span{display:block;margin-top:18px;font-size:34px;font-weight:700;color:#CDBEAC}
+#S8 .tag{position:absolute;right:72px;top:52px;font:700 18px 'Space Mono',monospace;letter-spacing:.16em;color:#CDBEAC;padding:10px 18px;border:1.5px dashed rgba(255,230,200,.35);border-radius:999px}
+.lt{position:absolute;left:72px;bottom:150px;padding:18px 34px 18px 26px;border-radius:20px;background:rgba(255,251,246,.96);color:var(--ink);font-size:40px;font-weight:900;letter-spacing:-.03em;display:flex;align-items:center;gap:18px;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
+.lt i{font-style:normal;width:56px;height:56px;border-radius:50%;background:var(--or-b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px}
+#S9{background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg);box-shadow:-40px 0 80px rgba(60,40,20,.18)}
+.vet{position:absolute;left:72px;top:520px;width:1776px;padding:44px 56px;border-radius:34px;display:flex;align-items:center;gap:26px}
+.vet .lb{font-size:38px;font-weight:900;letter-spacing:-.03em;white-space:nowrap}
+.vet .sym{padding:14px 26px;border-radius:999px;background:#FDE6D5;color:#B4470A;font-size:36px;font-weight:900;white-space:nowrap}
+.vet .ar{font-size:52px;font-weight:900;color:var(--or);margin-left:12px}
+.vet .go{padding:16px 30px;border-radius:20px;background:var(--or-b);color:#fff;font-size:38px;font-weight:900;white-space:nowrap}
+.last{position:absolute;left:72px;top:800px;font-size:50px;font-weight:900;letter-spacing:-.04em;white-space:nowrap}
+.last .two{display:inline-block;padding:0 14px;border-radius:14px;background:var(--or-b);color:#fff;margin-left:6px}
+#S9end{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px}
+#S9end i{width:200px;height:200px;border-radius:50%;background:#FFF6EA;box-shadow:0 0 0 2px rgba(107,74,42,.14),0 40px 80px -40px rgba(107,74,42,.5);display:flex;align-items:center;justify-content:center;overflow:hidden}
+#S9end i img{width:168px;height:auto;margin-top:6px}
+#S9end b{font-size:72px;font-weight:900;letter-spacing:-.03em}
+#S9end b .sep{font-weight:400;opacity:.4;margin:0 -.1em}

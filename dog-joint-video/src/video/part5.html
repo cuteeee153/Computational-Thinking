@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>汪探 WanTan｜狗關節保養 真實畫面＋收尾</title>
+<!-- 這一頁只負責圖層；每一幕的版面與動畫在 part5/scenes/ 裡，一幕一個檔案。共用樣式沿用 part2/core.css。 -->
+<link rel="stylesheet" href="part2/core.css">
+<link rel="stylesheet" href="part5/core.css">
+</head><body>
+<div id="stage">
+  <div id="chrome"></div>
+  <!-- 接續第三步回顧的最後一格（由 part3.html 停在結尾截圖，不含字幕） -->
+  <img class="scene" src="part3-last.png" style="z-index:0">
+  <!-- 幕 44 真實畫面（先放深色佔位卡；拿到影片後換成真實影片） -->
+  <section class="scene" id="S8" style="z-index:2"></section>
+  <!-- 幕 45 最後提醒＋片尾（米色，由右滑進來） -->
+  <section class="scene" id="S9" style="z-index:3"></section>
+</div>
+
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="timing/timing.js"></script>
+<script src="intro/engine.js"></script>
+<script>Intro.start = 310; Intro.duration = 368.5;</script>
+<script src="part5/scenes/44-real-footage.js"></script>
+<script src="part5/scenes/45-ending.js"></script>
+<script>Intro.boot();</script>
+</body></html>

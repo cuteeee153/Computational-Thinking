@@ -3,7 +3,7 @@
 // 讀：../../narration/audio/timeline-placed.json（align.py 對時＋place.py 插入停頓後，每一句旁白的成片時間）
 //     ../../narration/scene-map.json（旁白稿每一段屬於哪一幕）
 //     timing/warp.json（設計時間 → 成片時間的對照點）
-//     ../../narration/draft-part3.json、draft-part4.json（2:40 之後的旁白稿，一幕一行）＋ audio-partN/timeline-placed.json（錄音對時結果；沒有的話照語速推算、標記為預估）
+//     ../../narration/draft-part3.json～draft-part6.json（2:40 之後、品種表、真實畫面、收尾的旁白稿，一幕一行）＋ audio-partN/timeline-placed.json（錄音對時結果；沒有的話照語速推算、標記為預估）
 // 寫：timing/narration.json（字幕、各幕旁白）與 timing/timing.js（給 intro.html／part2.html 載入）
 import fs from 'node:fs';
 import path from 'node:path';
@@ -59,7 +59,7 @@ const W = t => { const a = warp; if (t <= a[0][0]) return t - a[0][0] + a[0][1];
   for (let i = 1; i < a.length; i++) if (t <= a[i][0]) return a[i - 1][1] + (t - a[i - 1][0]) * (a[i][1] - a[i - 1][1]) / (a[i][0] - a[i - 1][0]);
   return t - a[a.length - 1][0] + a[a.length - 1][1]; };
 const estScenes = {}; let estimatedFrom = null;
-for (const part of ['part3', 'part4']) {
+for (const part of ['part3', 'part4', 'part5', 'part6']) {
   const draft = JSON.parse(fs.readFileSync(path.join(N, `draft-${part}.json`), 'utf8'));
   const placed = path.join(N, `audio-${part}/timeline-placed.json`);
   const rec = fs.existsSync(placed) ? JSON.parse(fs.readFileSync(placed, 'utf8')).lines : null;
