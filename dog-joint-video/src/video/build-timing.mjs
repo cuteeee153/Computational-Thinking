@@ -24,7 +24,9 @@ for (const l of tl.lines) for (const p of l.phrases) { phrases.push({ ...p, line
 const cuts = new Set(); { let q = 0; map.forEach((m, i) => { q += nchar(m.text); if (map[i + 1] && map[i + 1].scene !== m.scene) cuts.add(q); }); }
 const fullText = tl.lines.flatMap(l => l.phrases.map(p => p.text)).join('');
 const brkFile = path.join(N, 'caption-breaks.json');
-for (const { after } of fs.existsSync(brkFile) ? JSON.parse(fs.readFileSync(brkFile, 'utf8')).breaks : []) {
+const breaks = fs.existsSync(brkFile) ? JSON.parse(fs.readFileSync(brkFile, 'utf8')).breaks : [];
+for (const { after } of breaks) {
+  if (!fullText.includes(after)) continue;   // 2:40 之後的旁白（下面處理）
   const i = fullText.indexOf(after); assert(i >= 0, `caption-breaks.json：旁白裡找不到「${after}」`);
   cuts.add(nchar(fullText.slice(0, i + after.length)));
 }
@@ -66,13 +68,22 @@ for (const part of ['part3', 'part4']) {
   let dt = draft.start;
   for (const [si, sc] of draft.scenes.entries()) {
     dt += sc.pre; let cur = null; const ph = [];
-    if (rec) for (const p of rec[si].phrases) ph.push([p.t0, p.t1, p.text]);
+    // 錄音：一個短句太長時，在 caption-breaks.json 指定的地方切開（時間依字數分），切開的兩段不再合併
+    if (rec) for (const p of rec[si].phrases) {
+      let rest = p.text, t = p.t0; const per = (p.t1 - p.t0) / Math.max(1, nchar(p.text)); let brk = false;
+      for (const { after } of breaks) {
+        const i = rest.indexOf(after); if (i < 0 || i + after.length >= rest.length) continue;
+        const head = rest.slice(0, i + after.length), t1 = t + nchar(head) * per;
+        ph.push([t, t1, head.trim(), brk]); rest = rest.slice(i + after.length); t = t1; brk = true;
+      }
+      ph.push([t, p.t1, rest.trim(), brk]);
+    }
     else for (const p of sc.text.match(/[^，。、：；？！]+[，。、：；？！]?/g) || []) {
       const t0 = dt; dt += (p.match(/[一-鿿A-Za-z0-9]/g) || []).length / draft.rate; ph.push([W(t0), W(dt), p]);
       dt += /[。？！；：]$/.test(p) ? draft.stopGap : draft.commaGap;
     }
-    for (const [t0, t1, text] of ph) {
-      if (cur && !/[：。？！；]$/.test(cur.text) && (strip(cur.text) + text).length <= 18) { cur.text += text; cur.t1 = t1; }
+    for (const [t0, t1, text, brk] of ph) {
+      if (cur && !brk && !/[：。？！；]$/.test(cur.text) && (strip(cur.text) + text).length <= 18) { cur.text += text; cur.t1 = t1; }
       else { if (cur) captions.push(cur); cur = { t0, t1, text, est: !rec }; }
     }
     if (cur) captions.push(cur);

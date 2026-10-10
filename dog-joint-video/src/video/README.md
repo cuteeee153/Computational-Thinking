@@ -1,6 +1,6 @@
 # 動畫原始檔
 
-## 用自然語言修改整支影片（分鏡修改板，0:00–4:15）
+## 用自然語言修改整支影片（分鏡修改板，0:00–4:35）
 
 分鏡修改板：https://claude.ai/artifact/CDtrVSLQYiUuPH9vPLkDDn
 
@@ -16,7 +16,7 @@ Claude 處理流程（給之後的 session）：
   幕 01–26 改 `narration/narration-tts.txt` 與 `scene-map.json`（已錄音的段落要提醒使用者重錄，否則聲音和字幕會對不上）；
   幕 27 起改 `narration/draft-part3.json`。套用後把該筆設成 `status: "applied"`（分鏡板就會改回顯示新的原稿）。
 - 需求不清楚時，把該則設成 `status: "question"` 並在 `reply` 寫問題，不要猜。
-- 改完：重新輸出有改到的那段影片（改了幕 14 的結尾畫面要同時更新 `intro-last.png` 並重出 0:45–2:40）→ `node build-srt.mjs > ../../video/full-0000-0415.srt` → 串接整支 → `node build-storyboard.mjs <整支影片> <分鏡板資料夾> "<這版改了什麼>"` → 以同一個 URL 重新發佈分鏡板（含 frames/、clips/）→ 把處理過的需求設成 `done`（`doneIn` 填新版本號，`reply` 寫改了什麼）。
+- 改完：重新輸出有改到的那段影片（改了幕 14 的結尾畫面要同時更新 `intro-last.png` 並重出 0:45–2:40）→ `node build-srt.mjs > ../../video/full-0000-0435.srt` → 串接整支 → `node build-storyboard.mjs <整支影片> <分鏡板資料夾> "<這版改了什麼>"` → 以同一個 URL 重新發佈分鏡板（含 frames/、clips/）→ 把處理過的需求設成 `done`（`doneIn` 填新版本號，`reply` 寫改了什麼）。
 
 ## 旁白與字幕（成片時間）
 
@@ -26,6 +26,7 @@ Claude 處理流程（給之後的 session）：
 narration/narration-tts.txt          旁白稿（給 AI 配音用的純文字）
 narration/scene-map.json             旁白稿每一段屬於哪一幕（依序拼起來＝旁白稿全文）
 narration/audio/elevenlabs-*.mp3     錄好的完整旁白（ElevenLabs）
+narration/splice.py                  把重錄的句子剪進原本的錄音（片段清單在 splice.json）→ audio/spliced-*.mp3，再對時
 narration/align.py                   加速 1.5 倍＋離線語音辨識（sherpa-onnx Paraformer 中文）逐字對回旁白稿
                                      → audio/narration-1.5x.wav、audio/timeline.json、audio/recognized.txt（辨識結果）
 narration/gaps.json                  在哪些停頓插入幾秒空白（給畫面轉場）
@@ -64,12 +65,12 @@ src/video/build-timing.mjs           產生 timing/narration.json（字幕、各
 ### 合成聲音、放進影片
 
 ```
-node build-sfx.mjs ../../video/sfx-0000-0415.wav
-node build-music.mjs ../../video/music-0000-0415.wav
+node build-sfx.mjs ../../video/sfx-0000-0435.wav
+node build-music.mjs ../../video/music-0000-0435.wav
 # 旁白（順序要對）：place-part4.py（品種表，算出整段長度、寫 gaps.json 與 warp.json）→ place-part3.py（2:40 之後）
-#   → place.py（0:00–2:40，含插入品種表的空白，補到 W(160)）；三段接起來，品種表那段從 W(112) 疊進空白 → narration-0000-0415.wav
+#   → place.py（0:00–2:40，含插入品種表的空白，補到 W(160)）；三段接起來，品種表那段從 W(112) 疊進空白 → narration-0000-0435.wav
 # 混音：旁白 ×1.12、音樂（已在旁白時自動降低）、音效 ×0.65，再 alimiter 0.89
-# 畫面：intro ＋ part2（到 W(112)）＋ part4（品種表）＋ part2（從 W(112.01)）＋ part3 串起來，配 mix.wav → full-0000-0415.mp4
+# 畫面：intro ＋ part2（到 W(112)）＋ part4（品種表）＋ part2（從 W(112.01)）＋ part3 串起來，配 mix.wav → full-0000-0435.mp4
 ```
 
 ## 狗
@@ -131,7 +132,7 @@ npm install                                   # 安裝 gsap（第一次）
 #   ?play           從頭播放
 PAGE=intro.html node render.mjs stills 5 20 40      # 指定秒數的靜態圖
 PAGE=intro.html node render.mjs video intro.mp4 30  # 輸出影片（需 Playwright + ffmpeg）
-node build-srt.mjs > ../../video/full-0000-0415.srt   # 整支的字幕
+node build-srt.mjs > ../../video/full-0000-0435.srt   # 整支的字幕
 T0=… T1=… PAGE=… node render.mjs video …            # 只算成片時間 T0～T1 這一段
 NOCAP=1 PAGE=… node render.mjs stills …             # 截圖不含字幕（當下一段的底圖）
 ```
@@ -211,12 +212,13 @@ part3/scenes/NN-*.js    幕 27–37
 - 開頭墊的 `part2-hole.png` 是 `part2.html` 停在 W(112) 的畫面（不含字幕）：米色畫面從右邊蓋上去，最後往右滑出來時露出它，接回幕 23b。
 - 品種頭貼：`assets/breeds/`（`cut.py` 從 `source/sheet-*.jpg` 的 4×3 素材圖切出；`breeds.json`／`breeds.js` 是四組品種與中文名，順序照文章表格）。
   四組：small 小型犬、hip 中大型犬（髖）、ocd 大型・運動型（肩 OCD）、elbow 大型・工作犬種（肘）。英國鬥牛犬取自 `source/sheet-english-bulldog.jpg` 右下角。
-- 幕 38 放好整張表（`TABLE`，含每列的補充小字 `ex`）和共用的 `tableRow()`／`rowSfx()`；幕 39–42 各負責一列；幕 43 是「不是診斷」提醒卡＋滑出。
-- 旁白：`narration/audio/elevenlabs-anna-su-part4.mp3` → `align.py`（`audio-part4/`）→ `place-part4.py`；旁白稿 `narration/draft-part4.json`（一幕一行，和錄音一致）。
+- 幕 38 放好整張表（`TABLE`）和共用的 `tableRow()`／`rowSfx()`；幕 39–42 各負責一列；幕 43 是「不是診斷」提醒卡＋滑出。
+- 旁白：`narration/audio/spliced-part4.mp3`（`splice.py` 接好：重錄的開場＋品種表＋判讀提醒）→ `align.py`（`audio-part4/`）→ `place-part4.py`；旁白稿 `narration/draft-part4.json`（一幕一行，和錄音一致）。
+- 幕 43b 是「表格判讀提醒」卡，最後米色畫面在這一幕滑出。
 
 ## 其他共用
 
 - `steps.js`：三步驟總覽卡（幕 21b、27、33；念到第幾步就亮哪一張）。樣式 `.step` 在 `part2/core.css`。
 - 字幕斷句：同一行旁白的短句合併成一則（最多 18 字），幕和幕的交界一定斷開；`narration/caption-breaks.json` 可以指定額外的斷開位置。
-- 旁白停頓：0:00–2:40 在 `narration/gaps.json`（加了停頓要把 `timing/warp.json` 之後的對照點一起往後移）；2:40 之後在 `narration/part3-anchors.json` 的 `gaps`（`line` 或 `before` 某個短句），`place-part3.py` 會自動重算對照點；品種表在 `narration/part4-anchors.json`。
+- 旁白停頓：0:00–2:40 在 `narration/gaps.json`（加了停頓要把 `timing/warp.json` 之後的對照點一起往後移）；2:40 之後在 `narration/part3-anchors.json` 的 `gaps`（`line` 或 `before` 某個短句），`place-part3.py` 會自動重算對照點；品種表在 `narration/part4-anchors.json`。`part3-anchors.json` 的 `extra` 可以把停頓裡的動作對到某個短句開口／結束前後（例：幕 31 的「早期警訊」）。
 - 建置腳本讀各幕設定時，同一段的各幕在同一個環境裡執行，並先載入 `steps.js` 與品種清單 `BREEDS`。

@@ -21,13 +21,13 @@ const PARTS = [
   { id: 'intro', page: 'intro.html', start: 0, end: 45 },
   { id: 'part2', page: 'part2.html', start: 45, end: 160 },
   { id: 'part3', page: 'part3.html', start: 160, end: 244.9 },
-  { id: 'part4', page: 'part4.html', start: 245, end: 291.833 },
+  { id: 'part4', page: 'part4.html', start: 245, end: 309.1 },
 ];
 // 分鏡板上的分組：照影片裡的順序（品種對照表 part4 插在幕 23 和 23b 之間）；設計時間範圍 → 標題
 const GROUPS = [
   { id: 'intro', title: '開場', start: 0, end: 45 },
   { id: 'part2', title: '為什麼問錯・第一步', start: 45, end: 112.0 },
-  { id: 'breeds', title: '品種對照表', start: 245, end: 291.833 },
+  { id: 'breeds', title: '品種對照表', start: 245, end: 309.1 },
   { id: 'part2b', title: '第一步（續）', start: 112.01, end: 160 },
   { id: 'part3', title: '第二步・第三步', start: 160, end: 244.9 },
 ];

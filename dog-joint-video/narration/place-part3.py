@@ -44,6 +44,10 @@ json.dump(tl, open(f'{here}/audio-part3/timeline-placed.json', 'w'), ensure_asci
 ph = [p for l in tl['lines'] for p in l['phrases']]
 assert [p['text'] for p in ph] == [a[0] for a in cfg['phrases']], '旁白稿的短句和 part3-anchors.json 對不起來'
 anchors += [[d, p['t0']] for (_, d), p in zip(cfg['phrases'], ph)]
+# 額外的對照點（停頓裡的動作要排在哪）：{design, phrase, edge: t0|t1, plus} → 那個短句開口／結束的時間＋plus 秒
+byText = {p['text']: p for p in ph}
+anchors += [[x['design'], round(byText[x['phrase']][x['edge']] + x['plus'], 3)] for x in cfg.get('extra', [])]
+anchors.sort()
 anchors.append([cfg['end'], round(anchors[-1][1] + cfg['end'] - anchors[-1][0], 3)])   # 這一段的結尾（part3.html 的 duration）
 for a, b in zip(anchors, anchors[1:]): assert b[0] > a[0] and b[1] > a[1], f'對照點要遞增：{a} {b}'
 warp['anchors'] = anchors + later

@@ -1,0 +1,86 @@
+{
+ "note": "重錄的句子剪進原本的錄音（原速，秒數是各檔案裡的時間）。每個輸出檔＝依序接起來的片段；[檔名, 開始, 結束] 或 {\"silence\": 秒}。切點都選在停頓裡（ffmpeg silencedetect）。輸出之後再跑 align.py 對時。",
+ "outputs": {
+  "audio/spliced-part12.mp3": [
+   [
+    "audio/elevenlabs-anna-su-full.mp3",
+    0,
+    43.4282,
+    "到「而是風險因子。」之後的停頓"
+   ],
+   [
+    "audio/elevenlabs-anna-su-retake-1.mp3",
+    0,
+    10.1,
+    "重錄：接下來…幫你判斷你家的狗狗現在該不該開始保養。"
+   ],
+   [
+    "audio/elevenlabs-anna-su-full.mp3",
+    55.3707,
+    126.267,
+    "「美國動物醫院協會…」到「所謂的風險因子一共有五大類：」"
+   ],
+   [
+    "audio/elevenlabs-anna-su-retake-2.mp3",
+    0,
+    2.5,
+    "重錄：一、屬於特定的好發品種。"
+   ],
+   {
+    "silence": 0.6
+   },
+   [
+    "audio/elevenlabs-anna-su-retake-2.mp3",
+    17.1,
+    42.17,
+    "重錄：二、體重過重…鈣質吃太多或太少。"
+   ],
+   [
+    "audio/elevenlabs-anna-su-full.mp3",
+    149.012,
+    171.73,
+    "「數一數…」到最後"
+   ]
+  ],
+  "audio/spliced-part4.mp3": [
+   [
+    "audio/elevenlabs-anna-su-retake-2.mp3",
+    3.0,
+    15.8,
+    "重錄：這邊幫你整理好了…需不需要提早進入加強留意組。（去掉後面的雜音）"
+   ],
+   {
+    "silence": 0.6
+   },
+   [
+    "audio/elevenlabs-anna-su-part4.mp3",
+    5.98,
+    63.33,
+    "品種表：小型犬…還是要由獸醫評估。"
+   ],
+   {
+    "silence": 0.9
+   },
+   [
+    "audio/elevenlabs-anna-su-retake-3.mp3",
+    0,
+    16.33,
+    "新增：表格判讀提醒"
+   ]
+  ],
+  "audio/spliced-part3.mp3": [
+   [
+    "audio/elevenlabs-anna-su-part3.mp3",
+    0,
+    1.0299,
+    "「第二步，」"
+   ],
+   [
+    "audio/elevenlabs-anna-su-part3.mp3",
+    2.4411,
+    103.63,
+    "拿掉「再問自己：」，從「我家的狗狗，」接到最後"
+   ]
+  ]
+ }
+}

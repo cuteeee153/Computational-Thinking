@@ -14,4 +14,14 @@
 .note .t{font-size:56px;font-weight:900;letter-spacing:-.04em;line-height:1.2}
 .note .l{display:flex;align-items:center;gap:18px;font-size:36px;font-weight:700;margin-top:26px}
 .note .l i{width:44px;height:44px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:24px;font-weight:900;background:#FDE6D5;color:var(--or)}
-.trow .ex{display:block;margin-top:8px;font-style:normal;font-size:19px;font-weight:700;color:#8F8377;white-space:nowrap}
+/* 幕 43b：表格判讀提醒（三項條件 → 建議） */
+.tip{position:absolute;left:210px;top:300px;width:1500px;padding:52px 64px 56px;border-radius:34px;box-shadow:0 0 0 5px #F97316,0 50px 90px -40px rgba(107,74,42,.45)}
+.tip .k{font:700 24px 'Space Mono',monospace;color:var(--or);letter-spacing:.04em}
+.tip .t{font-size:48px;font-weight:900;letter-spacing:-.04em;margin-top:10px}
+.tip .row{display:flex;align-items:center;gap:22px;margin-top:34px}
+.tip .chip{padding:18px 30px;border-radius:22px;background:#FDE6D5;color:#B4470A;font-size:38px;font-weight:900;letter-spacing:-.03em;white-space:nowrap}
+.tip .plus{font-size:48px;font-weight:900;color:var(--or)}
+.tip .res{display:flex;align-items:center;gap:26px;margin-top:40px;padding:28px 36px;border-radius:24px;background:#FFF6EC}
+.tip .res .ar{font-size:56px;font-weight:900;color:var(--or)}
+.tip .res b{display:block;font-size:42px;font-weight:900;letter-spacing:-.03em}
+.tip .res span{display:block;margin-top:8px;font-size:30px;font-weight:700;color:#8F8377}
