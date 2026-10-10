@@ -10,13 +10,16 @@ import { W } from './timing/timing.mjs';
 
 const here = path.dirname(new URL(import.meta.url).pathname);
 const args = process.argv.slice(2), flag = args.find(a => a === '--list'), out = args.find(a => a !== '--list');
-const SR = 48000, LEN = Math.ceil(W(245) * 100) / 100;   // 秒數寫設計時間，合成時用 W() 換成成片時間
+const SR = 48000, LEN = Math.ceil(W(270) * 100) / 100;   // 秒數寫設計時間，合成時用 W() 換成成片時間
 
 const scenes = [];
-for (const part of ['intro', 'part2', 'part3']) {
-  const dir = path.join(here, part, 'scenes');
+// 同一段的各幕在同一個環境裡依序執行（後面的幕可以用前面的幕定義的函式，例如品種表的 tableRow／rowSfx）
+const BREEDS = JSON.parse(fs.readFileSync(path.join(here, 'assets/breeds/breeds.json'), 'utf8'));
+for (const part of ['intro', 'part2', 'part3', 'part4']) {
+  const dir = path.join(here, part, 'scenes'), ctx = vm.createContext({ BREEDS, Intro: { scene: d => scenes.push(d) } });
+  vm.runInContext(fs.readFileSync(path.join(here, 'steps.js'), 'utf8'), ctx);   // 三步驟總覽的版面函式
   for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.js')).sort())
-    vm.runInNewContext(fs.readFileSync(path.join(dir, f), 'utf8'), { Intro: { scene: d => scenes.push(d) } });
+    vm.runInContext(fs.readFileSync(path.join(dir, f), 'utf8'), ctx);
 }
 scenes.sort((a, b) => a.start - b.start);
 const cues = scenes.flatMap(s => (s.sfx || []).map(([t, kind, label, o = {}]) => ({ scene: s.id, t: W(t), kind, label, ...o })));
@@ -132,7 +135,21 @@ const SOUNDS = {
   chime: () => { const b = buf(1.4); [2093, 2637, 3136].forEach((f, k) => mixInto(b, tone(f, f, 1.2, .4, { partials: [[1, 1], [2.4, .1]] }), k * .07, .6)); return b; }, // 閃一下：叮鈴
   thud: () => mixInto(tone(120, 42, .4, .13, { att: .003 }), noiseSweep(.07, 700, 300, { type: 'lp', q: .7 }), 0, .6), // 印章：咚
   note: (o) => tone(523 * o.pitch, 523 * o.pitch, .5, .14, { partials: [[1, 1], [4, .18], [10, .04]] }), // 木琴一個音
-  brush: () => noiseSweep(.38, 500, 1200, { type: 'lp', q: .7 }),                                       // 上色：輕刷
+  brush: () => noiseSweep(.38, 500, 1200, { type: 'lp', q: .7 }),
+  whimper: (o) => {                                                                                    // 狗狗嗚咽：兩聲往下滑的「嗚～」，帶一點顫音和鼻息
+    const b = buf(1.3), lp = biquad('lp');
+    [[0, .5, 980, 690, 1], [.58, .62, 1040, 640, .85]].forEach(([at, dur, f0, f1, g]) => {
+      const n = Math.round(dur * SR), o0 = Math.round(at * SR); let ph = 0;
+      for (let i = 0; i < n && o0 + i < b.length; i++) {
+        const t = i / SR, p = t / dur, f = (f0 * (f1 / f0) ** p) * o.pitch * (1 + .025 * Math.sin(2 * Math.PI * 7 * t));
+        ph += 2 * Math.PI * f / SR;
+        const env = Math.min(1, t / .05) * (1 - p) ** 1.3;
+        b[o0 + i] += g * env * (Math.sin(ph) + .35 * Math.sin(2 * ph) + .12 * Math.sin(3 * ph) + .08 * noise());
+      }
+    });
+    for (let i = 0; i < b.length; i++) b[i] = lp(b[i], 3200, .7) * .7;
+    return b;
+  },                                       // 上色：輕刷
 };
 
 // ---------- 混音 ----------

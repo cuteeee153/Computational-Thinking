@@ -1,0 +1,16 @@
+/* 4:05–4:30 品種對照表：在 part2/core.css 之上，只放這一段新增的元件。 */
+#S7{background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg);box-shadow:-40px 0 80px rgba(60,40,20,.18)}
+.trow{position:absolute;left:72px;width:1776px;height:150px;border-radius:26px;padding:0 0 0 40px;display:flex;align-items:center}
+.trow .sz{width:340px;flex:none}
+.trow .sz b{display:block;font-size:36px;font-weight:900;letter-spacing:-.03em;white-space:nowrap}
+.trow .rk{display:inline-block;margin-top:8px;padding:5px 14px;border-radius:999px;background:#FDE6D5;color:var(--or);font-size:22px;font-weight:700;white-space:nowrap}
+.trow .hd{display:flex;gap:0}
+.bh{width:136px;text-align:center}
+.bh i{display:block;width:96px;height:96px;margin:0 auto;border-radius:50%;overflow:hidden;background:#F4EFE6;box-shadow:0 0 0 3px #fff,0 10px 20px -10px rgba(107,74,42,.5)}
+.bh i img{width:100%;height:100%;object-fit:cover;display:block}
+.bh span{display:block;margin-top:8px;font-size:17px;font-weight:700;white-space:nowrap;color:#4A3F37}
+.src.lt{color:#8F8377;border-color:var(--line);background:#FFFBF6}
+.note{position:absolute;left:360px;top:360px;width:1200px;padding:56px 64px;border-radius:34px;box-shadow:0 0 0 5px #F97316,0 50px 90px -40px rgba(107,74,42,.45)}
+.note .t{font-size:56px;font-weight:900;letter-spacing:-.04em;line-height:1.2}
+.note .l{display:flex;align-items:center;gap:18px;font-size:36px;font-weight:700;margin-top:26px}
+.note .l i{width:44px;height:44px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:24px;font-weight:900;background:#FDE6D5;color:var(--or)}

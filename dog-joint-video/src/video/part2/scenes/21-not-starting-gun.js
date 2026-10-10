@@ -43,9 +43,9 @@ Intro.scene({
     gsap.set('#stamp', { opacity: 0, scale: 1.6 });
   },
   animate({ L, E }) {
-    L(['#h3b1', '#h3b2'], { yPercent: -110, duration: .6, ease: 'power3.in', stagger: .08 }, 87.62);
-    L('#LB', { opacity: 0, duration: .5 }, 87.72);
-    L('#LC', { opacity: 1, duration: .3 }, 88.22);
+    L(['#h3b1', '#h3b2'], { yPercent: -110, duration: .9, ease: 'power3.in', stagger: .08 }, 87.62);
+    L('#LB', { opacity: 0, duration: .8 }, 87.72);
+    L('#LC', { opacity: 1, duration: .6 }, 88.22);
     L('#h3c1', { yPercent: 0, duration: .8, ease: 'power4.out' }, 88.42);
     L('#p7', { opacity: 1, y: 0, duration: .6, ease: 'bounce.out' }, 88.72);
     L('#p5', { opacity: 1, y: 0, duration: .6, ease: 'bounce.out' }, 89.32);

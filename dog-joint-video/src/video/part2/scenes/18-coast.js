@@ -31,11 +31,11 @@ Intro.scene({
     gsap.set(['#b1', '#b2', '#b3', '#b4'], { opacity: 0, y: 30 });
   },
   animate({ L, E }) {
-    L(['#h3a1', '#h3a2'], { yPercent: -110, duration: .6, ease: 'power3.in', stagger: .08 }, 61.62);
-    L('#src1', { opacity: 0, duration: .3 }, 61.82);
-    L('#src2', { opacity: 1, y: 0, duration: .5, ease: E }, 62.32);
-    L('#LA', { opacity: 0, duration: .5 }, 61.82);
-    L('#LB', { opacity: 1, duration: .3 }, 62.32);
+    L(['#h3a1', '#h3a2'], { yPercent: -110, duration: .9, ease: 'power3.in', stagger: .08 }, 61.62);
+    L('#src1', { opacity: 0, duration: .6 }, 61.82);
+    L('#src2', { opacity: 1, y: 0, duration: .8, ease: E }, 62.32);
+    L('#LA', { opacity: 0, duration: .8 }, 61.82);
+    L('#LB', { opacity: 1, duration: .6 }, 62.32);
     L('#h3b1', { yPercent: 0, duration: .8, ease: 'power4.out' }, 62.32);
     L('#h3b2', { yPercent: 0, duration: .8, ease: 'power4.out' }, 65.62);
     ['#b1', '#b2', '#b3', '#b4'].forEach((b, i) => L(b, { opacity: 1, y: 0, duration: .5, ease: E }, 65.82 + i * .15));

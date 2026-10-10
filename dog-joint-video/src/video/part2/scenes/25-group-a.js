@@ -40,14 +40,14 @@ Intro.scene({
     gsap.set(['#a1', '#a2'], { opacity: 0, x: -20 });
   },
   animate({ L, E }) {
-    L(['#h41', '#h42'], { yPercent: -110, duration: .6, ease: 'power3.in', stagger: .08 }, 128.74);
-    L('#five', { opacity: 0, x: 40, duration: .5 }, 128.74);
-    L('[id^=rft]', { opacity: 0, duration: .3 }, 128.74);
+    L(['#h41', '#h42'], { yPercent: -110, duration: .9, ease: 'power3.in', stagger: .08 }, 128.74);
+    L('#five', { opacity: 0, x: 40, duration: .8 }, 128.74);
+    L('[id^=rft]', { opacity: 0, duration: .5 }, 128.74);
     for (let i = 0; i < 5; i++)
-      L('#rf' + i, { x: (553 + i * 165) - (72 + i * 360), y: 180 - 520, scale: .46, duration: .9, ease: 'power3.inOut' }, 128.94 + i * .04);
+      L('#rf' + i, { x: (553 + i * 165) - (72 + i * 360), y: 180 - 520, scale: .46, duration: 1.3, ease: 'power3.inOut' }, 128.94 + i * .04);
     // 縮小後編號和圖示要看得清楚：卡片內同步放大
-    L('.rf .num', { fontSize: 52, duration: .9, ease: 'power3.inOut' }, 128.94);
-    L('.rf .ic', { width: 250, height: 250, duration: .9, ease: 'power3.inOut' }, 128.94);
+    L('.rf .num', { fontSize: 52, duration: 1.3, ease: 'power3.inOut' }, 128.94);
+    L('.rf .ic', { width: 250, height: 250, duration: 1.3, ease: 'power3.inOut' }, 128.94);
     L('#stripLbl', { opacity: 1, duration: .5 }, 129.64);
     L('#brL', { strokeDashoffset: 0, duration: .8, ease: 'power2.inOut' }, 130.14);
     L('#brlL', { opacity: 1, scale: 1, duration: .4, ease: 'back.out(2)' }, 130.44);

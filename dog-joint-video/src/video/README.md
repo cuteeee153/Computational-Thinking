@@ -1,6 +1,6 @@
 # 動畫原始檔
 
-## 用自然語言修改整支影片（分鏡修改板，0:00–4:05）
+## 用自然語言修改整支影片（分鏡修改板，0:00–4:30）
 
 分鏡修改板：https://claude.ai/artifact/CDtrVSLQYiUuPH9vPLkDDn
 
@@ -11,7 +11,7 @@
 
 Claude 處理流程（給之後的 session）：
 - 用 ArtifactData `list` 讀分鏡板資料庫的 `requests` 集合，取 `status: "new"` 的需求（欄位：scene、text、status、reply、createdAt）。
-- 「畫面 N／動畫 N」對應該幕檔案（幕 01–14 在 `intro/scenes/`，幕 15–26 在 `part2/scenes/`，幕 27–37 在 `part3/scenes/`）裡 `visuals`／`motions` 陣列的第 N 項；改動畫時同步更新這兩個白話說明。旁白改在 `narration/` 與 `timing/warp.json`（見下方「旁白與字幕」）。
+- 「畫面 N／動畫 N」對應該幕檔案（幕 01–14 在 `intro/scenes/`，幕 15–26 在 `part2/scenes/`，幕 27–37 在 `part3/scenes/`，幕 38–43 在 `part4/scenes/`；幕 21b 是後來插在 21、22 之間的一幕）裡 `visuals`／`motions` 陣列的第 N 項；改動畫時同步更新這兩個白話說明。旁白改在 `narration/` 與 `timing/warp.json`（見下方「旁白與字幕」）。
 - 字幕修改存在 `subtitles` 集合（文件 id＝幕號；欄位 scene、text（一行一句）、status、updatedAt）。取 `status: "edited"` 的：
   幕 01–26 改 `narration/narration-tts.txt` 與 `scene-map.json`（已錄音的段落要提醒使用者重錄，否則聲音和字幕會對不上）；
   幕 27 起改 `narration/draft-part3.json`。套用後把該筆設成 `status: "applied"`（分鏡板就會改回顯示新的原稿）。
@@ -198,3 +198,18 @@ part3/scenes/NN-*.js    幕 27–37
 | 35 | 212.5–224.9 | 有風險因子・無徵兆：提早追蹤 |
 | 36 | 224.9–232.8 | 出現任何徵兆：先看獸醫 |
 | 37 | 232.8–245.0 | 保健品不是先吃再說＋三步驟回顧、停格 |
+
+## 4:05–4:30：體型 × 品種對照表（旁白還沒錄）
+
+`part4.html` 設定 `Intro.start = 245`、`Intro.duration = 272.5`，開頭墊的 `part3-last.png` 是 `part3.html` 停在 W(245) 的畫面。
+- 品種頭貼：`assets/breeds/`（`cut.py` 從 `source/sheet-*.jpg` 四張 4×3 素材圖切出；`breeds.json`／`breeds.js` 是四組品種與中文名，順序照文章表格）。
+  四張素材圖剛好對應表格四列：small 小型犬、hip 中大型犬（髖）、ocd 大型・運動型（肩 OCD）、elbow 大型・工作犬種（肘）。
+- 幕 38 放好整張表（`TABLE`）和共用的 `tableRow()`／`rowSfx()`；幕 39–42 各負責一列；幕 43 是「不是診斷」提醒卡＋停格。
+- 旁白草稿 `narration/draft-part4.json`，字幕時間照語速推算（預估）。錄好音之後比照第二、三步：`align.py` → 放好位置 → 對照點。
+
+## 其他共用
+
+- `steps.js`：三步驟總覽卡（幕 21b、27、33；念到第幾步就亮哪一張）。樣式 `.step` 在 `part2/core.css`。
+- 字幕斷句：同一行旁白的短句合併成一則（最多 18 字），幕和幕的交界一定斷開；`narration/caption-breaks.json` 可以指定額外的斷開位置。
+- 旁白停頓：0:00–2:40 在 `narration/gaps.json`（加了停頓要把 `timing/warp.json` 之後的對照點一起往後移）；2:40 之後在 `narration/part3-anchors.json` 的 `gaps`（`line` 或 `before` 某個短句），`place-part3.py` 會自動重算對照點。
+- 建置腳本讀各幕設定時，同一段的各幕在同一個環境裡執行，並先載入 `steps.js` 與品種清單 `BREEDS`。

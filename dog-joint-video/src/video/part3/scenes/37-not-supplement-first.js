@@ -5,7 +5,7 @@ Intro.scene({
   id: '37', title: '保健品不是先吃再說＋回顧', start: 232.8, end: 245,
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 244.0,
-  visuals: ["右上：保健品罐圖示＋灰字「保健品：先吃再說」（被橘線劃掉）", "右下橘框：夾板圖示＋「依獸醫評估後的」／「分期建議」", "回顧大標第一行：「狗狗關節保養該從什麼時候開始，」（黑）", "回顧大標第二行：「三個步驟帶你判斷：」（橘）", "三張步驟卡：STEP 01 有風險因子嗎？／STEP 02 有任何徵兆嗎？／STEP 03 該做什麼？，各有橘色打勾圓圈"],
+  visuals: ["右上：保健品罐圖示＋灰字「保健品：先吃再說」（被橘線劃掉）", "右下橘框：夾板圖示＋「依獸醫評估後的」／「分期建議」", "回顧大標第一行：「狗狗關節保養該從什麼時候開始，」（黑）", "回顧大標第二行：「三個步驟帶你判斷：」（橘）", "三張步驟卡：STEP 01 有風險因子嗎？／STEP 02 有任何徵兆嗎？／STEP 03 下一步該做什麼？，各有橘色打勾圓圈"],
   motions: ["232.9 秒｜左、中卡片往下淡出", "233.1 秒｜「先看獸醫」卡移到左邊", "233.4 秒｜保健品罐與「保健品：先吃再說」出現", "234.4 秒｜「先吃再說」被劃掉、變淡", "235.3 秒｜「依獸醫評估後的分期建議」浮上來", "238.3 秒｜大標、卡片全部退場", "238.8 秒｜回顧大標第一行冒出", "239.1 秒｜回顧大標第二行冒出", "239.6 秒｜三張步驟卡依序浮上來", "240.5 秒｜三個勾勾依序彈出", "241.5 秒起｜停格到 4:05"],
   sfx: [
     [232.9, "whoosh", "左、中卡片退場：「咻」", { gain: 0.7 }],
@@ -33,7 +33,7 @@ Intro.scene({
         </div>
       </div>
       <div class="h abs" style="left:72px;top:196px;font-size:96px" id="h7"><span class="ln"><span id="h71">狗狗關節保養該從什麼時候開始，</span></span><span class="ln"><span id="h72" class="o">三個步驟帶你判斷：</span></span></div>
-      ${[['STEP 01', '有風險因子嗎？'], ['STEP 02', '有任何徵兆嗎？'], ['STEP 03', '該做什麼？']].map(([n, t], i) =>
+      ${[['STEP 01', '有風險因子嗎？'], ['STEP 02', '有任何徵兆嗎？'], ['STEP 03', '下一步該做什麼？']].map(([n, t], i) =>
         `<div class="step card" id="rc${i}" style="left:${72 + i * 604}px"><div class="ck" id="rcck${i}">✓</div><div><div class="n">${n}</div><div class="t">${t}</div></div></div>`).join('')}` },
   ],
   assets() {
@@ -44,8 +44,8 @@ Intro.scene({
     gsap.set(['#pill37', '#adv37'], { opacity: 0, y: 40 });
     gsap.set('#pillX', { scaleX: 0 });
     gsap.set(['#h71', '#h72'], { yPercent: 110 });
-    gsap.set('.step', { opacity: 0, y: 50 });
-    gsap.set('.step .ck', { scale: 0 });
+    gsap.set(['#rc0', '#rc1', '#rc2'], { opacity: 0, y: 50 });
+    gsap.set(['#rcck0', '#rcck1', '#rcck2'], { scale: 0 });
   },
   animate({ L, E }) {
     L(['#do0', '#do1'], { opacity: 0, y: 60, duration: .5, ease: 'power3.in' }, 232.9);

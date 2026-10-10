@@ -40,14 +40,14 @@ Intro.scene({
     gsap.set('#warn', { opacity: 0, x: 40 });
   },
   animate({ L, E }) {
-    L(['#mid30', '#sg', '#sgLbl'], { opacity: 0, duration: .4 }, 182.4);
-    L('#S5dark', { opacity: 1, duration: .5 }, 182.4);
-    L('#logo', { color: '#FFF6EC', duration: .4 }, 182.4);
-    L('#e5', { color: '#E9DCCB', duration: .4 }, 182.4);
+    L(['#mid30', '#sg', '#sgLbl'], { opacity: 0, duration: .9 }, 182.4);
+    L('#S5dark', { opacity: 1, duration: .9 }, 182.4);
+    L('#logo', { color: '#FFF6EC', duration: .9 }, 182.4);
+    L('#e5', { color: '#E9DCCB', duration: .9 }, 182.4);
     // 離開這一幕：背景變回米色（第 32 幕開始時）
-    L('#S5dark', { opacity: 0, duration: .5 }, 189.7);
-    L('#logo', { color: '#231B15', duration: .4 }, 189.7);
-    L('#e5', { color: '#E2620E', duration: .4 }, 189.7);
+    L('#S5dark', { opacity: 0, duration: .9 }, 189.7);
+    L('#logo', { color: '#231B15', duration: .9 }, 189.7);
+    L('#e5', { color: '#E2620E', duration: .9 }, 189.7);
     L('#src31', { opacity: 1, y: 0, duration: .5, ease: E }, 182.7);
     L('#h531', { yPercent: 0, duration: .8, ease: 'power4.out' }, 182.8);
     L('#h532', { yPercent: 0, duration: .8, ease: 'power4.out' }, 184.7);

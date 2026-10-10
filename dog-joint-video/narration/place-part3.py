@@ -16,18 +16,24 @@ warp = json.load(open(wp))
 anchors = [a for a in warp['anchors'] if a[0] <= cfg['start']]
 assert anchors[-1][0] == cfg['start'], 'warp.json 要有設計時間 160 的對照點'
 P0 = anchors[-1][1]
-# 停頓：lead＝第一句前的留白；gaps＝在第幾行（旁白稿的行號）開口前多停幾秒
-gaps = {g['line']: g['add'] for g in cfg['gaps']}
+# 停頓：lead＝第一句前的留白；gaps＝在哪裡開口前多停幾秒
+#       （{line: N, add} 在第 N 行開口前；{before: "短句", add} 在這個短句開口前）
+gl = {g['line']: g['add'] for g in cfg['gaps'] if 'line' in g}
+gp = {g['before']: g['add'] for g in cfg['gaps'] if 'before' in g}
 w = wave.open(f'{here}/audio-part3/{tl["audio"]}'); sr = w.getframerate()
 x = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16)
 parts, cur, shift = [np.zeros(int(cfg['lead'] * sr), np.int16)], 0, cfg['lead']
+used = set()
 for l in tl['lines']:
-    add = gaps.get(l['line'], 0)
-    if add:
-        cut = int(max(0, l['t0'] - .12) * sr)          # 在這一行開口前一點點切開、插入空白
-        parts += [x[cur:cut], np.zeros(int(add * sr), np.int16)]; cur = cut; shift += add
-    for p in l['phrases']: p['t0'], p['t1'] = round(P0 + shift + p['t0'], 3), round(P0 + shift + p['t1'], 3)
+    for k, p in enumerate(l['phrases']):
+        add = (gl.get(l['line'], 0) if k == 0 else 0) + gp.get(p['text'], 0)
+        if p['text'] in gp: used.add(p['text'])
+        if add:
+            cut = int(max(0, p['t0'] - .1) * sr)       # 在這個短句開口前一點點切開、插入空白
+            parts += [x[cur:cut], np.zeros(int(add * sr), np.int16)]; cur = cut; shift += add
+        p['t0'], p['t1'] = round(P0 + shift + p['t0'], 3), round(P0 + shift + p['t1'], 3)
     l['t0'], l['t1'] = l['phrases'][0]['t0'], l['phrases'][-1]['t1']
+assert used == set(gp), f'gaps 裡的短句找不到：{set(gp) - used}'
 parts.append(x[cur:])
 y = np.concatenate(parts)
 o = wave.open(out, 'wb'); o.setnchannels(2); o.setsampwidth(2); o.setframerate(sr); o.writeframes(np.repeat(y[:, None], 2, axis=1).tobytes()); o.close()

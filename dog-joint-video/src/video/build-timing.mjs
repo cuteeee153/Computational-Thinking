@@ -3,7 +3,7 @@
 // 讀：../../narration/audio/timeline-placed.json（align.py 對時＋place.py 插入停頓後，每一句旁白的成片時間）
 //     ../../narration/scene-map.json（旁白稿每一段屬於哪一幕）
 //     timing/warp.json（設計時間 → 成片時間的對照點）
-//     ../../narration/draft-part3.json（2:40 之後的旁白稿，一幕一行）＋ audio-part3/timeline-placed.json（錄音對時結果；沒有的話照語速推算、標記為預估）
+//     ../../narration/draft-part3.json、draft-part4.json（2:40 之後的旁白稿，一幕一行）＋ audio-partN/timeline-placed.json（錄音對時結果；沒有的話照語速推算、標記為預估）
 // 寫：timing/narration.json（字幕、各幕旁白）與 timing/timing.js（給 intro.html／part2.html 載入）
 import fs from 'node:fs';
 import path from 'node:path';
@@ -20,41 +20,64 @@ const nchar = t => (t.match(/[一-鿿A-Za-z0-9]/g) || []).length;
 const phrases = []; let pos = 0;
 for (const l of tl.lines) for (const p of l.phrases) { phrases.push({ ...p, line: l.line, a: pos, b: pos + nchar(p.text) }); pos += nchar(p.text); }
 
-// 字幕：同一行裡連續的短句合併，一則最多 18 字；句尾的逗號、句號、冒號、分號不顯示
+// 字幕一定要斷開的位置：幕和幕的交界（字幕不跨幕），加上 caption-breaks.json 指定的地方（after＝這段字之後斷開）
+const cuts = new Set(); { let q = 0; map.forEach((m, i) => { q += nchar(m.text); if (map[i + 1] && map[i + 1].scene !== m.scene) cuts.add(q); }); }
+const fullText = tl.lines.flatMap(l => l.phrases.map(p => p.text)).join('');
+const brkFile = path.join(N, 'caption-breaks.json');
+for (const { after } of fs.existsSync(brkFile) ? JSON.parse(fs.readFileSync(brkFile, 'utf8')).breaks : []) {
+  const i = fullText.indexOf(after); assert(i >= 0, `caption-breaks.json：旁白裡找不到「${after}」`);
+  cuts.add(nchar(fullText.slice(0, i + after.length)));
+}
+// 短句在斷開的位置切成小段（時間依字數平分）
+const segs = [];
+for (const p of phrases) {
+  if (p.t0 == null) continue;
+  const n = p.b - p.a; let k = 0, txt = '', start = 0, brk = cuts.has(p.a) || p === phrases.find(x => x.line === p.line);
+  for (const ch of p.text) {
+    txt += ch; if (/[一-鿿A-Za-z0-9]/.test(ch)) k++;
+    if (k < n && cuts.has(p.a + k) && /[一-鿿A-Za-z0-9]/.test(ch)) {
+      segs.push({ line: p.line, text: txt, t0: p.t0 + (p.t1 - p.t0) * start / n, t1: p.t0 + (p.t1 - p.t0) * k / n, brk });
+      txt = ''; start = k; brk = true;
+    }
+  }
+  segs.push({ line: p.line, text: txt, t0: p.t0 + (p.t1 - p.t0) * start / n, t1: p.t1, brk });
+}
+// 字幕：同一行裡連續的小段合併，一則最多 18 字（遇到斷開的位置不合併）；句尾的逗號、句號、冒號、分號不顯示
 const strip = s => s.replace(/[，。、：；,]+$/, '');
 const captions = [];
-for (const l of tl.lines) {
-  const rec = phrases.filter(p => p.line === l.line && p.t0 != null);
-  let cur = null;
-  for (const p of rec) {
-    if (cur && (strip(cur.text) + p.text).length <= 18) { cur.text += p.text; cur.t1 = p.t1; }
-    else { if (cur) captions.push(cur); cur = { t0: p.t0, t1: p.t1, text: p.text }; }
-  }
-  if (cur) captions.push(cur);
+let cur = null;
+for (const g of segs) {
+  if (cur && !g.brk && g.line === cur.line && (strip(cur.text) + g.text).length <= 18) { cur.text += g.text; cur.t1 = g.t1; }
+  else { if (cur) captions.push(cur); cur = { t0: g.t0, t1: g.t1, text: g.text, line: g.line }; }
 }
-// 2:40 之後（draft-part3.json）
-const draft = JSON.parse(fs.readFileSync(path.join(N, 'draft-part3.json'), 'utf8'));
+if (cur) captions.push(cur);
+// 2:40 之後：每一段有自己的旁白稿（draft-partN.json，一幕一行）；錄好音之後（place-part3.py 產生 audio-partN/timeline-placed.json）
+// 改用真正的時間，還沒錄音的照語速推算（標記為預估）
 const W = t => { const a = warp; if (t <= a[0][0]) return t - a[0][0] + a[0][1];
   for (let i = 1; i < a.length; i++) if (t <= a[i][0]) return a[i - 1][1] + (t - a[i - 1][0]) * (a[i][1] - a[i - 1][1]) / (a[i][0] - a[i - 1][0]);
   return t - a[a.length - 1][0] + a[a.length - 1][1]; };
-// 錄好音之後（place-part3.py 產生 audio-part3/timeline-placed.json）改用真正的時間；旁白稿一行＝一幕
-const placedP3 = path.join(N, 'audio-part3/timeline-placed.json');
-const rec3 = fs.existsSync(placedP3) ? JSON.parse(fs.readFileSync(placedP3, 'utf8')).lines : null;
-if (rec3) assert(rec3.length === draft.scenes.length && rec3.every((l, i) => l.text === draft.scenes[i].text), 'audio-part3 的對時結果和 draft-part3.json 的旁白不一致，請重新對時');
-const estScenes = {}; let dt = draft.start;
-for (const [si, sc] of draft.scenes.entries()) {
-  dt += sc.pre; let cur = null; const ph = [];
-  if (rec3) for (const p of rec3[si].phrases) ph.push([p.t0, p.t1, p.text]);
-  else for (const p of sc.text.match(/[^，。、：；？！]+[，。、：；？！]?/g) || []) {
-    const t0 = dt; dt += (p.match(/[一-鿿A-Za-z0-9]/g) || []).length / draft.rate; ph.push([W(t0), W(dt), p]);
-    dt += /[。？！；：]$/.test(p) ? draft.stopGap : draft.commaGap;
+const estScenes = {}; let estimatedFrom = null;
+for (const part of ['part3', 'part4']) {
+  const draft = JSON.parse(fs.readFileSync(path.join(N, `draft-${part}.json`), 'utf8'));
+  const placed = path.join(N, `audio-${part}/timeline-placed.json`);
+  const rec = fs.existsSync(placed) ? JSON.parse(fs.readFileSync(placed, 'utf8')).lines : null;
+  if (rec) assert(rec.length === draft.scenes.length && rec.every((l, i) => l.text === draft.scenes[i].text), `audio-${part} 的對時結果和 draft-${part}.json 的旁白不一致，請重新對時`);
+  else if (estimatedFrom == null) estimatedFrom = +W(draft.start).toFixed(3);
+  let dt = draft.start;
+  for (const [si, sc] of draft.scenes.entries()) {
+    dt += sc.pre; let cur = null; const ph = [];
+    if (rec) for (const p of rec[si].phrases) ph.push([p.t0, p.t1, p.text]);
+    else for (const p of sc.text.match(/[^，。、：；？！]+[，。、：；？！]?/g) || []) {
+      const t0 = dt; dt += (p.match(/[一-鿿A-Za-z0-9]/g) || []).length / draft.rate; ph.push([W(t0), W(dt), p]);
+      dt += /[。？！；：]$/.test(p) ? draft.stopGap : draft.commaGap;
+    }
+    for (const [t0, t1, text] of ph) {
+      if (cur && !/[：。？！；]$/.test(cur.text) && (strip(cur.text) + text).length <= 18) { cur.text += text; cur.t1 = t1; }
+      else { if (cur) captions.push(cur); cur = { t0, t1, text, est: !rec }; }
+    }
+    if (cur) captions.push(cur);
+    estScenes[sc.scene] = [[+ph[0][0].toFixed(3), +ph[ph.length - 1][1].toFixed(3), sc.text, ...(rec ? [] : ['est'])]];
   }
-  for (const [t0, t1, text] of ph) {
-    if (cur && !/[：。？！；]$/.test(cur.text) && (strip(cur.text) + text).length <= 18) { cur.text += text; cur.t1 = t1; }
-    else { if (cur) captions.push(cur); cur = { t0, t1, text, est: !rec3 }; }
-  }
-  if (cur) captions.push(cur);
-  estScenes[sc.scene] = [[+ph[0][0].toFixed(3), +ph[ph.length - 1][1].toFixed(3), sc.text, ...(rec3 ? [] : ['est'])]];
 }
 captions.forEach((c, i) => {
   const next = captions[i + 1];
@@ -72,7 +95,7 @@ for (const m of map) {
 }
 
 Object.assign(scenes, estScenes);
-const out = { estimatedFrom: rec3 ? null : +W(draft.start).toFixed(3), speed: tl.speed, offset: tl.offset, recordedUntil: Math.max(0, ...captions.filter(c => !c.est).map(c => c.t1)), captions: captions.map(c => [+c.t0.toFixed(3), +c.t1.toFixed(3), c.text]), scenes };
+const out = { estimatedFrom, speed: tl.speed, offset: tl.offset, recordedUntil: Math.max(0, ...captions.filter(c => !c.est).map(c => c.t1)), captions: captions.map(c => [+c.t0.toFixed(3), +c.t1.toFixed(3), c.text]), scenes };
 fs.writeFileSync(path.join(here, 'timing/narration.json'), JSON.stringify(out, null, 1));
 fs.writeFileSync(path.join(here, 'timing/timing.js'),
   `// 自動產生（node build-timing.mjs），不要手改：改 timing/warp.json 或重新對時\n` +

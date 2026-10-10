@@ -1,13 +1,16 @@
 // 幕 27｜2:40 第二步：「我家的狗狗，現在有沒有任何徵兆？」
-// 新的米色畫面由右往左蓋過第一步，小標「05 ／ 判斷第二步」打出，大標兩行冒出；右上角放大鏡彈出，下面一串腳印。
+// 新的米色畫面由右往左蓋過第一步；念到「第二步」時三步驟總覽浮上來、STEP 02 亮起，收起後小標「05 ／ 判斷第二步」打出，大標兩行冒出；右上角放大鏡彈出，下面一串腳印。
 Intro.scene({
   id: '27', title: '第二步：有任何徵兆嗎？', start: 160, end: 166.3,
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 165.8,
-  visuals: ["米色畫面（由右邊蓋進來）", "小標「05 ／ 判斷第二步」", "大標第一行：「我的狗狗，」（黑）", "大標第二行：「有沒有任何徵兆？」（橘）", "右上角的放大鏡", "放大鏡下面一串腳印"],
-  motions: ["160.0 秒｜米色畫面由右往左蓋過第一步，約 0.85 秒", "160.7 秒｜小標逐字打出", "162.9 秒｜大標第一行冒出", "163.7 秒｜大標第二行冒出", "164.3 秒｜放大鏡彈出", "164.5 秒｜腳印一個個出現", "165.0 秒起｜放大鏡左右輕輕晃"],
+  visuals: ["米色畫面（由右邊蓋進來）", "三步驟總覽：STEP 01 打勾、STEP 02 亮起（橘框、稍微放大）、STEP 03 變淡", "小標「05 ／ 判斷第二步」", "大標第一行：「我的狗狗，」（黑）", "大標第二行：「有沒有任何徵兆？」（橘）", "右上角的放大鏡", "放大鏡下面一串腳印"],
+  motions: ["160.0 秒｜米色畫面由右往左蓋過第一步，約 0.85 秒", "161.1 秒｜三張步驟卡依序浮上來", "161.45 秒｜念到「第二步」時 STEP 02 亮起", "162.65 秒｜三張卡往上收起", "162.7 秒｜小標逐字打出", "162.9 秒｜大標第一行冒出", "163.7 秒｜大標第二行冒出", "164.3 秒｜放大鏡彈出", "164.5 秒｜腳印一個個出現", "165.0 秒起｜放大鏡左右輕輕晃"],
   sfx: [
     [160.0, "whoosh-big", "米色畫面由右蓋進來：大「咻」"],
+    [161.1, "pop-card", "步驟卡浮上：「啵」"],
+    [161.45, "ding-soft", "STEP 02 亮起：輕「叮」"],
+    [162.65, "whoosh", "步驟卡收起：「咻」", { gain: 0.6 }],
     [164.3, "pop", "放大鏡彈出：「啵」"],
     [164.5, "tick-soft", "腳印 1 出現：輕點", { gain: 0.6 }],
     [164.8, "tick-soft", "腳印 2 出現：輕點", { gain: 0.6, pitch: 1.12 }],
@@ -18,6 +21,7 @@ Intro.scene({
     { into: '#chrome', html: `
       <div class="logo" id="logo"><i><img src="brand/wantan-logo.svg" alt=""></i>汪探<span class="sep">｜</span>WanTan</div>` },
     { into: '#S5-text', html: `
+      ${stepsHTML('ov2', 2)}
       <div class="abs" style="left:72px;top:140px"><div class="eyebrow" id="e5" data-text="05 ／ 判斷第二步"></div></div>
       <div class="h abs" style="left:72px;top:196px;font-size:104px" id="h5"><span class="ln"><span id="h51">我的狗狗，</span></span><span class="ln"><span id="h52" class="o">有沒有任何徵兆？</span></span></div>
       <div class="abs" style="left:1340px;top:120px;width:300px;height:300px" id="mag"></div>
@@ -30,13 +34,15 @@ Intro.scene({
   },
   init() {
     gsap.set('#S5', { xPercent: 100 });
+    stepsInit('ov2');
     gsap.set(['#h51', '#h52'], { yPercent: 110 });
     gsap.set('#mag', { opacity: 0, scale: .6, rotation: -20 });
     gsap.set('[id^=pw]', { opacity: 0, scale: .4 });
   },
   animate({ tl, L, type }) {
     L('#S5', { xPercent: 0, duration: .85, ease: 'power3.inOut' }, 160.0);
-    type('#e5', 160.7, .6);
+    stepsAnim(L, 'ov2', 2, { tIn: 161.1, tLight: 161.45, tOut: 162.65 });
+    type('#e5', 162.7, .6);
     L('#h51', { yPercent: 0, duration: .8, ease: 'power4.out' }, 162.9);
     L('#h52', { yPercent: 0, duration: .8, ease: 'power4.out' }, 163.7);
     L('#mag', { opacity: 1, scale: 1, rotation: 0, duration: .6, ease: 'back.out(2)' }, 164.3);
