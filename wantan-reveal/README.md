@@ -1,7 +1,8 @@
-# 汪探 WanTan — 3-second logo reveal
+# 汪探 WanTan — logo reveal & outro
 
 - `index.html`: the live, scrubbable animation (open in a browser). Space plays or pauses, ←/→ steps one frame, and there's a 0.25× slow-mo toggle.
 - `wantan-reveal.mp4`: 1920×1080, 60 fps render (3 s reveal + ~0.9 s hold), with sound.
+- `outro.html` / `wantan-outro.mp4`: 6 s end card. The logo draws on, then the slogan, then a paw cursor taps 訂閱 and 開啟小鈴鐺 (the bell rings).
 
 Every frame is a pure function of `t` (`window.__render(t)`), so the page renders frame-exact for video export (`index.html?capture&t=1500`).
 
