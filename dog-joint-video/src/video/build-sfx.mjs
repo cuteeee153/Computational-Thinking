@@ -10,7 +10,7 @@ import { W } from './timing/timing.mjs';
 
 const here = path.dirname(new URL(import.meta.url).pathname);
 const args = process.argv.slice(2), flag = args.find(a => a === '--list'), out = args.find(a => a !== '--list');
-const SR = 48000, LEN = Math.ceil(W(270) * 100) / 100;   // 秒數寫設計時間，合成時用 W() 換成成片時間
+const SR = 48000, LEN = Math.ceil(W(244.9) * 100) / 100;   // 秒數寫設計時間，合成時用 W() 換成成片時間
 
 const scenes = [];
 // 同一段的各幕在同一個環境裡依序執行（後面的幕可以用前面的幕定義的函式，例如品種表的 tableRow／rowSfx）

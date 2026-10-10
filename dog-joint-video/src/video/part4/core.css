@@ -1,4 +1,4 @@
-/* 4:05–4:30 品種對照表：在 part2/core.css 之上，只放這一段新增的元件。 */
+/* 品種對照表（接在幕 23「好發品種」之後）：在 part2/core.css 之上，只放這一段新增的元件。 */
 #S7{background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg);box-shadow:-40px 0 80px rgba(60,40,20,.18)}
 .trow{position:absolute;left:72px;width:1776px;height:150px;border-radius:26px;padding:0 0 0 40px;display:flex;align-items:center}
 .trow .sz{width:340px;flex:none}
@@ -14,3 +14,4 @@
 .note .t{font-size:56px;font-weight:900;letter-spacing:-.04em;line-height:1.2}
 .note .l{display:flex;align-items:center;gap:18px;font-size:36px;font-weight:700;margin-top:26px}
 .note .l i{width:44px;height:44px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:24px;font-weight:900;background:#FDE6D5;color:var(--or)}
+.trow .ex{display:block;margin-top:8px;font-style:normal;font-size:19px;font-weight:700;color:#8F8377;white-space:nowrap}

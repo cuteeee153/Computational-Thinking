@@ -1,6 +1,7 @@
 {
  "note": "每個短句在設計時間裡的位置（part3/scenes 的動畫照這個時間排）。改旁白或動畫時一起改；place-part3.py 用它產生 warp.json 160 秒之後的對照點。lead：第一句前留白；gaps：在哪裡開口前多停幾秒（line＝旁白稿第幾行；before＝哪個短句）。",
  "start": 160,
+ "end": 244.9,
  "lead": 1.8,
  "gaps": [
   {

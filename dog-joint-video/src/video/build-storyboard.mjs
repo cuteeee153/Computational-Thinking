@@ -1,7 +1,7 @@
 // 產生「分鏡修改板」要用的素材：每一幕的資料、關鍵畫面、預覽短片。
 // 用法：node build-storyboard.mjs <整支影片.mp4> <輸出資料夾> [版本說明]
-// 涵蓋四段：intro/scenes/（0:00–0:45）、part2/scenes/（0:45–2:40）、part3/scenes/（2:40–4:05）、part4/scenes/（4:05–4:30），各自的 .html
-// （段落名稱用設計時間；分鏡板上每一幕的秒數是成片時間）
+// 涵蓋四段動畫頁：intro、part2、part3、part4（品種對照表，影片裡插在幕 23 和 23b 之間），各自的 .html
+// （分鏡板依影片順序分組；每一幕的秒數都是成片時間）
 // 輸出：storyboard.json、frames/NN.jpg（960×540）、clips/NN.mp4（960×540，有聲音的段落含旁白、音效、音樂）
 import fs from 'node:fs';
 import path from 'node:path';
@@ -16,12 +16,22 @@ if (!video || !out) { console.error('用法：node build-storyboard.mjs <影片.
 fs.mkdirSync(path.join(out, 'frames'), { recursive: true });
 fs.mkdirSync(path.join(out, 'clips'), { recursive: true });
 
+// 各段的動畫頁（設計時間）
 const PARTS = [
-  { id: 'intro', label: '0:00–0:45　開場', page: 'intro.html', start: 0, end: 45 },
-  { id: 'part2', label: '0:45–2:40　為什麼問錯・第一步', page: 'part2.html', start: 45, end: 160 },
-  { id: 'part3', label: '2:40–4:05　第二步・第三步', page: 'part3.html', start: 160, end: 245 },
-  { id: 'part4', label: '4:05–4:30　品種對照表', page: 'part4.html', start: 245, end: 272.5 },
+  { id: 'intro', page: 'intro.html', start: 0, end: 45 },
+  { id: 'part2', page: 'part2.html', start: 45, end: 160 },
+  { id: 'part3', page: 'part3.html', start: 160, end: 244.9 },
+  { id: 'part4', page: 'part4.html', start: 245, end: 291.833 },
 ];
+// 分鏡板上的分組：照影片裡的順序（品種對照表 part4 插在幕 23 和 23b 之間）；設計時間範圍 → 標題
+const GROUPS = [
+  { id: 'intro', title: '開場', start: 0, end: 45 },
+  { id: 'part2', title: '為什麼問錯・第一步', start: 45, end: 112.0 },
+  { id: 'breeds', title: '品種對照表', start: 245, end: 291.833 },
+  { id: 'part2b', title: '第一步（續）', start: 112.01, end: 160 },
+  { id: 'part3', title: '第二步・第三步', start: 160, end: 244.9 },
+];
+const fmtM = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 
 // 讀各幕設定（只取資料，不跑動畫）
 const scenes = [];
@@ -33,7 +43,8 @@ for (const part of PARTS) {
   vm.runInContext(fs.readFileSync(path.join(here, 'steps.js'), 'utf8'), ctx);   // 三步驟總覽的版面函式
   for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.js')).sort()) { cur = f; vm.runInContext(fs.readFileSync(path.join(dir, f), 'utf8'), ctx); }
 }
-scenes.sort((a, b) => a.start - b.start);
+scenes.sort((a, b) => W(a.start) - W(b.start));
+const groupOf = s => GROUPS.find(g => s.start >= g.start && s.start < g.end).id;
 
 // 關鍵畫面：直接從各段的動畫頁截圖（半解析度）
 const b = await chromium.launch();
@@ -61,12 +72,12 @@ const data = {
   version: (prev?.version || 0) + 1,
   updatedAt: new Date().toISOString(),
   note,
-  parts: PARTS.map(({ id, label, start, end }) => ({ id, label, start: W(start), end: W(end) })),
+  parts: GROUPS.map(({ id, title, start, end }) => ({ id, label: `${fmtM(W(start))}–${fmtM(W(end))}　${title}`, start: W(start), end: W(end) })),
   // 分鏡板上顯示的秒數一律是成片時間（動畫、音效說明開頭的「X 秒」也換算）
   scenes: scenes.map(({ id, title, start, end, visuals, motions, sfx = [], file, part }) => {
     const narr = (NARR.scenes[id] || []);
     return {
-      id, title, start: +W(start).toFixed(2), end: +W(end).toFixed(2), file, part, visuals,
+      id, title, start: +W(start).toFixed(2), end: +W(end).toFixed(2), file, part: groupOf({ start }), visuals,
       motions: motions.map(m => m.replace(/^([\d.]+) 秒/, (_, t) => `${W(+t).toFixed(1)} 秒`)),
       sfx: sfx.map(([t, kind, label]) => `${W(t).toFixed(1)} 秒｜${label}`),
       narration: narr.map(n => n[2]).join(''), narrationTimes: narr,

@@ -4,7 +4,7 @@
 #     part3-anchors.json（每個短句在設計時間裡的位置＝動畫照著排的時間；開口前留白與轉場停頓）、
 #     ../src/video/timing/warp.json
 # 寫：<輸出旁白.wav>（從 W(160) 開始的這段旁白，48kHz 立體聲）、audio-part3/timeline-placed.json（成片時間）、
-#     warp.json 裡設計時間 160 之後的對照點（每個短句一個：設計時間 → 真正開口的成片時間）
+#     warp.json 裡設計時間 160～end 的對照點（每個短句一個：設計時間 → 真正開口的成片時間）
 import json, sys, wave, os
 import numpy as np
 here = os.path.dirname(os.path.abspath(__file__))
@@ -14,6 +14,7 @@ cfg = json.load(open(f'{here}/part3-anchors.json'))
 wp = f'{here}/../src/video/timing/warp.json'
 warp = json.load(open(wp))
 anchors = [a for a in warp['anchors'] if a[0] <= cfg['start']]
+later = [a for a in warp['anchors'] if a[0] >= cfg['end'] + .1]   # 品種對照表（設計時間 245 之後，place-part4.py 產生）原樣保留
 assert anchors[-1][0] == cfg['start'], 'warp.json 要有設計時間 160 的對照點'
 P0 = anchors[-1][1]
 # 停頓：lead＝第一句前的留白；gaps＝在哪裡開口前多停幾秒
@@ -43,7 +44,8 @@ json.dump(tl, open(f'{here}/audio-part3/timeline-placed.json', 'w'), ensure_asci
 ph = [p for l in tl['lines'] for p in l['phrases']]
 assert [p['text'] for p in ph] == [a[0] for a in cfg['phrases']], '旁白稿的短句和 part3-anchors.json 對不起來'
 anchors += [[d, p['t0']] for (_, d), p in zip(cfg['phrases'], ph)]
+anchors.append([cfg['end'], round(anchors[-1][1] + cfg['end'] - anchors[-1][0], 3)])   # 這一段的結尾（part3.html 的 duration）
 for a, b in zip(anchors, anchors[1:]): assert b[0] > a[0] and b[1] > a[1], f'對照點要遞增：{a} {b}'
-warp['anchors'] = anchors
+warp['anchors'] = anchors + later
 json.dump(warp, open(wp, 'w'), ensure_ascii=False, indent=1)
 print(f'第二、三步旁白：{len(y) / sr:.2f} 秒，從成片 {P0:.2f} 秒開始；最後一句結束於 {ph[-1]["t1"]:.2f} 秒；對照點 {len(ph)} 個')

@@ -79,6 +79,7 @@ for (const part of ['part3', 'part4']) {
     estScenes[sc.scene] = [[+ph[0][0].toFixed(3), +ph[ph.length - 1][1].toFixed(3), sc.text, ...(rec ? [] : ['est'])]];
   }
 }
+captions.sort((a, b) => a.t0 - b.t0);   // 品種對照表（part4）插在 part2 中間，依成片時間排
 captions.forEach((c, i) => {
   const next = captions[i + 1];
   c.t1 = Math.min(c.t1 + .35, next ? next.t0 - .04 : Infinity);
