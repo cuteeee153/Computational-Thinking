@@ -18,11 +18,10 @@ Intro.scene({
   ],
   mount: [
     { into: '#chrome', html: `
-      <div class="logo" id="logo"><i><img src="brand/wantan-logo.svg" alt=""></i>汪探<span class="sep">｜</span>WanTan</div>
-      <div class="tagline">不是幾歲．是風險等級</div>` },
+      <div class="logo" id="logo"><i><img src="brand/wantan-logo.svg" alt=""></i>汪探<span class="sep">｜</span>WanTan</div>` },
     { into: '#S3-text', html: `
       <div class="abs" style="left:72px;top:140px"><div class="eyebrow" id="e3" data-text="03 ／ 為什麼問題問錯了？"></div></div>
-      <div class="h abs" style="left:72px;top:196px;font-size:80px" id="h3a"><span class="ln"><span id="h3a1">美國動物醫院協會（AAHA）關節照護指引</span></span></div>
+      <div class="h abs" style="left:72px;top:196px;font-size:80px" id="h3a"><span class="ln"><span id="h3a1">AAHA 關節照護指引</span></span></div>
       <div class="src" id="src1">SOURCE ／ AAHA《Mobility Matters》</div>` },
     { into: '#LA', html: `
       <div class="abs" style="left:140px;top:328px;width:1500px;height:5px;border-radius:3px;background:#E7DCCD" id="axisA"></div>

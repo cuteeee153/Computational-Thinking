@@ -10,10 +10,10 @@ import { W } from './timing/timing.mjs';
 
 const here = path.dirname(new URL(import.meta.url).pathname);
 const args = process.argv.slice(2), flag = args.find(a => a === '--list'), out = args.find(a => a !== '--list');
-const SR = 48000, LEN = Math.ceil(W(160) * 100) / 100;   // 秒數寫設計時間，合成時用 W() 換成成片時間
+const SR = 48000, LEN = Math.ceil(W(245) * 100) / 100;   // 秒數寫設計時間，合成時用 W() 換成成片時間
 
 const scenes = [];
-for (const part of ['intro', 'part2']) {
+for (const part of ['intro', 'part2', 'part3']) {
   const dir = path.join(here, part, 'scenes');
   for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.js')).sort())
     vm.runInNewContext(fs.readFileSync(path.join(dir, f), 'utf8'), { Intro: { scene: d => scenes.push(d) } });

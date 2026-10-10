@@ -2,6 +2,8 @@
 #S5,#S6{background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg)}
 #S5{box-shadow:-40px 0 80px rgba(60,40,20,.18)}
 #S6{box-shadow:0 -40px 80px rgba(60,40,20,.14)}
+/* 幕 31 的深色背景（和 0:45 深色段同一種） */
+#S5dark{background:radial-gradient(900px 700px at 80% 30%,#30251E 0,transparent 70%),var(--dark)}
 /* 徵兆卡：沿用 .rf 的尺寸；左上角的小標籤 */
 .badge{position:absolute;right:22px;top:28px;padding:6px 14px;border-radius:999px;background:var(--or-b);color:#fff;font-size:20px;font-weight:700;white-space:nowrap}
 .src.lt{color:#8F8377;border-color:var(--line);background:#FFFBF6}

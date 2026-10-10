@@ -6,7 +6,9 @@
 //   鉤子段（0:00–0:19.7）  電鋼琴和弦＋木琴＋彈指、沙鈴，輕快但不吵
 //   知識段（0:19.7–0:45）  加入鼓、拍手、跳動的八分音符貝斯，節奏出來
 //   深色段（0:45–1:38.4）  改成小調和弦，鼓組簡化但保持律動，木琴降八度
-//   第一步（1:38.4–結尾）  回到大調，完整節奏＋十六分音符沙鈴，旋律變化版
+//   第一步（1:38.4–2:40）  回到大調，完整節奏＋十六分音符沙鈴，旋律變化版
+//   第二步（2:40–3:20）    像知識段的節奏；幕 31（深色背景）那幾小節改回小調
+//   第三步（3:20–結尾）    木琴往上爬帶進來，完整節奏，到最後的回顧
 //   最後一個和弦延音、淡出
 // 每一句旁白（timing/narration.json 的字幕時間）出現時，音樂自動降低約 6 dB（ducking），讓出旁白。
 import fs from 'node:fs';
@@ -16,11 +18,13 @@ import { W, NARR } from './timing/timing.mjs';
 const here = path.dirname(new URL(import.meta.url).pathname);
 const out = process.argv[2];
 if (!out) { console.error('用法：node build-music.mjs <輸出.wav>'); process.exit(1); }
-const SR = 48000, LEN = Math.ceil(W(160) * 100) / 100;
+const SR = 48000, LEN = Math.ceil(W(245) * 100) / 100;
 // 小節長度：讓 0:45（深色段）轉場剛好落在小節線上，速度維持在 98 BPM 左右
 const DARK_BAR = Math.round(W(45) / 2.45), BAR = W(45) / DARK_BAR, BEAT = BAR / 4, E8 = BEAT / 2, SWING = .04;
 // 段落切換（成片時間 → 小節）：鉤子段結束、深色段開始、第一步開始、最後一個和弦
 const CORE_BAR = Math.round(W(19.7) / BAR), STEP_BAR = Math.round(W(98.4) / BAR), END_BAR = Math.floor((LEN - 4.5) / BAR);
+// 第二步、幕 31 深色、第三步
+const S2_BAR = Math.round(W(160) / BAR), D2_BAR = Math.round(W(182.4) / BAR), D2_END = Math.round(W(189.7) / BAR), S3_BAR = Math.round(W(200) / BAR);
 const L = new Float32Array(LEN * SR), R = new Float32Array(LEN * SR);
 
 let seed = 777;
@@ -107,7 +111,8 @@ const MEL_DARK = [ // 深色段：低八度、音少
 const eighth = (bar, k) => bar * BAR + k * E8 + (k % 2 ? SWING * E8 * 2 : 0);
 
 for (let bar = 0; bar <= END_BAR; bar++) {
-  const sec = bar < CORE_BAR ? 'hook' : bar < DARK_BAR ? 'core' : bar < STEP_BAR ? 'dark' : bar < END_BAR ? 'step' : 'end';
+  const sec = bar >= END_BAR ? 'end' : bar < CORE_BAR ? 'hook' : bar < DARK_BAR ? 'core' : bar < STEP_BAR ? 'dark' : bar < S2_BAR ? 'step'
+    : bar < D2_BAR ? 'core' : bar < D2_END ? 'dark' : bar < S3_BAR ? 'core' : 'step';
   const prog = sec === 'dark' ? MINOR : MAJOR, ch = prog[bar % 4], t0 = bar * BAR;
   // 和弦墊底
   if (sec === 'end') { const [l, r] = epChord([48, 55, 59, 62, 64], 4.2, .9); put(l, t0, .15, -.5); put(r, t0, .15, .5); continue; }
@@ -120,7 +125,7 @@ for (let bar = 0; bar <= END_BAR; bar++) {
   // 知識段、第一步：每個旋律音後面跟一個高八度的小回音，聽起來更跳
   if (sec === 'core' || sec === 'step') for (const [k, m, v] of mel[bar % 4]) put(marimba(m + 12, v * .6), eighth(bar, k) + E8, vol * .35, -.25);
   // 鉤子段最後一小節：木琴往上爬，帶進節奏
-  if (bar === CORE_BAR - 1) [72, 74, 76, 79].forEach((m, i) => put(marimba(m, .6 + i * .1), eighth(bar, 4 + i), .13, .2));
+  if (bar === CORE_BAR - 1 || bar === S3_BAR - 1) [72, 74, 76, 79].forEach((m, i) => put(marimba(m, .6 + i * .1), eighth(bar, 4 + i), .13, .2));
   const S16 = BEAT / 4;
   // 鉤子段：彈指在 2、4 拍，沙鈴八分音符，輕輕把節奏帶起來
   if (sec === 'hook') {

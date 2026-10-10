@@ -29,7 +29,7 @@ narration/audio/elevenlabs-*.mp3     錄好的完整旁白（ElevenLabs）
 narration/align.py                   加速 1.5 倍＋離線語音辨識（sherpa-onnx Paraformer 中文）逐字對回旁白稿
                                      → audio/narration-1.5x.wav、audio/timeline.json、audio/recognized.txt（辨識結果）
 narration/gaps.json                  在哪些停頓插入幾秒空白（給畫面轉場）
-narration/place.py                   插入停頓 → 成片旁白音軌 video/narration-0000-0240.wav、audio/timeline-placed.json
+narration/place.py                   插入停頓 → 成片旁白音軌 video/narration-0000-0405.wav、audio/timeline-placed.json
 src/video/timing/warp.json           時間對照表：[設計時間, 成片時間]，每個點把一幕的關鍵動作對到旁白念到的字
 src/video/build-timing.mjs           產生 timing/narration.json（字幕、各幕旁白）與 timing/timing.js（頁面載入）
 ```
@@ -52,23 +52,23 @@ src/video/build-timing.mjs           產生 timing/narration.json（字幕、各
 - 種類（定義在 `build-sfx.mjs` 的 `SOUNDS`）：pop／pop-low／pop-card（啵）、slide／whoosh／whoosh-big（咻）、typing（鍵盤）、click、ding／ding-soft（叮）、
   tick／tick-soft（打勾、輕點）、marker（螢光筆）、scribble（劃掉）、draw（鉛筆畫線）、shake（互撞）、fall（掉落）、flip（折角）、boing（狗彈出）、
   bounce（彈跳）、chime（叮鈴）、thud（印章）、note（木琴，用 pitch 調音高）、brush（上色）。
-- 輸出：先輸出無聲畫面，再把 `video/sfx-0000-0240.wav` 合進三支 mp4（0:45–2:40 從音軌的 45 秒開始取）。
+- 輸出：先輸出無聲畫面，再把旁白、音樂、音效混成一軌合進各段 mp4。
 - 整體音量刻意偏小（峰值約 -5 dB），留空間給之後加的旁白。
 
 ## 背景音樂
 
 - `node build-music.mjs <輸出.wav>`：lo-fi 木琴小曲，全部程式合成。段落、和弦、旋律寫在檔案開頭的註解與 `MAJOR`／`MINOR`／`MEL_*`。
-- 速度 85.33 BPM（一小節 2.8125 秒），段落切換對齊 0:19.7（加入節奏）、0:45（深色段改小調）、1:38.4（回到大調）。
+- 速度約 98 BPM（一小節約 2.46 秒），段落切換對齊 0:19.7（加入節奏）、0:45（深色段改小調）、1:38.4（回到大調）、2:40（第二步）、幕 31（深色，小調）、3:20（第三步）（都是設計時間）。
 - 每句旁白（`timing/narration.json` 的字幕時間）出現時自動降約 6 dB；平均音量約 -29 dB，當旁白的墊底。
 
 ### 合成聲音、放進影片
 
 ```
-node build-sfx.mjs ../../video/sfx-0000-0240.wav
-node build-music.mjs ../../video/music-0000-0240.wav
-ffmpeg -i ../../video/sfx-0000-0240.wav -i ../../video/music-0000-0240.wav \
-  -filter_complex "[0][1]amix=inputs=2:normalize=0,alimiter=limit=0.89" mix.wav
-# 無聲畫面 + mix.wav → 三支 mp4（0:45–2:40 用 -ss 45 從音軌 45 秒開始取）
+node build-sfx.mjs ../../video/sfx-0000-0405.wav
+node build-music.mjs ../../video/music-0000-0405.wav
+# 旁白：place.py（0:00–2:40，補到 W(160)）＋ place-part3.py（2:40 之後）接起來 → narration-0000-0405.wav
+# 混音：旁白 ×1.12、音樂（已在旁白時自動降低）、音效 ×0.65，再 alimiter 0.89
+# 無聲畫面 + mix.wav → 四支 mp4（每段從 W(段落開始) 取音軌）
 ```
 
 ## 狗
@@ -167,12 +167,17 @@ PAGE=part2.html node render.mjs video part2.mp4 30   # 輸出 0:45–2:40
 part2.html?scene=20&hud                               # 預覽單一幕
 ```
 
-## 2:40–4:05：第二步、第三步（還沒錄音）
+## 2:40–4:05：第二步、第三步
 
 寫法相同；`part3.html` 設定 `Intro.start = 160`、`Intro.duration = 245`，開頭墊的 `part2-last.png` 是 `part2.html` 停在 W(160) 的畫面。
-這段還沒有旁白錄音、音效和音樂。旁白草稿在 `narration/draft-part3.json`（每幕一段＋開口前停頓），
-`build-timing.mjs` 用已錄旁白的語速（每秒約 7.3 字）推算字幕時間（標記為預估），動畫的秒數照這個預估寫。
-錄好音之後：把這段併進 `narration-tts.txt`／`scene-map.json` 重新對時，再用 `timing/warp.json` 把動畫對到真正的旁白。
+幕 31 的深色背景是 `#S5dark` 圖層淡入淡出。
+
+旁白（`narration/`）：
+- `narration-tts-part3.txt`：這段的旁白稿，一行一幕（和 `draft-part3.json` 的 `scenes` 同步）。
+- `audio/elevenlabs-anna-su-part3.mp3` → `python3 align.py <mp3> narration-tts-part3.txt audio-part3 --offset 0`（語音辨識對時，1.5 倍速）。
+- `part3-anchors.json`：每個短句在「設計時間」裡的位置（動畫照這些時間排）、第一句前留白 `lead`、轉場停頓 `gaps`。
+- `python3 place-part3.py <輸出.wav>`：把這段旁白放在成片 W(160) 之後，並把 `timing/warp.json` 設計時間 160 之後的對照點換成「短句設計時間 → 真正開口時間」，動畫就跟著旁白走。
+- 改這段旁白的字：改 `draft-part3.json` 和 `narration-tts-part3.txt`、重錄、重新對時；新的短句要在 `part3-anchors.json` 補上設計時間。
 
 ```
 part3.html              組合頁：圖層（第二步 S5、第三步 S6）

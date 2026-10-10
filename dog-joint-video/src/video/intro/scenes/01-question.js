@@ -5,8 +5,8 @@ Intro.scene({
   id: '01', title: '開場：問題與文章 A（七歲）', start: 0, end: 2.8,
   // ↓ 給分鏡修改板看的白話說明（改動畫時一起更新）
   key: 2.6,
-  visuals: ["左上角頻道 logo 與名稱「汪探｜WanTan」，右上角標語「不是幾歲．是風險等級」", "畫面中央一張聊天卡片，標題「犬助理」，左邊是狗的大頭貼", "使用者泡泡：「狗關節保養，到底幾歲開始？」", "回答泡泡：「文章 A：7 歲以後才要開始顧關節。」", "卡片左側背景的標籤「7 歲？」"],
-  motions: ["0.1 秒｜頻道名稱和標語由上往下淡入", "0.15 秒｜聊天卡片從下方浮上來", "0.45 秒｜使用者泡泡彈出", "0.85 秒｜出現「輸入中」三個點並跳動", "1.55 秒｜文章 A 泡泡彈出", "2.1 秒｜背景標籤「7 歲？」彈出，之後緩慢上下漂移", "2.3 秒｜卡片小字從「正在搜尋⋯」換成「搜尋了 3 篇文章」"],
+  visuals: ["左上角頻道 logo 與名稱「汪探｜WanTan」", "畫面中央一張聊天卡片，標題「犬助理」，左邊是狗的大頭貼（臉置中）", "使用者泡泡：「狗關節保養，到底幾歲開始？」", "回答泡泡：「文章 A：7 歲以後才要開始顧關節。」", "卡片左側背景的標籤「7 歲？」"],
+  motions: ["0.1 秒｜頻道名稱由上往下淡入", "0.15 秒｜聊天卡片從下方浮上來", "0.45 秒｜使用者泡泡彈出", "0.85 秒｜出現「輸入中」三個點並跳動", "1.55 秒｜文章 A 泡泡彈出", "2.1 秒｜背景標籤「7 歲？」彈出，之後緩慢上下漂移", "2.3 秒｜卡片小字從「正在搜尋⋯」換成「搜尋了 3 篇文章」"],
   sfx: [
     [0.15, "slide", "聊天卡片浮上來：輕「咻」"],
     [0.45, "pop", "使用者泡泡彈出：「啵」"],
@@ -15,8 +15,7 @@ Intro.scene({
   ],
   mount: [
     { into: '#chrome', html: `
-      <div class="logo" id="logo"><i><img src="brand/wantan-logo.svg" alt=""></i>汪探<span class="sep">｜</span>WanTan</div>
-      <div class="tagline" id="tagline">不是幾歲．是風險等級</div>` },
+      <div class="logo" id="logo"><i><img src="brand/wantan-logo.svg" alt=""></i>汪探<span class="sep">｜</span>WanTan</div>` },
     { into: '#A-bg', html: `<div class="bigchip" id="c7" style="left:190px;top:300px"><b>7</b>歲？</div>` },
     { into: '#A-card', html: `
       <div class="card abs" id="chat" style="left:1110px;top:150px;width:740px;height:780px">
@@ -41,7 +40,7 @@ Intro.scene({
     av.innerHTML = '<div style="width:32px;height:32px">' + iconPaw('#fff') + '</div>';
   },
   init() {
-    gsap.set(['#logo', '#tagline'], { opacity: 0, y: -12 });
+    gsap.set('#logo', { opacity: 0, y: -12 });
     gsap.set('#chat', { x: -520, y: 60, opacity: 0 });         // 先停在畫面中央（第 04 幕才移到右邊）
     gsap.set(['#q', '#bA'], { opacity: 0, scale: .85, y: 16 });
     gsap.set('#dots', { opacity: 0 });
@@ -49,7 +48,7 @@ Intro.scene({
     gsap.set('#sub2', { opacity: 0, y: 10 });
   },
   animate({ tl, L, E }) {
-    L(['#logo', '#tagline'], { opacity: 1, y: 0, duration: .6, ease: E }, 0.1);
+    L('#logo', { opacity: 1, y: 0, duration: .6, ease: E }, 0.1);
     L('#chat', { opacity: 1, y: 0, duration: .8, ease: E }, 0.15);
     L('#q', { opacity: 1, scale: 1, y: 0, duration: .45, ease: 'back.out(1.6)' }, 0.45);
     // 輸入中…
