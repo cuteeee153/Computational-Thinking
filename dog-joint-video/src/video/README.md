@@ -220,6 +220,7 @@ part3/scenes/NN-*.js    幕 27–37
 
 `assets/bumper/wantan-reveal.mp4`（3.9 秒，含聲音）放在最前面，接開場痛點頁。長度設在 `narration/part0-anchors.json` 的 `bumper`；
 `place-part0.py` 把它加進 `warp.json` 的 `lead`（＝片頭＋痛點頁）。背景音樂從痛點頁開始（`build-music.mjs` 的 `PRE`），片頭只有它自己的聲音。
+片頭音效收尾時（3.55 秒）疊兩聲狗吠「汪汪」：`build-bark.py` 合成（不用素材檔），混進片頭音軌時音量 0.55。
 
 ## 開場痛點頁（幕 00，影片最前面）
 
