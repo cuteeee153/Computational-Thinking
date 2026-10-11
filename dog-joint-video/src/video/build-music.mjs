@@ -15,12 +15,15 @@
 // 每一句旁白（timing/narration.json 的字幕時間）出現時，音樂自動降低約 6 dB（ducking），讓出旁白。
 import fs from 'node:fs';
 import path from 'node:path';
-import { W, NARR } from './timing/timing.mjs';
+import { W as W0, NARR } from './timing/timing.mjs';
+// 片頭（品牌動畫，有自己的聲音）期間沒有背景音樂：音樂從開場痛點頁（設計時間 400）開始，
+// 以下的時間都從那裡算起，輸出時前面補上片頭長度的靜音
+const PRE = W0(400), W = t => W0(t) - PRE;
 
 const here = path.dirname(new URL(import.meta.url).pathname);
 const out = process.argv[2];
 if (!out) { console.error('用法：node build-music.mjs <輸出.wav>'); process.exit(1); }
-const SR = 48000, LEN = Math.ceil(W(368.5) * 100) / 100;
+const SR = 48000, LEN = Math.ceil(W(368.5) * 100) / 100;   // 不含片頭
 // 小節長度：讓 0:45（深色段）轉場剛好落在小節線上，速度維持在 98 BPM 左右
 const DARK_BAR = Math.round(W(45) / 2.45), BAR = W(45) / DARK_BAR, BEAT = BAR / 4, E8 = BEAT / 2, SWING = .04;
 // 段落切換（成片時間 → 小節）：鉤子段結束、深色段開始、第一步開始、最後一個和弦
@@ -160,7 +163,7 @@ for (let bar = 0; bar <= END_BAR; bar++) {
 
 // ---------- 旁白時自動降音量、頭尾淡入淡出 ----------
 const duck = new Float32Array(L.length).fill(1);
-for (const [a, b] of NARR.captions) for (let i = Math.round((a - .25) * SR); i < Math.round((b + .3) * SR) && i < duck.length; i++) if (i >= 0) duck[i] = .5;
+for (const [a0, b0] of NARR.captions) for (let a = a0 - PRE, b = b0 - PRE, i = Math.round((a - .25) * SR); i < Math.round((b + .3) * SR) && i < duck.length; i++) if (i >= 0) duck[i] = .5;
 let g = 1;
 for (let i = 0; i < L.length; i++) {
   g += (duck[i] - g) * .00012;                       // 約 0.2 秒平滑
@@ -168,11 +171,11 @@ for (let i = 0; i < L.length; i++) {
   L[i] = Math.tanh(L[i] * g * fade * 1.4) * .62; R[i] = Math.tanh(R[i] * g * fade * 1.4) * .62;   // .62：背景音量（v13 調大約 3 dB）
 }
 
-const n = L.length, data = Buffer.alloc(n * 4);
-for (let i = 0; i < n; i++) { data.writeInt16LE(Math.max(-1, Math.min(1, L[i])) * 32767 | 0, i * 4); data.writeInt16LE(Math.max(-1, Math.min(1, R[i])) * 32767 | 0, i * 4 + 2); }
+const pre = Math.round(PRE * SR), n = pre + L.length, data = Buffer.alloc(n * 4);   // 前面 pre 個取樣是片頭的靜音（Buffer.alloc 已經是 0）
+for (let i = 0; i < L.length; i++) { data.writeInt16LE(Math.max(-1, Math.min(1, L[i])) * 32767 | 0, (pre + i) * 4); data.writeInt16LE(Math.max(-1, Math.min(1, R[i])) * 32767 | 0, (pre + i) * 4 + 2); }
 const h = Buffer.alloc(44);
 h.write('RIFF', 0); h.writeUInt32LE(36 + data.length, 4); h.write('WAVE', 8); h.write('fmt ', 12);
 h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(2, 22); h.writeUInt32LE(SR, 24);
 h.writeUInt32LE(SR * 4, 28); h.writeUInt16LE(4, 32); h.writeUInt16LE(16, 34); h.write('data', 36); h.writeUInt32LE(data.length, 40);
 fs.writeFileSync(out, Buffer.concat([h, data]));
-console.log(`背景音樂 ${LEN.toFixed(2)} 秒 → ${out}`);
+console.log(`背景音樂 ${LEN.toFixed(2)} 秒（片頭 ${PRE.toFixed(2)} 秒之後）→ ${out}`);

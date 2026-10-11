@@ -3,5 +3,10 @@
  "start": 400,
  "after": 368.5,
  "lead": 0.8,
- "tail": 1.6
+ "tail": 1.6,
+ "bumper": {
+  "file": "src/video/assets/bumper/wantan-reveal.mp4",
+  "length": 3.9,
+  "note": "片頭（品牌動畫，含聲音）放在開場痛點頁之前；成片時間 0～length。lead＝片頭長度＋痛點頁長度"
+ }
 }
