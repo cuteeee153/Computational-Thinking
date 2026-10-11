@@ -59,7 +59,7 @@ const W = t => { const a = warp; if (t <= a[0][0]) return t - a[0][0] + a[0][1];
   for (let i = 1; i < a.length; i++) if (t <= a[i][0]) return a[i - 1][1] + (t - a[i - 1][0]) * (a[i][1] - a[i - 1][1]) / (a[i][0] - a[i - 1][0]);
   return t - a[a.length - 1][0] + a[a.length - 1][1]; };
 const estScenes = {}; let estimatedFrom = null;
-for (const part of ['part3', 'part4', 'part5', 'part6']) {
+for (const part of ['part0', 'part3', 'part4', 'part5', 'part6']) {
   const draft = JSON.parse(fs.readFileSync(path.join(N, `draft-${part}.json`), 'utf8'));
   const placed = path.join(N, `audio-${part}/timeline-placed.json`);
   const rec = fs.existsSync(placed) ? JSON.parse(fs.readFileSync(placed, 'utf8')).lines : null;
@@ -107,11 +107,16 @@ for (const m of map) {
 }
 
 Object.assign(scenes, estScenes);
+// 最前面的開場痛點頁（幕 00）：以上的時間都不含它，全部往後挪 LEAD 秒
+const LEAD = JSON.parse(fs.readFileSync(path.join(here, 'timing/warp.json'), 'utf8')).lead || 0;
+for (const c of captions) { c.t0 += LEAD; c.t1 += LEAD; }
+for (const v of Object.values(scenes)) for (const n of v) { if (n[0] != null) n[0] += LEAD; if (n[1] != null) n[1] += LEAD; }
+if (estimatedFrom != null) estimatedFrom += LEAD;
 const out = { estimatedFrom, speed: tl.speed, offset: tl.offset, recordedUntil: Math.max(0, ...captions.filter(c => !c.est).map(c => c.t1)), captions: captions.map(c => [+c.t0.toFixed(3), +c.t1.toFixed(3), c.text]), scenes };
 fs.writeFileSync(path.join(here, 'timing/narration.json'), JSON.stringify(out, null, 1));
 fs.writeFileSync(path.join(here, 'timing/timing.js'),
   `// 自動產生（node build-timing.mjs），不要手改：改 timing/warp.json 或重新對時\n` +
-  `window.WARP = ${JSON.stringify(warp)};\n` +
+  `window.WARP = ${JSON.stringify(warp.map(([d, o]) => [d, +(o + LEAD).toFixed(4)]))};\n` +
   `window.CAPTIONS = ${JSON.stringify(out.captions)};\n`);
 console.log(`字幕 ${captions.length} 則（錄音到 ${out.recordedUntil.toFixed(1)} 秒）；${Object.keys(scenes).length} 幕有旁白`);
 for (const c of out.captions) console.log(`  ${c[0].toFixed(2)}–${c[1].toFixed(2)}  ${c[2]}`);

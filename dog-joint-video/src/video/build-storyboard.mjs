@@ -1,6 +1,6 @@
 // 產生「分鏡修改板」要用的素材：每一幕的資料、關鍵畫面、預覽短片。
 // 用法：node build-storyboard.mjs <整支影片.mp4> <輸出資料夾> [版本說明]
-// 涵蓋四段動畫頁：intro、part2、part3、part4（品種對照表，影片裡插在幕 23 和 23b 之間）、part5（真實畫面＋收尾），各自的 .html
+// 涵蓋四段動畫頁：part0（開場痛點，影片最前面）、intro、part2、part3、part4（品種對照表，影片裡插在幕 23 和 23b 之間）、part5（真實畫面＋收尾），各自的 .html
 // （分鏡板依影片順序分組；每一幕的秒數都是成片時間）
 // 輸出：storyboard.json、frames/NN.jpg（960×540）、clips/NN.mp4（960×540，有聲音的段落含旁白、音效、音樂）
 import fs from 'node:fs';
@@ -18,6 +18,7 @@ fs.mkdirSync(path.join(out, 'clips'), { recursive: true });
 
 // 各段的動畫頁（設計時間）
 const PARTS = [
+  { id: 'part0', page: 'part0.html', start: 400, end: 417.933 },
   { id: 'intro', page: 'intro.html', start: 0, end: 45 },
   { id: 'part2', page: 'part2.html', start: 45, end: 160 },
   { id: 'part3', page: 'part3.html', start: 160, end: 244.9 },
@@ -26,6 +27,7 @@ const PARTS = [
 ];
 // 分鏡板上的分組：照影片裡的順序（品種對照表 part4 插在幕 23 和 23b 之間）；設計時間範圍 → 標題
 const GROUPS = [
+  { id: 'part0', title: '開場痛點', start: 400, end: 417.933 },
   { id: 'intro', title: '開場', start: 0, end: 45 },
   { id: 'part2', title: '為什麼問錯・第一步', start: 45, end: 112.0 },
   { id: 'breeds', title: '品種對照表', start: 245, end: 309.1 },

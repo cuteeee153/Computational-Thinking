@@ -15,7 +15,7 @@ const SR = 48000, LEN = Math.ceil(W(368.5) * 100) / 100;   // 秒數寫設計時
 const scenes = [];
 // 同一段的各幕在同一個環境裡依序執行（後面的幕可以用前面的幕定義的函式，例如品種表的 tableRow／rowSfx）
 const BREEDS = JSON.parse(fs.readFileSync(path.join(here, 'assets/breeds/breeds.json'), 'utf8'));
-for (const part of ['intro', 'part2', 'part3', 'part4', 'part5']) {
+for (const part of ['part0', 'intro', 'part2', 'part3', 'part4', 'part5']) {
   const dir = path.join(here, part, 'scenes'), ctx = vm.createContext({ BREEDS, Intro: { scene: d => scenes.push(d) } });
   vm.runInContext(fs.readFileSync(path.join(here, 'steps.js'), 'utf8'), ctx);   // 三步驟總覽的版面函式
   for (const f of fs.readdirSync(dir).filter(f => f.endsWith('.js')).sort())

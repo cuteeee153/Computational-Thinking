@@ -23,5 +23,5 @@
 .tip .plus{font-size:48px;font-weight:900;color:var(--or)}
 .tip .res{display:flex;align-items:center;gap:26px;margin-top:40px;padding:28px 36px;border-radius:24px;background:#FFF6EC}
 .tip .res .ar{font-size:56px;font-weight:900;color:var(--or)}
-.tip .res b{display:block;font-size:42px;font-weight:900;letter-spacing:-.03em}
+.tip .res b{display:block;font-size:56px;font-weight:900;letter-spacing:-.03em}
 .tip .res span{display:block;margin-top:8px;font-size:30px;font-weight:700;color:#8F8377}

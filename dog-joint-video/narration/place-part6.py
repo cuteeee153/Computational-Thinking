@@ -8,7 +8,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 out = sys.argv[1]
 tl = json.load(open(f'{here}/audio-part6/timeline.json'))
 d = json.load(open(f'{here}/draft-part6.json')); lead = d['scenes'][0]['pre']
-a = json.load(open(f'{here}/../src/video/timing/warp.json'))['anchors'][-1]
+a = [x for x in json.load(open(f'{here}/../src/video/timing/warp.json'))['anchors'] if x[0] <= d['start']][-1]
 assert d['start'] >= a[0]
 P = round(a[1] + d['start'] - a[0], 4)      # 最後一個對照點之後，設計時間一秒對一秒
 w = wave.open(f'{here}/audio-part6/{tl["audio"]}'); sr = w.getframerate()

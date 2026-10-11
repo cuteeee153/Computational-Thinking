@@ -1,6 +1,6 @@
 # 動畫原始檔
 
-## 用自然語言修改整支影片（分鏡修改板，0:00–5:34）
+## 用自然語言修改整支影片（分鏡修改板，0:00–5:52）
 
 分鏡修改板：https://claude.ai/artifact/CDtrVSLQYiUuPH9vPLkDDn
 
@@ -16,7 +16,7 @@ Claude 處理流程（給之後的 session）：
   幕 01–26 改 `narration/narration-tts.txt` 與 `scene-map.json`（已錄音的段落要提醒使用者重錄，否則聲音和字幕會對不上）；
   幕 27 起改 `narration/draft-part3.json`。套用後把該筆設成 `status: "applied"`（分鏡板就會改回顯示新的原稿）。
 - 需求不清楚時，把該則設成 `status: "question"` 並在 `reply` 寫問題，不要猜。
-- 改完：重新輸出有改到的那段影片（改了幕 14 的結尾畫面要同時更新 `intro-last.png` 並重出 0:45–2:40）→ `node build-srt.mjs > ../../video/full-0000-0534.srt` → 串接整支 → `node build-storyboard.mjs <整支影片> <分鏡板資料夾> "<這版改了什麼>"` → 以同一個 URL 重新發佈分鏡板（含 frames/、clips/）→ 把處理過的需求設成 `done`（`doneIn` 填新版本號，`reply` 寫改了什麼）。
+- 改完：重新輸出有改到的那段影片（改了幕 14 的結尾畫面要同時更新 `intro-last.png` 並重出 0:45–2:40）→ `node build-srt.mjs > ../../video/full-0000-0552.srt` → 串接整支 → `node build-storyboard.mjs <整支影片> <分鏡板資料夾> "<這版改了什麼>"` → 以同一個 URL 重新發佈分鏡板（含 frames/、clips/）→ 把處理過的需求設成 `done`（`doneIn` 填新版本號，`reply` 寫改了什麼）。
 
 ## 旁白與字幕（成片時間）
 
@@ -65,12 +65,12 @@ src/video/build-timing.mjs           產生 timing/narration.json（字幕、各
 ### 合成聲音、放進影片
 
 ```
-node build-sfx.mjs ../../video/sfx-0000-0534.wav
-node build-music.mjs ../../video/music-0000-0534.wav
+node build-sfx.mjs ../../video/sfx-0000-0552.wav
+node build-music.mjs ../../video/music-0000-0552.wav
 # 旁白（順序要對）：place-part4.py（品種表，算出整段長度、寫 gaps.json 與 warp.json）→ place-part3.py（2:40 之後）
-#   → place-part5.py（真實畫面）→ place.py（0:00–2:40，含插入品種表的空白，補到 W(160)）；三段接起來，品種表那段從 W(112) 疊進空白 → narration-0000-0534.wav
+#   → place-part5.py（真實畫面）→ place-part6.py（收尾）→ place-part0.py（開場痛點）→ place.py（0:00–2:40，含插入品種表的空白，補到 W(160)）；三段接起來，品種表那段從 W(112) 疊進空白 → narration-0000-0552.wav
 # 混音：旁白 ×1.12、音樂（已在旁白時自動降低）、音效 ×0.65，再 alimiter 0.89
-# 畫面：intro ＋ part2（到 W(112)）＋ part4（品種表）＋ part2（從 W(112.01)）＋ part3 ＋ part5（真實畫面、收尾）串起來，配 mix.wav → full-0000-0534.mp4
+# 畫面：part0（開場痛點）＋ intro ＋ part2（到 W(112)）＋ part4（品種表）＋ part2（從 W(112.01)）＋ part3 ＋ part5（真實畫面、收尾）串起來，配 mix.wav → full-0000-0552.mp4
 ```
 
 ## 狗
@@ -132,7 +132,7 @@ npm install                                   # 安裝 gsap（第一次）
 #   ?play           從頭播放
 PAGE=intro.html node render.mjs stills 5 20 40      # 指定秒數的靜態圖
 PAGE=intro.html node render.mjs video intro.mp4 30  # 輸出影片（需 Playwright + ffmpeg）
-node build-srt.mjs > ../../video/full-0000-0534.srt   # 整支的字幕
+node build-srt.mjs > ../../video/full-0000-0552.srt   # 整支的字幕
 T0=… T1=… PAGE=… node render.mjs video …            # 只算成片時間 T0～T1 這一段
 NOCAP=1 PAGE=… node render.mjs stills …             # 截圖不含字幕（當下一段的底圖）
 ```
@@ -215,6 +215,13 @@ part3/scenes/NN-*.js    幕 27–37
 - 幕 38 放好整張表（`TABLE`）和共用的 `tableRow()`／`rowSfx()`；幕 39–42 各負責一列；幕 43 是「不是診斷」提醒卡＋滑出。
 - 旁白：`narration/audio/spliced-part4.mp3`（`splice.py` 接好：重錄的開場＋品種表＋判讀提醒）→ `align.py`（`audio-part4/`）→ `place-part4.py`；旁白稿 `narration/draft-part4.json`（一幕一行，和錄音一致）。
 - 幕 43b 是「表格判讀提醒」卡，最後米色畫面在這一幕滑出。
+
+## 開場痛點頁（幕 00，影片最前面）
+
+`part0.html`（設計時間 400 起），大標「想照顧好狗狗的關節，你是不是也有這些困擾？」＋三張困擾卡，念完淡出接幕 01。
+- 旁白 `audio/spliced-part0.mp3`（splice.py 去掉多出來的「來」）→ `align.py`（`audio-part0/`）→ `place-part0.py`（最後跑）。
+- 這一頁的長度寫在 `timing/warp.json` 的 `lead`：其他對照點、`narration/` 裡的時間都**不含**它，成片時間＝換算結果＋lead（`timing.mjs` 的 `W`；不含 lead 的是 `WI`）。
+  `build-timing.mjs` 輸出的字幕、`timing.js` 的對照點都已加上 lead。`place.py` 的總長要用 `WI(160)`。
 
 ## 真實畫面（幕 44）＋收尾（幕 45）
 

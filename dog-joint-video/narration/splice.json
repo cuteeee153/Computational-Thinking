@@ -81,6 +81,40 @@
     103.63,
     "拿掉「再問自己：」，從「我家的狗狗，」接到最後"
    ]
+  ],
+  "audio/spliced-part0.mp3": [
+   [
+    "audio/elevenlabs-anna-su-pain.mp3",
+    0,
+    4.2,
+    "「想照顧好狗狗的關節，你是不是也有這些困擾？」"
+   ],
+   {
+    "silence": 0.15
+   },
+   [
+    "audio/elevenlabs-anna-su-pain.mp3",
+    4.75,
+    23.72,
+    "拿掉多出來的「來」，從「一、花了不少錢…」接到最後"
+   ]
+  ],
+  "audio/spliced-part5.mp3": [
+   [
+    "audio/elevenlabs-anna-su-footage.mp3",
+    0,
+    3.5,
+    "「我自己養的是一隻還在青壯年階段的狗，」"
+   ],
+   {
+    "silence": 0.25
+   },
+   [
+    "audio/elevenlabs-anna-su-footage.mp3",
+    4.3,
+    59.72,
+    "拿掉多出來的「來」"
+   ]
   ]
  }
 }
