@@ -1,5 +1,5 @@
 {
- "note": "收尾幕（幕 45，接在真實畫面之後）的旁白稿：還沒錄音。字幕時間用已錄旁白的語速推算；pre 是開口前的停頓秒數。錄好之後比照品種表：align.py → 放好位置。",
+ "note": "收尾幕（幕 45，接在真實畫面之後）的旁白稿，和錄音一致（audio/elevenlabs-anna-su-ending.mp3 → align.py → audio-part6/ → place-part6.py）。pre＝開口前留白。",
  "start": 351.5,
  "rate": 7.27,
  "commaGap": 0.2,

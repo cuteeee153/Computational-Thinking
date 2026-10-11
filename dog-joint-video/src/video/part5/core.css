@@ -1,11 +1,14 @@
 /* 真實畫面（幕 44，先放佔位卡）＋收尾（幕 45）：在 part2/core.css 之上，只放這一段新增的元件。 */
-#S8{background:radial-gradient(900px 700px at 50% 40%,#3A2E26 0,transparent 70%),var(--dark);color:#FFF6EC}
-#S8 .ph{position:absolute;left:0;right:0;top:330px;text-align:center}
-#S8 .ph b{display:block;font-size:150px;font-weight:900;letter-spacing:-.05em}
-#S8 .ph span{display:block;margin-top:18px;font-size:34px;font-weight:700;color:#CDBEAC}
-#S8 .tag{position:absolute;right:72px;top:52px;font:700 18px 'Space Mono',monospace;letter-spacing:.16em;color:#CDBEAC;padding:10px 18px;border:1.5px dashed rgba(255,230,200,.35);border-radius:999px}
-.lt{position:absolute;left:72px;bottom:150px;padding:18px 34px 18px 26px;border-radius:20px;background:rgba(255,251,246,.96);color:var(--ink);font-size:40px;font-weight:900;letter-spacing:-.03em;display:flex;align-items:center;gap:18px;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
-.lt i{font-style:normal;width:56px;height:56px;border-radius:50%;background:var(--or-b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px}
+#S8{background:radial-gradient(1100px 700px at 30% 20%,#FCF7F0 0,transparent 70%),var(--bg)}
+/* 右邊放直拍影片的框（成片裡由 ffmpeg 把真實影片疊在這裡：left 1240、top 60、540×960、圓角 34） */
+#S8 .vframe{position:absolute;left:1240px;top:60px;width:540px;height:960px;border-radius:34px;background:#E9DFD2;box-shadow:0 50px 90px -40px rgba(107,74,42,.45),0 0 0 1px rgba(107,74,42,.06);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;color:#A89A8A}
+.pt{position:absolute;left:72px;width:1100px;height:150px;padding:22px 34px;border-radius:28px;display:flex;gap:24px;align-items:flex-start}
+.pt .nb{flex:none;width:56px;height:56px;border-radius:50%;background:#EADFD1;color:#8F8377;display:flex;align-items:center;justify-content:center;font:700 28px 'Space Mono',monospace;margin-top:2px}
+.pt .tt{font-size:40px;font-weight:900;letter-spacing:-.03em;line-height:1.35}
+.pt .dl{font-size:25px;font-weight:700;color:#8F8377;line-height:1.5;white-space:nowrap}
+.pt .dl b{color:var(--or)}
+.sub8{position:absolute;left:72px;top:372px;font-size:32px;font-weight:700;color:#6E6257;white-space:nowrap}
+.sub8 b{color:var(--ink)}
 #S9{background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg);box-shadow:-40px 0 80px rgba(60,40,20,.18)}
 .vet{position:absolute;left:72px;top:520px;width:1776px;padding:44px 56px;border-radius:34px;display:flex;align-items:center;gap:26px}
 .vet .lb{font-size:38px;font-weight:900;letter-spacing:-.03em;white-space:nowrap}
@@ -19,7 +22,8 @@
 #S9end i img{width:168px;height:auto;margin-top:6px}
 #S9end b{font-size:72px;font-weight:900;letter-spacing:-.03em}
 #S9end b .sep{font-weight:400;opacity:.4;margin:0 -.1em}
-/* 疊在真實畫面上（render.mjs OVERLAY=1）：去掉底色、底圖與佔位卡，只留頻道名稱、標籤、字幕和收尾幕 */
-html:has(body.overlay),body.overlay{background:transparent}
-body.overlay img.scene,body.overlay #S8 .ph,body.overlay #S8 .tag{display:none}
-body.overlay #S8{background:none}
+/* 成片時分成兩層輸出（render.mjs LAYER=base／top），中間由 ffmpeg 疊真實影片：
+   base＝米色底、左邊字卡、影片框（不含頻道名稱、字幕、收尾幕）；top＝透明底，只有頻道名稱、字幕與收尾幕 */
+body.layer-base #S9,body.layer-base #chrome,body.layer-base #caption{display:none}
+html:has(body.layer-top),body.layer-top{background:transparent}
+body.layer-top img.scene,body.layer-top #S8{display:none}
