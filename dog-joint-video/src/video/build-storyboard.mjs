@@ -57,6 +57,10 @@ for (const part of PARTS) {
   await p.evaluate(() => document.fonts.ready);
   await p.waitForTimeout(500);
   for (const s of scenes.filter(s => s.part === part.id)) {
+    if (s.keyFromVideo) {   // 真實影片的幕：從成片截
+      execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', String(W(s.key)), '-i', video, '-frames:v', '1', '-vf', 'scale=960:-2', '-q:v', '3', path.join(out, 'frames', s.id + '.jpg')]);
+      continue;
+    }
     await p.evaluate(t => seek(t), W(s.key));
     await p.screenshot({ path: path.join(out, 'frames', s.id + '.jpg'), type: 'jpeg', quality: 86 });
   }

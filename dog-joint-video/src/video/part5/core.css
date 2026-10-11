@@ -19,3 +19,7 @@
 #S9end i img{width:168px;height:auto;margin-top:6px}
 #S9end b{font-size:72px;font-weight:900;letter-spacing:-.03em}
 #S9end b .sep{font-weight:400;opacity:.4;margin:0 -.1em}
+/* 疊在真實畫面上（render.mjs OVERLAY=1）：去掉底色、底圖與佔位卡，只留頻道名稱、標籤、字幕和收尾幕 */
+html:has(body.overlay),body.overlay{background:transparent}
+body.overlay img.scene,body.overlay #S8 .ph,body.overlay #S8 .tag{display:none}
+body.overlay #S8{background:none}

@@ -220,7 +220,9 @@ part3/scenes/NN-*.js    幕 27–37
 
 接在第三步回顧之後：`part5.html`（`Intro.start = 310`），開頭墊的 `part3-last.png` 是 `part3.html` 停在結尾（設計時間 244.9）的畫面（不含字幕）。
 - 真實畫面長度固定在 `narration/part5-anchors.json` 的 `length`（41.5 秒）；旁白 `audio/spliced-part5.mp3`（去掉一個多出來的字）→ `align.py`（`audio-part5/`）→ `place-part5.py`（要在 `place-part3.py` 之後跑）。
-  還沒拿到影片前，幕 44 是深色佔位卡；三件事念到時左下角出現標籤。拿到影片後，把成片裡這 41.5 秒的畫面換成真實影片。
+  畫面：`assets/footage/footage.json` 是剪接表（哪一段、從幾秒開始、多長），`python3 build-footage.py assets/footage/footage.mp4` 剪成 41.5 秒（直拍放中間、兩側模糊填滿）。
+  原檔放 `assets/footage/source/`（太大，不進 git）。`part5.html` 用 `OVERLAY=1` 輸出帶透明度的 .mov（頻道名稱、三個標籤、字幕、收尾幕），再用 ffmpeg 疊在真實影片上；
+  單獨打開 `part5.html` 看到的深色「真實畫面」卡只是佔位。
 - 收尾幕 45 的旁白稿在 `narration/draft-part6.json`（還沒錄音，字幕時間是預估），最後停在頻道 logo。
 - 音軌（`video/*.flac`）改存 FLAC，檔案比較小。
 
