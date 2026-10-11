@@ -220,10 +220,10 @@ part3/scenes/NN-*.js    幕 27–37
 
 接在第三步回顧之後：`part5.html`（`Intro.start = 310`），開頭墊的 `part3-last.png` 是 `part3.html` 停在結尾（設計時間 244.9）的畫面（不含字幕）。
 - 真實畫面長度固定在 `narration/part5-anchors.json` 的 `length`（41.5 秒）；旁白 `audio/spliced-part5.mp3`（去掉一個多出來的字）→ `align.py`（`audio-part5/`）→ `place-part5.py`（要在 `place-part3.py` 之後跑）。
-  畫面：`assets/footage/footage.json` 是剪接表（哪一段、從幾秒開始、多長），`python3 build-footage.py assets/footage/footage.mp4` 剪成 41.5 秒（直拍放中間、兩側模糊填滿）。
-  原檔放 `assets/footage/source/`（太大，不進 git）。`part5.html` 用 `OVERLAY=1` 輸出帶透明度的 .mov（頻道名稱、三個標籤、字幕、收尾幕），再用 ffmpeg 疊在真實影片上；
-  單獨打開 `part5.html` 看到的深色「真實畫面」卡只是佔位。
-- 收尾幕 45 的旁白稿在 `narration/draft-part6.json`（還沒錄音，字幕時間是預估），最後停在頻道 logo。
+  畫面：米色底，左邊是說明字卡（三張重點卡隨旁白亮起），右邊圓角影片框放直拍的真實影片。`assets/footage/footage.json` 是剪接表（哪一段、從幾秒開始、多長；橫拍的用 `cx` 指定裁成直式的位置），
+  `python3 build-footage.py assets/footage/footage.mp4` 剪成直式 540×960、41.5 秒；`assets/footage/mask.png` 是圓角遮罩。原檔放 `assets/footage/source/`（太大，不進 git）。
+  `part5.html` 分兩層輸出：`LAYER=base`（米色底、字卡、影片框）與 `LAYER=top`（透明底：頻道名稱、字幕、收尾幕），ffmpeg 把真實影片疊在兩層中間（影片框 left 1240、top 60）。
+- 收尾幕 45：旁白 `audio/elevenlabs-anna-su-ending.mp3` → `align.py`（`audio-part6/`）→ `place-part6.py`（在 `place-part5.py` 之後跑）；旁白稿 `narration/draft-part6.json`。最後停在頻道 logo。
 - 音軌（`video/*.flac`）改存 FLAC，檔案比較小。
 
 ## 其他共用
