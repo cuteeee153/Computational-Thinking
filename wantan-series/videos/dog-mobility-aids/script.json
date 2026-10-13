@@ -1,6 +1,7 @@
 {
  "_說明": "逐字稿拆成的幕（依影片順序）。Claude 依使用者的逐字稿和文章產生；text 必須和要錄的旁白一字不差（標點可以不同）。格式見 ../SERIES.md。",
  "title": "狗狗後腳無力，輔具到底該怎麼選？",
+ "board": "https://claude.ai/artifact/CNEm6EzvH4TbpsGZZAhYBq",
  "speed": 1.5,
  "rate": 7.27,
  "commaGap": 0.2,
