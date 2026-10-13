@@ -14,7 +14,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
 .scene{position:absolute;inset:0;background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg)}
 .abs{position:absolute}
 /* 頻道名稱、小標、大標、卡片 */
-.logo{position:absolute;left:72px;top:41px;font-weight:900;font-size:30px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;z-index:50}
+.logo{position:absolute;left:72px;top:41px;font-weight:900;font-size:30px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;z-index:500}
 .logo i{width:60px;height:60px;border-radius:50%;background:#FFF6EA;box-shadow:0 0 0 1.5px rgba(107,74,42,.14);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .logo i img{width:50px;height:auto;margin-top:2px}
 .logo .sep{font-weight:400;opacity:.4;margin:0 -.22em}
@@ -52,7 +52,7 @@ html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg)}
 .bigchip b{font-family:'Bricolage Grotesque';font-weight:800;font-size:84px;color:var(--or);line-height:1}
 
 /* 旁白字幕：畫面最下方置中 */
-#caption{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;padding:10px 30px;border-radius:14px;background:rgba(36,28,23,.8);color:#FFF8EF;font-weight:700;font-size:38px;line-height:1.35;letter-spacing:.03em;white-space:nowrap;opacity:0;pointer-events:none}
+#caption{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:600;padding:10px 30px;border-radius:14px;background:rgba(36,28,23,.8);color:#FFF8EF;font-weight:700;font-size:38px;line-height:1.35;letter-spacing:.03em;white-space:nowrap;opacity:0;pointer-events:none}
 .scene.dark{background:#231B15;color:#FFF8EF}
 
 /* ---------- 系列固定版型 ---------- */

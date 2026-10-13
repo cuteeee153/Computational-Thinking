@@ -1,0 +1,3 @@
+# 拍攝的原檔太大不進 git；逐格圖片由 build-footage.py --frames 從剪好的 <幕號>.mp4 重新產生
+source/
+*/
