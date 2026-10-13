@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>汪探 WanTan｜狗關節保養 0:00–0:45</title>
+<!-- 這一頁只負責圖層；每一幕的版面與動畫在 intro/scenes/ 裡，一幕一個檔案。 -->
+<link rel="stylesheet" href="intro/core.css">
+</head><body>
+<div id="stage">
+  <!-- 鉤子段（溫暖風格）：背景數字 → 文字 → 聊天卡片 → 游標 -->
+  <section class="scene" id="A" style="z-index:1">
+    <div id="A-bg"></div><div id="A-text"></div><div id="A-card"></div><div id="A-fg"></div>
+  </section>
+  <!-- 核心段（知識型風格）：浮動年齡標籤 → 文字 → 文件卡 → 註記與狗 -->
+  <section class="scene" id="B" style="z-index:2">
+    <div id="B-bg"></div><div id="B-text"></div><div id="B-doc"></div><div id="B-fg"></div>
+  </section>
+  <!-- 全片固定的頻道名稱與標語 -->
+  <div id="chrome"></div>
+</div>
+
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="dog.js"></script><script src="icons.js"></script>
+<script src="timing/timing.js"></script>
+<script src="intro/engine.js"></script>
+<script src="intro/scenes/01-question.js"></script>
+<script src="intro/scenes/02-article-b.js"></script>
+<script src="intro/scenes/03-article-c.js"></script>
+<script src="intro/scenes/04-headline.js"></script>
+<script src="intro/scenes/05-who-to-trust.js"></script>
+<script src="intro/scenes/06-my-dog.js"></script>
+<script src="intro/scenes/07-wipe.js"></script>
+<script src="intro/scenes/08-conclusion.js"></script>
+<script src="intro/scenes/09-ages-float.js"></script>
+<script src="intro/scenes/10-wrong-question.js"></script>
+<script src="intro/scenes/11-not-age.js"></script>
+<script src="intro/scenes/12-risk-factors.js"></script>
+<script src="intro/scenes/13-three-steps.js"></script>
+<script src="intro/scenes/14-your-dog.js"></script>
+<script>Intro.boot();</script>
+</body></html>

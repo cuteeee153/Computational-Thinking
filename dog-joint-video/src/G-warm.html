@@ -1,0 +1,90 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+:root{--bg:#F7EFE4;--card:#FFFBF6;--ink:#231B15;--or:#E2620E;--or-b:#F97316;--mute:#8F8377;--line:#EDE3D6;--chip:#FFFFFF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1920px}
+.f{position:relative;width:1920px;height:1080px;overflow:hidden;color:var(--ink);font-family:'Noto Sans TC';-webkit-font-smoothing:antialiased;
+  background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg)}
+.logo{position:absolute;left:72px;top:52px;font-family:'Noto Sans TC';font-weight:900;font-size:30px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px}
+.logo i{width:38px;height:38px;border-radius:50%;background:var(--or-b);display:flex;align-items:center;justify-content:center}
+.tagline{position:absolute;right:72px;top:62px;font-family:'Space Mono','Noto Sans TC';font-size:19px;letter-spacing:.22em;color:#9B8F82}
+.eyebrow{font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:24px;letter-spacing:.24em;color:var(--or)}
+.h{font-family:'Noto Sans TC';font-weight:900;letter-spacing:-.045em;line-height:1.14}
+.h .o{color:var(--or)}
+.lead{font-size:34px;line-height:1.6;color:#83776B}
+.card{position:absolute;background:var(--card);border-radius:34px;box-shadow:0 1px 0 #fff inset,0 50px 90px -40px rgba(107,74,42,.35),0 0 0 1px rgba(107,74,42,.05)}
+.av{width:62px;height:62px;border-radius:50%;background:var(--or-b);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 8px 18px -6px rgba(249,115,22,.6)}
+.bub{display:inline-block;padding:20px 28px;border-radius:26px;background:#fff;border:1.5px solid var(--line);font-size:28px;box-shadow:0 10px 24px -16px rgba(107,74,42,.35)}
+.me{background:#F2E9DD;border:none}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:26px;box-shadow:0 10px 24px -16px rgba(107,74,42,.35)}
+.pill b{font-family:'Bricolage Grotesque','Noto Sans TC';font-weight:800;color:var(--or)}
+.input{height:84px;border-radius:999px;border:2px solid #F3A46B;background:#F3EBE0;display:flex;align-items:center;padding:0 14px 0 34px;font-size:26px;color:#A5998C}
+.send{margin-left:auto;width:58px;height:58px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--ink);box-shadow:0 4px 10px rgba(0,0,0,.08)}
+.step{position:absolute;width:540px;height:390px;background:var(--card);border-radius:34px;box-shadow:0 1px 0 #fff inset,0 50px 90px -40px rgba(107,74,42,.35),0 0 0 1px rgba(107,74,42,.05);padding:40px 44px}
+.step .n{font-family:'Space Mono';font-weight:700;font-size:26px;color:var(--or)}
+.step .ic{width:190px;height:190px;margin:-14px auto 0}.step .ic svg,.ic svg{overflow:visible}
+.step h3{position:absolute;left:44px;bottom:44px;font-weight:900;font-size:44px;letter-spacing:-.04em}
+.step p{position:absolute;left:44px;bottom:16px;font-size:20px;color:var(--mute)}
+</style></head><body>
+<script src="dog.js"></script><script src="icons.js"></script>
+
+<!-- ============ FRAME 1 : HOOK ============ -->
+<section class="f">
+  <div class="logo"><i id="paw1"></i>狗關節保養</div>
+  <div class="tagline">不是幾歲．是風險等級</div>
+
+  <div style="position:absolute;left:72px;top:250px">
+    <div class="eyebrow">01 ／ 你是不是也這樣</div>
+    <div class="h" style="font-size:118px;margin-top:30px">滑了三篇文章，<br><span class="o">三個答案。</span></div>
+    <div class="lead" style="margin-top:44px">七歲？五歲？三到五歲？<br>你只想知道：我家這隻，現在要開始嗎？</div>
+  </div>
+
+  <!-- hand-drawn arrow -->
+  <svg style="position:absolute;left:900px;top:600px" width="200" height="170" viewBox="0 0 200 170"><path d="M10 160 C30 70 90 20 180 40" stroke="#E2620E" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M150 18 L182 40 L148 62" stroke="#E2620E" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+  <div class="card" style="left:1110px;top:150px;width:740px;height:830px">
+    <div style="display:flex;align-items:center;gap:22px;padding:34px 40px;border-bottom:1.5px solid var(--line)">
+      <div style="width:76px;height:76px;border-radius:50%;background:#F6E3CC;overflow:hidden;display:flex;align-items:flex-end;justify-content:center"><div style="width:84px;margin-bottom:-26px" id="dogG1"></div></div>
+      <div><div style="font-weight:700;font-size:32px">我家這隻的關節</div><div style="font-size:22px;color:var(--mute);margin-top:4px">搜尋了 3 篇文章</div></div>
+    </div>
+    <div style="padding:36px 40px;display:flex;flex-direction:column;gap:22px">
+      <div style="align-self:flex-end" class="bub me">狗關節保養，到底幾歲開始？</div>
+      <div style="display:flex;gap:18px;align-items:flex-start"><div class="av" id="avA"></div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="bub">文章 A：老狗<b style="color:var(--or)">七歲</b>才要開始顧。</div>
+          <div class="bub">文章 B：大型犬<b style="color:var(--or)">五歲</b>就要吃保健品。</div>
+          <div class="bub">文章 C：<b style="color:var(--or)">三到五歲</b>就開始退化。</div>
+        </div></div>
+      <div style="display:flex;gap:14px;margin-left:80px">
+        <span class="pill"><b>7</b>歲？</span><span class="pill"><b>5</b>歲？</span><span class="pill"><b>3</b>歲？</span>
+      </div>
+    </div>
+    <div style="position:absolute;left:40px;right:40px;bottom:36px" class="input">所以⋯⋯到底要聽誰的？<div class="send">↑</div></div>
+  </div>
+</section>
+
+<!-- ============ FRAME 2 : CORE ============ -->
+<section class="f">
+  <div class="logo"><i id="paw2"></i>狗關節保養</div>
+  <div class="tagline">不是幾歲．是風險等級</div>
+
+  <div style="position:absolute;left:72px;top:150px">
+    <div class="eyebrow">02 ／ 先講結論</div>
+    <div class="h" style="font-size:112px;margin-top:26px">不是幾歲。<br><span class="o">是風險等級。</span></div>
+  </div>
+  <div class="lead" style="position:absolute;left:1180px;top:230px;width:660px;font-size:30px">會這麼亂，不是誰在騙你，<br>是問題問錯了。三個步驟，<br>找到你家狗現在的位置。</div>
+
+  <div class="step" style="left:72px;top:640px"><div class="n">01</div><div class="ic" id="ic1"></div><h3>有風險因子嗎？</h3></div>
+  <div class="step" style="left:690px;top:590px;opacity:.75"><div class="n">02</div><div class="ic" id="ic2"></div><h3>有沒有蛛絲馬跡？</h3></div>
+  <div class="step" style="left:1308px;top:540px;opacity:.5"><div class="n">03</div><div class="ic" id="ic3"></div><h3>該做什麼？</h3></div>
+  <div style="position:absolute;left:440px;top:518px;width:150px" id="dogG2"></div>
+</section>
+<script>
+const P={mode:'flat',body:'#E3A266',dark:'#B87240',light:'#FFF6EA',nose:'#231B15',collar:'#F97316',tag:'#FFD08A',blush:'#F2A08A'};
+dogG1.innerHTML = dogSVG(Object.assign({id:'g1',tilt:-10,mood:'curious'},P));
+dogG2.innerHTML = dogSVG(Object.assign({id:'g2',tilt:4,mood:'happy'},P));
+paw1.innerHTML = paw2.innerHTML = '<div style="width:24px;height:24px">'+iconPaw('#fff')+'</div>';
+avA.innerHTML = '<div style="width:32px;height:32px">'+iconPaw('#fff')+'</div>';
+ic1.innerHTML = iconClipboard('i1'); ic2.innerHTML = iconMagnifier('i2'); ic3.innerHTML = iconFlag('i3');
+</script>
+</body></html>

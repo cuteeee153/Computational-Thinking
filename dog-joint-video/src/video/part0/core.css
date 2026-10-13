@@ -1,0 +1,8 @@
+/* 開場痛點頁（幕 00）：在 intro/core.css 之上，只放這一頁新增的元件。 */
+.pain{position:absolute;top:470px;width:560px;height:470px;padding:38px 40px;border-radius:34px}
+.pain .num{font-family:'Space Mono';font-weight:700;font-size:24px;color:var(--or)}
+.pain .ic{width:170px;height:170px;margin:6px 0 18px}
+.pain .ic svg{overflow:visible}
+.pain .ic img{height:170px;width:auto;display:block}
+.pain b{display:block;font-size:34px;font-weight:900;letter-spacing:-.03em;line-height:1.35}
+.pain span{display:block;margin-top:10px;font-size:27px;font-weight:700;color:var(--mute);line-height:1.4}

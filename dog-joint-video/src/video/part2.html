@@ -1,0 +1,51 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>汪探 WanTan｜狗關節保養 0:45–2:40</title>
+<!-- 這一頁只負責圖層；每一幕的版面與動畫在 part2/scenes/ 裡，一幕一個檔案。 -->
+<link rel="stylesheet" href="part2/core.css">
+</head><body>
+<div id="stage">
+  <!-- 全片固定的頻道名稱與標語 -->
+  <div id="chrome"></div>
+  <!-- 接續 0:45 的最後一格（由 intro.html 停在 45 秒截圖） -->
+  <img class="scene" src="intro-last.png" style="z-index:0">
+
+  <!-- 0:45–1:40 為什麼問錯（深色知識段）：格線 → 文字 → 示意圖卡片（A 時間軸／B COAST 四階段／C 年齡軸） -->
+  <section class="scene" id="S3" style="z-index:2">
+    <div class="gridbg"></div>
+    <div id="S3-text"></div>
+    <div class="panel card" id="panel">
+      <div id="LA" class="abs" style="inset:0"></div>
+      <div id="LB" class="abs" style="inset:0"></div>
+      <div id="LC" class="abs" style="inset:0"></div>
+    </div>
+  </section>
+
+  <!-- 1:40–2:40 第一步（米色）：文字 → 五張風險因子卡 → 分岔與兩組結果 -->
+  <section class="scene" id="S4" style="z-index:3">
+    <div id="S4-text"></div>
+    <div id="rfs"></div>
+    <div id="S4-flow"></div>
+  </section>
+</div>
+
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="dog.js"></script><script src="icons.js"></script><script src="steps.js"></script>
+<script src="timing/timing.js"></script>
+<script src="intro/engine.js"></script>
+<script>Intro.start = 45; Intro.duration = 160;</script>
+<script src="part2/scenes/15-aaha.js"></script>
+<script src="part2/scenes/16-puppy-seed.js"></script>
+<script src="part2/scenes/17-mild-signs.js"></script>
+<script src="part2/scenes/18-coast.js"></script>
+<script src="part2/scenes/19-four-stages.js"></script>
+<script src="part2/scenes/20-track-not-birthday.js"></script>
+<script src="part2/scenes/21-not-starting-gun.js"></script>
+<script src="part2/scenes/21b-three-steps.js"></script>
+<script src="part2/scenes/22-step-one.js"></script>
+<script src="part2/scenes/23-five-factors.js"></script>
+<script src="part2/scenes/23b-five-factors-02-03.js"></script>
+<script src="part2/scenes/24-five-factors-2.js"></script>
+<script src="part2/scenes/25-group-a.js"></script>
+<script src="part2/scenes/26-group-b.js"></script>
+<script>Intro.boot();</script>
+</body></html>

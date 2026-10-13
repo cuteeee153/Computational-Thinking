@@ -1,0 +1,88 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+:root{--bg:#F7EFE4;--dark:#241C17;--card:#FFFBF6;--ink:#231B15;--or:#E2620E;--or-l:#FF9A4D;--or-b:#F97316;--mute:#8F8377;--line:#EADFD1}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1920px}
+.f{position:relative;width:1920px;height:1080px;overflow:hidden;color:var(--ink);font-family:'Noto Sans TC';-webkit-font-smoothing:antialiased;background:var(--bg)}
+.f.dk{background:radial-gradient(900px 700px at 80% 40%,#30251E 0,transparent 70%),var(--dark);color:#FFF6EC}
+.gridbg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,240,220,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,240,220,.035) 1px,transparent 1px);background-size:80px 80px}
+.logo{position:absolute;left:72px;top:52px;font-weight:900;font-size:30px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px}
+.logo i{width:38px;height:38px;border-radius:50%;background:var(--or-b);display:flex;align-items:center;justify-content:center}
+.tagline{position:absolute;right:72px;top:62px;font-family:'Space Mono','Noto Sans TC';font-size:19px;letter-spacing:.22em;color:#9B8F82}
+.eyebrow{font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:24px;letter-spacing:.24em;color:var(--or)}
+.dk .eyebrow{color:#E9DCCB}
+.h{font-weight:900;letter-spacing:-.045em;line-height:1.14}
+.h .o{color:var(--or)} .dk .h .o{color:var(--or-l)}
+.lead{font-size:32px;line-height:1.6;color:#83776B}
+.dk .lead{color:#C9BBAA}
+.doc{position:absolute;background:var(--card);color:var(--ink);border-radius:30px;box-shadow:0 60px 100px -40px rgba(0,0,0,.55);padding:56px 60px;overflow:hidden}
+.f:not(.dk) .doc{box-shadow:0 1px 0 #fff inset,0 50px 90px -40px rgba(107,74,42,.35),0 0 0 1px rgba(107,74,42,.05)}
+.fold{position:absolute;right:0;top:0;width:110px;height:110px;background:linear-gradient(225deg,transparent 50%,#F97316 50%);border-bottom-left-radius:16px;box-shadow:-6px 6px 12px rgba(0,0,0,.12)}
+.k{font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:19px;letter-spacing:.2em;color:var(--or)}
+.row{padding:24px 0;border-top:1.5px solid var(--line);display:flex;align-items:center;gap:26px}
+.row .t{font-size:32px}
+.tagm{margin-left:auto;font-family:'Space Mono','Noto Sans TC';font-size:18px;letter-spacing:.08em;padding:8px 16px;border-radius:999px;background:#F4EBDF;color:#8F8377;white-space:nowrap}
+.big{font-family:'Bricolage Grotesque';font-weight:800;font-size:76px;color:var(--or);width:110px;letter-spacing:-.04em;line-height:1}
+.fn{position:absolute;font-size:20px;color:#8E8073}
+.ck{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:26px;flex:none}
+</style></head><body>
+<script src="dog.js"></script><script src="icons.js"></script>
+
+<!-- ============ FRAME 1 : HOOK (dark) ============ -->
+<section class="f dk">
+  <div class="gridbg"></div>
+  <div class="logo"><i id="paw1"></i>狗關節保養</div>
+  <div class="tagline">不是幾歲．是風險等級</div>
+
+  <div style="position:absolute;left:72px;top:250px">
+    <div class="eyebrow">01 ／ 常見說法</div>
+    <div class="h" style="font-size:110px;margin-top:30px">三個數字，<br><span class="o">沒有一個是答案。</span></div>
+    <div class="lead" style="margin-top:40px">你滑完三篇文章，數字完全對不上。</div>
+  </div>
+  <div style="position:absolute;left:90px;top:800px;width:190px" id="note1"></div>
+
+  <div class="doc" style="left:1110px;top:170px;width:740px">
+    <div class="fold"></div>
+    <div class="k">說法比對</div>
+    <div style="font-weight:900;font-size:52px;letter-spacing:-.03em;margin:18px 0 6px">狗關節保養，幾歲開始？</div>
+    <div style="font-size:24px;color:var(--mute);margin-bottom:30px">網路上三種常見答案</div>
+    <div class="row"><div class="big">7</div><div><div class="k" style="font-size:16px">說法 A</div><div class="t">七歲才要顧關節</div></div></div>
+    <div class="row"><div class="big">5</div><div><div class="k" style="font-size:16px">說法 B</div><div class="t">大型犬五歲就要吃保健品</div></div></div>
+    <div class="row"><div class="big" style="font-size:66px">3–5</div><div><div class="k" style="font-size:16px">說法 C</div><div class="t">三到五歲就開始退化</div></div></div>
+    <div class="row" style="padding-bottom:0"><div class="ck" style="background:#FDE6D5;color:var(--or)">!</div><div class="t" style="font-weight:700">共同點：都在回答「幾歲」</div></div>
+  </div>
+  <div class="fn" style="left:1110px;top:1000px">示意：網路常見說法整理，非特定文章引用</div>
+</section>
+
+<!-- ============ FRAME 2 : CORE (cream) ============ -->
+<section class="f">
+  <div class="logo"><i id="paw2"></i>狗關節保養</div>
+  <div class="tagline">不是幾歲．是風險等級</div>
+
+  <div style="position:absolute;left:72px;top:250px">
+    <div class="eyebrow">02 ／ 先講結論</div>
+    <div class="h" style="font-size:110px;margin-top:30px">問題問錯了。<br><span class="o">要看風險因子。</span></div>
+    <div class="lead" style="margin-top:40px">會這麼亂，不是誰在騙你。<br>要不要開始，從來不是看年齡。</div>
+  </div>
+
+  <div class="doc" style="left:1110px;top:220px;width:740px">
+    <div class="fold"></div>
+    <div class="k">判斷框架 ・ 3 STEPS</div>
+    <div style="display:flex;gap:18px;margin:26px 0 34px">
+      <div style="flex:1;padding:20px 24px;border-radius:18px;background:#F4EBDF;display:flex;align-items:center;gap:14px"><div class="ck" style="background:#E5DBCD;color:#A79A8B">✕</div><div><div class="k" style="font-size:15px;color:#A79A8B">不是</div><div style="font-size:30px;font-weight:700;color:#A79A8B;text-decoration:line-through">年齡</div></div></div>
+      <div style="flex:1;padding:20px 24px;border-radius:18px;background:#FDE6D5;display:flex;align-items:center;gap:14px"><div class="ck" style="background:var(--or-b);color:#fff">✓</div><div><div class="k" style="font-size:15px">而是</div><div style="font-size:30px;font-weight:700;color:var(--or)">風險等級</div></div></div>
+    </div>
+    <div class="row"><div class="k" style="width:110px">STEP 01</div><div class="t" style="font-weight:700">有風險因子嗎？</div></div>
+    <div class="row" style="opacity:.55"><div class="k" style="width:110px">STEP 02</div><div class="t" style="font-weight:700">有沒有蛛絲馬跡？</div></div>
+    <div class="row" style="opacity:.35;padding-bottom:0"><div class="k" style="width:110px">STEP 03</div><div class="t" style="font-weight:700">該做什麼？</div></div>
+  </div>
+  <div class="fn" style="left:1110px;top:822px;line-height:1.6">參考：AAHA《Mobility Matters》、COAST 國際共識（Cachon 等，2023）<br>完整來源見說明欄</div>
+  <div style="position:absolute;left:915px;top:592px;width:170px" id="dogH2"></div>
+</section>
+<script>
+const P={mode:'flat',body:'#E3A266',dark:'#B87240',light:'#FFF6EA',nose:'#231B15',collar:'#F97316',tag:'#FFD08A',blush:'#F2A08A'};
+dogH2.innerHTML = dogSVG(Object.assign({id:'h2',tilt:8,mood:'curious'},P));
+paw1.innerHTML = paw2.innerHTML = '<div style="width:24px;height:24px">'+iconPaw('#fff')+'</div>';
+note1.innerHTML = iconNote('n1');
+</script>
+</body></html>

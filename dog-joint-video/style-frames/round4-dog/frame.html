@@ -1,0 +1,50 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../src/video/intro/core.css">
+<style>
+.cap{font-family:'Space Mono','Noto Sans TC';font-size:18px;letter-spacing:.14em;color:#9A8C7C;white-space:nowrap}
+.note{font-size:26px;line-height:1.7;color:#6F6358}
+.note b{color:var(--ink)}
+</style></head><body>
+<div id="stage"><section class="scene" style="background:radial-gradient(1100px 700px at 75% 20%,#FCF7F0 0,transparent 70%),var(--bg)">
+  <div class="logo" id="logo"><i><img src="../../src/video/brand/wantan-logo.svg" alt=""></i>汪探<span class="sep">｜</span>WanTan</div>
+  <div class="tagline">黑柴插畫・風格提案</div>
+  <div class="abs" style="left:72px;top:150px">
+    <div class="eyebrow" id="eye"></div>
+    <div class="h" style="font-size:76px;margin-top:18px" id="ttl"></div>
+    <div class="note" style="margin-top:18px;width:560px" id="note"></div>
+  </div>
+  <div class="abs" style="left:96px;top:520px;width:430px" id="sit"></div>
+  <div class="abs cap" style="left:96px;top:1010px">坐姿・正面</div>
+  <div class="card abs" style="left:700px;top:150px;width:1148px;height:470px">
+    <div class="abs cap" style="left:48px;top:40px">站姿・側面（時間軸、分組畫面）</div>
+    <div class="abs" style="left:110px;top:40px;width:520px" id="stand"></div>
+    <div class="abs" style="left:800px;top:186px;width:200px" id="sit2"></div>
+    <div class="abs cap" style="left:812px;top:440px">幼犬・縮小版</div>
+    <div class="abs" style="left:48px;right:48px;top:412px;height:4px;border-radius:2px;background:#EADFD1"></div>
+  </div>
+  <div class="card abs" style="left:700px;top:660px;width:740px;height:330px">
+    <div style="display:flex;align-items:center;gap:22px;padding:30px 40px;border-bottom:1.5px solid var(--line)">
+      <div style="width:84px;height:84px;border-radius:50%;background:#F6E3CC;overflow:hidden" id="ava"></div>
+      <div><div style="font-weight:700;font-size:32px">犬助理</div><div style="font-size:22px;color:var(--mute)">搜尋了 3 篇文章</div></div>
+    </div>
+    <div style="padding:30px 40px;display:flex;justify-content:flex-end"><div class="bub me">狗關節保養，到底幾歲開始？</div></div>
+  </div>
+  <div class="abs cap" style="left:700px;top:1010px">大頭貼・聊天卡片</div>
+  <div class="abs" style="left:1480px;top:680px;width:200px;height:200px;border-radius:50%;background:#F6E3CC;overflow:hidden" id="ava2"></div>
+  <div class="abs cap" style="left:1480px;top:900px">頭像放大</div>
+</section></div>
+<script src="shiba.js"></script>
+<script>
+const S = new URLSearchParams(location.search).get('style') || 'A';
+const T = {
+  A: ['STYLE A ／ 蠟筆塗色', '整片塗滿，<br><span class="o">沒有外框。</span>', '像參考圖中間那隻柴犬：<b>蠟筆一層層塗滿</b>、毛邊明顯，最有手繪感。黑色毛最「黑」，在米色背景上最醒目。'],
+  B: ['STYLE B ／ 蠟筆線稿', '深色外框，<br><span class="o">淡淡塗色。</span>', '像參考圖上排的狗：<b>先描一圈蠟筆線</b>，再輕輕塗色、留一點紙紋。比 A 輕盈，線條讓動作更好讀。'],
+  C: ['STYLE C ／ 粉彩圓潤', '頭大一點，<br><span class="o">圓圓軟軟。</span>', '保留蠟筆細顆粒，但<b>外框圓潤、加腮紅和小舌頭</b>，比例偏 Q 版。最接近影片現在乾淨的卡片版面。'],
+}[S];
+eye.textContent = T[0]; ttl.innerHTML = T[1]; note.innerHTML = T[2];
+sit.innerHTML = shibaSit('s', S);
+stand.innerHTML = shibaStand('t', S);
+sit2.innerHTML = shibaSit('p', S);
+ava.innerHTML = shibaAvatar('a', S);
+ava2.innerHTML = shibaAvatar('b', S);
+</script></body></html>

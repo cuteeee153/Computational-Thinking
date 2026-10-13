@@ -1,0 +1,104 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+:root{--paper:#FBF3E4;--ink:#3B2A20;--orange:#F08A4B;--teal:#2F7F7A;--mustard:#F2C14E;--rose:#E86B5A;--sky:#CFE6E2}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1920px;background:#000}
+.f{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--paper);font-family:'Huninn','LXGW WenKai TC';color:var(--ink)}
+.grain{position:absolute;inset:0;opacity:.5;mix-blend-mode:multiply;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(2px)}
+.hand{font-family:'LXGW WenKai TC';font-weight:700}
+.tag{position:absolute;left:80px;top:64px;display:flex;align-items:center;gap:14px;font-size:30px;font-family:'LXGW WenKai TC';font-weight:700}
+.tag i{display:inline-block;width:46px;height:46px;border-radius:50%;background:var(--teal);color:#fff;font-style:normal;text-align:center;line-height:46px;font-size:24px}
+.sub{position:absolute;left:50%;bottom:58px;transform:translateX(-50%);font-size:44px;background:rgba(59,42,32,.88);color:#FFF8EC;padding:14px 38px;border-radius:18px;white-space:nowrap;font-family:'Huninn'}
+.phone{position:absolute;left:250px;top:150px;width:440px;height:820px;border:7px solid var(--ink);border-radius:62px;background:#fff;transform:rotate(-7deg);box-shadow:16px 18px 0 rgba(59,42,32,.18);overflow:hidden}
+.phone:before{content:'';position:absolute;top:18px;left:50%;transform:translateX(-50%);width:120px;height:26px;border-radius:14px;background:var(--ink)}
+.feed{position:absolute;inset:70px 26px 0 26px;display:flex;flex-direction:column;gap:22px}
+.card{border:4px solid var(--ink);border-radius:26px;padding:20px 22px;background:#FFFDF8;position:relative}
+.card .th{height:120px;border-radius:16px;margin-bottom:14px;position:relative;overflow:hidden}
+.card h4{font-size:27px;line-height:1.3;font-family:'LXGW WenKai TC';font-weight:700}
+.card p{height:12px;border-radius:6px;background:#E7DCCB;margin-top:12px;width:80%}
+.card p+p{width:55%}
+.bubble{position:absolute;display:flex;align-items:center;justify-content:center;font-family:'LXGW WenKai TC';font-weight:700;color:#fff;border:6px solid var(--ink);border-radius:50%;box-shadow:10px 12px 0 rgba(59,42,32,.2)}
+.bubble b{font-size:150px;line-height:1}
+.bubble small{font-size:60px;margin-left:4px}
+.spark{position:absolute}
+.scroll{position:absolute;left:735px;top:330px}
+</style></head><body>
+<script src="dog.js"></script>
+<svg width="0" height="0" style="position:absolute"><filter id="paper"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="3" seed="2"/><feColorMatrix values="0 0 0 0 .55  0 0 0 0 .45  0 0 0 0 .3  0 0 0 .22 0"/></filter>
+<filter id="wob"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter></svg>
+
+<!-- ============ FRAME 1 : HOOK ============ -->
+<section class="f">
+  <div class="blob" style="left:-120px;top:600px;width:620px;height:620px;background:#F7E1C4"></div>
+  <div class="blob" style="left:1300px;top:-200px;width:760px;height:760px;background:#E3EFE9"></div>
+  <div class="blob" style="left:1180px;top:760px;width:420px;height:240px;background:#F6D9A8;border-radius:50%"></div>
+  <div class="tag"><i>?</i>狗關節保養・幾歲開始</div>
+
+  <div class="phone">
+    <div class="feed">
+      <div class="card"><div class="th" style="background:#FCE3D2"><svg width="100%" height="100%" viewBox="0 0 340 120"><circle cx="70" cy="70" r="34" fill="#F08A4B" opacity=".5"/><path d="M150 90 L200 40 L240 75 L290 30" stroke="#F08A4B" stroke-width="8" fill="none" stroke-linecap="round"/></svg></div><h4>老狗照護：<span style="color:var(--orange)">七歲</span>才要開始顧關節</h4><p></p><p></p></div>
+      <div class="card"><div class="th" style="background:#D6ECE8"><svg width="100%" height="100%" viewBox="0 0 340 120"><rect x="40" y="30" width="60" height="70" rx="12" fill="#2F7F7A" opacity=".45"/><rect x="120" y="50" width="60" height="50" rx="12" fill="#2F7F7A" opacity=".3"/></svg></div><h4>大型犬<span style="color:var(--teal)">五歲</span>就要吃保健品</h4><p></p><p></p></div>
+      <div class="card"><div class="th" style="background:#FBEBC1"></div><h4>獸醫說：<span style="color:#C99712">三到五歲</span>就開始退化</h4><p></p></div>
+    </div>
+  </div>
+  <!-- scroll swoosh -->
+  <svg class="scroll" width="90" height="360" viewBox="0 0 90 360" style="filter:url(#wob)"><path d="M30 20 Q60 180 30 340" stroke="#3B2A20" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M12 300 L30 344 L56 306" stroke="#3B2A20" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M66 70 Q80 180 66 290" stroke="#3B2A20" stroke-width="5" fill="none" stroke-linecap="round" opacity=".35"/></svg>
+
+  <!-- clashing numbers -->
+  <div class="bubble" style="left:800px;top:140px;width:290px;height:290px;background:var(--orange);transform:rotate(-12deg)"><b>7</b><small>歲？</small></div>
+  <div class="bubble" style="left:1030px;top:330px;width:250px;height:250px;background:var(--teal);transform:rotate(9deg)"><b style="font-size:130px">5</b><small style="font-size:52px">歲？</small></div>
+  <div class="bubble" style="left:830px;top:520px;width:230px;height:230px;background:var(--mustard);color:var(--ink);transform:rotate(-4deg)"><b style="font-size:120px;color:var(--ink)">3</b><small style="font-size:48px;color:var(--ink)">歲？</small></div>
+  <!-- clash sparks -->
+  <svg class="spark" style="left:1010px;top:270px;filter:url(#wob)" width="120" height="120" viewBox="0 0 120 120"><path d="M60 8 L70 46 L110 40 L78 64 L100 100 L62 80 L36 112 L42 72 L6 58 L44 46 Z" fill="#FFF3B0" stroke="#3B2A20" stroke-width="5" stroke-linejoin="round"/></svg>
+  <svg class="spark" style="left:1030px;top:530px;filter:url(#wob)" width="90" height="90" viewBox="0 0 120 120"><path d="M60 8 L70 46 L110 40 L78 64 L100 100 L62 80 L36 112 L42 72 L6 58 L44 46 Z" fill="#FFD3C2" stroke="#3B2A20" stroke-width="6" stroke-linejoin="round"/></svg>
+  <svg class="spark" style="left:770px;top:450px" width="70" height="70" viewBox="0 0 70 70"><path d="M10 10 L24 24 M60 8 L48 26 M35 2 L35 20" stroke="#3B2A20" stroke-width="5" stroke-linecap="round"/></svg>
+
+  <!-- dog -->
+  <div style="position:absolute;left:1360px;top:330px;width:440px" id="dogA1"></div>
+  <!-- big question mark -->
+  <div class="hand" style="position:absolute;left:1600px;top:120px;font-size:250px;color:var(--rose);transform:rotate(14deg);text-shadow:8px 8px 0 rgba(59,42,32,.15)">?</div>
+  <svg style="position:absolute;left:1440px;top:250px" width="140" height="100" viewBox="0 0 140 100"><path d="M20 80 Q30 30 70 40 M100 20 L110 4 M120 40 L136 32" stroke="#3B2A20" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
+  <!-- ground -->
+  <svg style="position:absolute;left:1300px;top:860px" width="560" height="60" viewBox="0 0 560 60"><path d="M10 30 Q140 14 280 26 T550 24" stroke="#3B2A20" stroke-width="5" fill="none" stroke-linecap="round" style="filter:url(#wob)"/></svg>
+
+  <div class="sub">你滑完三篇文章，數字完全對不上</div>
+  <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#paper)"/></svg>
+</section>
+
+<!-- ============ FRAME 2 : CORE ============ -->
+<section class="f">
+  <div class="blob" style="left:-200px;top:-260px;width:900px;height:900px;background:#F7E5CC"></div>
+  <div class="blob" style="left:1100px;top:500px;width:1100px;height:900px;background:#E3EFE9"></div>
+  <div class="tag"><i>!</i>先講結論</div>
+
+  <!-- crossed out question -->
+  <div class="hand" style="position:absolute;left:140px;top:190px;font-size:150px;color:#A99583">幾歲？</div>
+  <svg style="position:absolute;left:110px;top:225px;filter:url(#wob)" width="500" height="160" viewBox="0 0 560 160"><path d="M20 110 Q160 60 290 80 T540 40" stroke="#E86B5A" stroke-width="22" fill="none" stroke-linecap="round"/><path d="M40 60 Q220 120 520 100" stroke="#E86B5A" stroke-width="14" fill="none" stroke-linecap="round" opacity=".85"/></svg>
+  <!-- arrow -->
+  <svg style="position:absolute;left:250px;top:400px;filter:url(#wob)" width="200" height="190" viewBox="0 0 200 190"><path d="M40 10 Q10 110 140 160" stroke="#3B2A20" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M104 168 L144 162 L128 126" stroke="#3B2A20" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <!-- highlight + answer -->
+  <div style="position:absolute;left:380px;top:640px;width:600px;height:80px;background:var(--mustard);border-radius:40px 12px 46px 10px;transform:rotate(-2deg);opacity:.85"></div>
+  <div class="hand" style="position:absolute;left:390px;top:540px;font-size:150px;color:var(--teal);letter-spacing:6px">風險等級</div>
+
+  <!-- ladder outline -->
+  <svg style="position:absolute;left:1080px;top:250px;filter:url(#wob)" width="760" height="660" viewBox="0 0 760 660">
+    <path d="M40 620 L40 470 L270 470 L270 320 L500 320 L500 170 L730 170 L730 620" fill="#FFFDF8" stroke="#3B2A20" stroke-width="7" stroke-dasharray="22 16" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M40 620 L730 620" stroke="#3B2A20" stroke-width="7" stroke-linecap="round"/>
+    <text x="155" y="560" font-family="LXGW WenKai TC" font-weight="700" font-size="70" fill="#F08A4B" text-anchor="middle">1</text>
+    <text x="385" y="410" font-family="LXGW WenKai TC" font-weight="700" font-size="70" fill="#C99712" text-anchor="middle" opacity=".55">2</text>
+    <text x="615" y="260" font-family="LXGW WenKai TC" font-weight="700" font-size="70" fill="#2F7F7A" text-anchor="middle" opacity=".35">3</text>
+    <text x="155" y="600" font-family="Huninn" font-size="28" fill="#3B2A20" text-anchor="middle" opacity=".7">有風險因子嗎？</text>
+  </svg>
+  <div style="position:absolute;left:1130px;top:470px;width:220px" id="dogA2"></div>
+  <!-- flag on top -->
+  <svg style="position:absolute;left:1700px;top:250px;filter:url(#wob)" width="120" height="180" viewBox="0 0 120 180"><path d="M30 170 L30 20" stroke="#3B2A20" stroke-width="7" stroke-linecap="round"/><path d="M30 22 L100 44 L30 70 Z" fill="#E86B5A" stroke="#3B2A20" stroke-width="6" stroke-linejoin="round"/></svg>
+
+  <div class="sub">要不要開始，從來不是看年齡，而是看風險因子</div>
+  <svg class="grain" width="1920" height="1080"><rect width="100%" height="100%" filter="url(#paper)"/></svg>
+</section>
+<script>
+dogA1.innerHTML = dogSVG({id:'a1',mode:'ink',tilt:-12,mood:'curious'});
+dogA2.innerHTML = dogSVG({id:'a2',mode:'ink',tilt:6,mood:'determined'});
+</script>
+</body></html>

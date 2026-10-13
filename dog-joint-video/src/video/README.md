@@ -1,0 +1,247 @@
+# 動畫原始檔
+
+## 用自然語言修改整支影片（分鏡修改板，0:00–5:56）
+
+分鏡修改板：https://claude.ai/artifact/CDtrVSLQYiUuPH9vPLkDDn
+
+1. 在分鏡板上看每一幕的預覽、畫面清單、動畫清單、字幕。
+   字幕可以在每一幕按「改字幕」直接修改（一行一句），上方「字幕匯出」可以下載 txt（只有字幕／含幕號），用的是改過的版本。
+2. 在該幕下方用一般的話寫修改需求並送出（可點清單項目帶入「畫面 2」「動畫 3」編號）；不屬於某一幕的寫在「整體修改」。
+3. 在對話裡告訴 Claude「分鏡板有新需求」。
+
+Claude 處理流程（給之後的 session）：
+- 用 ArtifactData `list` 讀分鏡板資料庫的 `requests` 集合，取 `status: "new"` 的需求（欄位：scene、text、status、reply、createdAt）。
+- 「畫面 N／動畫 N」對應該幕檔案（幕 01–14 在 `intro/scenes/`，幕 15–26 在 `part2/scenes/`，幕 27–37 在 `part3/scenes/`，幕 38–43 在 `part4/scenes/`，是品種對照表，影片裡插在幕 23 和 23b 之間；幕 21b、23b 是後來插進去的幕）裡 `visuals`／`motions` 陣列的第 N 項；改動畫時同步更新這兩個白話說明。旁白改在 `narration/` 與 `timing/warp.json`（見下方「旁白與字幕」）。
+- 字幕修改存在 `subtitles` 集合（文件 id＝幕號；欄位 scene、text（一行一句）、status、updatedAt）。取 `status: "edited"` 的：
+  幕 01–26 改 `narration/narration-tts.txt` 與 `scene-map.json`（已錄音的段落要提醒使用者重錄，否則聲音和字幕會對不上）；
+  幕 27 起改 `narration/draft-part3.json`。套用後把該筆設成 `status: "applied"`（分鏡板就會改回顯示新的原稿）。
+- 需求不清楚時，把該則設成 `status: "question"` 並在 `reply` 寫問題，不要猜。
+- 改完：重新輸出有改到的那段影片（改了幕 14 的結尾畫面要同時更新 `intro-last.png` 並重出 0:45–2:40）→ `node build-srt.mjs > ../../video/full-0000-0556.srt` → 串接整支 → `node build-storyboard.mjs <整支影片> <分鏡板資料夾> "<這版改了什麼>"` → 以同一個 URL 重新發佈分鏡板（含 frames/、clips/）→ 把處理過的需求設成 `done`（`doneIn` 填新版本號，`reply` 寫改了什麼）。
+
+## 旁白與字幕（成片時間）
+
+旁白錄音 → 語音辨識逐字對時 → 插入轉場停頓 → 動畫跟著旁白移動 → 字幕顯示在畫面最下方。
+
+```
+narration/narration-tts.txt          旁白稿（給 AI 配音用的純文字）
+narration/scene-map.json             旁白稿每一段屬於哪一幕（依序拼起來＝旁白稿全文）
+narration/audio/elevenlabs-*.mp3     錄好的完整旁白（ElevenLabs）
+narration/splice.py                  把重錄的句子剪進原本的錄音（片段清單在 splice.json）→ audio/spliced-*.mp3，再對時
+narration/align.py                   加速 1.5 倍＋離線語音辨識（sherpa-onnx Paraformer 中文）逐字對回旁白稿
+                                     → audio/narration-1.5x.wav、audio/timeline.json、audio/recognized.txt（辨識結果）
+narration/gaps.json                  在哪些停頓插入幾秒空白（給畫面轉場）
+narration/place.py                   插入停頓 → 0:00–2:40 的成片旁白音軌、audio/timeline-placed.json
+src/video/timing/warp.json           時間對照表：[設計時間, 成片時間]，每個點把一幕的關鍵動作對到旁白念到的字
+src/video/build-timing.mjs           產生 timing/narration.json（字幕、各幕旁白）與 timing/timing.js（頁面載入）
+```
+
+- 各幕檔案裡的秒數是「設計時間」；引擎排動畫時用 `Intro.W()` 換成「成片時間」，動畫長度不變、只移動開始時間。
+  分鏡板、SRT、音效、音樂都用成片時間。
+- 換新錄音：
+  1. `pip install sherpa-onnx opencc-python-reimplemented`，下載模型（網址見 align.py 開頭）
+  2. `python3 ../../narration/align.py <mp3> ../../narration/narration-tts.txt ../../narration/audio --model <模型資料夾>`
+     （會印出每一句的時間與對上的字數比例；看 audio/recognized.txt 檢查辨識結果）
+  3. 視需要調 `narration/gaps.json`（停頓點取兩句之間）與 `timing/warp.json`（把關鍵動作對到旁白的字）
+  4. `node build-timing.mjs` → 重新輸出（`place.py` 產生旁白音軌）
+- 字幕：同一行連續短句合併、一則最多 18 字，句尾標點不顯示；樣式在兩份 core.css 的 `#caption`。
+- 混音：旁白 ×1.12、背景音樂（旁白時自動降 6 dB）、音效 ×0.65，最後 alimiter。
+
+## 音效
+
+- 每一幕檔案裡的 `sfx: [[秒數, '種類', '說明', { gain, pitch, dur }], ...]`；分鏡板的「音效 N」就是這個陣列的第 N 項。
+- `node build-sfx.mjs <輸出.wav>` 依各幕清單合成整支音軌（全部用程式合成，無素材、無授權問題）；`--list` 列出所有音效。
+- 種類（定義在 `build-sfx.mjs` 的 `SOUNDS`）：pop／pop-low／pop-card（啵）、slide／whoosh／whoosh-big（咻）、typing（鍵盤）、click、ding／ding-soft（叮）、
+  tick／tick-soft（打勾、輕點）、marker（螢光筆）、scribble（劃掉）、draw（鉛筆畫線）、shake（互撞）、fall（掉落）、flip（折角）、boing（狗彈出）、
+  bounce（彈跳）、chime（叮鈴）、thud（印章）、note（木琴，用 pitch 調音高）、brush（上色）。
+- 輸出：先輸出無聲畫面，再把旁白、音樂、音效混成一軌合進各段 mp4。
+- 整體音量刻意偏小（峰值約 -5 dB），留空間給之後加的旁白。
+
+## 背景音樂
+
+- `node build-music.mjs <輸出.wav>`：lo-fi 木琴小曲，全部程式合成。段落、和弦、旋律寫在檔案開頭的註解與 `MAJOR`／`MINOR`／`MEL_*`。
+- 速度約 98 BPM（一小節約 2.46 秒），段落切換對齊 0:19.7（加入節奏）、0:45（深色段改小調）、1:38.4（回到大調）、2:40（第二步）、幕 31（深色，小調）、3:20（第三步）（都是設計時間）。
+- 每句旁白（`timing/narration.json` 的字幕時間）出現時自動降約 6 dB；平均音量約 -29 dB，當旁白的墊底。
+
+### 合成聲音、放進影片
+
+```
+node build-sfx.mjs ../../video/sfx-0000-0556.wav
+node build-music.mjs ../../video/music-0000-0556.wav
+# 旁白（順序要對）：place-part4.py（品種表，算出整段長度、寫 gaps.json 與 warp.json）→ place-part3.py（2:40 之後）
+#   → place-part5.py（真實畫面）→ place-part6.py（收尾）→ place-part0.py（開場痛點）→ place.py（0:00–2:40，含插入品種表的空白，補到 W(160)）；三段接起來，品種表那段從 W(112) 疊進空白 → narration-0000-0556.wav
+# 混音：旁白 ×1.12、音樂（已在旁白時自動降低）、音效 ×0.65，再 alimiter 0.89
+# 畫面：片頭 ＋ part0（開場痛點）＋ intro ＋ part2（到 W(112)）＋ part4（品種表）＋ part2（從 W(112.01)）＋ part3 ＋ part5（真實畫面、收尾）串起來，配 mix.wav → full-0000-0556.mp4
+```
+
+## 狗
+
+- `assets/dogs/`：使用者提供的黑柴插畫，從 `assets/dogs/source/black-shiba-sheet.jpg` 用 `assets/dogs/cut.py` 去背切出（背景白從邊緣灌水判斷，狗身上的白毛保留）。
+- 各幕用 `Intro.dog('#容器', { pose: '…', tilt })` 放狗；pose 對照見 `intro/engine.js`。
+- `assets/dogs/source/` 另外兩張是其他犬種的素材，目前沒用到。
+
+## 0:00–0:45：一幕一個檔案
+
+```
+intro.html              組合頁：只放圖層，依序載入下面每一幕
+intro/core.css          共用樣式（色票、卡片、泡泡、文件卡等元件）
+intro/engine.js         引擎：掛版面、設初始狀態、排時間軸、打字效果、預覽模式；狗的外型 Intro.DOG
+intro/scenes/NN-*.js    每一幕：版面＋初始狀態＋動畫＋旁白
+build-srt.mjs           由各幕的旁白產生 SRT
+```
+
+| 幕 | 時間 | 內容 | 旁白 |
+|---|---|---|---|
+| 01 | 0.0–2.8 | 開場：聊天卡片、問題、文章 A（七歲） | 七歲才要顧關節？ |
+| 02 | 2.8–5.8 | 文章 B（五歲） | 大型犬五歲就要吃保健品？ |
+| 03 | 5.8–9.2 | 文章 C（三到五歲）＋三個數字打架 | 還有人說，三到五歲就開始退化。 |
+| 04 | 9.2–13.0 | 卡片右移，大標「滑了三篇文章，三個答案」 | 你滑完三篇文章，數字完全對不上， |
+| 05 | 13.0–15.4 | 輸入框打出「到底要聽誰的？」 | 只想知道一件事： |
+| 06 | 15.4–18.9 | 手繪箭頭、狗歪頭、游標按下送出 | 我家這隻，現在到底要不要開始？ |
+| 07 | 18.9–20.2 | 轉場：從送出鍵展開的圓形擦除 | — |
+| 08 | 20.2–21.7 | 小標「先講結論」 | 先講結論。 |
+| 09 | 21.7–24.7 | 三顆年齡標籤浮起 | 會這麼亂，不是誰在騙你， |
+| 10 | 24.7–26.9 | 標籤翻落，大標「問題問錯了」 | 是問題問錯了。 |
+| 11 | 26.9–30.5 | 文件卡滑入，「年齡」被劃掉 | 要不要開始，從來不是看年齡， |
+| 12 | 30.5–33.2 | 「✓ 風險等級」打勾 | 而是看風險因子。 |
+| 13 | 33.2–35.6 | STEP 01–03 依序出現 | 這支影片用三步驟， |
+| 14 | 35.6–45.0 | 狗出現、STEP 01 亮起、來源註記、停格 | 幫你找到家裡那隻現在的位置。 |
+
+### 每一幕的寫法
+
+```js
+Intro.scene({
+  id: '05', title: '輸入框「到底要聽誰的？」', start: 13.0, end: 15.4,
+  mount: [{ into: '#容器', html: `...` }],             // 這一幕新增的版面
+  assets() { ... },                                    // 動態填入（狗、圖示）
+  init() { gsap.set(...) },                            // 初始狀態
+  animate({ tl, L, E, type }) { L('#caret', {...}, 13.0) },  // 動畫，秒數為整支影片的絕對時間
+});
+```
+
+- 後面的幕可以把內容放進前面幕建立的容器（例如第 02 幕把文章 B 放進第 01 幕的 `#answers`）。
+- 旁白與動畫的對時：改 `timing/warp.json`，不用改各幕的秒數。
+- 頻道 logo：`brand/wantan-logo.svg`（使用者提供的原稿），左上角放在米色圓底上，深色段也看得清楚；樣式在兩份 core.css 的 `.logo`。
+
+### 預覽與輸出
+
+```
+npm install                                   # 安裝 gsap（第一次）
+# 用瀏覽器直接開 intro.html，加上參數：
+#   ?scene=05&hud   循環播放第 05 幕，左下角顯示幕號、時間、旁白
+#   ?t=12.3         停在 12.3 秒
+#   ?play           從頭播放
+PAGE=intro.html node render.mjs stills 5 20 40      # 指定秒數的靜態圖
+PAGE=intro.html node render.mjs video intro.mp4 30  # 輸出影片（需 Playwright + ffmpeg）
+node build-srt.mjs > ../../video/full-0000-0556.srt   # 整支的字幕
+T0=… T1=… PAGE=… node render.mjs video …            # 只算成片時間 T0～T1 這一段
+NOCAP=1 PAGE=… node render.mjs stills …             # 截圖不含字幕（當下一段的底圖）
+```
+
+字型需先安裝：Noto Sans TC、Space Mono、Bricolage Grotesque（Google Fonts）。
+
+## 0:45–2:40：一幕一個檔案
+
+寫法與 0:00–0:45 相同，共用 `intro/engine.js`；`part2.html` 在載入各幕前設定 `Intro.start = 45`、`Intro.duration = 160`。
+開頭墊的 `intro-last.png` 是 `intro.html` 停在 45 秒的畫面（`PAGE=intro.html node render.mjs stills 45`）。
+
+```
+part2.html              組合頁：圖層（深色段 S3、米色段 S4）
+part2/core.css          共用樣式
+part2/scenes/NN-*.js    幕 15–26
+```
+
+| 幕 | 時間 | 內容 |
+|---|---|---|
+| 15 | 45.0–49.4 | 轉入深色段：AAHA 關節照護指引、狗的一生時間軸 |
+| 16 | 49.4–54.0 | 幼犬期埋下基礎 |
+| 17 | 54.0–61.6 | 只留幼犬，徵兆太輕微：玩過頭？扭到？ |
+| 18 | 61.6–67.8 | COAST 犬骨關節炎分期工具、四個階梯 |
+| 19 | 67.8–76.7 | 四個階段上色 |
+| 20 | 76.7–87.6 | 從年輕成犬追蹤，不是看年齡 |
+| 21 | 87.6–98.7 | 不是看年齡，而是看有沒有風險因子 |
+| 22 | 98.7–108.1 | 第一步：我的狗有風險因子嗎？ |
+| 23 | 108.1–118.9 | 五類風險因子 01–03 |
+| 24 | 118.9–128.7 | 五類風險因子 04–05 |
+| 25 | 128.7–142.4 | 基礎預防組（0 項） |
+| 26 | 142.4–160.0 | 加強留意組（≥ 1 項）＋停格 |
+
+```
+PAGE=part2.html node render.mjs video part2.mp4 30   # 輸出 0:45–2:40
+part2.html?scene=20&hud                               # 預覽單一幕
+```
+
+## 2:40–4:05：第二步、第三步
+
+寫法相同；`part3.html` 設定 `Intro.start = 160`、`Intro.duration = 245`，開頭墊的 `part2-last.png` 是 `part2.html` 停在 W(160) 的畫面。
+幕 31 的深色背景是 `#S5dark` 圖層淡入淡出。
+
+旁白（`narration/`）：
+- `narration-tts-part3.txt`：這段的旁白稿，一行一幕（和 `draft-part3.json` 的 `scenes` 同步）。
+- `audio/elevenlabs-anna-su-part3.mp3` → `python3 align.py <mp3> narration-tts-part3.txt audio-part3 --offset 0`（語音辨識對時，1.5 倍速）。
+- `part3-anchors.json`：每個短句在「設計時間」裡的位置（動畫照這些時間排）、第一句前留白 `lead`、轉場停頓 `gaps`。
+- `python3 place-part3.py <輸出.wav>`：把這段旁白放在成片 W(160) 之後，並把 `timing/warp.json` 設計時間 160 之後的對照點換成「短句設計時間 → 真正開口時間」，動畫就跟著旁白走。
+- 改這段旁白的字：改 `draft-part3.json` 和 `narration-tts-part3.txt`、重錄、重新對時；新的短句要在 `part3-anchors.json` 補上設計時間。
+
+```
+part3.html              組合頁：圖層（第二步 S5、第三步 S6）
+part3/core.css          這段新增的樣式（其餘沿用 part2/core.css）
+part3/scenes/NN-*.js    幕 27–37
+```
+
+| 幕 | 時間（設計） | 內容 |
+|---|---|---|
+| 27 | 160.0–166.3 | 第二步：我的狗狗，有沒有蛛絲馬跡？ |
+| 28 | 166.3–171.5 | 五種蛛絲馬跡 01–02 |
+| 29 | 171.5–176.4 | 五種蛛絲馬跡 03–05 |
+| 30 | 176.4–182.4 | 只出現幾秒鐘，也不代表沒事 |
+| 31 | 182.4–189.7 | AAHA 提醒：別自我安慰 |
+| 32 | 189.7–200.0 | 沒徵兆留在原分組／有徵兆跳到第三步 |
+| 33 | 200.0–203.6 | 第三步：該做的事 |
+| 34 | 203.6–212.5 | 無風險因子・無徵兆：基礎保養 |
+| 35 | 212.5–224.9 | 有風險因子・無徵兆：提早追蹤 |
+| 36 | 224.9–232.8 | 出現任何徵兆：先看獸醫 |
+| 37 | 232.8–244.9 | 保健品不是先吃再說＋三步驟回顧、停格 |
+
+## 品種對照表（幕 38–43，插在幕 23「屬於特定的好發品種、」之後）
+
+影片順序：幕 23（5 類、卡片 01 加橘框）→ 品種對照表 → 幕 23b（卡片 02、03）→ 幕 24…。
+- 設計時間：品種表寫在 245 之後（`part4.html`：`Intro.start = 245`、`Intro.duration` ＝ 245＋整段長度），設計時間＝245＋這段開始後的秒數。
+- `timing/warp.json`：`[112.0, H]`、`[112.01, H＋整段長度]` 讓幕 23 停住等品種表播完；`[245, H]` 把品種表放進那段空白（H＝插入點的成片時間）。
+  這幾個點和 112 之後的平移都由 `narration/place-part4.py` 依錄音長度寫入（設定在 `narration/part4-anchors.json`：插入點、開口前留白、行前停頓、結尾）；
+  `part3.html` 的結尾是設計時間 244.9（`place-part3.py` 會補這個對照點並保留 245 之後的點）。
+- 開頭墊的 `part2-hole.png` 是 `part2.html` 停在 W(112) 的畫面（不含字幕）：米色畫面從右邊蓋上去，最後往右滑出來時露出它，接回幕 23b。
+- 品種頭貼：`assets/breeds/`（`cut.py` 從 `source/sheet-*.jpg` 的 4×3 素材圖切出；`breeds.json`／`breeds.js` 是四組品種與中文名，順序照文章表格）。
+  四組：small 小型犬、hip 中大型犬（髖）、ocd 大型・運動型（肩 OCD）、elbow 大型・工作犬種（肘）。英國鬥牛犬取自 `source/sheet-english-bulldog.jpg` 右下角。
+- 幕 38 放好整張表（`TABLE`）和共用的 `tableRow()`／`rowSfx()`；幕 39–42 各負責一列；幕 43 是「不是診斷」提醒卡＋滑出。
+- 旁白：`narration/audio/spliced-part4.mp3`（`splice.py` 接好：重錄的開場＋品種表＋判讀提醒）→ `align.py`（`audio-part4/`）→ `place-part4.py`；旁白稿 `narration/draft-part4.json`（一幕一行，和錄音一致）。
+- 幕 43b 是「表格判讀提醒」卡，最後米色畫面在這一幕滑出。
+
+## 片頭（品牌動畫）
+
+`assets/bumper/wantan-reveal.mp4`（3.9 秒，含聲音）放在最前面，接開場痛點頁。長度設在 `narration/part0-anchors.json` 的 `bumper`；
+`place-part0.py` 把它加進 `warp.json` 的 `lead`（＝片頭＋痛點頁）。背景音樂從痛點頁開始（`build-music.mjs` 的 `PRE`），片頭只有它自己的聲音。
+片頭音效收尾時（3.55 秒）疊兩聲狗吠「汪汪」：`build-bark.py` 合成（不用素材檔），混進片頭音軌時音量 0.55。
+
+## 開場痛點頁（幕 00，影片最前面）
+
+`part0.html`（設計時間 400 起），大標「想照顧好狗狗的關節，你是不是也有這些困擾？」＋三張困擾卡，念完淡出接幕 01。
+- 旁白 `audio/spliced-part0.mp3`（splice.py 去掉多出來的「來」）→ `align.py`（`audio-part0/`）→ `place-part0.py`（最後跑）。
+- 這一頁的長度寫在 `timing/warp.json` 的 `lead`：其他對照點、`narration/` 裡的時間都**不含**它，成片時間＝換算結果＋lead（`timing.mjs` 的 `W`；不含 lead 的是 `WI`）。
+  `build-timing.mjs` 輸出的字幕、`timing.js` 的對照點都已加上 lead。`place.py` 的總長要用 `WI(160)`。
+
+## 真實畫面（幕 44）＋收尾（幕 45）
+
+接在第三步回顧之後：`part5.html`（`Intro.start = 310`），開頭墊的 `part3-last.png` 是 `part3.html` 停在結尾（設計時間 244.9）的畫面（不含字幕）。
+- 真實畫面長度固定在 `narration/part5-anchors.json` 的 `length`（41.5 秒）；旁白 `audio/spliced-part5.mp3`（去掉一個多出來的字）→ `align.py`（`audio-part5/`）→ `place-part5.py`（要在 `place-part3.py` 之後跑）。
+  畫面：米色底，左邊是說明字卡（三張重點卡隨旁白亮起），右邊圓角影片框放直拍的真實影片。`assets/footage/footage.json` 是剪接表（哪一段、從幾秒開始、多長；橫拍的用 `cx` 指定裁成直式的位置），
+  `python3 build-footage.py assets/footage/footage.mp4` 剪成直式 540×960、41.5 秒；`assets/footage/mask.png` 是圓角遮罩。原檔放 `assets/footage/source/`（太大，不進 git）。
+  `part5.html` 分兩層輸出：`LAYER=base`（米色底、字卡、影片框）與 `LAYER=top`（透明底：頻道名稱、字幕、收尾幕），ffmpeg 把真實影片疊在兩層中間（影片框 left 1240、top 60）。
+- 收尾幕 45：旁白 `audio/elevenlabs-anna-su-ending.mp3` → `align.py`（`audio-part6/`）→ `place-part6.py`（在 `place-part5.py` 之後跑）；旁白稿 `narration/draft-part6.json`。最後停在頻道 logo。
+- 音軌（`video/*.flac`）改存 FLAC，檔案比較小。
+
+## 其他共用
+
+- `steps.js`：三步驟總覽卡（幕 21b、27、33；念到第幾步就亮哪一張）。樣式 `.step` 在 `part2/core.css`。
+- 字幕斷句：同一行旁白的短句合併成一則（最多 18 字），幕和幕的交界一定斷開；`narration/caption-breaks.json` 可以指定額外的斷開位置。
+- 旁白停頓：0:00–2:40 在 `narration/gaps.json`（加了停頓要把 `timing/warp.json` 之後的對照點一起往後移）；2:40 之後在 `narration/part3-anchors.json` 的 `gaps`（`line` 或 `before` 某個短句），`place-part3.py` 會自動重算對照點；品種表在 `narration/part4-anchors.json`。`part3-anchors.json` 的 `extra` 可以把停頓裡的動作對到某個短句開口／結束前後（例：幕 31 的「早期警訊」）。
+- 建置腳本讀各幕設定時，同一段的各幕在同一個環境裡執行，並先載入 `steps.js` 與品種清單 `BREEDS`。
