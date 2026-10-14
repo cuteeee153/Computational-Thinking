@@ -35,6 +35,13 @@ h1{font-size:clamp(26px,4vw,36px);font-weight:900;letter-spacing:-.02em;margin:0
 .tl-bar a.has{background:var(--accent-soft);border-color:var(--accent)}
 .tl-bar a .dot{position:absolute;top:-5px;right:-3px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--accent);color:#fff;font:700 10px/16px var(--mono)}
 .tl-legend{font-size:12.5px;color:var(--sub);margin-top:6px}
+.tl summary{display:flex;align-items:center;gap:10px;cursor:pointer;list-style:none;font:700 13px/1.4 var(--mono);color:var(--sub);user-select:none}
+.tl summary::-webkit-details-marker{display:none}
+.tl summary::before{content:'▸';display:inline-block;transition:transform .15s;color:var(--accent)}
+.tl details[open] summary::before{transform:rotate(90deg)}
+.tl details[open] summary{margin-bottom:8px}
+.tl summary .cnt{font-family:inherit;font-weight:400}
+.tl summary .pend{padding:1px 8px;border-radius:8px;background:var(--accent);color:#fff;font:700 11px/16px var(--mono)}
 /* 段落標題 */
 .part{font-size:22px;font-weight:900;letter-spacing:-.01em;margin:36px 0 0;padding-bottom:8px;border-bottom:2px solid var(--ink);scroll-margin-top:110px}
 .part:first-child{margin-top:0}
@@ -137,8 +144,11 @@ html{scroll-behavior:smooth}
   <p class="offline" id="offline">這個檢視無法儲存修改需求（可能沒有登入或沒有編輯權限）。你仍然可以看分鏡，修改請直接在對話裡告訴 Claude，例如「幕 05 的打字慢一點」。</p>
 
   <nav class="tl" aria-label="時間軸">
-    <div id="tlbar"></div>
-    <div class="tl-legend">每格是一幕，寬度代表長短（每一列各自比例）。橘色＝有還沒處理的修改需求或改過的字幕。</div>
+    <details id="tld">
+      <summary>時間軸<span class="cnt" id="tlcnt"></span><span id="tlpend"></span></summary>
+      <div id="tlbar"></div>
+      <div class="tl-legend">每格是一幕，寬度代表長短（每一列各自比例）。橘色＝有還沒處理的修改需求或改過的字幕。</div>
+    </details>
   </nav>
 
   <section class="export" id="export">
@@ -177,7 +187,10 @@ const inPart = p => BOARD.scenes.filter(s => (s.part || 'intro') === p.id);
 
 $('#meta').textContent = `版本 v${BOARD.version}｜更新於 ${new Date(BOARD.updatedAt).toLocaleString('zh-TW', { hour12: false })}${BOARD.note ? '｜' + BOARD.note : ''}`;
 
-// 時間軸：一段一列
+// 時間軸：一段一列；可以收合（記住這台裝置上次是打開還是收起，預設收起）
+$('#tlcnt').textContent = `｜${BOARD.scenes.length} 幕（點一下展開／收起）`;
+try { if (localStorage.getItem('wt-tl-open') === '1') $('#tld').open = true; } catch {}
+$('#tld').addEventListener('toggle', () => { try { localStorage.setItem('wt-tl-open', $('#tld').open ? '1' : '0'); } catch {} });
 $('#tlbar').innerHTML = PARTS.map(p => `<div class="tl-row"><span>${esc(p.label.split('　')[0])}</span><div class="tl-bar">${inPart(p).map(s =>
   `<a href="#s${s.id}" style="--w:${(s.end - s.start).toFixed(2)}" title="幕 ${s.id}｜${esc(s.title)}｜${fmtT(s.start)}–${fmtT(s.end)} 秒" data-tl="${s.id}">${s.id}</a>`).join('')}</div></div>`).join('');
 
@@ -322,6 +335,8 @@ function markPending() {
     a.classList.toggle('has', n > 0);
     a.innerHTML = a.dataset.tl + (n ? `<span class="dot">${n}</span>` : '');
   });
+  const total = Object.values(pending).reduce((x, y) => x + y, 0);
+  $('#tlpend').innerHTML = total ? `<span class="pend">${total} 則待處理</span>` : '';
 }
 
 (async () => {
