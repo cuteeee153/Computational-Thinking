@@ -6,13 +6,12 @@ const P23 = [
 ];
 WT.scene('23', {
   enter: 'slide',
-  visuals: ['小標「這時候：不一定需要馬上買輔具」', ...P23.map((p, k) => `左邊字卡 0${k + 1}：「${p.t}」＋「${p.d.replace(/<\/?b>/g, '')}」`), '右邊：黑柴趴著'],
-  mount: () => `<div class="abs" style="left:72px;top:150px"><div class="eyebrow" id="e23" data-text="這時候：不一定需要馬上買輔具"></div></div>` + P23.map((p, k) =>
-    `<div class="pt card" id="p23${k}" style="top:${240 + k * 230}px"><div class="nb">0${k + 1}</div><div><div class="tt">${p.t}</div><div class="dl">${p.d}</div></div></div>`).join('') +
+  visuals: [...P23.map((p, k) => `左邊字卡 0${k + 1}：「${p.t}」＋「${p.d.replace(/<\/?b>/g, '')}」`), '右邊：黑柴趴著'],
+  mount: () => P23.map((p, k) =>
+    `<div class="pt card" id="p23${k}" style="top:${200 + k * 240}px"><div class="nb">0${k + 1}</div><div><div class="tt">${p.t}</div><div class="dl">${p.d}</div></div></div>`).join('') +
     `<div class="abs" id="d23" style="left:1290px;top:440px;width:560px">${WT.dog('lying')}</div>`,
   init() { gsap.set('[id^=p23]', { opacity: 0, x: -40 }); gsap.set('#d23', { opacity: 0, y: 30 }); },
   animate(S) {
-    S.type('#e23', S.at(0), .8, '小標逐字打出'); S.sfx(S.at(0), 'typing', '打字聲', { chars: 14 });
     S.to('#d23', { opacity: 1, y: 0, duration: .6 }, S.at(0), '黑柴趴著淡入');
     P23.forEach((p, k) => {
       const t = S.word(p.at, 0, -.15);

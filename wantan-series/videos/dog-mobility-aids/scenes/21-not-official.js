@@ -18,6 +18,6 @@ WT.scene('21', {
     L.pop(S, '#c212', S.word('尤其'), '下方神經問題卡浮上、加橘框'); S.to('#c212', { boxShadow: L.RING, duration: .4 }, S.word('尤其'));
     [['椎間盤', 0], ['退化性', 1]].forEach(([w, k]) => { S.to('#t21' + k, { opacity: 1, scale: 1, duration: .45, ease: 'back.out(2.2)' }, S.word(w), `標籤 0${k + 1} 彈出`); S.sfx(S.word(w), 'pop', `標籤 0${k + 1}：「啵」`, { pitch: 1 + k * .12 }); });
     S.to('#n21a', { opacity: 1, x: 0, duration: .45 }, S.word('神經問題'), '「等神經問題 →」滑入'); S.sfx(S.word('神經問題'), 'slide', '輕「咻」');
-    S.to('#n21b', { opacity: 1, x: 0, duration: .45 }, S.word('復健師'), '「由獸醫或復健師判斷」滑入'); L.ding(S, S.word('復健師'), '由獸醫或復健師判斷');
+    S.to('#n21b', { opacity: 1, x: 0, duration: .45 }, S.word('獸醫', 1), '念到「獸醫」時「由獸醫或復健師判斷」滑入'); L.ding(S, S.word('獸醫', 1), '由獸醫或復健師判斷');
   },
 });

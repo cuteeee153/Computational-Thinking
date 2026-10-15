@@ -12,8 +12,8 @@ WT.scene('06', {
     <div class="note" id="n6" style="left:72px;top:820px;font-size:34px">ⓘ 方便選購的分類，<b style="color:var(--ink)">不是正式的醫學分類</b></div>`,
   init() { L.hInit('h6', 1); gsap.set('#tg6', { scale: 1.7 }); gsap.set('[id^=t6]', { opacity: 0, scale: .6 }); gsap.set('[id^=c6]', { opacity: 0, y: 50 }); gsap.set('#n6', { opacity: 0, y: 20 }); },
   animate(S) {
-    [0, 1, 2].forEach(i => { S.to('#t6' + i, { opacity: 1, scale: 1, duration: .4, ease: 'back.out(2)' }, S.word('不太統一', 0, i * .2), i ? '' : '念到「不太統一」三個放大的名稱標籤在中間彈出');
-      S.sfx(S.word('不太統一', 0, i * .2), 'pop-low', `名稱標籤 ${i + 1}：低音「啵」`, { pitch: 1 + i * .1 }); });
+    [0, 1, 2].forEach(i => { S.to('#t6' + i, { opacity: 1, scale: 1, duration: .4, ease: 'back.out(2)' }, S.at(0) + i * .2, i ? '' : '念到「先提醒一下」三個放大的名稱標籤在中間彈出');
+      S.sfx(S.at(0) + i * .2, 'pop-low', `名稱標籤 ${i + 1}：低音「啵」`, { pitch: 1 + i * .1 }); });
     const drop = S.word('實際的使用方式', 0, -.7);
     [0, 1, 2].forEach(i => S.to('#t6' + i, { y: 900, rotation: [-25, 18, -12][i], duration: .7, ease: 'power2.in' }, drop + i * .06, i ? '' : '三個標籤往下掉出畫面'));
     S.sfx(drop, 'fall', '掉下去：往下滑音');
