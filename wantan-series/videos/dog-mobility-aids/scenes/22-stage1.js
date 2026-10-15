@@ -15,11 +15,11 @@ function stageScene(id, { no, title, syms, rec, notes = [] }) {
       S.type('#k' + id, S.at(0), .5, '小標逐字打出');
       S.to('#t' + id, { opacity: 1, y: 0, duration: .6, ease: 'back.out(1.6)' }, S.at(1), '大標浮上'); S.sfx(S.at(1), 'pop-card', '大標：「啵」');
       syms.forEach((s, k) => L.pop(S, `#sy${id}${k}`, S.word(s[1]), `狀況 ${k + 1} 由左滑入`, 1, 'slide'));
-      if (rec) { L.pop(S, '#rc' + id, S.word(rec.at), '建議卡浮上、加橘框'); S.to('#rc' + id, { boxShadow: L.RING, duration: .4 }, S.word(rec.at)); L.ding(S, S.word(rec.at, 0, .3), '建議'); }
+      if (rec) { const t = rec.atEnd ? S.wordEnd(rec.atEnd, 0, .3) : S.word(rec.at); L.pop(S, '#rc' + id, t, '建議卡浮上、加橘框'); S.to('#rc' + id, { boxShadow: L.RING, duration: .4 }, t); L.ding(S, t + .3, '建議'); }
       notes.forEach((n, k) => L.pop(S, `#nt${id}${k}`, S.word(n[1]), '下方提醒卡浮上'));
     },
   });
 }
 stageScene('22', { no: 1, title: ['起身比較慢，但走路大致正常'],
   syms: [['早上起床時有點僵硬', '有點僵硬'], ['站起來比較慢', '站起來比較慢'], ['站穩之後，走路和上下樓梯還算正常', '站穩之後'], ['沒有明顯跛腳或跌倒', '沒有明顯']],
-  rec: { label: '這個階段', dog: 'senior-sit', name: '先別急著買', at: '例如' } });
+  rec: { label: '這個階段', dog: 'senior-sit', name: '先別急著買', atEnd: '跌倒' } });
