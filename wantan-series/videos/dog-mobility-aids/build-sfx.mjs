@@ -4,6 +4,7 @@
 // 全部音效都是當場合成的，不需要任何音效素材檔，也沒有授權問題。
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { chromium } from '/opt/node-tools/node_modules/playwright/index.mjs';
 
 const here = path.dirname(new URL(import.meta.url).pathname);
@@ -128,6 +129,13 @@ const SOUNDS = {
   thud: () => mixInto(tone(120, 42, .4, .13, { att: .003 }), noiseSweep(.07, 700, 300, { type: 'lp', q: .7 }), 0, .6), // 印章：咚
   note: (o) => tone(523 * o.pitch, 523 * o.pitch, .5, .14, { partials: [[1, 1], [4, .18], [10, .04]] }), // 木琴一個音
   brush: () => noiseSweep(.38, 500, 1200, { type: 'lp', q: .7 }),
+  bark: () => {                                                                                        // 狗吠「汪汪」：和片頭同一組合成狗吠（build-bark.py）
+    const f = path.join(here, 'out/work/bark.wav');
+    if (!fs.existsSync(f)) { fs.mkdirSync(path.dirname(f), { recursive: true }); execFileSync('python3', [path.join(here, 'build-bark.py'), f]); }
+    const d = fs.readFileSync(f), n = (d.length - 44) / 4, b = buf(n / SR);
+    for (let i = 0; i < n; i++) b[i] = d.readInt16LE(44 + i * 4) / 32768;
+    return b;
+  },
   whimper: (o) => {                                                                                    // 狗狗嗚咽：兩聲往下滑的「嗚～」，帶一點顫音和鼻息
     const b = buf(1.3), lp = biquad('lp');
     [[0, .5, 980, 690, 1], [.58, .62, 1040, 640, .85]].forEach(([at, dur, f0, f1, g]) => {

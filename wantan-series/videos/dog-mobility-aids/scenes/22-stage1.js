@@ -22,4 +22,4 @@ function stageScene(id, { no, title, syms, rec, notes = [] }) {
 }
 stageScene('22', { no: 1, title: ['起身比較慢，但走路大致正常'],
   syms: [['早上起床時有點僵硬', '有點僵硬'], ['站起來比較慢', '站起來比較慢'], ['站穩之後，走路和上下樓梯還算正常', '站穩之後'], ['沒有明顯跛腳或跌倒', '沒有明顯']],
-  rec: { label: '這個階段', dog: 'senior-sit', name: '先別急著買', at: '這時候' } });
+  rec: { label: '這個階段', dog: 'stand-front', name: '先別急著買', at: '這時候' } });

@@ -13,5 +13,6 @@ WT.scene('04', {
     S.sfx(S.word('而是', 0, -.35), 'whoosh', '往上推：「咻」', { gain: .5 });
     L.hLine(S, '#h41', S.word('而是'), '橘色大字第一行'); L.hLine(S, '#h42', S.word('還能不能'), '橘色大字第二行');
     L.ding(S, S.word('還能不能'), '結論');
+    S.sfx(S.narrEnd + .35, 'bark', '旁白念完：狗吠「汪汪」', { gain: 1.3 });
   },
 });

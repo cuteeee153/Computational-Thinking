@@ -5,11 +5,11 @@ const P38 = [
 ];
 WT.scene('38', {
   enter: 'slide',
-  visuals: ['上方三個頁籤，02 尺寸合身亮橘', '大字：「尺寸合身，比功能多更重要」', ...P38.map((p, k) => `字卡 0${k + 1}：「${p.t}」＋「${p.d.replace(/<\/?b>/g, '')}」`), '右邊：黑柴正面站'],
+  visuals: ['上方三個頁籤，02 尺寸合身亮橘', '大字：「尺寸合身，比功能多更重要」', ...P38.map((p, k) => `字卡 0${k + 1}：「${p.t}」＋「${p.d.replace(/<\/?b>/g, '')}」`), '右邊：黑柴側站（另一張）'],
   mount: () => `${tabs(1)}
     <div class="big" id="b38" style="left:72px;top:250px;font-size:72px">尺寸合身，<span class="o">比功能多更重要</span></div>` + P38.map((p, k) =>
     `<div class="pt card" id="p38${k}" style="top:${430 + k * 230}px"><div class="nb">0${k + 1}</div><div><div class="tt">${p.t}</div><div class="dl">${p.d}</div></div></div>`).join('') +
-    `<div class="abs" id="d38" style="left:1440px;top:330px;width:330px">${WT.dog('stand-front')}</div>`,
+    `<div class="abs" id="d38" style="left:1400px;top:360px;width:420px">${WT.dog('stand-side-2')}</div>`,
   init() { gsap.set('#b38', { opacity: 0, y: 30 }); gsap.set('[id^=p38]', { opacity: 0, x: -40 }); gsap.set('#d38', { opacity: 0, y: 30 }); },
   animate(S) {
     S.to('#b38', { opacity: 1, y: 0, duration: .6, ease: 'back.out(1.6)' }, S.at(0), '大字浮上'); S.sfx(S.at(0), 'pop-card', '「啵」');
