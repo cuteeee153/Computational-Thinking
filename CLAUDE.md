@@ -9,7 +9,9 @@
 - 適合放真實畫面的幕先留空，告訴製作人要幾秒、直拍或橫拍、拍什麼；
 - 製作人補上旁白錄音後，對時、補音效、輸出完整影片。
 
-新影片：`cd wantan-series && ./new-video.sh <英文代號> "標題"`，在 `wantan-series/videos/<代號>/` 工作。
+新影片：`cd wantan-series && ./new-video.sh <英文代號> "標題" [風格]`，在 `wantan-series/videos/<代號>/` 工作。
+
+畫面風格有兩種，製作人會直接說要哪一種（沒說就問）：**經典米色**（`classic`，原有風格）、**清新亮色**（`fresh`）。說明在 `SERIES.md` 第二部分。
 
 ## 其他資料夾
 

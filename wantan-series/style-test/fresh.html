@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<!-- 清新亮色風格樣張：直接套 template 的 core.css＋themes/fresh.css＋icons.js。render.mjs fresh 逐張截圖。 -->
+<link rel="stylesheet" href="../template/core.css">
+<link rel="stylesheet" href="../template/themes/fresh.css">
+<style>
+#stage>section{display:none}
+#stage>section.on{display:block}
+.logo i img{width:50px}
+.eyebrow i{display:inline-block;width:110px;height:2px;background:currentColor;vertical-align:middle;margin:0 20px}
+.eyebrow span{color:var(--ink)}
+.cap{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;padding:10px 30px;border-radius:14px;background:rgba(36,28,23,.8);color:#FFF8EF;font-weight:700;font-size:38px;line-height:1.35;letter-spacing:.03em;white-space:nowrap}
+.sub{font-size:34px;font-weight:700;color:#7C7772;line-height:1.6}
+</style></head><body>
+<div id="stage">
+
+<!-- ① 開場：預設底色（米白→淡藍灰） -->
+<section class="scene on" id="f1">
+  <div class="abs" style="left:96px;top:300px">
+    <div class="eyebrow">狗狗疫苗<i></i><span>新手飼主篇</span></div>
+    <div class="h" style="font-size:118px;margin-top:40px">八合一、十合一，<br><span class="g">到底差在哪？</span></div>
+    <div class="sub" style="margin-top:44px">打哪些、多久打一次，一次看懂。</div>
+  </div>
+  <div class="abs" style="left:1215px;top:985px;width:600px;height:44px;border-radius:50%;background:radial-gradient(closest-side,rgba(40,40,60,.18),transparent)"></div>
+  <div class="abs" style="left:1260px;top:390px;width:456px" data-dog="young-sit"></div>
+  <div class="tile" style="left:1010px;top:170px;transform:rotate(-6deg)" data-icon="iconSyringe"></div>
+  <div class="tile" style="left:1190px;top:120px;transform:rotate(3deg)" data-icon="iconVaccineBook"></div>
+  <div class="tile" style="left:1370px;top:160px;transform:rotate(-2deg)" data-icon="iconCalendar"></div>
+  <div class="tile" style="left:1690px;top:250px;transform:rotate(5deg)" data-icon="iconShield"></div>
+  <div class="anno" style="left:1010px;top:560px"><b>2</b><span>個月大</span></div>
+  <svg class="arrow" style="left:1100px;top:600px" width="220" height="200"><path d="M10 40 C 80 0, 160 20, 175 110"/><path d="M152 92 L175 115 L192 84"/></svg>
+  <div class="anno" style="left:1725px;top:730px;text-align:left"><b style="font-size:84px">3</b><span>劑疫苗</span></div>
+  <svg class="arrow" style="left:1680px;top:640px" width="100" height="100"><path d="M78 88 C 70 40, 50 20, 14 16"/><path d="M34 2 L12 16 L30 34"/></svg>
+  <div class="cap">八合一跟十合一又差在哪裡</div>
+</section>
+
+<!-- ② 手機畫面：淡綠底（bg-mint） -->
+<section class="scene bg-mint" id="f2">
+  <div class="abs" style="left:140px;top:400px">
+    <div class="h" style="font-size:100px">打過哪幾針。<br><span class="g">下一針是哪天。</span></div>
+  </div>
+  <div class="abs" style="left:800px;top:915px;width:400px;height:40px;border-radius:50%;background:radial-gradient(closest-side,rgba(40,50,40,.2),transparent)"></div>
+  <div class="abs" style="left:830px;top:610px;width:330px" data-dog="puppy-sit"></div>
+  <div class="phone"><div class="scr">
+    <div class="island"></div>
+    <div class="status"><span>9:41</span><span style="display:flex;gap:10px;align-items:center"><svg width="34" height="22" viewBox="0 0 34 22"><rect x="0" y="14" width="6" height="8" rx="1.5" fill="#fff"/><rect x="9" y="10" width="6" height="12" rx="1.5" fill="#fff"/><rect x="18" y="5" width="6" height="17" rx="1.5" fill="#fff"/><rect x="27" y="0" width="6" height="22" rx="1.5" fill="#fff"/></svg><svg width="30" height="22" viewBox="0 0 30 22"><path d="M2 8 A19 19 0 0 1 28 8 M7 13 A12 12 0 0 1 23 13" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/><circle cx="15" cy="18.5" r="3" fill="#fff"/></svg><svg width="46" height="22" viewBox="0 0 46 22"><rect x="1.5" y="1.5" width="38" height="19" rx="6" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2.5"/><rect x="5" y="5" width="31" height="12" rx="3" fill="#fff"/><rect x="42" y="7" width="3" height="8" rx="1.5" fill="#fff" fill-opacity=".5"/></svg></span></div>
+    <div class="nav" style="left:48px"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M15 4 L7 12 L15 20" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="nav" style="right:48px"><svg width="34" height="8" viewBox="0 0 34 8"><circle cx="4" cy="4" r="3.6" fill="#fff"/><circle cx="17" cy="4" r="3.6" fill="#fff"/><circle cx="30" cy="4" r="3.6" fill="#fff"/></svg></div>
+    <div style="position:absolute;left:0;right:0;top:140px;text-align:center;color:#fff">
+      <div style="width:150px;height:150px;margin:0 auto;border-radius:50%;background:#FFF6EA;border:5px solid #fff;overflow:hidden;box-shadow:0 14px 30px -12px rgba(0,30,90,.5)"><img src="../template/assets/dogs/avatar.png" style="width:100%;margin-top:6px"></div>
+      <div style="font-size:44px;font-weight:900;margin-top:16px;letter-spacing:-.02em">小黑</div>
+      <div style="font-size:27px;opacity:.85;margin-top:2px">約 4 個月大 · 黑柴</div>
+    </div>
+    <div class="sheet" style="top:470px">
+      <div class="sec">
+        <div class="hd"><i data-icon="iconSyringe"></i>綜合疫苗</div>
+        <div class="li">第 1 劑 <em>約 2 個月大</em><span class="chk"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M5 12 L10 17 L19 7" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="li">第 2 劑 <em>約 3 個月大</em><span class="chk"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M5 12 L10 17 L19 7" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="li now"><b>第 3 劑</b> <em style="color:var(--or)">約 4 個月大 · 今天</em><span class="chk todo"></span></div>
+      </div>
+      <div class="sec">
+        <div class="hd"><i data-icon="iconShield"></i>狂犬病疫苗</div>
+        <div class="li">滿 3 個月 <em>法律規定</em><span class="chk"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M5 12 L10 17 L19 7" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="li"><span class="chip" style="box-shadow:none;background:#fff;font-size:24px">之後每年一次</span></div>
+      </div>
+    </div>
+  </div></div>
+  <div class="cap">狗狗從小到大的施打時程</div>
+</section>
+
+<!-- ③ 手機對話：淡藍底（bg-sky） -->
+<section class="scene bg-sky" id="f3">
+  <div class="abs" style="left:140px;top:400px">
+    <div class="h" style="font-size:100px">下次打疫苗，<br><span class="g">可以問獸醫。</span></div>
+  </div>
+  <div class="abs" style="left:830px;top:985px;width:400px;height:40px;border-radius:50%;background:radial-gradient(closest-side,rgba(30,40,70,.2),transparent)"></div>
+  <div class="abs" style="left:860px;top:560px;width:300px" data-dog="sit-tilt"></div>
+  <div class="anno" style="left:720px;top:300px;text-align:left"><span style="font-size:34px;margin:0">問這些不是質疑獸醫</span></div>
+  <svg class="arrow" style="left:900px;top:350px" width="120" height="190"><path d="M30 10 C 10 70, 40 130, 70 175"/><path d="M44 166 L72 178 L76 148"/></svg>
+  <div class="phone"><div class="scr">
+    <div class="island"></div>
+    <div class="status"><span>9:41</span><span style="display:flex;gap:10px;align-items:center"><svg width="34" height="22" viewBox="0 0 34 22"><rect x="0" y="14" width="6" height="8" rx="1.5" fill="#fff"/><rect x="9" y="10" width="6" height="12" rx="1.5" fill="#fff"/><rect x="18" y="5" width="6" height="17" rx="1.5" fill="#fff"/><rect x="27" y="0" width="6" height="22" rx="1.5" fill="#fff"/></svg><svg width="30" height="22" viewBox="0 0 30 22"><path d="M2 8 A19 19 0 0 1 28 8 M7 13 A12 12 0 0 1 23 13" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/><circle cx="15" cy="18.5" r="3" fill="#fff"/></svg><svg width="46" height="22" viewBox="0 0 46 22"><rect x="1.5" y="1.5" width="38" height="19" rx="6" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2.5"/><rect x="5" y="5" width="31" height="12" rx="3" fill="#fff"/><rect x="42" y="7" width="3" height="8" rx="1.5" fill="#fff" fill-opacity=".5"/></svg></span></div>
+    <div class="nav" style="left:48px"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M15 4 L7 12 L15 20" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="nav" style="right:48px"><svg width="34" height="8" viewBox="0 0 34 8"><circle cx="4" cy="4" r="3.6" fill="#fff"/><circle cx="17" cy="4" r="3.6" fill="#fff"/><circle cx="30" cy="4" r="3.6" fill="#fff"/></svg></div>
+    <div style="position:absolute;left:0;right:0;top:126px;text-align:center;color:#fff;font-size:36px;font-weight:900">看診前想問的事</div>
+    <div style="position:absolute;left:0;right:0;top:210px;display:flex;justify-content:center;gap:18px">
+      <span class="chip"><i style="width:40px;height:40px;display:inline-block" data-icon="iconSyringe"></i>疫苗</span>
+      <span class="chip"><i style="width:40px;height:40px;display:inline-block" data-icon="iconPill"></i>預防藥</span>
+    </div>
+    <div style="position:absolute;left:34px;right:34px;top:420px;display:flex;flex-direction:column;gap:22px">
+      <div class="qb">今天這一針是疫苗還是預防藥？</div>
+      <div class="qb">狂犬病疫苗下次什麼時候打？</div>
+      <div class="qb">核心疫苗一定要每年打嗎？</div>
+    </div>
+    <div class="qin" style="bottom:130px">需要每年補鉤端螺旋體嗎？<span class="go"><svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 19 V5 M6 11 L12 5 L18 11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+  </div></div>
+  <div class="cap">你可以直接問獸醫這個問題</div>
+</section>
+
+<div class="logo"><i><img src="../template/brand/wantan-logo.svg"></i>汪探<span class="sep">｜</span>WanTan</div>
+</div>
+<script src="../template/icons.js"></script>
+<script>
+let n = 0;
+document.querySelectorAll('[data-icon]').forEach(el => { el.innerHTML = window[el.dataset.icon]('i' + n++); });
+document.querySelectorAll('[data-dog]').forEach(el => { el.innerHTML = `<img src="../template/assets/dogs/${el.dataset.dog}.png" style="display:block;width:100%">`; });
+</script>
+</body></html>

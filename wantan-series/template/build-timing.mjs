@@ -83,7 +83,7 @@ for (const sc of scenes) {
   const m = path.join(here, 'assets/footage', sc.id, 'meta.json');
   if (fs.existsSync(m)) footage[sc.id] = { dir: sc.id, ...JSON.parse(fs.readFileSync(m, 'utf8')) };
 }
-const out = { title: script.title, start, total: +t.toFixed(3), bumper: script.bumper || null, scenes, captions: caps };
+const out = { title: script.title, style: script.style || 'classic', start, total: +t.toFixed(3), bumper: script.bumper || null, scenes, captions: caps };
 fs.mkdirSync(path.join(here, 'timing'), { recursive: true });
 fs.writeFileSync(path.join(here, 'timing/timing.json'), JSON.stringify(out, null, 1));
 fs.writeFileSync(path.join(here, 'timing/timing.js'), '// 自動產生（node build-timing.mjs），不要手改\n' +

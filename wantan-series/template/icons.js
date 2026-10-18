@@ -172,3 +172,40 @@ function iconPill(id) { // 保健品罐＋膠囊
     <g transform="translate(150 150) rotate(-35)"><rect x="-30" y="-13" width="60" height="26" rx="13" fill="url(#${id}-cream)"/><path d="M0 -13 L-17 -13 A13 13 0 0 0 -17 13 L0 13 Z" fill="url(#${id}-or)"/></g>
   </g></svg>`;
 }
+function iconSyringe(id) { // 疫苗針筒
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)" transform="rotate(-40 100 100)">
+    <rect x="86" y="8" width="28" height="16" rx="6" fill="url(#${id}-or)"/><rect x="95" y="22" width="10" height="26" fill="#DCCFBE"/>
+    <rect x="64" y="44" width="72" height="16" rx="8" fill="url(#${id}-cream2)"/>
+    <rect x="72" y="58" width="56" height="94" rx="14" fill="url(#${id}-cream2)" transform="translate(3 3)"/>
+    <rect x="72" y="58" width="56" height="94" rx="14" fill="url(#${id}-cream)"/>
+    <rect x="80" y="96" width="40" height="50" rx="9" fill="url(#${id}-or)" opacity=".85"/>
+    <path d="M82 72h14M82 84h14" stroke="#D6C8B6" stroke-width="4" stroke-linecap="round"/>
+    <rect x="92" y="152" width="16" height="12" rx="3" fill="#DCCFBE"/><rect x="98" y="164" width="4" height="30" rx="2" fill="#BFB09D"/>
+  </g></svg>`;
+}
+function iconVaccineBook(id) { // 疫苗手冊（封面腳印）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="52" y="28" width="112" height="150" rx="16" fill="url(#${id}-cream2)"/>
+    <rect x="42" y="22" width="112" height="150" rx="16" fill="url(#${id}-or)"/>
+    <rect x="42" y="22" width="20" height="150" rx="10" fill="#C9520A" opacity=".45"/>
+    <g fill="#FFF6EC"><ellipse cx="108" cy="104" rx="21" ry="18"/><circle cx="84" cy="78" r="9"/><circle cx="100" cy="64" r="9"/><circle cx="118" cy="64" r="9"/><circle cx="133" cy="79" r="9"/></g>
+    <rect x="78" y="140" width="62" height="10" rx="5" fill="#FFF6EC" opacity=".75"/>
+  </g></svg>`;
+}
+function iconCalendar(id) { // 月曆（橘色一格＝打針日）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="30" y="40" width="144" height="136" rx="22" fill="url(#${id}-cream2)" transform="translate(4 4)"/>
+    <rect x="30" y="40" width="144" height="136" rx="22" fill="url(#${id}-cream)"/>
+    <path d="M30 62a22 22 0 0 1 22-22h100a22 22 0 0 1 22 22v14H30z" fill="url(#${id}-or)"/>
+    ${[0, 1, 2, 3].map(i => `<rect x="${58 + i * 28}" y="24" width="10" height="32" rx="5" fill="#A8998A"/>`).join('')}
+    ${[0, 1, 2].map(r => [0, 1, 2, 3].map(c => `<rect x="${50 + c * 28}" y="${94 + r * 24}" width="18" height="15" rx="4" fill="${r === 1 && c === 2 ? `url(#${id}-or)` : '#EADFD1'}"/>`).join('')).join('')}
+  </g></svg>`;
+}
+function iconShield(id) { // 保護力（盾牌＋勾）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M104 22 L168 44 V98 C168 140 138 166 104 182 C70 166 40 140 40 98 V44 Z" fill="url(#${id}-cream2)"/>
+    <path d="M100 18 L164 40 V94 C164 136 134 162 100 178 C66 162 36 136 36 94 V40 Z" fill="url(#${id}-cream)"/>
+    <path d="M100 38 L146 54 V94 C146 124 126 144 100 156 C74 144 54 124 54 94 V54 Z" fill="url(#${id}-or)"/>
+    <path d="M76 98 L94 116 L126 80" fill="none" stroke="#fff" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></svg>`;
+}
