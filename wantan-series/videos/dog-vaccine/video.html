@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8">
+<title>汪探 WanTan｜動畫</title>
+<!-- 整支影片只有這一頁：幕的順序與時間在 timing/timing.js（node build-timing.mjs 產生），各幕的版面與動畫在 scenes/。 -->
+<link rel="stylesheet" href="core.css">
+<!-- 風格（script.json 的 style）：themes/classic.css 經典米色／themes/fresh.css 清新亮色；疊在 core.css 之後、scenes.css 之前 -->
+<script src="timing/timing.js"></script>
+<script>document.write(`<link rel="stylesheet" href="themes/${TIMING.style || 'classic'}.css"><link rel="stylesheet" href="scenes.css">`);</script>
+</head><body>
+<div id="stage"></div>
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="dog.js"></script>
+<script src="icons.js"></script>
+<script src="engine.js"></script>
+<script src="kit.js"></script>
+<script>for (const f of SCENE_FILES) document.write(`<script src="scenes/${f}"><\/script>`);</script>
+<script>document.fonts.ready.then(() => WT.boot());</script>
+</body></html>

@@ -89,6 +89,6 @@ fs.writeFileSync(path.join(here, 'timing/timing.json'), JSON.stringify(out, null
 fs.writeFileSync(path.join(here, 'timing/timing.js'), '// 自動產生（node build-timing.mjs），不要手改\n' +
   `window.TIMING = ${JSON.stringify({ ...out, captions: undefined })};\nwindow.CAPTIONS = ${JSON.stringify(caps)};\nwindow.FOOTAGE = ${JSON.stringify(footage)};\n` +
   `window.SCENE_FILES = ${JSON.stringify(scenes.map(s => s.file).filter(Boolean))};\n`);
-const m = s => `${Math.floor(s / 60)}:${(s % 60).toFixed(1).padStart(4, '0')}`;
+const m = s => { const d = Math.round(s * 10); return `${Math.floor(d / 600)}:${((d % 600) / 10).toFixed(1).padStart(4, '0')}`; };
 console.log(`${script.title}：${scenes.length} 幕，總長 ${m(t)}（片頭 ${start} 秒）；字幕 ${caps.length} 則`);
 for (const s of scenes) console.log(`  幕 ${s.id.padEnd(4)} ${m(s.start)}–${m(s.end)}  ${s.est ? '預估' : '錄音'}${s.footage ? `  真實畫面${footage[s.id] ? '' : '（待補）'}` : ''}${s.file ? '' : '  （還沒做畫面）'}  ${s.title}`);

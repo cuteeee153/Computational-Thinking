@@ -6,8 +6,11 @@
 //
 // 每一幕是 scenes/ 裡的一個檔案，用 WT.scene('幕號', {...}) 註冊：
 //   visuals        給分鏡板看的畫面說明（字串陣列）
-//   enter          進場方式：'fade'（預設，淡入）／'slide'（米色畫面由右蓋過來＋大「咻」）／'cut'（直接切）
+//   enter          進場方式：'fade'（預設，淡入）／'slide'（新畫面由右蓋過來＋大「咻」）／'cut'（直接切）
 //                  ／'none'（不換底，接著用前一幕的畫面：版面可以放進前一幕的容器裡）
+//                  ／'push'（新畫面由右推進來，舊畫面往左退）／'rise'（由下往上蓋）／'drop'（由上往下蓋）
+//                  ／'iris'（圓形從 irisAt 點擴開，預設畫面中心）／'wipe'（由左往右刷開）／'zoom'（由大縮回原位＋淡入）
+//   irisAt         'iris' 的圓心，例如 [1500, 600]（畫面座標）
 //   dark           true＝深色底（頻道名稱自動變白字）
 //   mount(S)       這一幕的版面（HTML 字串，放進自己的 <section>；或 [{ into: '#容器', html }]）
 //   assets(S)      版面掛上之後要動態填入的內容（狗、圖示）
@@ -141,7 +144,22 @@
     tl.to('#logo', { opacity: 1, y: 0, duration: .6, ease: 'power3.out' }, T.start + .1);
     list.forEach((x, i) => {
       const { S, def, sec } = x, enter = def.enter || (i === 0 ? 'cut' : 'fade');
-      if (enter === 'slide') { gsap.set(sec, { xPercent: 100 }); x.motions.push([S.start, '米色畫面由右往左蓋過來']); cues.push({ scene: S.id, t: S.start, kind: 'whoosh-big', label: '換頁：大「咻」' }); tl.to(sec, { xPercent: 0, duration: .85, ease: 'power3.inOut' }, S.start); }
+      const prevSec = list.slice(0, i).reverse().find(y => (y.def.enter || 'fade') !== 'none')?.sec;
+      const swoosh = (label, kind = 'whoosh-big') => { x.motions.push([S.start, label]); cues.push({ scene: S.id, t: S.start, kind, label: `換頁：${kind === 'whoosh-big' ? '大「咻」' : '「咻」'}` }); };
+      if (enter === 'slide') { gsap.set(sec, { xPercent: 100 }); swoosh('新畫面由右往左蓋過來'); tl.to(sec, { xPercent: 0, duration: .85, ease: 'power3.inOut' }, S.start); }
+      else if (enter === 'push') {
+        gsap.set(sec, { xPercent: 100 }); swoosh('轉場：新畫面由右推進來，舊畫面往左退');
+        tl.to(sec, { xPercent: 0, duration: .9, ease: 'power3.inOut' }, S.start);
+        if (prevSec) tl.fromTo(prevSec, { xPercent: 0 }, { xPercent: -35, duration: .9, ease: 'power3.inOut', immediateRender: false }, S.start);
+      }
+      else if (enter === 'rise' || enter === 'drop') { gsap.set(sec, { yPercent: enter === 'rise' ? 100 : -100 }); swoosh(enter === 'rise' ? '轉場：新畫面由下往上蓋過來' : '轉場：新畫面由上往下蓋下來'); tl.to(sec, { yPercent: 0, duration: .85, ease: 'power3.inOut' }, S.start); }
+      else if (enter === 'iris') {
+        const [cx, cy] = def.irisAt || [960, 540];
+        gsap.set(sec, { clipPath: `circle(0px at ${cx}px ${cy}px)` }); swoosh('轉場：圓形擴開', 'whoosh');
+        tl.to(sec, { clipPath: `circle(2300px at ${cx}px ${cy}px)`, duration: 1, ease: 'power2.in' }, S.start - .1);
+      }
+      else if (enter === 'wipe') { gsap.set(sec, { clipPath: 'inset(0px 1920px 0px 0px)' }); swoosh('轉場：由左往右刷開', 'whoosh'); tl.to(sec, { clipPath: 'inset(0px 0px 0px 0px)', duration: .8, ease: 'power3.inOut' }, S.start - .1); }
+      else if (enter === 'zoom') { gsap.set(sec, { autoAlpha: 0, scale: 1.12 }); x.motions.push([S.start, '轉場：畫面由大縮回、淡入']); tl.to(sec, { autoAlpha: 1, scale: 1, duration: .7, ease: 'power3.out' }, S.start - .2); }
       else if (enter === 'fade') { gsap.set(sec, { autoAlpha: 0 }); tl.to(sec, { autoAlpha: 1, duration: .5, ease: 'power1.inOut' }, S.start - .25); }
       else { gsap.set(sec, { visibility: 'hidden' }); tl.set(sec, { visibility: 'visible' }, S.start); }
       const next = list.slice(i + 1).find(y => (y.def.enter || 'fade') !== 'none');
