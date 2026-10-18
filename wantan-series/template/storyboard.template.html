@@ -35,6 +35,10 @@ h1{font-size:clamp(26px,4vw,36px);font-weight:900;letter-spacing:-.02em;margin:0
 .tl-bar a.has{background:var(--accent-soft);border-color:var(--accent)}
 .tl-bar a .dot{position:absolute;top:-5px;right:-3px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--accent);color:#fff;font:700 10px/16px var(--mono)}
 .tl-legend{font-size:12.5px;color:var(--sub);margin-top:6px}
+.tl-tog{display:flex;align-items:center;gap:8px;margin:0 0 8px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font:700 13px var(--mono);cursor:pointer}
+.tl-tog:hover,.tl-tog:focus-visible{border-color:var(--accent);outline:none}
+.tl.closed #tlbar,.tl.closed .tl-legend{display:none}
+.tl.closed .tl-tog{margin:0}
 /* 段落標題 */
 .part{font-size:22px;font-weight:900;letter-spacing:-.01em;margin:36px 0 0;padding-bottom:8px;border-bottom:2px solid var(--ink);scroll-margin-top:110px}
 .part:first-child{margin-top:0}
@@ -136,7 +140,8 @@ html{scroll-behavior:smooth}
 
   <p class="offline" id="offline">這個檢視無法儲存修改需求（可能沒有登入或沒有編輯權限）。你仍然可以看分鏡，修改請直接在對話裡告訴 Claude，例如「幕 05 的打字慢一點」。</p>
 
-  <nav class="tl" aria-label="時間軸">
+  <nav class="tl" id="tl" aria-label="時間軸">
+    <button type="button" class="tl-tog" id="tltog" aria-expanded="true" aria-controls="tlbar">時間軸 ▲ 收合</button>
     <div id="tlbar"></div>
     <div class="tl-legend">每格是一幕，寬度代表長短（每一列各自比例）。橘色＝有還沒處理的修改需求或改過的字幕。</div>
   </nav>
@@ -178,6 +183,14 @@ const inPart = p => BOARD.scenes.filter(s => (s.part || 'intro') === p.id);
 $('#meta').textContent = `版本 v${BOARD.version}｜更新於 ${new Date(BOARD.updatedAt).toLocaleString('zh-TW', { hour12: false })}${BOARD.note ? '｜' + BOARD.note : ''}`;
 
 // 時間軸：一段一列
+// 時間軸可以收合（記住上次的選擇；幕很多時預設收合，免得一直佔住畫面上方）
+(() => {
+  const nav = $('#tl'), btn = $('#tltog'), KEY = 'wt-board-tl-closed', n = (BOARD.scenes || []).length;
+  let closed = n > 40; try { const v = localStorage.getItem(KEY); if (v !== null) closed = v === '1'; } catch {}
+  const show = () => { nav.classList.toggle('closed', closed); btn.setAttribute('aria-expanded', String(!closed)); btn.textContent = closed ? `時間軸（${n} 幕）▼ 展開` : '時間軸 ▲ 收合'; };
+  btn.addEventListener('click', () => { closed = !closed; try { localStorage.setItem(KEY, closed ? '1' : '0'); } catch {} show(); });
+  show();
+})();
 $('#tlbar').innerHTML = PARTS.map(p => `<div class="tl-row"><span>${esc(p.label.split('　')[0])}</span><div class="tl-bar">${inPart(p).map(s =>
   `<a href="#s${s.id}" style="--w:${(s.end - s.start).toFixed(2)}" title="幕 ${s.id}｜${esc(s.title)}｜${fmtT(s.start)}–${fmtT(s.end)} 秒" data-tl="${s.id}">${s.id}</a>`).join('')}</div></div>`).join('');
 
