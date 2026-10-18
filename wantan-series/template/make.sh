@@ -2,7 +2,7 @@
 # 汪探系列：一個指令跑一個步驟（在這個資料夾裡執行）。
 #   ./make.sh timing            依 script.json（和錄音對時結果）重算時間
 #   ./make.sh align             對時 narration/rec/ 的錄音 → 重算時間
-#   ./make.sh video             輸出整支影片：out/video.mp4（1080p）、out/video.srt、out/preview-720p.mp4（給手機看，<30MB）、out/stems/
+#   ./make.sh video             輸出整支影片：out/video.mp4（1080p）、out/video.srt、out/preview-720p*.mp4（給手機看，每段 <30MB）、out/stems/
 #   ./make.sh board "說明"       用 out/video.mp4 產生分鏡板資料夾 board/（之後用 Artifact 發布 board/index.html）
 #   ./make.sh stills 12.3 40    指定秒數的截圖 → out/still-*.png（檢查用）
 set -euo pipefail
@@ -40,10 +40,16 @@ video)
   ffmpeg -y -loglevel error -i $O/work/silent.mp4 -i $O/work/mix.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -movflags +faststart -shortest $O/video.mp4
   node -e "const t=require('./timing/timing.json');const f=s=>{const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=(s%60).toFixed(3).padStart(6,'0').replace('.',',');return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+x};console.log(t.captions.map((c,i)=>(i+1)+'\n'+f(c[0])+' --> '+f(c[1])+'\n'+c[2]+'\n').join('\n'))" > $O/video.srt
   for k in narration music sfx; do ffmpeg -y -loglevel error -i $O/stems/$k.wav -c:a flac $O/stems/$k.flac; rm $O/stems/$k.wav; done
-  # 手機預覽：720p，位元率依長度算，控制在 28MB 以內
-  KB=$(python3 -c "print(max(300,min(2500,int(28*8*1024/$TOTAL-110))))")
-  ffmpeg -y -loglevel error -i $O/video.mp4 -vf scale=1280:720 -c:v libx264 -b:v ${KB}k -preset slow -pass 1 -passlogfile $O/work/p2 -an -f mp4 /dev/null
-  ffmpeg -y -loglevel error -i $O/video.mp4 -vf scale=1280:720 -c:v libx264 -b:v ${KB}k -preset slow -pass 2 -passlogfile $O/work/p2 -c:a aac -b:a 96k -movflags +faststart $O/preview-720p.mp4
-  echo "完成：$O/video.mp4（$(ffprobe -v error -show_entries format=duration -of csv=p=0 $O/video.mp4) 秒）、預覽 $(du -h $O/preview-720p.mp4 | cut -f1)" ;;
+  # 手機預覽：720p，每段最長 8 分鐘、各控制在 28MB 以內（太長就分段：preview-720p-1.mp4、-2.mp4…）
+  rm -f $O/preview-720p*.mp4
+  NP=$(python3 -c "import math;print(max(1,math.ceil($TOTAL/480)))")
+  for k in $(seq 1 $NP); do
+    A=$(python3 -c "print($TOTAL*($k-1)/$NP)"); L=$(python3 -c "print($TOTAL/$NP)")
+    KB=$(python3 -c "print(max(250,min(2500,int(28*8*1024/$L-110))))")
+    F=$O/preview-720p.mp4; [ $NP -gt 1 ] && F=$O/preview-720p-$k.mp4
+    ffmpeg -y -loglevel error -ss $A -t $L -i $O/video.mp4 -vf scale=1280:720 -c:v libx264 -b:v ${KB}k -preset slow -pass 1 -passlogfile $O/work/p2 -an -f mp4 /dev/null
+    ffmpeg -y -loglevel error -ss $A -t $L -i $O/video.mp4 -vf scale=1280:720 -c:v libx264 -b:v ${KB}k -preset slow -pass 2 -passlogfile $O/work/p2 -c:a aac -b:a 96k -movflags +faststart $F
+  done
+  echo "完成：$O/video.mp4（$(ffprobe -v error -show_entries format=duration -of csv=p=0 $O/video.mp4) 秒）、預覽 $(du -ch $O/preview-720p*.mp4 | tail -1 | cut -f1)（$NP 段）" ;;
 *) sed -n '2,8p' "$0"; exit 1 ;;
 esac
