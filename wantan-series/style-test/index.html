@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<!-- 新風格樣張：三張靜態分鏡（狗狗疫苗）。render.mjs 逐張截圖成 PNG。 -->
+<style>
+@font-face{font-family:'Noto Sans TC';font-weight:400;src:url(../template/assets/fonts/NotoSansTC-400.ttf)}
+@font-face{font-family:'Noto Sans TC';font-weight:500;src:url(../template/assets/fonts/NotoSansTC-500.ttf)}
+@font-face{font-family:'Noto Sans TC';font-weight:700;src:url(../template/assets/fonts/NotoSansTC-700.ttf)}
+@font-face{font-family:'Noto Sans TC';font-weight:900;src:url(../template/assets/fonts/NotoSansTC-900.ttf)}
+@font-face{font-family:'Space Mono';font-weight:400;src:url(../template/assets/fonts/SpaceMono-400.ttf)}
+@font-face{font-family:'Space Mono';font-weight:700;src:url(../template/assets/fonts/SpaceMono-700.ttf)}
+@font-face{font-family:'Bricolage Grotesque';font-weight:800;src:url(../template/assets/fonts/BricolageGrotesque-800.ttf)}
+:root{--ink:#16130F;--grey:#8E8A86;--blue:#2E6BD8;--or:#E2620E;--or-b:#F97316}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#333;font-family:'Noto Sans TC';-webkit-font-smoothing:antialiased}
+.frame{position:relative;width:1920px;height:1080px;overflow:hidden;margin-bottom:40px;color:var(--ink)}
+.abs{position:absolute}
+.light{background:radial-gradient(1200px 900px at 85% 30%,#EAF0FA 0,transparent 70%),linear-gradient(100deg,#F6F2EC 0,#F3F2F1 55%,#EDF1F7 100%)}
+.logo{position:absolute;left:72px;top:44px;font-weight:900;font-size:28px;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;z-index:50}
+.logo i{width:56px;height:56px;border-radius:50%;background:#FFF6EA;box-shadow:0 0 0 1.5px rgba(107,74,42,.14);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.logo i img{width:46px;margin-top:2px}
+.logo .sep{font-weight:400;opacity:.4;margin:0 -.22em}
+.dark .logo{color:#fff}
+.h{font-weight:900;letter-spacing:-.05em;line-height:1.08}
+.h .g{color:#9A9590}
+.eyebrow{font-family:'Space Mono','Noto Sans TC';font-weight:700;font-size:24px;letter-spacing:.18em;color:var(--or);display:flex;align-items:center;gap:22px;white-space:nowrap}
+.eyebrow i{display:block;width:110px;height:2px;background:currentColor}
+.eyebrow span{color:#fff;font-family:'Noto Sans TC';letter-spacing:.1em}
+.light .eyebrow span{color:var(--ink)}
+/* 圖示磚：白底大圓角、柔影、微傾 */
+.tile{position:absolute;width:150px;height:150px;border-radius:38px;background:#fff;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 0 #fff inset,0 34px 60px -26px rgba(40,60,100,.32),0 0 0 1px rgba(30,40,60,.04)}
+.tile svg{width:96px;height:96px;overflow:visible}
+/* 手寫標註（藍） */
+.anno{position:absolute;color:var(--blue);text-align:center;line-height:1}
+.anno b{display:block;font-family:'Bricolage Grotesque';font-weight:800;font-size:120px;letter-spacing:-.04em}
+.anno span{display:block;font-weight:700;font-size:30px;margin-top:6px}
+.arrow{position:absolute;overflow:visible}
+.arrow path{fill:none;stroke:var(--blue);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.cap{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);padding:10px 30px;border-radius:14px;background:rgba(22,19,15,.78);color:#fff;font-weight:700;font-size:38px;letter-spacing:.03em;white-space:nowrap;z-index:60}
+.tag{position:absolute;right:72px;top:58px;font-family:'Space Mono';font-size:18px;letter-spacing:.24em;color:#A8A29C}
+.dark .tag{color:rgba(255,255,255,.45)}
+
+/* ---------- 第 2 張：深色插畫章節 ---------- */
+.dark{background:#140F26;color:#fff}
+.pill{display:inline-flex;align-items:center;gap:16px;padding:12px 28px;border-radius:999px;border:2px solid var(--or-b);color:var(--or-b);font-weight:700;font-size:27px;letter-spacing:.06em}
+.pill em{font-style:normal;opacity:.6}
+.body{font-weight:700;font-size:40px;line-height:1.7;color:#EDE8F5}
+.body b{color:var(--or-b)}
+.win{position:absolute;border-radius:22px;background:rgba(14,10,28,.86);box-shadow:0 0 0 1.5px rgba(255,255,255,.07),0 40px 80px -30px rgba(0,0,0,.6);padding:26px 40px 30px;font-family:'Space Mono','Noto Sans TC'}
+.win .bar{display:flex;align-items:center;gap:10px;font-size:19px;color:rgba(255,255,255,.45);margin-bottom:20px}
+.win .bar i{width:14px;height:14px;border-radius:50%;background:#55506A;display:block}
+.win .bar i:first-child{background:var(--or-b)}
+.win .bar span{margin-left:16px;letter-spacing:.06em}
+.win .r{display:flex;align-items:baseline;gap:18px;font-size:29px;line-height:1.75;color:#D9D3E8}
+.win .r .k{width:330px;color:#9E95BC}
+.win .r .v{font-weight:700;color:#fff}
+.win .r .v.o{color:var(--or-b)}
+.win .src{margin-top:10px;font-size:18px;color:rgba(255,255,255,.38);font-family:'Noto Sans TC'}
+
+/* ---------- 第 3 張：幾合一 ---------- */
+.combo{position:absolute;top:250px;width:236px;height:620px;border-radius:40px;background:#fff;padding:30px 22px;
+  box-shadow:0 2px 0 #fff inset,0 50px 90px -40px rgba(40,60,100,.35),0 0 0 1px rgba(30,40,60,.04)}
+.combo .n{font-family:'Bricolage Grotesque';font-weight:800;font-size:110px;line-height:.9;letter-spacing:-.05em;text-align:center}
+.combo .n small{font-family:'Noto Sans TC';font-weight:900;font-size:34px;letter-spacing:0;margin-left:2px}
+.combo ul{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:12px}
+.combo li{height:62px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:25px;background:#F2F0EE;color:#4A4540;white-space:nowrap}
+.combo li.core{background:#FDEBDD;color:#B4470A}
+.combo li.empty{background:none;border:2px dashed #E3DFDA;color:#C4BFB9;font-weight:500}
+.band{position:absolute;left:780px;top:395px;width:1080px;height:240px;border-radius:30px;border:3px solid var(--or-b);background:rgba(249,115,22,.04)}
+.note{position:absolute;font-size:24px;color:var(--grey);line-height:1.6}
+</style></head><body>
+
+<!-- ============ 1. 開場：亮色黏土感 ============ -->
+<div class="frame light" id="f1">
+  <div class="logo"><i><img src="../template/brand/wantan-logo.svg"></i>汪探<span class="sep">｜</span>WanTan</div>
+  <div class="tag">EP.02 · DOG VACCINES</div>
+  <div class="abs" style="left:96px;top:300px">
+    <div class="eyebrow">狗狗疫苗<i></i><span>新手飼主篇</span></div>
+    <div class="h" style="font-size:118px;margin-top:40px">八合一、十合一，<br><span class="g">到底差在哪？</span></div>
+    <div style="margin-top:44px;font-size:34px;font-weight:700;color:#7C7772;line-height:1.6">打哪些、多久打一次，一次看懂。</div>
+  </div>
+
+  <!-- 狗 -->
+  <div class="abs" style="left:1215px;top:470px;width:600px;height:44px;border-radius:50%;background:radial-gradient(closest-side,rgba(40,40,60,.18),transparent);top:985px"></div>
+  <img class="abs" src="../template/assets/dogs/young-sit.png" style="left:1260px;top:390px;height:620px">
+
+  <!-- 圖示磚 -->
+  <div class="tile" style="left:1010px;top:170px;transform:rotate(-6deg)" id="t-syr"></div>
+  <div class="tile" style="left:1190px;top:120px;transform:rotate(3deg)" id="t-book"></div>
+  <div class="tile" style="left:1370px;top:160px;transform:rotate(-2deg)" id="t-cal"></div>
+  <div class="tile" style="left:1690px;top:250px;transform:rotate(5deg)" id="t-shield"></div>
+
+  <!-- 標註 -->
+  <div class="anno" style="left:1010px;top:560px"><b>2</b><span>個月大</span></div>
+  <svg class="arrow" style="left:1100px;top:600px" width="220" height="200"><path d="M10 40 C 80 0, 160 20, 175 110"/><path d="M152 92 L175 115 L192 84"/></svg>
+  <div class="anno" style="left:1725px;top:730px;text-align:left"><b style="font-size:84px">3</b><span>劑疫苗</span></div>
+  <svg class="arrow" style="left:1680px;top:640px" width="100" height="100"><path d="M78 88 C 70 40, 50 20, 14 16"/><path d="M34 2 L12 16 L30 34"/></svg>
+
+  <div class="cap">八合一跟十合一又差在哪裡</div>
+</div>
+
+<!-- ============ 2. 章節頁：深色插畫 ============ -->
+<div class="frame dark" id="f2">
+  <svg class="abs" style="left:0;top:0" width="1920" height="1080" id="land"></svg>
+  <svg class="abs" style="left:0;top:0;mix-blend-mode:overlay;opacity:.55" width="1920" height="1080">
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 1.2 -.1"/></filter>
+    <rect width="1920" height="1080" filter="url(#grain)"/>
+  </svg>
+  <div class="abs" style="left:0;top:0;width:1150px;height:1080px;background:linear-gradient(90deg,rgba(14,10,30,.92) 0,rgba(14,10,30,.7) 60%,transparent)"></div>
+  <div class="logo"><i><img src="../template/brand/wantan-logo.svg"></i>汪探<span class="sep">｜</span>WanTan</div>
+  <div class="tag">STEP 01 · 4 DISEASES</div>
+
+  <div class="abs" style="left:96px;top:140px;width:960px">
+    <div class="eyebrow">01<i></i><span>第一種病</span></div>
+    <div class="h" style="font-size:150px;margin-top:22px">狂犬病</div>
+    <div class="pill" style="margin-top:34px">人畜共通 <em>·</em> 台灣法律規定每年打</div>
+    <div class="body" style="margin-top:34px">發病後幾乎都會死亡。台灣確診的動物主要是<b>鼬獾</b>，常見於山區；常去爬山、露營的狗狗要特別注意。</div>
+  </div>
+  <div class="win" style="left:96px;top:684px;width:900px">
+    <div class="bar"><i></i><i></i><i></i><span>農業部狂犬病監測 · 2013–2025</span></div>
+    <div class="r"><span class="k">鼬獾</span><span class="v o">累計超過 1,000 例</span></div>
+    <div class="r"><span class="k">白鼻心等野生動物</span><span class="v">也有確診</span></div>
+    <div class="r"><span class="k">狗</span><span class="v">1 隻</span></div>
+  </div>
+  <div class="cap">台灣確診的動物主要是鼬獾</div>
+</div>
+
+<!-- ============ 3. 資訊圖：幾合一 ============ -->
+<div class="frame light" id="f3">
+  <div class="logo"><i><img src="../template/brand/wantan-logo.svg"></i>汪探<span class="sep">｜</span>WanTan</div>
+  <div class="tag">STEP 03 · COMBO VACCINES</div>
+  <div class="abs" style="left:96px;top:300px;width:640px">
+    <div class="eyebrow">03<i></i><span>看懂幾合一</span></div>
+    <div class="h" style="font-size:104px;margin-top:40px">數字不同，<br><span class="g">核心都一樣。</span></div>
+    <div style="margin-top:40px;font-size:32px;font-weight:700;color:#7C7772;line-height:1.6">差別主要在鉤端螺旋體<br>和犬冠狀病毒。</div>
+  </div>
+
+  <div class="band"></div>
+  <div id="combos"></div>
+
+  <div class="anno" style="left:1090px;top:100px;text-align:left"><span style="font-size:34px;margin:0">三種核心疫苗</span><span style="font-size:34px">每一針都有</span></div>
+  <svg class="arrow" style="left:1000px;top:120px" width="120" height="290"><path d="M76 22 C 30 50, 52 150, 52 268"/><path d="M36 248 L52 272 L68 248"/></svg>
+  <div class="note" style="left:800px;top:892px">整理自台灣動物醫院衛教與寵物品牌資料；實際內容依產品而定</div>
+  <div class="cap">三種核心疫苗都有包含在內</div>
+</div>
+
+<script>
+// ---- 圖示（黏土感：漸層＋高光） ----
+const D = `<defs>
+ <linearGradient id="bl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9CC3FF"/><stop offset="1" stop-color="#3D7BE6"/></linearGradient>
+ <linearGradient id="bl2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CFE2FF"/><stop offset="1" stop-color="#8DB6F5"/></linearGradient>
+ <linearGradient id="wh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E3E8F0"/></linearGradient>
+ <linearGradient id="or" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB070"/><stop offset="1" stop-color="#E5600C"/></linearGradient>
+ <filter id="ds"><feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#1E3260" flood-opacity=".22"/></filter></defs>`;
+const ICON = {
+  syr: `<svg viewBox="0 0 120 120">${D}<g filter="url(#ds)" transform="rotate(-40 60 60)">
+    <rect x="52" y="4" width="16" height="10" rx="4" fill="url(#or)"/><rect x="57" y="12" width="6" height="18" fill="#C9D3E2"/>
+    <rect x="40" y="26" width="40" height="10" rx="5" fill="url(#wh)"/>
+    <rect x="44" y="34" width="32" height="58" rx="9" fill="url(#wh)"/>
+    <rect x="48" y="58" width="24" height="30" rx="6" fill="url(#bl2)"/>
+    <path d="M50 44h8M50 52h8" stroke="#B9C4D6" stroke-width="3" stroke-linecap="round"/>
+    <rect x="55" y="92" width="10" height="8" rx="2" fill="#C9D3E2"/><rect x="58.5" y="100" width="3" height="18" rx="1.5" fill="#AEB8C8"/></g></svg>`,
+  book: `<svg viewBox="0 0 120 120">${D}<g filter="url(#ds)">
+    <rect x="28" y="16" width="70" height="90" rx="10" fill="#E6EBF2"/>
+    <rect x="22" y="12" width="70" height="90" rx="10" fill="url(#bl)"/>
+    <rect x="22" y="12" width="12" height="90" rx="6" fill="#2C63C8" opacity=".5"/>
+    <g fill="#fff"><ellipse cx="62" cy="64" rx="13" ry="11"/><circle cx="47" cy="48" r="5.5"/><circle cx="57" cy="40" r="5.5"/><circle cx="69" cy="40" r="5.5"/><circle cx="78" cy="49" r="5.5"/></g>
+    <rect x="40" y="84" width="40" height="6" rx="3" fill="#fff" opacity=".7"/></g></svg>`,
+  cal: `<svg viewBox="0 0 120 120">${D}<g filter="url(#ds)">
+    <rect x="16" y="22" width="88" height="82" rx="14" fill="url(#wh)"/>
+    <path d="M16 36a14 14 0 0 1 14-14h60a14 14 0 0 1 14 14v8H16z" fill="url(#bl)"/>
+    ${[0,1,2,3].map(i=>`<rect x="${32+i*16}" y="12" width="6" height="20" rx="3" fill="#7D8AA0"/>`).join('')}
+    ${[0,1,2].map(r=>[0,1,2,3].map(c=>`<rect x="${28+c*17}" y="${54+r*15}" width="11" height="9" rx="2.5" fill="${r===1&&c===2?'#E5600C':'#BCD3F6'}"/>`).join('')).join('')}</g></svg>`,
+  shield: `<svg viewBox="0 0 120 120">${D}<g filter="url(#ds)">
+    <path d="M60 10 L98 24 V58 C98 84 80 100 60 110 C40 100 22 84 22 58 V24 Z" fill="url(#bl)"/>
+    <path d="M60 18 L90 29 V58 C90 79 76 92 60 101 Z" fill="#fff" opacity=".18"/>
+    <path d="M42 60 L55 73 L80 46" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`,
+};
+document.getElementById('t-syr').innerHTML = ICON.syr;
+document.getElementById('t-book').innerHTML = ICON.book;
+document.getElementById('t-cal').innerHTML = ICON.cal;
+document.getElementById('t-shield').innerHTML = ICON.shield;
+
+// ---- 第 2 張：山景（正弦波疊加的稜線，一層層疊出景深） ----
+(function () {
+  const W = 1920, H = 1080, svg = document.getElementById('land');
+  let s = `<defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#120C2A"/><stop offset=".55" stop-color="#3B2457"/><stop offset="1" stop-color="#8A4C78"/></linearGradient>
+    <radialGradient id="glow" cx="1380" cy="420" r="560" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFB27A" stop-opacity=".55"/><stop offset="1" stop-color="#FFB27A" stop-opacity="0"/></radialGradient>
+    <linearGradient id="moon" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE7C2"/><stop offset="1" stop-color="#FFB98A"/></linearGradient></defs>
+    <rect width="${W}" height="${H}" fill="url(#sky)"/><rect width="${W}" height="${H}" fill="url(#glow)"/>`;
+  for (let i = 0; i < 70; i++) { const x = (i * 977) % W, y = (i * 613) % 520; s += `<circle cx="${x}" cy="${y}" r="${(i % 3) * .6 + .8}" fill="#fff" opacity="${.15 + (i % 5) * .08}"/>`; }
+  s += `<circle cx="1380" cy="420" r="210" fill="url(#moon)"/>`;
+  [[1180,330],[1260,300],[1520,350],[1590,320],[1660,380]].forEach(([x,y],i)=>{ s += `<path d="M${x-14} ${y} q14 -10 14 0 q0 -10 14 0" fill="none" stroke="#2A1B3D" stroke-width="3" stroke-linecap="round"/>`; });
+  const layers = [
+    { base: 520, amp: 60, c: '#A8628C', f: [.0021,.0047,.011], ph: 1 },
+    { base: 610, amp: 70, c: '#7E4675', f: [.0018,.0055,.013], ph: 2.3 },
+    { base: 710, amp: 75, c: '#58305F', f: [.0025,.006,.015], ph: 4.1 },
+    { base: 820, amp: 70, c: '#3A1F47', f: [.0016,.0071,.017], ph: 5.7 },
+    { base: 930, amp: 55, c: '#221331', f: [.0022,.0052,.019], ph: 7.2 },
+  ];
+  const ridge = L => { const pts = []; for (let x = 0; x <= W; x += 12) { const y = L.base - L.amp * (Math.sin(x * L.f[0] + L.ph) * .6 + Math.sin(x * L.f[1] + L.ph * 2) * .3 + Math.sin(x * L.f[2] + L.ph * 3) * .1); pts.push([x, y]); } return pts; };
+  layers.forEach((L, li) => {
+    const p = ridge(L);
+    s += `<path d="M0 ${H} ${p.map(([x,y])=>`L${x} ${y.toFixed(1)}`).join(' ')} L${W} ${H} Z" fill="${L.c}"/>`;
+    if (li >= 2) p.forEach(([x, y], k) => { if ((k * 7 + li) % (li === 4 ? 3 : 5) === 0 && x > 900) { const h = 26 + ((k * 13) % 40) + li * 6; s += `<path d="M${x-h*.22} ${y+4} L${x} ${y-h} L${x+h*.22} ${y+4} Z" fill="${L.c}"/>`; } });
+    if (li === 3) window._dogRidge = p;
+  });
+  svg.innerHTML = s;
+  // 稜線上一隻走路的狗（剪影）
+  const p = window._dogRidge.find(([x]) => x >= 1500);
+  const dog = document.createElement('img');
+  dog.src = '../template/assets/dogs/stand-side.png';
+  dog.style.cssText = `position:absolute;left:${p[0]-40}px;top:${p[1]-74}px;height:80px;filter:brightness(0) opacity(.9);transform:scaleX(-1)`;
+  document.getElementById('f2').insertBefore(dog, svg.nextSibling);
+})();
+
+// ---- 第 3 張：四種組合 ----
+(function () {
+  const C = [
+    { n: '5', items: ['犬瘟熱','犬小病毒','犬傳染性肝炎','犬舍咳相關', null, null] },
+    { n: '7', items: ['犬瘟熱','犬小病毒','犬傳染性肝炎','犬舍咳相關','鉤端螺旋體 ×2', null] },
+    { n: '8', items: ['犬瘟熱','犬小病毒','犬傳染性肝炎','犬舍咳相關','鉤端螺旋體 ×2','犬冠狀病毒'] },
+    { n: '10', items: ['犬瘟熱','犬小病毒','犬傳染性肝炎','犬舍咳相關','鉤端螺旋體 ×4','犬冠狀病毒'] },
+  ];
+  document.getElementById('combos').innerHTML = C.map((c, i) => `<div class="combo" style="left:${800 + i * 268}px">
+    <div class="n">${c.n}<small>合一</small></div>
+    <ul>${c.items.map((t, k) => t ? `<li class="${k < 3 ? 'core' : ''}">${t}</li>` : `<li class="empty">—</li>`).join('')}</ul></div>`).join('');
+})();
+</script>
+</body></html>
