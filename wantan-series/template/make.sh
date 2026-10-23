@@ -5,6 +5,7 @@
 #   ./make.sh video             輸出整支影片：out/video.mp4（1080p）、out/video.srt、out/preview-720p*.mp4（給手機看，每段 <30MB）、out/stems/
 #   ./make.sh board "說明"       用 out/video.mp4 產生分鏡板資料夾 board/（之後用 Artifact 發布 board/index.html）
 #   ./make.sh stills 12.3 40    指定秒數的截圖 → out/still-*.png（檢查用）
+#   ./make.sh part 0 311 1      只輸出其中一段（成片秒數 0～311）的手機預覽 → out/preview-720p-1.mp4（改了前面幾幕、不想整支重出時用）
 set -euo pipefail
 cd "$(dirname "$0")"
 O=out; mkdir -p $O/work $O/stems
@@ -13,6 +14,38 @@ timing) node build-timing.mjs ;;
 align) python3 narration/align.py && node build-timing.mjs ;;
 stills) shift; node build-timing.mjs > /dev/null; node render.mjs stills $O "$@" ;;
 board) node build-storyboard.mjs $O/video.mp4 board "${2:-}" ;;
+part)
+  A=$2; Z=$3; K=${4:-1}
+  node build-timing.mjs > /dev/null
+  read START TOTAL B BF < <(node -e "const t=require('./timing/timing.json');console.log(t.start,t.total,t.bumper?.length||0,t.bumper?.file||'')")
+  S0=$(python3 -c "print(max($A,$START))")
+  N=3; pids=()
+  for k in $(seq 0 $((N-1))); do
+    T0=$(python3 -c "s,t=$S0,$Z;f=round((t-s)*30);print(s+round(f*$k/$N)/30)"); T1=$(python3 -c "s,t=$S0,$Z;f=round((t-s)*30);print(s+round(f*($k+1)/$N)/30)")
+    T0=$T0 T1=$T1 node render.mjs video $O/work/part-$k.mp4 30 & pids+=($!)
+  done
+  for p in "${pids[@]}"; do wait $p; done
+  : > $O/work/plist.txt
+  if python3 -c "import sys;sys.exit(0 if $A < $START else 1)"; then
+    python3 build-bark.py $O/work/bark.wav
+    ffmpeg -y -loglevel error -i "$BF" -t $B -an -vf fps=30,scale=1920:1080,format=yuv420p -c:v libx264 -crf 16 -preset slow $O/work/bumper.mp4
+    echo "file 'bumper.mp4'" >> $O/work/plist.txt
+  fi
+  printf "file 'part-0.mp4'\nfile 'part-1.mp4'\nfile 'part-2.mp4'\n" >> $O/work/plist.txt
+  ffmpeg -y -loglevel error -f concat -safe 0 -i $O/work/plist.txt -c copy $O/work/part-silent.mp4
+  # 聲音照整支做，再切出這一段
+  python3 build-bark.py $O/work/bark.wav
+  ffmpeg -y -loglevel error -i "$BF" -i $O/work/bark.wav -filter_complex "[0:a]atrim=0:$B,aresample=48000,aformat=channel_layouts=stereo[a];[1]volume=0.55,adelay=delays=$(python3 -c "print(round(($B-0.35)*1000))"):all=1[b];[a][b]amix=inputs=2:normalize=0:duration=longest" -t $B -ar 48000 -ac 2 -c:a pcm_s16le $O/work/bumper.wav
+  python3 narration/build-narration.py $O/work/narration.wav
+  node build-music.mjs $O/work/music.wav
+  node build-sfx.mjs $O/work/sfx.wav
+  ffmpeg -y -loglevel error -i $O/work/narration.wav -i $O/work/music.wav -i $O/work/sfx.wav -i $O/work/bumper.wav -filter_complex \
+    "[0]volume=1.12[n];[2]volume=0.65[s];[n][1][s][3]amix=inputs=4:normalize=0:duration=longest,alimiter=limit=0.89" -t $TOTAL -c:a pcm_s16le $O/work/mix.wav
+  L=$(python3 -c "print($Z-$A)")
+  KB=$(python3 -c "print(max(250,min(2500,int(28*8*1024/$L-110))))")
+  ffmpeg -y -loglevel error -i $O/work/part-silent.mp4 -ss $A -t $L -i $O/work/mix.wav -map 0:v -map 1:a -vf scale=1280:720 -c:v libx264 -b:v ${KB}k -preset slow -pass 1 -passlogfile $O/work/p3 -an -f mp4 /dev/null
+  ffmpeg -y -loglevel error -i $O/work/part-silent.mp4 -ss $A -t $L -i $O/work/mix.wav -map 0:v -map 1:a -vf scale=1280:720 -c:v libx264 -b:v ${KB}k -preset slow -pass 2 -passlogfile $O/work/p3 -c:a aac -b:a 96k -movflags +faststart -shortest $O/preview-720p-$K.mp4
+  echo "完成：$O/preview-720p-$K.mp4（$A～$Z 秒，$(du -h $O/preview-720p-$K.mp4 | cut -f1)）" ;;
 video)
   node build-timing.mjs
   # 真實畫面：新環境裡逐格圖片不在 git，從剪好的影片重新拆

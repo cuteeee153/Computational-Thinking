@@ -2,7 +2,7 @@
 K.scene('31', 1, {
   enter: 'push',
   visuals: ['左邊：「疾病 04」＋大字「犬傳染性肝炎」，病毒標籤「第一型犬腺病毒」', '右邊三個來源標籤：尿液、糞便、口水 → 箭頭指向黑柴的嘴「經由口腔」'],
-  mount: () => K.disHead('dh31', 4, '犬傳染性肝炎', { sub: '病毒感染', size: 112 }) +
+  mount: () => K.disHead('dh31', 4, '犬傳染性肝炎', { size: 112 }) +
     `<div class="pl ot" id="p31" style="left:140px;top:470px">${K.ic('Virus')}第一型犬腺病毒</div>` + K.tile('Liver', { id: 't31', x: 640, y: 440, size: 150, rot: 6 }) +
     ['尿液', '糞便', '口水'].map((t, k) => `<div class="pl" id="s31${k}" style="left:${980}px;top:${300 + k * 130}px;font-size:34px">${t}</div>`).join('') +
     K.arrow('w31', { x: 1150, y: 330, w: 240, h: 260, d: 'M10 130 C 90 130, 150 120, 225 110' }) +
@@ -21,7 +21,7 @@ K.scene('31', 1, {
 });
 K.scene('32', 1, {
   enter: 'push', bg: 'mint',
-  visuals: ['（這一幕還沒有錄音）左邊：月曆磚＋「康復後，尿液仍可能帶病毒」＋大字「至少 6 個月」（數字跑上去）', '右邊：症狀程度長條，由「輕微發燒」漸層到「死亡」；下方標籤「年紀很小的幼犬風險最高」'],
+  visuals: ['左邊：月曆磚＋「康復後，尿液仍可能帶病毒」＋大字「至少 6 個月」（數字跑上去）', '右邊：症狀程度長條，由「輕微發燒」漸層到「死亡」；下方標籤「年紀很小的幼犬風險最高」'],
   mount: () => K.tile('Calendar', { id: 't32', x: 140, y: 200, size: 170, rot: -4 }) +
     `<div class="abs" id="b32" style="left:140px;top:420px;width:760px"><div style="font-size:34px;font-weight:900;color:#7C7772">康復後，尿液仍可能帶病毒</div><div style="display:flex;align-items:baseline;gap:14px;margin-top:10px"><span style="font-size:52px;font-weight:900">至少</span><span class="big" id="n32" style="font-size:220px;color:var(--or)">0</span><span style="font-size:52px;font-weight:900">個月</span></div></div>` +
     `<div class="cd" id="c32" style="left:1000px;top:250px;width:780px;height:440px;padding:46px"><div class="k">感染之後的症狀</div>
@@ -41,7 +41,7 @@ K.scene('32', 1, {
 });
 K.scene('33', 1, {
   enter: 'rise',
-  visuals: ['（這一幕還沒有錄音）左卡藍框「好消息」：疫苗接種普及的地區，已經比較少見（盾牌）', '右卡橘框「不過」：還是有零星病例，不能忽略（注意圖示）'],
+  visuals: ['左卡藍框「好消息」：疫苗接種普及的地區，已經比較少見（盾牌）', '右卡橘框「不過」：還是有零星病例，不能忽略（注意圖示）'],
   mount: () => `<div class="cd" id="c330" style="left:140px;top:280px;width:780px;height:460px;padding:50px;box-shadow:0 0 0 5px #2E6BD8,0 50px 90px -40px rgba(40,60,100,.32)"><div class="k" style="color:var(--blue)">好消息</div><div class="ic" style="width:150px;height:150px;margin-top:20px">${K.ic('Shield')}</div><div class="t" style="margin-top:20px">疫苗接種普及的地區<br>已經<span class="bl">比較少見</span></div></div>` +
     `<div class="cd" id="c331" style="left:1000px;top:280px;width:780px;height:460px;padding:50px;box-shadow:${K.RING}"><div class="k">不過</div><div class="ic" style="width:150px;height:150px;margin-top:20px">${K.ic('Warning')}</div><div class="t" style="margin-top:20px">還是有零星病例<br><span class="o">不能完全忽略</span></div></div>`,
   animate(S) {

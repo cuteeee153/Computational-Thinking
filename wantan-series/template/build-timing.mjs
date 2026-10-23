@@ -41,14 +41,39 @@ for (const sc of script.scenes) {
     }
     len = rel.length ? rel[rel.length - 1][1] : 0;
   }
+  // 停頓：pauses 寫 {"念到的字": 秒數}，那一句念完之後多停幾秒（錄音會在兩句之間切開、往後挪）
+  const pauseAt = [];   // [短句索引, 秒數]
+  for (const [kw, sec] of Object.entries(sc.pauses || {})) {
+    const k = texts.findIndex(p => p.replace(/[^一-鿿A-Za-z0-9]/g, '').includes(kw.replace(/[^一-鿿A-Za-z0-9]/g, '')));
+    if (k < 0 || k >= texts.length - 1) throw new Error(`幕 ${sc.id}：pauses 找不到「${kw}」（或是最後一句）`);
+    pauseAt.push([k, sec]);
+  }
+  pauseAt.sort((x, y) => x[0] - y[0]);
+  const orig = rel.map(r => [...r]);
+  const shiftOf = k => pauseAt.filter(([p]) => p < k).reduce((s, [, v]) => s + v, 0);
+  rel = rel.map((r, k) => [r[0] + shiftOf(k), r[1] + shiftOf(k)]);
+  len += pauseAt.reduce((s, [, v]) => s + v, 0);
   const s0 = t, n0 = fr(s0 + o.pre);
+  // 錄音片段：沒有停頓就是一段；有停頓就在兩句中間切開
+  let audio = null;
+  if (!est) {
+    const base = a.cut[0] + a.lead, at0 = n0 - a.lead, segs = [];
+    let from = a.cut[0], shift = 0;
+    for (const [k, sec] of pauseAt) {
+      const cut = base + (orig[k][1] + orig[k + 1][0]) / 2;
+      segs.push({ cut: [+from.toFixed(3), +cut.toFixed(3)], at: +(at0 + shift + from - a.cut[0]).toFixed(3) });
+      from = cut; shift += sec;
+    }
+    segs.push({ cut: [+from.toFixed(3), a.cut[1]], at: +(at0 + shift + from - a.cut[0]).toFixed(3) });
+    audio = { src: a.src, segs };
+  }
   let end = fr(n0 + len + o.post + o.hold);
   if (sc.footage?.seconds) end = Math.max(end, fr(s0 + sc.footage.seconds));
   if (sc.minLength) end = Math.max(end, fr(s0 + sc.minLength));
   const phrases = texts.map((p, k) => ({ text: p.replace(/\|$/, ''), t0: +(n0 + rel[k][0]).toFixed(3), t1: +(n0 + rel[k][1]).toFixed(3), brk: /\|$/.test(p) }));
   scenes.push({ id: sc.id, title: sc.title, group, text: sc.text, start: +s0.toFixed(3), end: +end.toFixed(3), narrStart: n0, narrEnd: +(n0 + len).toFixed(3),
     est, music: sc.music || null, footage: sc.footage || null, file: files.find(f => f.startsWith(sc.id + '-')) || null,
-    audio: est ? null : { src: a.src, cut: a.cut, at: +(n0 - a.lead).toFixed(3) }, phrases: phrases.map(({ text, t0, t1 }) => ({ text, t0, t1 })) });
+    audio, phrases: phrases.map(({ text, t0, t1 }) => ({ text, t0, t1 })) });
   // 字幕
   const show = s => s.replace(/[「」『』|]/g, '').replace(/[，。、：；,]+$/, '');
   let cur = null;

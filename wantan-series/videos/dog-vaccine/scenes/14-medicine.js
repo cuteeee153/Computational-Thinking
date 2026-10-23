@@ -1,16 +1,17 @@
 // 幕 14–16｜觀念三：疫苗 ≠ 預防藥。左右兩張大卡對照；心絲蟲貼紙「不是疫苗」。
 K.scene('14', 0, {
   enter: 'iris', irisAt: [1500, 500], bg: 'sky',
-  visuals: ['淡藍底，圓形轉場', '小標「觀念三」；超大字「疫苗 ≠ 預防藥」（≠ 橘色）', '下方：針筒和藥罐兩塊圖示磚，藍色手寫標註「有些打針、吃藥，其實是預防藥」'],
+  visuals: ['淡藍底，圓形轉場', '小標「觀念三」；超大字隨著旁白依序跑出：「疫苗」、「預防藥」、中間橘色「≠」', '下方重點（放大）：針筒和藥罐兩塊大圖示磚，藍色大字手寫標註「有些打針、吃藥，其實是預防藥」'],
   mount: () => K.kicker('k14', '03', '觀念三｜疫苗和預防藥', { y: 220 }) +
-    `<div class="h abs" style="left:140px;top:280px;font-size:150px"><span class="ln"><span id="h140">疫苗 <b class="o">≠</b> <span class="g">預防藥</span></span></span></div>` +
-    K.tile('Syringe', { id: 't140', x: 1150, y: 560, size: 190, rot: -6 }) + K.tile('Pill', { id: 't141', x: 1420, y: 600, size: 190, rot: 5 }) +
-    K.anno('a14', '', '有些打針、吃藥<br>其實是預防藥', { x: 600, y: 620, ss: 42, align: 'right' }) + K.arrow('w14', { x: 930, y: 600, w: 220, h: 120, d: 'M10 70 C 80 20, 150 30, 205 70' }) +
-    K.dog('tilt', { id: 'dg14', x: 1610, y: 300, w: 210, shadow: false }),
-  init() { K.hideLines('h14', 1); gsap.set('#a14', { opacity: 0 }); },
+    `<div class="h abs" style="left:140px;top:280px;font-size:150px;display:flex;gap:40px"><span class="ln"><span id="h140">疫苗</span></span><span class="ln"><span id="h141" class="o">≠</span></span><span class="ln"><span id="h142" class="g">預防藥</span></span></div>` +
+    K.tile('Syringe', { id: 't140', x: 1040, y: 520, size: 270, rot: -6 }) + K.tile('Pill', { id: 't141', x: 1400, y: 570, size: 270, rot: 5 }) +
+    K.anno('a14', '', '有些打針、吃藥<br>其實是預防藥', { x: 330, y: 610, ss: 64, align: 'right' }) + K.arrow('w14', { x: 790, y: 610, w: 260, h: 140, d: 'M10 80 C 90 20, 170 30, 240 80' }),
+  init() { K.hideLines('h14', 3); gsap.set('#a14', { opacity: 0 }); },
   animate(S) {
     S.fromTo('#k14', { opacity: 0 }, { opacity: 1, duration: .4 }, S.at(0));
-    K.lines(S, 'h14', 1, S.word('疫苗和預防藥'), '「疫苗 ≠ 預防藥」大字冒出');
+    S.to('#h140', { yPercent: 0, duration: .7, ease: 'power4.out' }, S.word('疫苗', 0, -.1), '隨著旁白依序跑出：「疫苗」');
+    S.to('#h142', { yPercent: 0, duration: .7, ease: 'power4.out' }, S.word('預防藥', 0, -.1), '「預防藥」');
+    S.to('#h141', { yPercent: 0, duration: .7, ease: 'back.out(2)' }, S.word('不一樣', 0, -.2), '念到「不一樣」：中間橘色「≠」');
     S.sfx(S.word('不一樣'), 'tick', '不一樣：「叮咚」');
     K.pop(S, '#t140', S.word('打針'), '念到「打針」針筒磚彈出', { sfx: 'pop-card' });
     K.pop(S, '#t141', S.word('吃藥'), '念到「吃藥」藥罐磚彈出', { sfx: 'pop-card', pitch: 1.1 });
@@ -20,12 +21,12 @@ K.scene('14', 0, {
 });
 K.scene('15', 0, {
   enter: 'wipe',
-  visuals: ['左右兩張大卡對照；左卡「疫苗」先亮：抗體圖示、「讓身體建立免疫反應」、小流程「遇到病原體 → 更快防禦」', '右卡「預防藥」先是灰色等待'],
+  visuals: ['左右兩張大卡對照；左卡「疫苗」先亮：針筒圖示、「讓身體建立免疫反應」、小流程「遇到病原體 → 更快防禦」', '右卡「預防藥」先是灰色等待'],
   mount: () => `<div class="abs" id="h15" style="left:140px;top:170px;font-size:44px;font-weight:900">兩者最大的差別</div>` +
-    `<div class="cd" id="c150" style="left:140px;top:270px;width:790px;height:660px;padding:56px"><div class="k">VACCINE</div><div class="t" style="font-size:72px;margin-top:6px">疫苗</div><div class="ic" style="position:absolute;right:50px;top:50px;width:170px;height:170px">${K.ic('Antibody')}</div>` +
+    `<div class="cd" id="c150" style="left:140px;top:270px;width:790px;height:660px;padding:56px"><div class="k">VACCINE</div><div class="t" style="font-size:72px;margin-top:6px">疫苗</div><div class="ic" style="position:absolute;right:50px;top:50px;width:170px;height:170px">${K.ic('Syringe')}</div>` +
     `<div class="d" id="d150" style="font-size:38px;color:#16130F;margin-top:60px;font-weight:900">讓身體<b class="o">建立免疫反應</b></div>` +
     `<div id="d151" style="margin-top:46px;display:flex;align-items:center;gap:18px;font-size:30px;font-weight:700"><span class="pl bt" style="position:static">遇到病原體</span>→<span class="pl o" style="position:static">更快防禦</span></div></div>` +
-    `<div class="cd" id="c151" style="left:990px;top:270px;width:790px;height:660px;padding:56px;opacity:.45"><div class="k" style="color:#A29D97">MEDICINE</div><div class="t" style="font-size:72px;margin-top:6px;color:#A29D97">預防藥</div></div>`,
+    `<div class="cd" id="c151" style="left:990px;top:270px;width:790px;height:660px;padding:56px;opacity:.45"><div class="k" style="color:#A29D97">MEDICINE</div><div class="t" id="t151" style="font-size:72px;margin-top:6px;color:#A29D97">預防藥</div></div>`,
   animate(S) {
     K.fadeIn(S, '#h15', S.at(0), '小標「兩者最大的差別」');
     K.rise(S, '#c150', S.word('疫苗', 0, -.2), '左卡「疫苗」浮上、加橘框', { sfx: 'pop-card' });
@@ -45,7 +46,8 @@ K.scene('16', 0, {
       `<div class="stamp" id="sp16" style="left:1450px;top:540px">不是疫苗</div>` }],
   init() { gsap.set(['#i16', '#d160', '#d161'], { opacity: 0 }); },
   animate(S) {
-    S.to('#c151', { opacity: 1, duration: .4 }, S.word('預防藥'), '右卡「預防藥」亮起');
+    S.to('#c151', { opacity: 1, duration: .4 }, S.word('預防藥'), '右卡「預防藥」亮起，標題變黑字');
+    S.to('#t151', { color: '#16130F', duration: .4 }, S.word('預防藥'));
     K.ring(S, '#c150', S.word('預防藥'), false); K.ring(S, '#c151', S.word('預防藥'));
     S.sfx(S.word('預防藥'), 'pop-card', '右卡亮起：「啵」');
     K.pop(S, '#i16', S.word('寄生蟲', 0, -.3), '寄生蟲圖示彈出', { sfx: false });

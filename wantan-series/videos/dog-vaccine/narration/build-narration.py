@@ -14,9 +14,11 @@ for sc in T['scenes']:
     if a['src'] not in cache:
         w = wave.open(f'{here}/work/{a["src"]}'); assert w.getframerate() == SR
         cache[a['src']] = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float32) / 32768
-    x = cache[a['src']][int(a['cut'][0] * SR):int(a['cut'][1] * SR)].copy()
-    f = int(.01 * SR); x[:f] *= np.linspace(0, 1, f); x[-f:] *= np.linspace(1, 0, f)
-    o = int(a['at'] * SR); y[o:o + len(x)] += x[:len(y) - o]; n += 1
+    for g in a.get('segs') or [a]:   # 有停頓的幕會切成好幾段
+        x = cache[a['src']][int(g['cut'][0] * SR):int(g['cut'][1] * SR)].copy()
+        f = int(.01 * SR); x[:f] *= np.linspace(0, 1, f); x[-f:] *= np.linspace(1, 0, f)
+        o = int(g['at'] * SR); y[o:o + len(x)] += x[:len(y) - o]
+    n += 1
 y = y[:int(T['total'] * SR)]
 o = wave.open(sys.argv[1], 'wb'); o.setnchannels(2); o.setsampwidth(2); o.setframerate(SR)
 o.writeframes(np.repeat((np.clip(y, -1, 1) * 32767).astype('<i2')[:, None], 2, axis=1).tobytes()); o.close()
