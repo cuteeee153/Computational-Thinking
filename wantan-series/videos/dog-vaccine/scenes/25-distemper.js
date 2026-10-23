@@ -15,7 +15,7 @@ K.scene('25', 1, {
     K.pop(S, '#p250', S.word('傳染力很強'), '「傳染力很強」橘色標籤', { sfx: 'pop-card' });
     S.fromTo('#dg25 img', { filter: 'drop-shadow(0 0 0px rgba(249,115,22,0))' }, { filter: 'drop-shadow(0 0 40px rgba(249,115,22,.85))', duration: .6, yoyo: true, repeat: 1 }, S.word('全身'), '念到「全身」黑柴全身亮起橘色光暈');
     K.pop(S, '#p251', S.word('全身'), '「可能影響全身」標籤', { sfx: 'ding-soft' });
-    S.to(['#dg25b', '#n25'], { opacity: 1, duration: .4 }, S.word('怎麼傳染'), '左下出現打噴嚏的狗');
+    S.to(['#dg25b', '#n25'], { opacity: 1, duration: .4 }, S.word('生病動物', 0, -.1), '念到「生病動物」：左下出現打噴嚏的狗');
     [0, 1, 2, 3, 4, 5].forEach(k => {
       const t = S.word('飛沫', 0, -.2) + k * .18;
       S.fromTo('#dp25' + k, { opacity: 0, x: 0, y: 0, scale: .5 }, { opacity: 1, x: 800 + k * 40, y: -200 + (k % 3) * 40, scale: 1, duration: 2.2, ease: 'sine.inOut' }, t, k ? '' : '飛沫一顆顆從生病的狗飄向右邊的狗');
@@ -68,7 +68,7 @@ K.scene('27', 1, {
     S.to('#g27a', { strokeDashoffset: 0, duration: 1, ease: 'power2.inOut' }, S.word('好轉', 0, -.4), '灰線往下：症狀好轉');
     S.to(['#g27c', '#g27l1'], { opacity: 1, duration: .3 }, S.word('好轉', 0, .4));
     S.sfx(S.word('好轉', 0, -.4), 'draw', '畫線：筆刷聲', { dur: 1, gain: .5 });
-    S.to('#g27b', { strokeDashoffset: 0, duration: 1.4, ease: 'power2.in' }, S.word('之後仍可能'), '念到「之後仍可能出現神經方面的問題」：橘線往上，字同時浮現');
+    S.to('#g27b', { strokeDashoffset: 0, duration: 1, ease: 'power2.out' }, S.word('之後仍可能', 0, -.15), '念到「之後仍可能出現神經方面的問題」：橘線往上，字同時浮現');
     S.fromTo('#g27l2', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .5 }, S.word('之後仍可能'));
     S.sfx(S.word('之後仍可能'), 'draw', '畫線：筆刷聲', { dur: 1.4, gain: .5 });
     K.stamp(S, '#sp27', S.word('致命', 0, -.3), '橘色印章「沒打疫苗：犬瘟熱可能致命」');

@@ -90,6 +90,12 @@ h1{font-size:clamp(26px,4vw,36px);font-weight:900;letter-spacing:-.02em;margin:0
 /* 修改需求 */
 .req{margin-top:16px}
 .reqs{display:grid;gap:8px;margin-bottom:10px}
+.donebox{grid-column:1/-1}
+.donebox>summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel);font-size:13px;font-weight:700;color:var(--ok)}
+.donebox>summary::-webkit-details-marker{display:none}
+.donebox>summary:hover,.donebox>summary:focus-visible{border-color:var(--accent);outline:none}
+.donebox[open]>summary{margin-bottom:8px}
+.donebox .in{display:grid;gap:8px}
 .r{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px 12px;font-size:14.5px}
 .r .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .pill{font:700 11px var(--mono);padding:2px 8px;border-radius:999px;letter-spacing:.04em;white-space:nowrap}
@@ -307,20 +313,25 @@ document.addEventListener('click', async e => {
   }
 });
 
+const DONE_OPEN = {};
 const LABEL = { new: '等 Claude 處理', done: '已改好', question: 'Claude 想確認', skip: '這次不改' };
 function renderRequests(docs) {
   const by = {};
   for (const d of docs) (by[d.scene] ||= []).push(d);
   document.querySelectorAll('[data-reqs]').forEach(box => {
-    const list = by[box.dataset.reqs] || [];
-    box.innerHTML = list.map(r => `
+    const list = by[box.dataset.reqs] || [], sc = box.dataset.reqs;
+    // 已改好的需求收在一個可以展開的區塊裡（預設收合，記住展開狀態）
+    const was = box.querySelector('.donebox'); if (was) DONE_OPEN[sc] = was.open;
+    const card = r => `
       <div class="r">
         <div class="top"><span class="pill ${esc(r.status)}">${LABEL[r.status] || esc(r.status)}${r.status === 'done' && r.doneIn ? '・v' + esc(r.doneIn) : ''}</span>
           <span class="when">${new Date(r.createdAt).toLocaleString('zh-TW', { hour12: false, month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
           ${r.status === 'new' ? `<button type="button" data-withdraw="${esc(r._id)}">撤回</button>` : ''}</div>
         <div class="txt">${esc(r.text)}</div>
         ${r.reply ? `<div class="reply"><b>Claude：</b>${esc(r.reply)}</div>` : ''}
-      </div>`).join('');
+      </div>`;
+    const open = list.filter(r => r.status !== 'done'), done = list.filter(r => r.status === 'done');
+    box.innerHTML = open.map(card).join('') + (done.length ? `<details class="donebox"${DONE_OPEN[sc] ? ' open' : ''}><summary>✓ 已改好的需求（${done.length}）▾</summary><div class="in">${done.map(card).join('')}</div></details>` : '');
   });
   REQ_PENDING = {};
   for (const d of docs) if (d.status === 'new' || d.status === 'question') REQ_PENDING[d.scene] = (REQ_PENDING[d.scene] || 0) + 1;

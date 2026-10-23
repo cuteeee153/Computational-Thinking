@@ -21,16 +21,16 @@ K.scene('31', 1, {
 });
 K.scene('32', 1, {
   enter: 'push', bg: 'mint',
-  visuals: ['左邊：月曆磚＋「康復後，尿液仍可能帶病毒」＋大字「至少 6 個月」（數字跑上去）', '右邊：症狀程度長條，由「輕微發燒」漸層到「死亡」；下方標籤「年紀很小的幼犬風險最高」'],
-  mount: () => K.tile('Calendar', { id: 't32', x: 140, y: 200, size: 170, rot: -4 }) +
+  visuals: ['大標「康復不代表消失」（後半橘色）；左邊「康復後，尿液仍可能帶病毒」＋大字「至少 6 個月」（數字跑上去）', '右邊：症狀程度長條，由「輕微發燒」漸層到「死亡」；下方標籤「年紀很小的幼犬風險最高」'],
+  mount: () => K.h('h32', ['康復<b class="o">不代表消失</b>'], { y: 200, size: 84 }) +
     `<div class="abs" id="b32" style="left:140px;top:420px;width:760px"><div style="font-size:34px;font-weight:900;color:#7C7772">康復後，尿液仍可能帶病毒</div><div style="display:flex;align-items:baseline;gap:14px;margin-top:10px"><span style="font-size:52px;font-weight:900">至少</span><span class="big" id="n32" style="font-size:220px;color:var(--or)">0</span><span style="font-size:52px;font-weight:900">個月</span></div></div>` +
     `<div class="cd" id="c32" style="left:1000px;top:250px;width:780px;height:440px;padding:46px"><div class="k">感染之後的症狀</div>
       <div style="position:relative;margin-top:60px;height:60px;border-radius:30px;background:#ECEAE7;overflow:hidden"><i id="br32" style="position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:30px;background:linear-gradient(90deg,#FFD9B8,#F97316 60%,#B83A0B)"></i></div>
       <div style="display:flex;justify-content:space-between;margin-top:20px;font-size:30px;font-weight:900"><span>輕微發燒</span><span class="o">嚴重疾病・死亡</span></div></div>` +
     `<div class="pl o" id="p32" style="left:1000px;top:740px">年紀很小的幼犬風險最高</div>`,
-  init() { gsap.set('#br32', { scaleX: 0, transformOrigin: '0 50%' }); },
+  init() { K.hideLines('h32', 1); gsap.set('#br32', { scaleX: 0, transformOrigin: '0 50%' }); },
   animate(S) {
-    K.pop(S, '#t32', S.word('康復'), '月曆圖示磚', { sfx: 'pop-card' });
+    K.lines(S, 'h32', 1, S.word('康復'), '大標「康復不代表消失」');
     K.rise(S, '#b32', S.word('康復'), '「康復後，尿液仍可能帶病毒」');
     K.count(S, '#n32', 0, 6, S.word('六個月', 0, -.3), .8, '數字跑到「至少 6 個月」');
     S.sfx(S.word('六個月'), 'ding-soft', '6 個月：輕「叮」');

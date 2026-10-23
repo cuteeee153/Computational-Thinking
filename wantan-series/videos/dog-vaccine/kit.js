@@ -24,7 +24,7 @@
       document.getElementById('stage').appendChild(el);
       gsap.set('#nav', { opacity: 0 });
     }
-    S.set('#nav', { opacity: chap < 0 ? 0 : 1 }, S.start);
+    S.to('#nav', { opacity: chap < 0 ? 0 : 1, duration: .6, ease: 'power1.inOut' }, S.start);   // 隨轉場淡入淡出
     K.CHAPTERS.forEach((_, k) => S.set('#nv' + k, k === chap
       ? { backgroundColor: '#16130F', color: '#FFFFFF', opacity: 1 }
       : { backgroundColor: 'rgba(255,255,255,0)', color: k < chap ? '#16130F' : '#A29D97', opacity: 1 }, S.start));
@@ -90,9 +90,9 @@
   // 打字（給手機輸入框）：data-text
   K.type = (S, sel, t, label) => { const el = document.querySelector(sel); const n = [...el.dataset.text].length; S.type(sel, t, n * .07, label); S.sfx(t, 'typing', '打字聲', { dur: n * .07, chars: n, gain: .7 }); };
   // 盒子印章效果
-  K.stamp = (S, sel, t, label) => {
-    gsap.set(sel, { opacity: 0, scale: 1.8, rotate: -12 });
-    S.to(sel, { opacity: 1, scale: 1, rotate: -6, duration: .35, ease: 'power4.in' }, t, label);
+  K.stamp = (S, sel, t, label, o = {}) => {   // o.straight：蓋正的，不歪
+    gsap.set(sel, { opacity: 0, scale: 1.8, rotate: o.straight ? 0 : -12 });
+    S.to(sel, { opacity: 1, scale: 1, rotate: o.straight ? 0 : -6, duration: .35, ease: 'power4.in' }, t, label);
     S.sfx(t + .3, 'thud', label ? `${label.replace(/：.*/, '')}：印章「咚」` : '印章「咚」');
   };
 })();

@@ -57,11 +57,11 @@ K.scene('11', 0, {
     K.pop(S, '#r114', S.word('再決定', 0, .1), '跑出「再決定要不要打」', { sfx: 'ding-soft' });
   },
 });
-const LIFE = [['Hotel', '寵物旅館', '寵物旅館', 160, 580], ['Park', '狗公園', '狗公園', 410, 580], ['Mountain', '戶外活動', '戶外活動', 660, 580], ['Water', '溪邊、積水', '溪邊', 910, 580]];
+const LIFE = [['Hotel', '寵物旅館', '寵物旅館', 140, 570], ['Park', '狗公園', '狗公園', 390, 570], ['Mountain', '戶外活動', '戶外活動', 640, 570], ['Water', '溪邊、積水', '溪邊', 890, 570]];
 K.scene('12', 0, {
   enter: 'none',
-  visuals: ['（接續）在「生活方式＋感染風險 → 再決定要不要打」下面，四個地點圖示磚依序排出來：寵物旅館、狗公園、戶外活動、溪邊和積水', '最後一行：生活習慣 → 影響疫苗的選擇（橘）'],
-  mount: () => LIFE.map(([ic, t, , x, y], k) => K.tile(ic, { id: 't12' + k, x, y, size: 160, rot: [-5, 4, -3, 5][k] }) + `<div class="abs" id="l12${k}" style="left:${x - 45}px;top:${y + 172}px;width:250px;text-align:center;font-size:28px;font-weight:900">${t}</div>`).join('') +
+  visuals: ['（接續）在「生活方式＋感染風險 → 再決定要不要打」下面，四個地點圖示磚整齊排成一排、依序出現：寵物旅館、狗公園、戶外活動、溪邊和積水', '最後一行：生活習慣 → 影響疫苗的選擇（橘）'],
+  mount: () => LIFE.map(([ic, t, , x, y], k) => K.tile(ic, { id: 't12' + k, x, y, size: 160 }) + `<div class="abs" id="l12${k}" style="left:${x - 45}px;top:${y + 175}px;width:250px;text-align:center;font-size:28px;font-weight:900">${t}</div>`).join('') +
     `<div class="abs" id="r12" style="left:140px;top:850px;display:flex;gap:18px;align-items:center;font-size:40px;font-weight:900">生活習慣<span style="color:#A29D97">→</span><span class="o">影響疫苗的選擇</span></div>`,
   animate(S) {
     LIFE.forEach(([, , w], k) => { K.pop(S, '#t12' + k, S.word(w, 0, -.1), k ? '' : '念到時地點圖示磚一個個冒出來', { pitch: 1 + k * .08 }); K.fadeIn(S, '#l12' + k, S.word(w)); });
@@ -71,13 +71,13 @@ K.scene('12', 0, {
 K.scene('13', 0, {
   enter: 'wipe',
   visuals: ['上方兩張組織卡（地球）：世界小動物獸醫協會 WSAVA、美國動物醫院協會 AAHA', '左卡「專業指引」（文件）：寫給獸醫參考；右卡「台灣法律」（法槌）：打叉', '下方放大的重點流程：台灣獸醫參考指引＋本地的疾病風險 → 安排適合的疫苗（橘）'],
-  mount: () => [['世界小動物獸醫協會', 'WSAVA'], ['美國動物醫院協會', 'AAHA']].map(([t, e], k) => `<div class="pl" id="o13${k}" style="left:${140 + k * 640}px;top:160px;font-size:28px">${K.ic('Globe')}${t} <b class="big" style="color:var(--or);font-size:30px">${e}</b></div>`).join('') +
+  mount: () => `<div class="abs" style="left:140px;top:160px;display:flex;gap:20px">` + [['世界小動物獸醫協會', 'WSAVA'], ['美國動物醫院協會', 'AAHA']].map(([t, e], k) => `<div class="pl" id="o13${k}" style="position:static;font-size:28px">${K.ic('Globe')}${t} <b class="big" style="color:var(--or);font-size:30px">${e}</b></div>`).join('') + `</div>` +
     `<div class="cd" id="c130" style="left:140px;top:290px;width:780px;height:300px;padding:44px;display:flex;gap:34px;align-items:center"><div class="ic" style="width:170px;height:170px;flex:none">${K.ic('Doc')}</div><div><div class="k">GUIDELINE</div><div class="t" style="font-size:56px">專業指引</div><div class="d">寫給獸醫參考</div></div></div>` +
     `<div class="cd" id="c131" style="left:1000px;top:290px;width:780px;height:300px;padding:44px;display:flex;gap:34px;align-items:center"><div class="ic" style="width:170px;height:170px;flex:none;opacity:.55">${K.ic('Gavel')}</div><div><div class="k" style="color:#A29D97">LAW</div><div class="t" style="font-size:56px;color:#A29D97">台灣法律</div><div class="d">不是法律規定</div></div><div class="x" id="x13" style="left:640px;top:110px"></div></div>` +
     `<div class="abs" id="f13" style="left:140px;top:650px;display:flex;gap:22px;align-items:center;font-size:46px;font-weight:900;white-space:nowrap">${K.ic('Clinic').replace('<svg', '<svg width="170" height="170"')}<span class="pl bt" style="position:static;font-size:40px;padding:20px 36px" id="f130">台灣獸醫參考指引</span><span>＋</span><span class="pl bt" style="position:static;font-size:40px;padding:20px 36px" id="f131">本地的疾病風險</span><span>→</span><span class="pl o" style="position:static;font-size:44px;padding:22px 40px" id="f132">安排適合的疫苗</span></div>`,
   init() { gsap.set('#x13', { opacity: 0, scale: .3 }); },
   animate(S) {
-    K.pop(S, ['#o130', '#o131'], S.at(0), '念到「它們發布的」：兩張組織卡 WSAVA、AAHA 跑出來', { stagger: .2, sfx: 'pop-card' });
+    K.pop(S, ['#o130', '#o131'], S.at(0), '念到「它們」：兩張組織卡 WSAVA、AAHA 同時跑出來', { sfx: 'pop-card' });
     K.rise(S, '#c130', S.word('專業指引'), '左卡「專業指引」浮上', { sfx: 'pop-card' });
     K.rise(S, '#c131', S.word('法律規定', 0, -.3), '右卡「台灣法律」浮上', { sfx: 'pop-card' });
     S.to('#x13', { opacity: 1, scale: 1, duration: .3, ease: 'back.out(3)' }, S.word('不是台灣'), '「台灣法律」被打叉');

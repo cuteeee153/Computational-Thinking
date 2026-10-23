@@ -7,15 +7,15 @@ K.disCard = (id, k, x, y, w = 330) => `<div class="cd" id="${id}" style="left:${
 const ORDER17 = [3, 0, 1, 2], X17 = [140, 520, 850, 1180];
 K.scene('17', 1, {
   enter: 'push', bg: 'mint',
-  visuals: ['過場：大標「疫苗到底在保護狗狗」／「免於哪些疾病？」（灰）', '右邊盾牌圖示磚＋開心的黑柴，四周三個病菌冒出來又被擋開'],
+  visuals: ['過場：大標「疫苗到底在保護狗狗」／「免於哪些疾病？」（灰）', '右邊開心的黑柴，四周三個病菌冒出來'],
   mount: () => K.h('h17a', ['疫苗到底在保護狗狗', '~免於哪些疾病？'], { y: 360, size: 84 }) +
-    K.tile('Shield', { id: 't17a', x: 1180, y: 250, size: 220, rot: -6 }) + K.dog('happy', { id: 'dg17a', x: 1380, y: 380, w: 340 }) +
+    K.dog('happy', { id: 'dg17a', x: 1360, y: 360, w: 360 }) +
     [[1120, 560], [1720, 300], [1760, 700]].map(([x, y], k) => `<div class="ico" id="v17a${k}" style="left:${x}px;top:${y}px;width:110px;height:110px">${K.ic('Virus')}</div>`).join(''),
   init() { K.hideLines('h17a', 2); },
   animate(S) {
     K.lines(S, 'h17a', 2, S.word('接下來'), '大標「疫苗到底在保護狗狗／免於哪些疾病？」');
-    K.pop(S, '#t17a', S.at(0), '盾牌圖示磚＋開心的黑柴', { sfx: 'pop-card' });
-    S.fromTo('#dg17a', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5 }, S.at(0) + .2);
+    S.fromTo('#dg17a', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5, ease: 'back.out(1.6)' }, S.at(0) + .2, '開心的黑柴');
+    S.sfx(S.at(0) + .2, 'boing', '黑柴：小彈簧');
     K.pop(S, ['#v17a0', '#v17a1', '#v17a2'], S.word('哪些疾病', 0, -.4), '三個病菌冒出來', { stagger: .15, sfx: 'pop-low' });
   },
 });
