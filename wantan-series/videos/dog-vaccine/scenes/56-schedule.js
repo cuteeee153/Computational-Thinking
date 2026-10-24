@@ -20,25 +20,28 @@ K.scene('56', 4, {
 });
 K.scene('57', 4, {
   enter: 'push', bg: 'mint',
-  visuals: ['大標「小狗為什麼要連打好幾劑？」', '左邊趴著的狗媽媽＋奶瓶圖示（初乳），三個抗體從媽媽飄到小狗身上，藍色標註「媽媽給的抗體」', '念到「干擾疫苗」：針筒飛向小狗，被抗體擋住、打叉，橘色字「可能干擾疫苗的效果」'],
+  visuals: ['大標「小狗為什麼要連打好幾劑？」', '左邊趴著的狗媽媽＋奶瓶圖示（初乳）；初乳先飛向小狗，變成三個抗體圍繞在小狗周圍，小狗正上方藍字「媽媽給的抗體」', '念到「干擾疫苗」：針筒才從右邊飛進來，針頭對準小狗的背，被抗體擋住、打叉，橘色字「可能干擾疫苗的效果」'],
   mount: () => K.h('h57', ['小狗為什麼要', '~連打好幾劑？'], { y: 170, size: 76 }) +
     K.dog('rest', { id: 'dg570', x: 120, y: 520, w: 460 }) + K.tile('Milk', { id: 't57', x: 520, y: 400, size: 150, rot: 6 }) +
     K.dog('sit', { id: 'dg571', x: 1030, y: 520, w: 220 }) +
-    [0, 1, 2].map(k => `<div class="ico" id="ab57${k}" style="left:600px;top:${560 + k * 70}px;width:90px;height:90px">${K.ic('Antibody')}</div>`).join('') +
-    K.anno('a57', '', '媽媽給的抗體', { x: 650, y: 860, ss: 36 }) +
-    `<div class="ico" id="sy57" style="left:1700px;top:520px;width:160px;height:160px">${K.ic('Syringe')}</div><div class="x" id="x57" style="left:1310px;top:580px"></div>` +
+    [[930, 600, -20], [1260, 560, 18], [1230, 780, 30]].map(([x, y, r], k) => `<div class="ico" id="ab57${k}" style="left:${x}px;top:${y}px;width:100px;height:100px;transform:rotate(${r}deg)">${K.ic('Antibody')}</div>`).join('') +
+    K.anno('a57', '', '媽媽給的抗體', { x: 1030, y: 450, ss: 36 }) +
+    `<div class="ico" id="sy57" style="left:1760px;top:380px;width:170px;height:170px">${K.ic('Syringe')}</div><div class="x" id="x57" style="left:1380px;top:560px"></div>` +
     `<div class="sub" id="s57" style="left:1050px;top:300px;font-size:44px;font-weight:900;width:760px"><b>可能干擾疫苗的效果</b></div>`,
-  init() { K.hideLines('h57', 2); gsap.set(['#ab570', '#ab571', '#ab572', '#a57', '#x57'], { opacity: 0 }); },
+  init() { K.hideLines('h57', 2); gsap.set(['#ab570', '#ab571', '#ab572', '#a57', '#x57', '#sy57'], { opacity: 0 }); gsap.set('#sy57', { rotate: 75 }); },
   animate(S) {
     K.lines(S, 'h57', 2, S.at(0), '大標「小狗為什麼要連打好幾劑？」');
     S.fromTo('#dg570', { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: .6 }, S.word('剛出生'), '狗媽媽和小狗出現');
     S.fromTo('#dg571', { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: .6 }, S.word('剛出生', 0, .2));
     K.pop(S, '#t57', S.word('初乳'), '奶瓶圖示（初乳）', { sfx: 'pop-card' });
-    [0, 1, 2].forEach(k => S.fromTo('#ab57' + k, { opacity: 0, x: 0, y: 0 }, { opacity: 1, x: 430 + k * 20, y: -40 + k * 10, duration: 1.4, ease: 'sine.inOut' }, S.word('抗體') + k * .2, k ? '' : '三個抗體從媽媽飄到小狗身上'));
-    S.sfx(S.word('抗體'), 'whoosh', '抗體飄過去：「咻」', { gain: .5 });
-    S.to('#a57', { opacity: 1, duration: .3 }, S.word('抗體', 0, .4), '藍色標註「媽媽給的抗體」');
-    S.to('#sy57', { left: 1330, rotate: -20, duration: .7, ease: 'power2.in' }, S.word('干擾', 0, -.6), '針筒飛向小狗');
-    S.to('#sy57', { left: 1450, rotate: 20, duration: .4, ease: 'power2.out' }, S.word('干擾', 0, .1), '被抗體擋住、打叉');
+    const ta = S.word('抗體');
+    S.to('#t57', { left: 1080, top: 600, scale: .5, rotate: 0, duration: .9, ease: 'power2.inOut' }, ta - .3, '初乳先飛向小狗');
+    S.sfx(ta - .3, 'whoosh', '初乳飛過去：「咻」', { gain: .5 });
+    S.to('#t57', { opacity: 0, scale: .2, duration: .3 }, ta + .6);
+    K.pop(S, ['#ab570', '#ab571', '#ab572'], ta + .6, '變成三個抗體，圍繞在小狗周圍', { stagger: .15 });
+    S.to('#a57', { opacity: 1, duration: .3 }, ta + 1.1, '小狗正上方藍字「媽媽給的抗體」');
+    S.to('#sy57', { opacity: 1, left: 1400, top: 420, duration: .7, ease: 'power2.in' }, S.word('干擾', 0, -.6), '針筒才飛進來，針頭對準小狗的背');
+    S.to('#sy57', { left: 1560, top: 340, rotate: 95, duration: .4, ease: 'power2.out' }, S.word('干擾', 0, .1), '被抗體擋住、打叉');
     S.to('#x57', { opacity: 1, duration: .2 }, S.word('干擾', 0, .1));
     S.sfx(S.word('干擾', 0, .1), 'shake', '擋住：喀喀');
     K.rise(S, '#s57', S.word('干擾'), '橘色字「可能干擾疫苗的效果」');
@@ -46,15 +49,15 @@ K.scene('57', 4, {
 });
 K.scene('58', 4, {
   enter: 'push',
-  visuals: ['折線圖卡：三條線（小狗 A、B、C）代表媽媽給的抗體，往下掉的速度都不一樣，標註「每隻消失的時間不一樣」', '下方依序出現第 1、2、3 劑三個針筒；最後一劑旁打勾「至少有一劑能成功」', '左邊說明：獸醫沒辦法只靠年齡判斷哪天打一定有效 → 所以要連打好幾劑（橘）'],
-  mount: () => `<div class="abs" id="t58" style="left:140px;top:170px;width:620px"><div class="sub" style="position:static;font-size:34px">獸醫沒辦法只靠年齡<br>判斷哪一天打一定有效</div><div class="h" style="font-size:72px;margin-top:30px">所以要<br><b class="o">連打好幾劑</b></div></div>` +
+  visuals: ['折線圖卡：三條線（小狗 A、B、C）代表媽媽給的抗體，往下掉的速度都不一樣，圖中右上的空白處標註「每隻消失的時間不一樣」', '下方依序出現第 1、2、3 劑三個針筒；最後一劑旁打勾「至少有一劑能成功」', '左邊說明：獸醫沒辦法只靠年齡判斷哪天打一定有效 → 所以要連打好幾劑（橘，大字）'],
+  mount: () => `<div class="abs" id="t58" style="left:140px;top:170px;width:620px"><div class="sub" style="position:static;font-size:34px">獸醫沒辦法只靠年齡<br>判斷哪一天打一定有效</div><div class="h" style="font-size:80px;margin-top:30px">所以要<br><b class="o" style="font-size:112px">連打好幾劑</b></div></div>` +
     `<div class="cd" id="c58" style="left:820px;top:170px;width:960px;height:700px;padding:40px"><div class="k">示意｜媽媽給的抗體</div>
       <svg width="880" height="520" style="overflow:visible;margin-top:10px"><path d="M40 20 V470 H860" fill="none" stroke="#D9D5D0" stroke-width="4"/>
       ${[['M40 60 C 200 70, 260 360, 420 450', '#9A9590'], ['M40 90 C 300 90, 380 380, 600 455', '#7DA3E0'], ['M40 120 C 380 110, 520 400, 800 460', '#F3A46B']].map(([d, c], k) => `<path id="cv58${k}" pathLength="1" d="${d}" fill="none" stroke="${c}" stroke-width="9" stroke-linecap="round"/>`).join('')}
       </svg><div class="abs" style="left:60px;top:570px;font-size:24px;color:#9A9590;font-weight:700">小狗年齡 →</div>
       ${[['A', 470, 470], ['B', 640, 470], ['C', 830, 470]].map(([n, x, y], k) => `<div class="abs" id="lb58${k}" style="left:${x}px;top:${y}px;font:800 30px 'Bricolage Grotesque';color:${['#9A9590', '#7DA3E0', '#F3A46B'][k]}">${n}</div>`).join('')}
       ${[300, 520, 740].map((x, k) => `<div class="abs" id="dz58${k}" style="left:${x}px;top:590px;text-align:center;width:120px"><div style="width:80px;height:80px;margin:0 auto">${K.ic('Syringe')}</div><div style="font-size:22px;font-weight:900">第 ${k + 1} 劑</div></div>`).join('')}
-    </div>` + K.anno('a58', '', '每隻消失的時間不一樣', { x: 1240, y: 120, ss: 30 }) +
+    </div>` + K.anno('a58', '', '每隻消失的時間<br>不一樣', { x: 1400, y: 300, ss: 36 }) +
     `<div class="pl o" id="p58" style="left:1350px;top:900px;font-size:30px">至少有一劑能成功</div>`,
   init() { gsap.set(['#cv580', '#cv581', '#cv582'], { strokeDasharray: 1, strokeDashoffset: 1 }); gsap.set(['#lb580', '#lb581', '#lb582', '#a58', '#t58'], { opacity: 0 }); },
   animate(S) {
@@ -67,36 +70,19 @@ K.scene('58', 4, {
     K.pop(S, '#p58', S.word('至少有一劑'), '「至少有一劑能成功」', { sfx: 'tick' });
   },
 });
-K.scene('59', 4, {
-  enter: 'wipe', bg: 'mint',
-  visuals: ['大標「時間表之前，先提醒」', '左卡「台灣常見做法的整理」✓，右卡「全台統一的官方時程」打叉', '下方：由獸醫依照 年齡、健康狀況、疫苗紀錄 來安排（動物醫院圖示）'],
-  mount: () => K.h('h59', ['時間表之前，<b class="o">先提醒</b>'], { y: 170, size: 72 }) +
-    `<div class="cd" id="c590" style="left:140px;top:320px;width:780px;height:240px;padding:44px;display:flex;align-items:center;gap:30px">${K.chk()}<div class="t" style="font-size:42px">台灣常見做法的整理</div></div>` +
-    `<div class="cd" id="c591" style="left:1000px;top:320px;width:780px;height:240px;padding:44px;display:flex;align-items:center;gap:30px"><div class="t" style="font-size:42px;color:#A29D97">全台統一的官方時程</div><div class="x" id="x59" style="left:640px;top:70px"></div></div>` +
-    `<div class="abs" id="r59" style="left:140px;top:640px;display:flex;gap:18px;align-items:center;font-size:36px;font-weight:900;white-space:nowrap"><span style="width:130px;height:130px">${K.ic('Clinic')}</span>由獸醫依照<span class="pl ot" style="position:static" id="r590">年齡</span><span class="pl ot" style="position:static" id="r591">健康狀況</span><span class="pl ot" style="position:static" id="r592">疫苗紀錄</span>來安排</div>`,
-  init() { K.hideLines('h59', 1); gsap.set('#x59', { opacity: 0, scale: .3 }); },
-  animate(S) {
-    K.lines(S, 'h59', 1, S.word('先提醒'), '大標「時間表之前，先提醒」');
-    K.rise(S, '#c590', S.word('台灣常見的做法'), '左卡「台灣常見做法的整理」✓', { sfx: 'pop-card' });
-    K.rise(S, '#c591', S.word('全台統一'), '右卡「全台統一的官方時程」', { sfx: 'pop-card' });
-    S.to('#x59', { opacity: 1, scale: 1, duration: .3, ease: 'back.out(3)' }, S.word('官方時程'), '被打叉');
-    S.sfx(S.word('官方時程'), 'scribble', '打叉：筆刷');
-    K.rise(S, '#r59', S.word('由獸醫'), '下方：由獸醫依照年齡、健康狀況、疫苗紀錄來安排');
-  },
-});
 K.scene('60', 4, {
   enter: 'rise', bg: 'sky',
-  visuals: ['左邊大標「幼犬疫苗時間表」，小字「台灣常見的安排」；坐著的黑柴', '右邊手機「疫苗手冊」：念到時一列列出現——約 2 個月：第 1 劑綜合疫苗；約 3 個月：第 2 劑＋開始打狂犬病（依法）；約 4 個月：第 3 劑（部分資料建議狂犬病這時一起打）；完成後：依獸醫安排補強', '左下標籤「完成三劑後再帶出門（部分動物醫院建議）」'],
+  visuals: ['左邊大標「幼犬疫苗時間表」，小字「台灣常見的安排」；坐著的黑柴', '右邊手機「疫苗手冊」：念到時一列列出現——約 2 個月：第 1 劑綜合疫苗；約 3 個月：第 2 劑＋開始打狂犬病（依法）；約 4 個月：第 3 劑（部分資料建議狂犬病這時一起打）；完成後：依獸醫安排補強', '「台灣常見的安排」底下：標籤「完成三劑後再帶出門（部分動物醫院建議）」'],
   mount: () => K.h('h60', ['幼犬疫苗時間表'], { y: 200, size: 80 }) + `<div class="note" id="n60" style="left:140px;top:320px;font-size:30px;font-weight:700">台灣常見的安排（資料整理）</div>` +
     K.dog('sit', { id: 'dg60', x: 760, y: 600, w: 240 }) +
     K.phone('ph60', `<div class="rows" style="top:220px">${[['約 2 個月', '第 1 劑綜合疫苗', ''], ['約 3 個月', '第 2 劑綜合疫苗', '＋開始打狂犬病（依法）'], ['約 4 個月', '第 3 劑綜合疫苗', '部分資料：狂犬病這時一起打'], ['完成後', '依獸醫安排補強', '']].map(([a, b, c], k) => `<div class="row" id="rw60${k}"><span class="when">${a}</span><span class="what">${b}${c ? `<small>${c}</small>` : ''}</span>${k < 3 ? K.chk() : K.chk(true)}</div>`).join('')}</div>`, { title: '幼犬疫苗時間表' }) +
-    `<div class="pl ot" id="p60" style="left:140px;top:860px;font-size:28px">完成三劑後再帶出門（部分動物醫院建議）</div>`,
+    `<div class="pl ot" id="p60" style="left:140px;top:390px;font-size:28px">完成三劑後再帶出門（部分動物醫院建議）</div>`,
   init() { K.hideLines('h60', 1); gsap.set('#ph60', { y: 500 }); },
   animate(S) {
     K.lines(S, 'h60', 1, S.at(0), '大標「幼犬疫苗時間表」');
     K.fadeIn(S, '#n60', S.at(0) + .3);
-    S.to('#ph60', { y: 0, duration: .8, ease: 'power3.out' }, S.at(0) + .2, '右邊手機滑上來');
-    S.sfx(S.at(0) + .2, 'whoosh', '手機滑上來：「咻」');
+    S.to('#ph60', { y: 0, duration: .8, ease: 'power3.out' }, S.start + .1, '右邊手機跟著換幕直接滑上來');
+    S.sfx(S.start + .1, 'whoosh', '手機滑上來：「咻」');
     S.fromTo('#dg60', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5 }, S.at(0) + .4);
     [['兩個月', 0], ['三個月', 1], ['四個月', 2], ['完成幼犬階段', 3]].forEach(([w, k]) => {
       K.rise(S, '#rw60' + k, S.word(w, 0, -.2), k ? '' : '念到時時間表一列列出現、加橘框', { dy: 24, sfx: 'pop-card' });
@@ -120,20 +106,18 @@ K.scene('61', 4, {
 });
 K.scene('62', 4, {
   enter: 'push', bg: 'mint',
-  visuals: ['左邊：房子圖示＋站起來拜託的黑柴（想出門），藍色標註「保護力可能還不完整」', '大標「打完之前，」／「能出門嗎？」（灰）', '右邊卡「先和獸醫討論」：✓ 哪些活動可以進行；⚠ 避開：大量其他犬隻、可能受污染的環境'],
-  mount: () => K.tile('House', { id: 't62', x: 150, y: 330, size: 240, rot: -4 }) + K.dog('beg', { id: 'dg62', x: 420, y: 330, w: 260 }) +
-    K.anno('a62', '', '保護力可能<br>還不完整', { x: 140, y: 650, ss: 36, align: 'left' }) +
-    K.h('h62', ['打完之前，', '~能出門嗎？'], { x: 760, y: 170, size: 76 }) +
+  visuals: ['左邊：站起來拜託的黑柴（想出門）', '大標「保護力可能還不完整」／「打完之前，能出門嗎？」（灰，一行）', '右邊卡「先和獸醫討論」：✓ 哪些活動可以進行（和下一列對齊）；⚠ 避開：大量其他犬隻、可能受污染的環境'],
+  mount: () => K.dog('beg', { id: 'dg62', x: 230, y: 360, w: 340 }) +
+    K.h('h62', ['保護力可能還不完整', '~打完之前，能出門嗎？'], { x: 760, y: 170, size: 76 }) +
     `<div class="cd" id="c62" style="left:760px;top:420px;width:1020px;height:440px;padding:44px"><div class="k" style="display:flex;align-items:center;gap:14px">先和獸醫討論</div>
       <div class="row" id="r620" style="display:flex;align-items:center;gap:18px;margin-top:24px;font-size:34px;font-weight:900">${K.chk()}哪些活動可以進行</div>
       <div class="row" id="r621" style="display:flex;align-items:center;gap:18px;margin-top:24px;font-size:34px;font-weight:900"><span style="width:44px;height:44px">${K.ic('Warning')}</span>避開高風險環境：</div>
       <div id="r622" style="display:flex;gap:16px;margin:16px 0 0 62px"><span class="pl ot" style="position:static">大量其他犬隻</span><span class="pl ot" style="position:static">可能受污染的環境</span></div></div>`,
-  init() { K.hideLines('h62', 2); gsap.set('#a62', { opacity: 0 }); },
+  init() { K.hideLines('h62', 2); },
   animate(S) {
-    K.pop(S, '#t62', S.at(0), '房子圖示', { sfx: 'pop-card' });
     S.fromTo('#dg62', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5, ease: 'back.out(1.6)' }, S.at(0) + .3, '站起來拜託的黑柴');
-    S.to('#a62', { opacity: 1, duration: .3 }, S.word('還不完整'), '藍色標註「保護力可能還不完整」');
-    K.lines(S, 'h62', 2, S.word('完全不能出門'), '大標「打完之前，能出門嗎？」');
+    K.lines(S, 'h62', 1, S.word('保護力'), '大標第一句「保護力可能還不完整」');
+    S.to('#h621', { yPercent: 0, duration: .8, ease: 'power4.out' }, S.word('完全不能出門'), '第二句「打完之前，能出門嗎？」');
     K.rise(S, '#c62', S.word('和獸醫討論'), '右卡「先和獸醫討論」', { sfx: 'pop-card' });
     K.rise(S, '#r620', S.word('哪些活動'), '✓ 哪些活動可以進行', { dx: -30, dy: 0, sfx: 'tick-soft' });
     K.rise(S, '#r621', S.word('高風險'), '⚠ 避開高風險環境', { dx: -30, dy: 0 });

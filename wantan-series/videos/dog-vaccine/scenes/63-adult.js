@@ -19,8 +19,8 @@ K.scene('63', 4, {
 });
 K.scene('64', 4, {
   enter: 'none',
-  visuals: ['（接續）左卡加橘框，寫上「台灣常見做法：成犬每年追加綜合疫苗＋每年打狂犬病」'],
-  mount: () => [{ into: '#c630', html: `<div id="d64" style="margin-top:20px;display:flex;flex-direction:column;gap:12px;align-items:flex-start"><span class="pl ot" style="position:static;font-size:28px">每年追加綜合疫苗</span><span class="pl bt" style="position:static;font-size:28px">每年打狂犬病疫苗</span></div>` }],
+  visuals: ['（接續）左卡加橘框，寫上「台灣常見做法」：橘色「每年追加綜合疫苗」、藍色「每年打狂犬病疫苗」兩個標籤排在同一行'],
+  mount: () => [{ into: '#c630', html: `<div id="d64" style="margin-top:20px;display:flex;gap:12px;align-items:center"><span class="pl ot" style="position:static;font-size:24px;padding:12px 20px">每年追加綜合疫苗</span><span class="pl bt" style="position:static;font-size:24px;padding:12px 20px">每年打狂犬病疫苗</span></div>` }],
   animate(S) {
     S.to(['#q63'], { opacity: 0, duration: .3 }, S.at(0));
     K.ring(S, '#c630', S.word('台灣常見'));
@@ -31,23 +31,23 @@ K.scene('64', 4, {
 });
 K.scene('65', 4, {
   enter: 'none',
-  visuals: ['（接續）右卡加藍框：「三種核心疫苗：完成幼犬接種＋必要補強後，可每 3 年補強一次」'],
-  mount: () => [{ into: '#c631', html: `<div id="d65" style="margin-top:20px;display:flex;flex-direction:column;gap:12px;align-items:flex-start"><span class="pl ot" style="position:static;font-size:26px">三種核心疫苗</span><span style="font-size:26px;font-weight:700;color:#7C7772">完成幼犬接種＋必要補強後</span><span class="pl b" style="position:static;font-size:28px">可每 3 年補強一次</span></div>` }],
+  visuals: ['（接續）右卡加藍框：橘色「三種核心疫苗」、藍色「可每 3 年補強一次」兩個標籤排在同一行'],
+  mount: () => [{ into: '#c631', html: `<div id="d65" style="margin-top:20px;display:flex;gap:12px;align-items:center"><span class="pl ot" style="position:static;font-size:26px;padding:12px 22px">三種核心疫苗</span><span class="pl b" style="position:static;font-size:26px;padding:12px 22px">可每 3 年補強一次</span></div>` }],
   animate(S) {
     K.ring(S, '#c630', S.word('國際指引'), false);
     S.to('#c631', { boxShadow: '0 0 0 5px #2E6BD8,0 50px 90px -40px rgba(40,60,100,.32)', duration: .35 }, S.word('國際指引'), '右卡加藍框：國際指引建議');
     S.sfx(S.word('國際指引'), 'tick-soft', '右卡亮起：輕點');
     S.to('#d631', { color: '#16130F', duration: .3 }, S.word('國際指引'));
-    K.rise(S, '#d65', S.word('三種核心疫苗'), '「三種核心疫苗：完成幼犬接種＋補強後，可每 3 年補強一次」', { dy: 16 });
+    K.rise(S, '#d65', S.word('三種核心疫苗'), '「三種核心疫苗」「可每 3 年補強一次」', { dy: 16 });
   },
 });
 K.scene('66', 4, {
   enter: 'push', bg: 'sky',
-  visuals: ['大標「為什麼不一樣？」／「保護期不一樣」（灰）', '時間軸 1、2、3 年；兩條長條：核心疫苗（國際指引）長到 3 年「每 3 年補強」（橘）；鉤端螺旋體疫苗只到 1 年「每年補強」（藍）'],
+  visuals: ['大標「為什麼不一樣？」／「保護期不一樣」（灰）', '時間軸 1、2、3 年；兩條長條：核心疫苗（國際指引）長到 3 年「每 3 年補強」（橘）；鉤端螺旋體疫苗只到 1 年「每年補強」（藍）；字放在長條裡面、最上層（白字）'],
   mount: () => K.h('h66', ['為什麼不一樣？', '~保護期不一樣'], { y: 150, size: 72 }) +
     `<div class="cd" id="c66" style="left:140px;top:380px;width:1640px;height:330px;padding:40px 50px">
       <div style="position:relative;margin-left:340px;height:30px;font:800 26px 'Bricolage Grotesque';color:#9A9590">${[1, 2, 3].map(k => `<span class="abs" style="left:${k * 380 - 40}px">${k} 年</span>`).join('')}</div>
-      ${[['核心疫苗', '#F97316', '每 3 年補強', 3], ['鉤端螺旋體疫苗', '#2E6BD8', '每年補強', 1]].map(([t, c, l, n], k) => `<div style="display:flex;align-items:center;margin-top:${k ? 30 : 20}px"><div style="width:340px;font-size:32px;font-weight:900">${t}</div><div class="bar" style="position:relative;width:1180px"><i id="br66${k}" style="width:${n * 380}px;background:${c}"></i><span id="bl66${k}" style="position:absolute;left:${n * 380 + 20}px;top:10px;font-size:26px;font-weight:900;color:${c};white-space:nowrap">${l}</span></div></div>`).join('')}</div>`,
+      ${[['核心疫苗', '#F97316', '每 3 年補強', 3], ['鉤端螺旋體疫苗', '#2E6BD8', '每年補強', 1]].map(([t, c, l, n], k) => `<div style="display:flex;align-items:center;margin-top:${k ? 30 : 20}px"><div style="width:340px;font-size:32px;font-weight:900">${t}</div><div class="bar" style="position:relative;width:1180px"><i id="br66${k}" style="width:${n * 380}px;background:${c}"></i><span id="bl66${k}" style="position:absolute;z-index:2;right:${1180 - n * 380 + 24}px;top:10px;font-size:26px;font-weight:900;color:#fff;white-space:nowrap">${l}</span></div></div>`).join('')}</div>`,
   init() { K.hideLines('h66', 2); gsap.set(['#br660', '#br661'], { scaleX: 0 }); gsap.set(['#bl660', '#bl661'], { opacity: 0 }); },
   animate(S) {
     K.lines(S, 'h66', 2, S.at(0), '大標「為什麼不一樣？／保護期不一樣」', 1.2);
@@ -76,17 +76,17 @@ K.scene('67', 4, {
 });
 K.scene('68', 4, {
   enter: 'rise', bg: 'mint',
-  visuals: ['左邊大標「你可以直接問獸醫」，歪頭的黑柴', '右邊手機「看診前想問的事」：輸入框打出問題，送出後變成藍色泡泡——「我家狗狗需要每年補打鉤端螺旋體疫苗嗎？」「如果需要，核心疫苗有沒有可能改成三年補強一次？」', '左下：「了解每一種疫苗的用途」'],
-  mount: () => K.h('h68', ['你可以', '<b class="o">直接問獸醫</b>'], { y: 220, size: 96 }) + K.dog('tilt', { id: 'dg68', x: 820, y: 520, w: 300 }) +
-    `<div class="pl ot" id="p68" style="left:140px;top:560px;font-size:30px">了解每一種疫苗的用途</div><div class="pl ot" id="p681" style="left:140px;top:650px;font-size:30px">和獸醫一起討論適合的安排</div>` +
+  visuals: ['左邊大標「你可以直接問獸醫」，歪頭的黑柴', '右邊手機「看診前想問的事」：輸入框打出問題，送出後變成藍色泡泡——「我家狗狗需要每年補打鉤端螺旋體疫苗嗎？」「如果需要，核心疫苗有沒有可能改成三年補強一次？」', '左下（大字）：「了解每一種疫苗的用途」「和獸醫一起討論適合的安排」'],
+  mount: () => K.h('h68', ['你可以', '<b class="o">直接問獸醫</b>'], { y: 220, size: 96 }) + K.dog('tilt', { id: 'dg68', x: 820, y: 470, w: 250 }) +
+    `<div class="pl ot" id="p68" style="left:140px;top:540px;font-size:42px;padding:20px 36px">了解每一種疫苗的用途</div><div class="pl ot" id="p681" style="left:140px;top:670px;font-size:42px;padding:20px 36px">和獸醫一起討論適合的安排</div>` +
     K.phone('ph68', `<div style="position:absolute;left:0;right:0;top:210px;display:flex;justify-content:center;gap:18px"><span class="chip"><i style="width:40px;height:40px;display:inline-block">${K.ic('Syringe')}</i>疫苗</span><span class="chip"><i style="width:40px;height:40px;display:inline-block">${K.ic('Calendar')}</i>補強時間</span></div>
       <div style="position:absolute;left:34px;right:34px;top:400px;display:flex;flex-direction:column;gap:22px"><div class="qb" id="qb680">我家狗狗需要每年補打鉤端螺旋體疫苗嗎？</div><div class="qb" id="qb681">如果需要，核心疫苗有沒有可能改成三年補強一次？</div></div>
       <div class="qin" style="bottom:130px"><span id="ty68" data-text="核心疫苗可以三年補強一次嗎？"></span><span class="go"><svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 19 V5 M6 11 L12 5 L18 11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>`, { title: '看診前想問的事' }),
   init() { K.hideLines('h68', 2); gsap.set('#ph68', { y: 500 }); gsap.set(['#qb680', '#qb681'], { opacity: 0, y: 30 }); },
   animate(S) {
     K.lines(S, 'h68', 2, S.at(0), '大標「你可以直接問獸醫」');
-    S.to('#ph68', { y: 0, duration: .8, ease: 'power3.out' }, S.at(0) + .2, '右邊手機滑上來');
-    S.sfx(S.at(0) + .2, 'whoosh', '手機：「咻」');
+    S.to('#ph68', { y: 0, duration: .8, ease: 'power3.out' }, S.start + .1, '右邊手機跟著換幕直接滑上來');
+    S.sfx(S.start + .1, 'whoosh', '手機：「咻」');
     S.fromTo('#dg68', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5 }, S.at(0) + .4);
     S.to('#qb680', { opacity: 1, y: 0, duration: .4, ease: 'back.out(1.6)' }, S.word('我家狗狗'), '第一個問題泡泡送出');
     S.sfx(S.word('我家狗狗'), 'pop', '送出：「啵」');

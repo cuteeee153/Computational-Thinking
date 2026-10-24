@@ -18,7 +18,7 @@ K.scene('71', 5, {
   animate(S) {
     S.fromTo('#k71', { opacity: 0 }, { opacity: 1, duration: .4 }, S.at(0));
     K.lines(S, 'h71', 1, S.word('四種疾病'), '大標「台灣飼主一定要認識的四種疾病」');
-    K.fadeIn(S, '#hd71', S.word('疾病', 1), '欄位名稱：疾病｜你需要知道的事｜疫苗在哪裡');
+    K.fadeIn(S, '#hd71', S.word('四種疾病', 0, .8), '欄位名稱：疾病｜你需要知道的事｜疫苗在哪裡');
     K.rise(S, '#sm0', S.word('發病後', 0, -.6), '第一列「狂犬病」浮上', { sfx: 'pop-card', dx: -60, dy: 0 });
   },
 });
@@ -80,8 +80,8 @@ K.scene('76', -1, {
     `<div class="vet card" id="vet76" style="top:560px"><span class="lb">每隻狗狗的</span>${['年齡', '健康狀況', '接種紀錄', '生活環境'].map((s, k) => `<span class="sym" id="sy76${k}">${s}</span>`).join('')}<span class="lb">都不一樣</span><span class="ar" id="ar76">→</span><span class="go" id="go76">和獸醫一起決定</span></div>`,
   init() { K.hideLines('h76', 2); gsap.set(['#ar76', '#go76'], { opacity: 0, x: -20 }); },
   animate(S) {
-    S.fromTo('#k76', { opacity: 0 }, { opacity: 1, duration: .4 }, S.at(0));
-    K.lines(S, 'h76', 2, S.word('建立基本'), '大標「這是疫苗知識的整理，不是施打時程建議」', 1.4);
+    S.fromTo('#k76', { opacity: 0 }, { opacity: 1, duration: .4 }, S.start + .5);
+    K.lines(S, 'h76', 2, S.start + .5, '換幕後大標就先出來「這是疫苗知識的整理，不是施打時程建議」', .4);
     K.rise(S, '#vet76', S.word('每隻狗狗'), '卡片浮上', { sfx: 'pop-card' });
     ['年齡', '健康狀況', '接種紀錄', '生活環境'].forEach((w, k) => K.pop(S, '#sy76' + k, S.word(w), k ? '' : '念到時四個橘色標籤依序彈出', { pitch: 1 + k * .08, sfx: 'pop-card' }));
     S.to(['#ar76', '#go76'], { opacity: 1, x: 0, duration: .5, ease: 'power3.out', stagger: .1 }, S.word('和獸醫一起決定'), '「和獸醫一起決定」滑入');
