@@ -6,6 +6,7 @@
 #   ./make.sh board "說明"       用 out/video.mp4 產生分鏡板資料夾 board/（之後用 Artifact 發布 board/index.html）
 #   ./make.sh stills 12.3 40    指定秒數的截圖 → out/still-*.png（檢查用）
 #   ./make.sh part 0 311 1      只輸出其中一段（成片秒數 0～311）的手機預覽 → out/preview-720p-1.mp4（改了前面幾幕、不想整支重出時用）
+#   ./make.sh seg 2             只輸出第 2 段（script.json 的 segments：每一段第一幕的幕號）→ out/preview-720p-2.mp4
 set -euo pipefail
 cd "$(dirname "$0")"
 O=out; mkdir -p $O/work $O/stems
@@ -14,6 +15,11 @@ timing) node build-timing.mjs ;;
 align) python3 narration/align.py && node build-timing.mjs ;;
 stills) shift; node build-timing.mjs > /dev/null; node render.mjs stills $O "$@" ;;
 board) node build-storyboard.mjs $O/video.mp4 board "${2:-}" ;;
+seg)
+  K=$2; node build-timing.mjs > /dev/null
+  read A Z < <(node -e "const t=require('./timing/timing.json'),g=require('./script.json').segments||[t.scenes[0].id],k=$K,i=t.scenes.findIndex(s=>s.id===g[k-1]),j=k<g.length?t.scenes.findIndex(s=>s.id===g[k]):-1;if(i<0)throw new Error('沒有第 '+k+' 段');console.log(k===1?0:t.scenes[i].start,j>=0?t.scenes[j].start:t.total)")
+  echo "第 $K 段：$A～$Z 秒"
+  exec "$0" part $A $Z $K ;;
 part)
   A=$2; Z=$3; K=${4:-1}
   node build-timing.mjs > /dev/null

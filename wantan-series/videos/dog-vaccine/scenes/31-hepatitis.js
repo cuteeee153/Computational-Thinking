@@ -1,4 +1,4 @@
-// 幕 31–35｜犬傳染性肝炎：第一型犬腺病毒、口腔攝入；康復後尿液帶病毒 6 個月；少見但不能忽略；四種病的共同點；有症狀看獸醫。
+// 幕 31–34｜犬傳染性肝炎：第一型犬腺病毒、口腔攝入；康復後尿液帶病毒 6 個月；少見但不能忽略；四種病的共同點。
 K.scene('31', 1, {
   enter: 'push',
   visuals: ['左邊：「疾病 04」＋大字「犬傳染性肝炎」，病毒標籤「第一型犬腺病毒」', '右邊三個來源標籤：尿液、糞便、口水 → 箭頭指向黑柴的嘴「經由口腔」'],
@@ -51,35 +51,20 @@ K.scene('33', 1, {
 });
 K.scene('34', 1, {
   enter: 'zoom', bg: 'sky',
-  visuals: ['（這一幕還沒有錄音）四張疾病卡回到一排，上方愛心＋大標「共同點：都可能危及生命」', '下方括號：三張 → 核心疫苗（橘）；狂犬病 → 台灣法律規定（藍）'],
-  mount: () => K.tile('Heart', { id: 't34', x: 140, y: 170, size: 150, rot: -6 }) + K.h('h34', ['共同點：<b class="o">都可能危及生命</b>'], { x: 330, y: 200, size: 76 }) +
+  visuals: ['四張疾病卡回到一排，上方大標「這四種疾病有什麼共同點？」／「都可能危及生命」（橘）', '下方括號：三張 → 核心疫苗（橘）；狂犬病 → 台灣法律規定（藍）'],
+  mount: () => K.h('h34', ['這四種疾病有什麼共同點？', '<b class="o">都可能危及生命</b>'], { x: 140, y: 150, size: 72 }) +
     [3, 0, 1, 2].map((k, i) => K.disCard('d34' + i, k, X17[i] + (i ? 80 : 0), 400, 300)).join('') +
     `<div class="abs" id="b340" style="left:600px;top:720px;width:960px;height:50px;border:5px solid var(--or-b);border-top:none;border-radius:0 0 24px 24px"></div><div class="pl o" id="p340" style="left:900px;top:790px">核心疫苗</div>` +
     `<div class="abs" id="b341" style="left:140px;top:720px;width:300px;height:50px;border:5px solid var(--blue);border-top:none;border-radius:0 0 24px 24px"></div><div class="pl b" id="p341" style="left:150px;top:790px">台灣法律規定</div>`,
-  init() { K.hideLines('h34', 1); gsap.set(['#b340', '#b341'], { scaleX: 0 }); },
+  init() { K.hideLines('h34', 2); gsap.set(['#b340', '#b341'], { scaleX: 0 }); },
   animate(S) {
     [0, 1, 2, 3].forEach(i => K.rise(S, '#d34' + i, S.at(0) + i * .12, i ? '' : '四張疾病卡回到一排', { sfx: i ? false : 'whoosh', dy: 60 }));
-    K.pop(S, '#t34', S.word('共同點'), '愛心圖示磚', { sfx: 'pop-card' });
-    K.lines(S, 'h34', 1, S.word('都可能造成'), '大標「共同點：都可能危及生命」');
+    K.lines(S, 'h34', 1, S.at(0), '大標「這四種疾病有什麼共同點？」');
+    S.to('#h341', { yPercent: 0, duration: .8, ease: 'power4.out' }, S.word('都可能造成'), '念到「都可能造成」：第二行「都可能危及生命」（橘）');
     S.sfx(S.word('生命'), 'tick', '重點：「叮咚」');
     S.to('#b340', { scaleX: 1, duration: .6, ease: 'power3.out' }, S.word('這也是為什麼'), '三張下方畫出橘色括號「核心疫苗」');
     K.pop(S, '#p340', S.word('核心疫苗'), '', { sfx: 'ding-soft' });
     S.to('#b341', { scaleX: 1, duration: .6, ease: 'power3.out' }, S.word('狂犬病在台灣', 0, -.2), '狂犬病下方藍色括號「台灣法律規定」');
     K.pop(S, '#p341', S.word('法律規定'), '', { sfx: 'ding-soft' });
-  },
-});
-K.scene('35', 1, {
-  enter: 'rise', bg: 'mint',
-  visuals: ['（這一幕還沒有錄音）小標「最後提醒」；大標「出現症狀，別自己判斷」／「盡快帶去看獸醫」（橘）', '右邊：動物醫院圖示＋趴著的黑柴；橘色按鈕「看獸醫」'],
-  mount: () => K.kicker('k35', 'NOTE', '最後提醒一下', { y: 260 }) + K.h('h35', ['出現症狀，別自己判斷', '<b class="o">盡快帶去看獸醫</b>'], { y: 320, size: 84 }) +
-    `<div class="note" id="n35" style="left:140px;top:560px;font-size:30px;font-weight:700;color:#7C7772">尤其是還沒打完疫苗的幼犬</div>` +
-    K.tile('Clinic', { id: 't35', x: 1300, y: 260, size: 260, rot: -4 }) + K.dog('rest', { id: 'dg35', x: 1260, y: 580, w: 420 }),
-  init() { K.hideLines('h35', 2); },
-  animate(S) {
-    S.fromTo('#k35', { opacity: 0 }, { opacity: 1, duration: .4 }, S.at(0));
-    K.fadeIn(S, '#n35', S.word('尤其是'), '小字「尤其是還沒打完疫苗的幼犬」');
-    K.lines(S, 'h35', 2, S.word('不要自己判斷'), '大標「出現症狀，別自己判斷／盡快帶去看獸醫」', .9);
-    K.pop(S, '#t35', S.word('看獸醫', 0, -.3), '動物醫院圖示磚', { sfx: 'pop-card' });
-    S.fromTo('#dg35', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5 }, S.word('看獸醫'));
   },
 });

@@ -41,7 +41,8 @@
   K.h = (id, lines, o = {}) => `<div class="h abs" style="left:${o.x ?? 140}px;top:${o.y ?? 300}px;font-size:${o.size || 96}px${o.w ? `;width:${o.w}px` : ''}${o.center ? ';text-align:center' : ''}">` +
     lines.map((l, k) => `<span class="ln"><span id="${id}${k}"${l[0] === '~' ? ' class="g"' : ''}>${l.replace(/^~/, '')}</span></span>`).join('') + `</div>`;
   K.kicker = (id, num, text, o = {}) => `<div class="eyebrow abs kick" id="${id}" style="left:${o.x ?? 140}px;top:${o.y ?? 220}px">${num}<i></i><span>${text}</span></div>`;
-  K.anno = (id, big, small, o = {}) => `<div class="anno" id="${id}" style="left:${o.x}px;top:${o.y}px;text-align:${o.align || 'center'}">${big ? `<b style="${o.bs ? 'font-size:' + o.bs + 'px' : ''}">${big}</b>` : ''}${small ? `<span style="${o.ss ? 'font-size:' + o.ss + 'px' : ''}">${small}</span>` : ''}</div>`;
+  // o.color：換顏色（例如 'var(--or)'）；o.row：數字和字排成一行
+  K.anno = (id, big, small, o = {}) => `<div class="anno${o.row ? ' row' : ''}" id="${id}" style="left:${o.x}px;top:${o.y}px;text-align:${o.align || 'center'}${o.color ? ';color:' + o.color : ''}">${big ? `<b style="${o.bs ? 'font-size:' + o.bs + 'px' : ''}">${big}</b>` : ''}${small ? `<span style="${o.ss ? 'font-size:' + o.ss + 'px' : ''}">${small}</span>` : ''}</div>`;
   // 手繪箭頭：d 是路徑（在 w×h 的框裡），箭頭自動畫在終點
   K.arrow = (id, o) => {
     const p = o.d.match(/-?[\d.]+/g).map(Number), n = p.length, ex = p[n - 2], ey = p[n - 1], px = p[n - 4], py = p[n - 3];

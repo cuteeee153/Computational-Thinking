@@ -1,10 +1,9 @@
 // 幕 56–62｜第四步：什麼時候打？媽媽給的抗體會干擾疫苗 → 所以要連打好幾劑；幼犬時間表（手機）；和國際指引相近；打完之前能出門嗎？
 K.scene('56', 4, {
   enter: 'iris', irisAt: [1400, 600], bg: 'sky',
-  visuals: ['淡藍底，圓形轉場；章節卡「STEP 04」', '大標「什麼時候打？」／「長大後多久打一次？」（灰）', '右邊：小黑柴 → 箭頭「從小到大」→ 大黑柴，上方月曆磚', '兩個問題標籤：到底要打幾次？多久補打一次？'],
+  visuals: ['淡藍底，圓形轉場；章節卡「STEP 04」', '大標「什麼時候打？」／「長大後多久打一次？」（灰）', '右邊：小黑柴 → 箭頭「從小到大」→ 大黑柴', '兩個問題標籤：到底要打幾次？多久補打一次？'],
   mount: () => K.kicker('k56', 'STEP 04', '第四步', { y: 230 }) + K.h('h56', ['什麼時候打？', '~長大後多久打一次？'], { y: 280, size: 84 }) +
     `<div class="abs" id="r56" style="left:140px;top:560px;display:flex;flex-direction:column;gap:18px;align-items:flex-start"><span class="pl" style="position:static" id="q560">${K.ic('Chat')}到底要打幾次？</span><span class="pl" style="position:static" id="q561">${K.ic('Chat')}多久補打一次？</span></div>` +
-    K.tile('Calendar', { id: 't56', x: 1320, y: 190, size: 200, rot: -5 }) +
     K.dog('sit', { id: 'dg560', x: 1100, y: 620, w: 170 }) + K.arrow('w56', { x: 1290, y: 640, w: 200, h: 120, d: 'M10 90 C 60 20, 130 20, 185 70' }) + `<div class="note" id="n56" style="left:1330px;top:770px;font-weight:700;color:var(--blue);font-size:26px">從小到大</div>` +
     K.dog('stand-side', { id: 'dg561', x: 1480, y: 520, w: 320, flip: true }),
   init() { K.hideLines('h56', 2); gsap.set(['#dg560', '#dg561', '#n56'], { opacity: 0 }); },
@@ -12,7 +11,6 @@ K.scene('56', 4, {
     S.fromTo('#k56', { opacity: 0 }, { opacity: 1, duration: .4 }, S.at(0));
     S.sfx(S.at(0), 'chime', '新章節：叮鈴');
     K.lines(S, 'h56', 2, S.at(0) + .2, '大標兩行冒出', 1);
-    K.pop(S, '#t56', S.at(0) + .6, '月曆磚', { sfx: 'pop-card' });
     S.to('#dg560', { opacity: 1, duration: .4 }, S.word('從小到大'), '小黑柴 → 「從小到大」→ 大黑柴');
     K.draw(S, '#w56', S.word('從小到大', 0, .2), '');
     S.to(['#dg561', '#n56'], { opacity: 1, duration: .4 }, S.word('從小到大', 0, .6));

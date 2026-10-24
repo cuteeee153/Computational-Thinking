@@ -70,3 +70,5 @@
 .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:27px;transform-origin:0 50%}
 #vf-70{left:1290px;top:130px;width:506px;height:900px}
 .phone{top:140px;height:1000px}
+#c54 .row{justify-content:flex-start}
+#c54 .row .chk{margin:0}

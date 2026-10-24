@@ -43,6 +43,22 @@ h1{font-size:clamp(26px,4vw,36px);font-weight:900;letter-spacing:-.02em;margin:0
 .part{font-size:22px;font-weight:900;letter-spacing:-.01em;margin:36px 0 0;padding-bottom:8px;border-bottom:2px solid var(--ink);scroll-margin-top:110px}
 .part:first-child{margin-top:0}
 .part small{font:400 13px var(--mono);color:var(--sub);margin-left:8px}
+/* 分段（第一段、第二段…）：可以收合，只展開要改的那一段 */
+.segs-tip{font-size:13.5px;color:var(--sub);margin:0 0 10px}
+.seg{border:1px solid var(--line);border-radius:14px;background:var(--panel);margin-top:12px}
+.seg>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;padding:16px 20px;border-radius:14px}
+.seg>summary::-webkit-details-marker{display:none}
+.seg>summary:hover,.seg>summary:focus-visible{background:var(--accent-soft);outline:none}
+.seg>summary b{font-size:20px;font-weight:900}
+.seg>summary small{font:400 13px var(--mono);color:var(--sub)}
+.seg>summary .cnt{font:700 12px var(--mono);padding:2px 10px;border-radius:999px;background:var(--accent);color:#fff}
+.seg>summary .cnt:empty{display:none}
+.seg>summary .chev{margin-left:auto;font:700 13px var(--mono);color:var(--accent)}
+.seg>summary .chev::before{content:'展開 ▼'}
+.seg[open]>summary .chev::before{content:'收合 ▲'}
+.seg[open]>summary{border-bottom:1px solid var(--line);border-radius:14px 14px 0 0}
+.seg>.in{padding:6px 20px 10px}
+.seg>.in>.part:first-child{margin-top:20px}
 /* 整體修改 */
 .global{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:28px}
 .global h2{font-size:18px;margin:0 0 4px}
@@ -185,6 +201,7 @@ const fmtT = t => t.toFixed(1);
 const fmtM = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 const PARTS = BOARD.parts || [{ id: 'intro', label: '0:00–0:45', start: 0, end: 45 }];
 const inPart = p => BOARD.scenes.filter(s => (s.part || 'intro') === p.id);
+const SEGS = BOARD.segments?.length > 1 ? BOARD.segments : null;
 
 $('#meta').textContent = `版本 v${BOARD.version}｜更新於 ${new Date(BOARD.updatedAt).toLocaleString('zh-TW', { hour12: false })}${BOARD.note ? '｜' + BOARD.note : ''}`;
 
@@ -226,7 +243,24 @@ const sceneHTML = s => `
       </div>
     </div>
   </article>`;
-$('#scenes').innerHTML = PARTS.map(p => `<h2 class="part" id="part-${esc(p.id)}">${esc(p.label)}<small>幕 ${inPart(p)[0]?.id}–${inPart(p).at(-1)?.id}</small></h2>` + inPart(p).map(sceneHTML).join('')).join('');
+const partsHTML = (only = () => true) => PARTS.map(p => { const list = inPart(p).filter(only); return list.length ? `<h2 class="part">${esc(p.label)}<small>幕 ${list[0].id}–${list.at(-1).id}</small></h2>` + list.map(sceneHTML).join('') : ''; }).join('');
+// 分段：每一段一個可以收合的區塊（記住哪幾段是打開的；預設全部收起來）
+const SEG_KEY = 'wt-board-seg-open';
+let SEG_OPEN = []; try { SEG_OPEN = JSON.parse(localStorage.getItem(SEG_KEY) || '[]'); } catch {}
+const NUM = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+$('#scenes').innerHTML = SEGS ? `<p class="segs-tip">影片分成 ${SEGS.length} 段，點一段就能展開那一段的幕；橘色數字是那一段還沒處理的需求。</p>` + SEGS.map(g =>
+  `<details class="seg" id="seg-${g.n}" data-seg="${g.n}"${SEG_OPEN.includes(g.n) ? ' open' : ''}><summary><b>第${NUM[g.n] || g.n}段</b><small>幕 ${esc(g.first)}–${esc(g.last)}｜${esc(g.label)}</small><span class="cnt" data-segcnt="${g.n}"></span><span class="chev"></span></summary>` +
+  `<div class="in">${partsHTML(s => s.seg === g.n)}</div></details>`).join('') : partsHTML();
+const segOf = id => BOARD.scenes.find(s => s.id === id)?.seg;
+const openSeg = id => { const d = $('#seg-' + segOf(id)); if (d && !d.open) d.open = true; };
+document.addEventListener('toggle', e => {
+  if (!e.target.classList?.contains('seg')) return;
+  SEG_OPEN = [...document.querySelectorAll('.seg[open]')].map(d => +d.dataset.seg);
+  try { localStorage.setItem(SEG_KEY, JSON.stringify(SEG_OPEN)); } catch {}
+}, true);
+// 點時間軸、或網址帶了 #s幕號：先打開那一段再跳過去
+document.addEventListener('click', e => { const a = e.target.closest('[data-tl]'); if (a) { openSeg(a.dataset.tl); requestAnimationFrame(() => $('#s' + a.dataset.tl)?.scrollIntoView()); } });
+if (/^#s/.test(location.hash)) { openSeg(location.hash.slice(2)); requestAnimationFrame(() => $(location.hash)?.scrollIntoView()); }
 
 // 點項目 → 帶入編號
 document.addEventListener('click', e => {
@@ -345,6 +379,10 @@ function markPending() {
     const n = pending[a.dataset.tl] || 0;
     a.classList.toggle('has', n > 0);
     a.innerHTML = a.dataset.tl + (n ? `<span class="dot">${n}</span>` : '');
+  });
+  document.querySelectorAll('[data-segcnt]').forEach(el => {
+    const n = BOARD.scenes.filter(s => s.seg === +el.dataset.segcnt).reduce((t, s) => t + (pending[s.id] || 0), 0);
+    el.textContent = n ? `${n} 則待處理` : '';
   });
 }
 

@@ -8,8 +8,8 @@ K.band = (sel, a, b) => {
 };
 K.scene('42', 3, {
   enter: 'iris', irisAt: [1400, 500], bg: 'mint',
-  visuals: ['淡綠底，圓形轉場；章節卡「STEP 03」', '大標「這些疫苗在哪一針？」／「一次看懂幾合一」（灰）', '右邊四個大數字 5、7、8、10（合一），念到五合一、八合一、十合一時一個個跳出來，最後一個大問號'],
-  mount: () => K.kicker('k42', 'STEP 03', '第三步', { y: 230 }) + K.h('h42', ['這些疫苗在哪一針？', '~一次看懂幾合一'], { y: 280, size: 84 }) +
+  visuals: ['淡綠底，圓形轉場；章節卡「STEP 03」', '大標「這些疫苗在哪一針？」／「一次看懂幾合一」（橘）', '右邊四個大數字 5、7、8、10（合一），念到五合一、八合一、十合一時一個個跳出來，最後一個大問號'],
+  mount: () => K.kicker('k42', 'STEP 03', '第三步', { y: 230 }) + K.h('h42', ['這些疫苗在哪一針？', '<b class="o">一次看懂幾合一</b>'], { y: 280, size: 84 }) +
     [['5', 1050, 520], ['7', 1330, 380], ['8', 1560, 560], ['10', 1290, 690]].map(([n, x, y], k) => `<div class="cd" id="n42${k}" style="left:${x}px;top:${y}px;width:${n.length > 1 ? 280 : 230}px;height:200px;display:flex;align-items:baseline;justify-content:center;padding-top:40px;transform:rotate(${[-5, 4, -3, 3][k]}deg)"><span class="big" style="font-size:130px">${n}</span><span style="font-size:36px;font-weight:900">合一</span></div>`).join('') +
     `<div class="big abs" id="q42" style="left:1660px;top:250px;font-size:240px;color:var(--or)">?</div>`,
   init() { K.hideLines('h42', 2); },
@@ -25,16 +25,16 @@ K.scene('42', 3, {
 });
 K.scene('43', 3, {
   enter: 'push',
-  visuals: ['大標「疫苗分成兩種」', '左卡「單一疫苗」：針筒＋一個藍色標籤「狂犬病」，小字「另外打，不在綜合疫苗裡」', '右卡「綜合疫苗」先灰色等待'],
-  mount: () => K.h('h43', ['疫苗分成兩種'], { y: 160, size: 64 }) +
+  visuals: ['大標「綜合疫苗和單一疫苗，有什麼不同？」', '念到「在台灣的動物醫院」兩張卡片浮現；左卡「單一疫苗」：針筒＋一個藍色標籤「狂犬病」，小字「另外打，不在綜合疫苗裡」', '右卡「綜合疫苗」先灰色等待'],
+  mount: () => K.h('h43', ['綜合疫苗和單一疫苗，<b class="o">有什麼不同？</b>'], { y: 160, size: 64 }) +
     `<div class="cd" id="c430" style="left:140px;top:280px;width:780px;height:640px;padding:50px"><div class="k">SINGLE</div><div class="t" style="font-size:60px">單一疫苗</div><div class="d">一針只針對一種病</div><div class="ic" style="width:200px;height:200px;margin:30px 0 0 10px">${K.ic('Syringe')}</div>` +
     `<div class="pl b" id="p430" style="left:280px;top:400px;font-size:40px">狂犬病</div><div class="d" id="d430" style="position:absolute;left:50px;bottom:50px;font-size:30px;color:#16130F">另外打，<b class="o">不在綜合疫苗裡</b></div></div>` +
     `<div class="cd" id="c431" style="left:1000px;top:280px;width:780px;height:640px;padding:50px;opacity:.45"><div class="k" style="color:#A29D97">COMBO</div><div class="t" style="font-size:60px;color:#A29D97">綜合疫苗</div></div>`,
   init() { K.hideLines('h43', 1); },
   animate(S) {
-    K.lines(S, 'h43', 1, S.word('分成兩種'), '大標「疫苗分成兩種」');
-    K.rise(S, '#c430', S.word('第一種'), '左卡「單一疫苗」浮上、加橘框', { sfx: 'pop-card' }); K.ring(S, '#c430', S.word('第一種'));
-    K.rise(S, '#c431', S.word('第一種', 0, .1), '右卡「綜合疫苗」灰色等待', { sfx: false });
+    K.lines(S, 'h43', 1, S.at(0), '大標「綜合疫苗和單一疫苗，有什麼不同？」');
+    K.rise(S, ['#c430', '#c431'], S.word('在台灣的動物醫院'), '念到「在台灣的動物醫院」兩張卡片浮現（右卡「綜合疫苗」先灰色等待）', { sfx: 'pop-card', stagger: .15 });
+    K.ring(S, '#c430', S.word('第一種'));
     K.pop(S, '#p430', S.word('例如狂犬病'), '藍色標籤「狂犬病」', { sfx: 'pop-card' });
     K.rise(S, '#d430', S.word('不包含'), '「另外打，不在綜合疫苗裡」', { dy: 16 });
   },
@@ -65,7 +65,7 @@ K.scene('45', 3, {
   visuals: ['大表：左邊一欄疾病名（犬瘟熱、犬小病毒、犬傳染性肝炎、犬舍咳相關、鉤端螺旋體、犬冠狀病毒），右邊四欄 5／7／8／10 合一，一欄一欄由左往右長出來', '下方小字來源；橘色標籤「有三件事你一定要知道」'],
   mount: () => `<div class="mx" id="mx45" style="left:140px;top:200px;grid-template-columns:330px repeat(4,300px)">` +
     `<div class="c hd"></div>${K.COMBO.map((c, j) => `<div class="c col" id="hd45${j}"><b>${c.n}</b>合一</div>`).join('')}` +
-    K.ROWS.map((r, i) => `<div class="c hd" id="rw45${i}">${r}</div>` + K.COMBO.map((c, j) => `<div class="c ${c.v[i] ? (i < 3 ? 'core' : 'tab') : 'no'} cl45${j}">${c.v[i] || '—'}</div>`).join('')).join('') + `</div>` +
+    K.ROWS.map((r, i) => `<div class="c hd" id="rw45${i}">${r}</div>` + K.COMBO.map((c, j) => `<div class="c ${c.v[i] ? (i < 3 ? 'core' : i > 3 ? 'tab' : '') : 'no'} cl45${j}">${c.v[i] || '—'}</div>`).join('')).join('') + `</div>` +
     `<div class="note" id="n45" style="left:140px;top:870px;width:1000px">整理自台灣動物醫院衛教、寵物品牌文章等網路資料；實際內容依產品而定</div>` +
     `<div class="pl o" id="p45" style="left:1260px;top:850px;font-size:34px">有三件事你一定要知道</div>`,
   animate(S) {
@@ -77,9 +77,9 @@ K.scene('45', 3, {
 });
 K.scene('46', 3, {
   enter: 'none',
-  visuals: ['（接續表格）前三列（核心疫苗）被橘色框框起來；藍色手寫標註「三種核心疫苗，每一種都有」', '下方兩個標籤：數字小 ≠ 比較不好、數字大 ≠ 比較適合'],
+  visuals: ['（接續表格）前三列（核心疫苗）被橘色框框起來；橘色手寫標註「1｜核心疫苗每一種都有」放大、放在表格右上方（「病毒項目」上方），不壓到框線', '下方兩個標籤：數字小 ≠ 比較不好、數字大 ≠ 比較適合'],
   mount: () => `<div class="abs" id="bd46" style="left:120px;top:278px;width:1580px;height:248px;border:5px solid var(--or-b);border-radius:26px"></div>` +
-    K.anno('a46', '1', '核心疫苗<br>每一種都有', { x: 1710, y: 270, bs: 90, ss: 28 }) +
+    K.anno('a46', '1', '核心疫苗每一種都有', { x: 480, y: 70, bs: 110, ss: 48, row: true, color: 'var(--or)' }) +
     `<div class="abs" id="r46" style="left:140px;top:850px;display:flex;gap:20px;font-size:34px;font-weight:900;background:#F1F3F7;padding:10px 0"><span class="pl" style="position:static">數字小 <b class="o">≠</b> 比較不好</span><span class="pl" style="position:static">數字大 <b class="o">≠</b> 比較適合</span></div>`,
   assets() { K.band('#bd46', 0, 2); },
   init() { gsap.set('#bd46', { opacity: 0, scale: 1.05 }); },
@@ -87,32 +87,32 @@ K.scene('46', 3, {
     S.to(['#n45', '#p45'], { opacity: 0, duration: .3 }, S.at(0));
     S.to('#bd46', { opacity: 1, scale: 1, duration: .5, ease: 'power3.out' }, S.word('三種核心疫苗'), '前三列框上橘框');
     S.sfx(S.word('三種核心疫苗'), 'marker', '框起來：「唰」');
-    K.pop(S, '#a46', S.word('三種核心疫苗', 0, .3), '藍色標註「1｜核心疫苗每一種都有」', { sfx: false });
+    K.pop(S, '#a46', S.word('三種核心疫苗', 0, .3), '橘色手寫「1｜核心疫苗每一種都有」', { sfx: false });
     K.rise(S, '#r46', S.word('數字比較小'), '下方標籤：數字小≠比較不好、數字大≠比較適合');
   },
 });
 K.scene('47', 3, {
   enter: 'none',
-  visuals: ['（接續表格）橘框移開；最後兩列（鉤端螺旋體、犬冠狀病毒）變藍、被藍框框起來，標註「2｜差別主要在這裡」', '小字「實際內容還是要看產品」'],
+  visuals: ['（接續表格）橘框和橘色手寫變淡（留在原位）；最後兩列（鉤端螺旋體、犬冠狀病毒）變藍、被藍框框起來', '表格下方藍色手寫「2｜差別主要在這裡」（字放大）', '小字「實際內容還是要看產品」'],
   mount: () => `<div class="abs" id="bd47" style="left:120px;top:668px;width:1580px;height:170px;border:5px solid var(--blue);border-radius:26px"></div>` +
-    K.anno('a47', '2', '差別主要<br>在這裡', { x: 1715, y: 640, bs: 90, ss: 28 }) +
+    K.anno('a47', '2', '差別主要在這裡', { x: 1190, y: 850, bs: 100, ss: 52, row: true }) +
     `<div class="pl bt" id="p47" style="left:140px;top:870px;font-size:30px">這只是常見組合的整理，實際內容還是要看產品</div>`,
   assets() { K.band('#bd47', 4, 5); },
   init() { gsap.set('#bd47', { opacity: 0, scale: 1.05 }); },
   animate(S) {
-    S.to(['#bd46', '#r46'], { opacity: 0, duration: .3 }, S.at(0));
-    S.to('#a46', { opacity: .35, duration: .3 }, S.at(0));
+    S.to('#r46', { opacity: 0, duration: .3 }, S.at(0));
+    S.to(['#bd46', '#a46'], { opacity: .3, duration: .4 }, S.at(0), '橘框和橘色手寫變淡');
     S.to('.mx .c.tab', { backgroundColor: '#E6EEFB', color: '#1F55B8', duration: .4 }, S.word('鉤端螺旋體'), '最後兩列變藍');
     S.to('#bd47', { opacity: 1, scale: 1, duration: .5, ease: 'power3.out' }, S.word('鉤端螺旋體'), '藍框框起來');
     S.sfx(S.word('鉤端螺旋體'), 'marker', '框起來：「唰」');
-    K.pop(S, '#a47', S.word('鉤端螺旋體', 0, .3), '藍色標註「2｜差別主要在這裡」', { sfx: false });
+    K.pop(S, '#a47', S.word('鉤端螺旋體', 0, .3), '表格下方藍色手寫「2｜差別主要在這裡」', { sfx: false });
     K.rise(S, '#p47', S.word('不過'), '「實際內容還是要看產品」');
   },
 });
 K.scene('48', 3, {
   enter: 'push', bg: 'mint',
-  visuals: ['大標「3｜幾合一」／「不是全世界統一的規格」（灰）', '中間示意：一個標籤「犬腺病毒」分裂成「第一型」「第二型」，旁邊大數字由 7 變成 8（示意：算法不同，名稱和數字也不同）', '下方：不同廠牌、不同產品，組成可能不一樣'],
-  mount: () => K.anno('a48', '3', '', { x: 140, y: 150, bs: 110 }) + K.h('h48', ['幾合一', '~不是全世界統一的規格'], { x: 260, y: 170, size: 76 }) +
+  visuals: ['大數字「3」（和兩行大標一樣高）＋大標「幾合一」／「不是全世界統一的規格」（橘）', '中間示意：一個標籤「犬腺病毒」分裂成「第一型」「第二型」，旁邊大數字由 7 變成 8（示意：算法不同，名稱和數字也不同）', '下方：不同廠牌、不同產品，組成可能不一樣'],
+  mount: () => K.anno('a48', '3', '', { x: 140, y: 120, bs: 250 }) + K.h('h48', ['幾合一', '<b class="o">不是全世界統一的規格</b>'], { x: 330, y: 160, size: 76 }) +
     `<div class="cd" id="c48" style="left:140px;top:430px;width:1100px;height:380px;padding:44px"><div class="k">示意｜同一種疫苗，不同的算法</div>
       <div class="pl ot" id="p480" style="left:60px;top:150px;font-size:40px">犬腺病毒</div>
       <div class="pl ot" id="p481" style="left:500px;top:100px;font-size:36px">第一型犬腺病毒</div><div class="pl ot" id="p482" style="left:500px;top:230px;font-size:36px">第二型犬腺病毒</div>
@@ -142,8 +142,8 @@ K.scene('49', 3, {
   init() { K.hideLines('h49', 2); gsap.set('[id^=sl49]', { scaleX: 0 }); gsap.set('#ph49', { y: 400 }); },
   animate(S) {
     K.lines(S, 'h49', 2, S.word('直接問獸醫'), '大標「打之前，直接問獸醫／請獸醫記在疫苗手冊上」', 1.4);
-    S.to('#ph49', { y: 0, duration: .8, ease: 'power3.out' }, S.word('最保險'), '右邊手機「疫苗手冊」滑上來');
-    S.sfx(S.word('最保險'), 'whoosh', '手機滑上來：「咻」');
+    S.to('#ph49', { y: 0, duration: .8, ease: 'power3.out' }, S.at(0), '右邊手機「疫苗手冊」一開始就直接滑上來');
+    S.sfx(S.at(0), 'whoosh', '手機滑上來：「咻」');
     [0, 1, 2, 3, 4].forEach(k => K.rise(S, '#rr49' + k, S.word('包含哪些項目', 0, k * .3), k ? '' : '這一針包含的項目一列列打勾出現', { dy: 20, sfx: 'tick-soft' }));
     K.rise(S, '#r49', S.word('不要只看'), '下方：八合一、十合一');
     S.to(['#sl490', '#sl491'], { scaleX: 1, duration: .3, stagger: .15 }, S.word('就認定'), '兩個名稱被劃掉');

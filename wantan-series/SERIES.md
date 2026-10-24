@@ -94,6 +94,8 @@
 | `./make.sh board "v2：說明"` | 產生分鏡板 `board/`（index.html、frames、clips、files.json） |
 | `./make.sh part 0 311 1` | 只輸出其中一段（成片 0～311 秒）的手機預覽 `out/preview-720p-1.mp4`，改了前面幾幕時用 |
 | `node build-storyboard.mjs out/preview-720p-1.mp4 board "v2：說明" --upto 311` | 只輸出一段時更新分鏡板：這段之前的幕換新短片，後面的幕保留上一版；發布時 `files` 只傳有變的檔，刪掉的幕傳 `null` |
+| `./make.sh seg 2` | 只輸出第 2 段的手機預覽 `out/preview-720p-2.mp4`。段落寫在 `script.json` 的 `"segments": ["01","34","56"]`（每一段第一幕的幕號）；製作人說「只輸出第二段」就用這個 |
+| `node build-storyboard.mjs --seg 2 board "v5：說明"` | 只更新分鏡板第 2 段的短片（用 `out/preview-720p-2.mp4`），其他段保留上一版。分鏡板依 segments 分成可收合的「第一段、第二段…」，每段標出還沒處理的需求數 |
 
 **交件檔放哪裡**
 - `out/` 不進 git。

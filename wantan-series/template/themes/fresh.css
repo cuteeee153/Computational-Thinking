@@ -24,6 +24,8 @@
 .anno{position:absolute;color:var(--blue);text-align:center;line-height:1}
 .anno b{display:block;font-family:'Bricolage Grotesque';font-weight:800;font-size:120px;letter-spacing:-.04em}
 .anno span{display:block;font-weight:700;font-size:30px;margin-top:6px}
+.anno.row{display:flex;align-items:baseline;gap:18px;white-space:nowrap}
+.anno.row span{margin-top:0}
 .arrow{position:absolute;overflow:visible}
 .arrow path{fill:none;stroke:var(--blue);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
 
