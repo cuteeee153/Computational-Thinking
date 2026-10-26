@@ -64,7 +64,7 @@ K.scene('24', 1, {
     K.anno('a24', '', '可能接觸到<br>帶病毒的野生動物', { x: 600, y: 410, ss: 34 }) + K.arrow('w24', { x: 700, y: 520, w: 80, h: 120, d: 'M30 10 C 10 50, 30 80, 50 110' }) +
     `<div class="abs" id="v24" style="left:1000px;top:200px;width:4px;height:700px;background:#E4E1DC;border-radius:2px"></div>` +
     K.tile('House', { id: 't242', x: 1180, y: 300, size: 230, rot: -3 }) + K.dog('rest', { id: 'dg242', x: 1420, y: 380, w: 360 }) +
-    K.h('h24', ['即使待在家裡', '也不能忽略', '<b class="o" style="position:relative;font-size:1.45em">狂犬病疫苗<i id="ul24" style="position:absolute;left:0;right:0;bottom:-2px;height:10px;border-radius:5px;background:var(--or-b);transform-origin:0 50%"></i></b>'], { x: 1100, y: 610, size: 64 }),
+    K.h('h24', ['即使待在家裡', '也不能忽略', '<b class="o" style="position:relative;display:inline-block;padding-bottom:22px;font-size:1.45em">狂犬病疫苗<i id="ul24" style="position:absolute;left:0;right:0;bottom:4px;height:10px;border-radius:5px;background:var(--or-b);transform-origin:0 50%"></i></b>'], { x: 1100, y: 610, size: 64 }),
   init() { K.hideLines('h24', 3); gsap.set('#a24', { opacity: 0 }); gsap.set('#ul24', { scaleX: 0 }); },
   animate(S) {
     K.fadeIn(S, '#s24', S.at(0), '小字「目前疫情主要在野生動物身上」');

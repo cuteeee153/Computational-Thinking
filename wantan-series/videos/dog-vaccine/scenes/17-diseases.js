@@ -1,4 +1,4 @@
-// 幕 17–20｜第一步：四種疾病。17 先過場（疫苗在保護什麼？），17b 章節卡＋四張疾病卡一排：狂犬病（台灣法律）＋三種核心疫苗；第五張虛線卡「鉤端螺旋體」等第四步再說。
+// 幕 17–20｜第一步：四種疾病。17 先過場（疫苗在保護什麼？），17b 章節卡＋四張疾病卡一排：狂犬病（台灣法律）＋三種核心疫苗；第五張虛線卡「鉤端螺旋體」等第三步再說。
 // 四種疾病卡（17b、34 共用）
 K.DIS = [
   { t: '犬瘟熱', ic: 'Brain' }, { t: '犬小病毒', ic: 'Gut' }, { t: '犬傳染性肝炎', ic: 'Liver' }, { t: '狂犬病', ic: 'Badger' },
@@ -60,14 +60,14 @@ K.scene('19', 1, {
 });
 K.scene('20', 1, {
   enter: 'none',
-  visuals: ['（接續）最右邊冒出第五張虛線卡「鉤端螺旋體」（細菌圖示）', '貼一張藍色便條「兩份指引看法不同｜第四步再說明」'],
+  visuals: ['（接續）最右邊冒出第五張虛線卡「鉤端螺旋體」（細菌圖示）', '貼一張藍色便條「兩份指引看法不同｜第三步再說明」'],
   mount: () => `<div class="cd" id="d20" style="left:1540px;top:470px;width:300px;height:300px;padding:30px;text-align:center;background:rgba(255,255,255,.6);box-shadow:none;border:4px dashed #BFC9D8"><div class="ic" style="margin:0 auto;width:140px;height:140px">${K.ic('Bacteria')}</div><div class="t" style="margin-top:20px;font-size:36px;color:#7C7772">鉤端螺旋體</div></div>` +
-    `<div class="cd" id="n20" style="left:1460px;top:790px;width:390px;padding:22px 28px;transform:rotate(3deg);background:#EAF1FC;box-shadow:0 20px 40px -24px rgba(40,60,100,.4)"><div style="font-size:26px;font-weight:900;color:#1F55B8">兩份指引看法不同</div><div style="font-size:24px;font-weight:700;color:#5E7DB5;margin-top:4px">第四步再說明 →</div></div>`,
+    `<div class="cd" id="n20" style="left:1460px;top:790px;width:390px;padding:22px 28px;transform:rotate(3deg);background:#EAF1FC;box-shadow:0 20px 40px -24px rgba(40,60,100,.4)"><div style="font-size:26px;font-weight:900;color:#1F55B8">兩份指引看法不同</div><div style="font-size:24px;font-weight:700;color:#5E7DB5;margin-top:4px">第三步再說明 →</div></div>`,
   animate(S) {
     S.to(['#d171', '#d172', '#d173'], { boxShadow: K.PLAIN, opacity: .55, duration: .4 }, S.word('還有一種'));
     S.to(['#s19', '#p180', '#p181'], { opacity: 0, duration: .3 }, S.word('還有一種'));
     K.pop(S, '#d20', S.word('鉤端螺旋體'), '第五張虛線卡「鉤端螺旋體」冒出', { sfx: 'pop-card' });
-    S.fromTo('#n20', { opacity: 0, y: 30, rotate: -6 }, { opacity: 1, y: 0, rotate: 3, duration: .5, ease: 'back.out(1.6)' }, S.word('兩份國際指引'), '藍色便條「兩份指引看法不同｜第四步再說明」貼上');
+    S.fromTo('#n20', { opacity: 0, y: 30, rotate: -6 }, { opacity: 1, y: 0, rotate: 3, duration: .5, ease: 'back.out(1.6)' }, S.word('兩份國際指引'), '藍色便條「兩份指引看法不同｜第三步再說明」貼上');
     S.sfx(S.word('兩份國際指引'), 'flip', '便條：「啪」');
   },
 });

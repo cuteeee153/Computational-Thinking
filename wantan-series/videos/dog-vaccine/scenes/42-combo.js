@@ -27,7 +27,7 @@ K.scene('43', 3, {
   enter: 'push',
   visuals: ['大標「綜合疫苗和單一疫苗，有什麼不同？」', '念到「在台灣的動物醫院」兩張卡片浮現；左卡「單一疫苗」：藍色針筒（藍色藥劑、推桿）＋一個藍色標籤「狂犬病」，小字「另外打，不在綜合疫苗裡」', '右卡「綜合疫苗」先灰色等待'],
   mount: () => K.h('h43', ['綜合疫苗和單一疫苗，<b class="o">有什麼不同？</b>'], { y: 160, size: 64 }) +
-    `<div class="cd" id="c430" style="left:140px;top:280px;width:780px;height:640px;padding:50px"><div class="k">SINGLE</div><div class="t" style="font-size:60px">單一疫苗</div><div class="d">一針只針對一種病</div><div class="ic" style="width:200px;height:200px;margin:30px 0 0 10px">${K.ic('SyringeBlue')}</div>` +
+    `<div class="cd" id="c430" style="left:140px;top:280px;width:780px;height:640px;padding:50px"><div class="k">SINGLE</div><div class="t" style="font-size:60px">單一疫苗</div><div class="d" id="d430s">一針只針對一種病</div><div class="ic" id="i430" style="width:200px;height:200px;margin:30px 0 0 10px">${K.ic('SyringeBlue')}</div>` +
     `<div class="pl b" id="p430" style="left:280px;top:400px;font-size:40px">狂犬病</div><div class="d" id="d430" style="position:absolute;left:50px;bottom:50px;font-size:30px;color:#16130F">另外打，<b class="o">不在綜合疫苗裡</b></div></div>` +
     `<div class="cd" id="c431" style="left:1000px;top:280px;width:780px;height:640px;padding:50px;opacity:.45"><div class="k" id="k431" style="color:#A29D97">COMBO</div><div class="t" id="t431" style="font-size:60px;color:#A29D97">綜合疫苗</div></div>`,
   init() { K.hideLines('h43', 1); },
@@ -35,6 +35,7 @@ K.scene('43', 3, {
     K.lines(S, 'h43', 1, S.at(0), '大標「綜合疫苗和單一疫苗，有什麼不同？」');
     K.rise(S, ['#c430', '#c431'], S.word('在台灣的動物醫院'), '念到「在台灣的動物醫院」兩張卡片浮現（右卡「綜合疫苗」先灰色等待）', { sfx: 'pop-card', stagger: .15 });
     K.ring(S, '#c430', S.word('第一種'));
+    K.rise(S, ['#d430s', '#i430'], S.word('針對特定疾病'), '念到「針對特定疾病的疫苗」：「一針只針對一種病」和藍色針筒才浮現', { dy: 20, stagger: .15 });
     K.pop(S, '#p430', S.word('例如狂犬病'), '藍色標籤「狂犬病」', { sfx: 'pop-card' });
     K.rise(S, '#d430', S.word('不包含'), '「另外打，不在綜合疫苗裡」', { dy: 16 });
   },

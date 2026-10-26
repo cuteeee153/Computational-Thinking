@@ -53,9 +53,9 @@ K.scene('34', 1, {
   visuals: ['四張疾病卡回到一排，上方大標「這四種疾病有什麼共同點？」／「都可能危及生命」（橘）', '下方括號：三張 → 核心疫苗（橘）；狂犬病 → 台灣法律規定（藍）'],
   mount: () => K.h('h34', ['這四種疾病有什麼共同點？', '<b class="o">都可能危及生命</b>'], { x: 140, y: 150, size: 72 }) +
     [3, 0, 1, 2].map((k, i) => K.disCard('d34' + i, k, X17[i] + (i ? 80 : 0), 400, 300)).join('') +
-    `<div class="abs" id="b340" style="left:600px;top:720px;width:960px;height:50px;border:5px solid var(--or-b);border-top:none;border-radius:0 0 24px 24px"></div><div class="pl o" id="p340" style="left:900px;top:790px">核心疫苗</div>` +
+    `<div class="abs" id="b340" style="left:600px;top:720px;width:960px;height:50px;border:5px solid var(--or-b);border-top:none;border-radius:0 0 24px 24px"></div><div class="pl o" id="p340" style="left:1080px;top:790px">核心疫苗</div>` +
     `<div class="abs" id="b341" style="left:140px;top:720px;width:300px;height:50px;border:5px solid var(--blue);border-top:none;border-radius:0 0 24px 24px"></div><div class="pl b" id="p341" style="left:150px;top:790px">台灣法律規定</div>`,
-  init() { K.hideLines('h34', 2); gsap.set(['#b340', '#b341'], { scaleX: 0 }); },
+  init() { K.hideLines('h34', 2); gsap.set(['#b340', '#b341'], { scaleX: 0 }); gsap.set('#p340', { xPercent: -50 }); },   // 「核心疫苗」置中在括號下方
   animate(S) {
     [0, 1, 2, 3].forEach(i => K.rise(S, '#d34' + i, S.at(0) + i * .12, i ? '' : '四張疾病卡回到一排', { sfx: i ? false : 'whoosh', dy: 60 }));
     K.lines(S, 'h34', 1, S.at(0), '大標「這四種疾病有什麼共同點？」');

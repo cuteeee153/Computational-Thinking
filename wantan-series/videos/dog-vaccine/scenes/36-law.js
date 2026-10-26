@@ -42,8 +42,9 @@ K.scene('39', 2, {
     `<div class="abs" style="left:960px;top:290px;font-size:32px;font-weight:900;color:#7C7772" id="h39b">打完之後要拿到</div>` +
     K.tile('Certificate', { id: 't390', x: 1000, y: 370, size: 240 }) + `<div class="abs" id="l390" style="left:950px;top:630px;width:340px;text-align:center;font-size:36px;font-weight:900">注射證明書</div>` +
     K.tile('DogTag', { id: 't391', x: 1540, y: 370, size: 240 }) + `<div class="abs" id="l391" style="left:1490px;top:630px;width:340px;text-align:center;font-size:36px;font-weight:900">證明牌<br><span style="font-size:26px;color:#9A9590">掛在狗狗脖子上</span></div>` +
-    `<div class="stamp" id="sp39" style="left:1272px;top:445px">妥善保管</div><div class="note" id="n39" style="left:920px;top:690px;width:400px;text-align:center;font-size:26px;font-weight:700;line-height:1.5">證明書不要隨手丟<br>查驗時要用</div>`,
+    `<div class="stamp" id="sp39" style="left:1390px;top:445px">妥善保管</div><div class="note" id="n39" style="left:920px;top:690px;width:400px;text-align:center;font-size:26px;font-weight:700;line-height:1.5">證明書不要隨手丟<br>查驗時要用</div>`,
   animate(S) {
+    gsap.set('#sp39', { xPercent: -50 });   // 印章置中在兩塊圖示磚的間隔
     K.rise(S, '#r380', S.at(0), '念到「主要規定大致相同」：藍色標籤', { dy: 16 });
     K.rise(S, '#r381', S.word('細節'), '「細節、實施日期可能不同」（橘）', { dy: 16 });
     K.fadeIn(S, '#h39', S.word('狗狗和貓咪'));
@@ -67,11 +68,11 @@ K.scene('40', 2, {
   animate(S) {
     K.rise(S, '#c400', S.at(0), '左卡「獸醫診斷不適合＋證明文件」', { sfx: 'pop-card' });
     K.pop(S, '#p400', S.word('免予施打'), '「可以免打」藍色標籤', { sfx: 'ding-soft' });
-    K.rise(S, '#c401', S.word('沒有按規定'), '右卡「沒有按規定接種」', { sfx: 'pop-card' });
+    K.rise(S, '#c401', S.word('沒有按規定'), '右卡「沒有按規定接種」浮上、同時亮橘框', { sfx: 'pop-card' });
     K.count(S, '#n401', 0, 30000, S.word('三萬元'), .9, '罰鍰數字跑到 30,000～150,000');
     K.count(S, '#n402', 0, 150000, S.word('十五萬元'), .9, '');
     S.sfx(S.word('三萬元'), 'typing', '數字跳動', { dur: 1.6, chars: 14, gain: .5 });
-    K.ring(S, '#c401', S.word('罰鍰'));
+    K.ring(S, '#c401', S.word('沒有按規定'));
     S.sfx(S.word('罰鍰'), 'thud', '罰鍰：「咚」');
   },
 });

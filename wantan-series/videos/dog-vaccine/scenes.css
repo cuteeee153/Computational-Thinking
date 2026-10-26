@@ -68,7 +68,7 @@
 /* 長條、時間軸 */
 .bar{position:absolute;height:54px;border-radius:27px;background:#ECEAE7;overflow:hidden}
 .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:27px;transform-origin:0 50%}
-#vf-70{left:1290px;top:130px;width:506px;height:900px}
+#vf-70{left:140px;top:330px;width:1040px;height:585px;border-radius:34px;box-shadow:0 50px 90px -40px rgba(40,60,100,.45),0 0 0 1px rgba(30,40,60,.06)}   /* 幕 70：橫拍實拍縮成左邊的圓角框 */
 .phone{top:140px;height:1000px}
 #c54 .row{justify-content:flex-start}
 #c54 .row .chk{margin:0}

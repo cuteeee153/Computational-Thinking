@@ -106,8 +106,8 @@ K.scene('61', 4, {
 });
 K.scene('62', 4, {
   enter: 'push', bg: 'mint',
-  visuals: ['左邊：站起來拜託的黑柴（想出門）', '大標「保護力可能還不完整」／「打完之前，能出門嗎？」（橘，一行）', '右邊卡「先和獸醫討論」：✓ 哪些活動可以進行（和下一列對齊）；⚠ 避開：大量其他犬隻、可能受污染的環境'],
-  mount: () => K.dog('beg', { id: 'dg62', x: 230, y: 360, w: 340 }) +
+  visuals: ['左邊：泡澡的黑柴（還不能出門）', '大標「保護力可能還不完整」／「打完之前，能出門嗎？」（橘，一行）', '右邊卡「先和獸醫討論」：✓ 哪些活動可以進行（和下一列對齊）；⚠ 避開：大量其他犬隻、可能受污染的環境'],
+  mount: () => K.dog('bath', { id: 'dg62', x: 140, y: 400, w: 470 }) +
     K.h('h62', ['保護力可能還不完整', '<b class="o">打完之前，能出門嗎？</b>'], { x: 760, y: 170, size: 76 }) +
     `<div class="cd" id="c62" style="left:760px;top:420px;width:1020px;height:440px;padding:44px"><div class="k" style="display:flex;align-items:center;gap:14px">先和獸醫討論</div>
       <div class="row" id="r620" style="display:flex;align-items:center;gap:18px;margin-top:24px;font-size:34px;font-weight:900">${K.chk()}哪些活動可以進行</div>
@@ -115,7 +115,7 @@ K.scene('62', 4, {
       <div id="r622" style="display:flex;gap:16px;margin:16px 0 0 62px"><span class="pl ot" style="position:static">大量其他犬隻</span><span class="pl ot" style="position:static">可能受污染的環境</span></div></div>`,
   init() { K.hideLines('h62', 2); },
   animate(S) {
-    S.fromTo('#dg62', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5, ease: 'back.out(1.6)' }, S.at(0) + .3, '站起來拜託的黑柴');
+    S.fromTo('#dg62', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5, ease: 'back.out(1.6)' }, S.at(0) + .3, '泡澡的黑柴');
     K.lines(S, 'h62', 1, S.word('保護力'), '大標第一句「保護力可能還不完整」');
     S.to('#h621', { yPercent: 0, duration: .8, ease: 'power4.out' }, S.word('完全不能出門'), '第二句「打完之前，能出門嗎？」');
     K.rise(S, '#c62', S.word('和獸醫討論'), '右卡「先和獸醫討論」', { sfx: 'pop-card' });
