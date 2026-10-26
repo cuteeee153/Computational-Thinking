@@ -3,7 +3,7 @@ K.scene('31', 1, {
   enter: 'push',
   visuals: ['左邊：「疾病 04」＋大字「犬傳染性肝炎」，病毒標籤「第一型犬腺病毒」', '右邊三個來源標籤：尿液、糞便、口水 → 箭頭指向黑柴的嘴「經由口腔」'],
   mount: () => K.disHead('dh31', 4, '犬傳染性肝炎', { size: 112 }) +
-    `<div class="pl ot" id="p31" style="left:140px;top:470px">${K.ic('Virus')}第一型犬腺病毒</div>` + K.tile('Liver', { id: 't31', x: 640, y: 440, size: 150, rot: 6 }) +
+    `<div class="pl ot" id="p31" style="left:140px;top:470px">${K.ic('Virus')}第一型犬腺病毒</div>` +
     ['尿液', '糞便', '口水'].map((t, k) => `<div class="pl" id="s31${k}" style="left:${980}px;top:${300 + k * 130}px;font-size:34px">${t}</div>`).join('') +
     K.arrow('w31', { x: 1150, y: 330, w: 240, h: 260, d: 'M10 130 C 90 130, 150 120, 225 110' }) +
     `<div class="pl b" id="p312" style="left:1100px;top:720px">經由口腔吃進病毒</div>` +
@@ -12,7 +12,6 @@ K.scene('31', 1, {
   animate(S) {
     S.fromTo('#dh31', { opacity: 0 }, { opacity: 1, duration: .3 }, S.at(0));
     S.to('#dh31n', { yPercent: 0, duration: .8, ease: 'power4.out' }, S.at(0), '「犬傳染性肝炎」大字冒出');
-    K.pop(S, '#t31', S.word('第四種'), '肝臟圖示磚', { sfx: 'pop-card' });
     K.pop(S, '#p31', S.word('第一型'), '病毒標籤「第一型犬腺病毒」', { sfx: 'pop' });
     ['尿液', '糞便', '口水'].forEach((w, k) => K.pop(S, '#s31' + k, S.word(w), k ? '' : '念到時三個來源標籤依序彈出', { pitch: 1 + k * .1 }));
     K.draw(S, '#w31', S.word('口腔', 0, -.3), '箭頭指向黑柴的嘴');

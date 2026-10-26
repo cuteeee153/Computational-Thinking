@@ -7,7 +7,7 @@ K.scene('28', 1, {
     `<div class="pl o" id="sp28" style="left:440px;top:450px">可能致命</div>` +
     `<div class="note" id="n28" style="left:1000px;top:250px;font-size:28px;font-weight:700;color:#7C7772">特別容易發生在</div>` +
     `<div class="cd" id="c280" style="left:1000px;top:310px;width:360px;height:520px;padding:30px;text-align:center"><div style="height:330px;position:relative">${K.dog('sit', { x: 95, y: 110, w: 150 })}</div><div class="t">幼犬</div></div>` +
-    `<div class="cd" id="c281" style="left:1400px;top:310px;width:380px;height:520px;padding:30px;text-align:center"><div style="height:330px;position:relative">${K.dog('yawn', { x: 80, y: 110, w: 160 })}<div class="ico" style="left:220px;top:20px;width:110px;height:110px">${K.ic('Syringe')}<i style="position:absolute;left:50%;top:-6px;width:10px;height:122px;margin-left:-5px;border-radius:5px;background:#E5484D;transform:rotate(45deg)"></i></div></div><div class="t" style="font-size:34px">沒完成疫苗的<br>成犬</div></div>`,
+    `<div class="cd" id="c281" style="left:1400px;top:310px;width:380px;height:520px;padding:30px;text-align:center"><div style="height:330px;position:relative">${K.dog('yawn', { x: 60, y: 70, w: 150 })}<div class="ico" style="left:220px;top:20px;width:110px;height:110px">${K.ic('Syringe')}<i style="position:absolute;left:50%;top:-6px;width:10px;height:122px;margin-left:-5px;border-radius:5px;background:#E5484D;transform:rotate(45deg)"></i></div></div><div class="t" style="font-size:34px">沒完成疫苗的<br>成犬</div></div>`,
   init() { gsap.set('#dh28n', { yPercent: 110 }); },
   animate(S) {
     S.fromTo('#dh28', { opacity: 0 }, { opacity: 1, duration: .3 }, S.at(0));
@@ -21,15 +21,14 @@ K.scene('28', 1, {
 });
 K.scene('29', 1, {
   enter: 'wipe', bg: 'mint',
-  visuals: ['問句「為什麼這麼危險？」（灰）→ 大標「病毒會嚴重破壞腸道」＋腸道圖示', '時間軸：左卡「一開始：沒精神、不太吃、發燒」→ 中間時鐘「1–2 天內」→ 右卡加橘框「嘔吐、帶血的便便」'],
-  mount: () => K.tile('Gut', { id: 't29', x: 140, y: 200, size: 190, rot: -4 }) + K.h('h29', ['~為什麼這麼危險？', '病毒會嚴重破壞<b class="o">腸道</b>'], { x: 370, y: 180, size: 76 }) +
+  visuals: ['問句「為什麼這麼危險？」（灰）→ 大標「病毒會嚴重破壞腸道」', '時間軸：左卡「一開始：沒精神、不太吃、發燒」→ 中間時鐘（在虛線上方）、虛線下方「1–2 天內」→ 右卡加橘框「嘔吐、帶血的便便」'],
+  mount: () => K.h('h29', ['~為什麼這麼危險？', '病毒會嚴重破壞<b class="o">腸道</b>'], { x: 140, y: 180, size: 76 }) +
     `<div class="cd" id="c290" style="left:140px;top:480px;width:560px;height:330px;padding:44px"><div class="k" style="color:#9A9590">一開始</div><div class="t" style="margin-top:14px;line-height:1.5">沒精神<br>不太吃東西<br>發燒</div></div>` +
-    `<div class="abs" id="m29" style="left:760px;top:520px;width:400px;text-align:center;z-index:2"><div style="width:150px;height:150px;margin:0 auto">${K.ic('Clock')}</div><div class="big" style="font-size:64px;margin-top:10px">1–2<span style="font-family:'Noto Sans TC';font-size:36px;font-weight:900"> 天內</span></div></div>` +
+    `<div class="abs" id="m29" style="left:760px;top:455px;width:400px;text-align:center;z-index:2"><div style="width:150px;height:150px;margin:0 auto">${K.ic('Clock')}</div><div class="big" style="font-size:64px;margin-top:52px">1–2<span style="font-family:'Noto Sans TC';font-size:36px;font-weight:900"> 天內</span></div></div>` +
     `<svg class="abs" style="left:700px;top:620px;overflow:visible;z-index:0" width="520" height="40"><path id="ar29" d="M10 20 H500" stroke="#F97316" stroke-width="6" stroke-dasharray="14 12" fill="none"/></svg>` +
     `<div class="cd" id="c291" style="left:1220px;top:480px;width:560px;height:330px;padding:44px;box-shadow:${K.RING}"><div class="k">之後</div><div class="t" style="margin-top:14px;line-height:1.5;color:var(--or)">嘔吐<br>拉出帶血的便便</div></div>`,
   init() { K.hideLines('h29', 2); gsap.set('#ar29', { opacity: 0 }); },
   animate(S) {
-    K.pop(S, '#t29', S.word('腸道'), '腸道圖示磚彈出', { sfx: 'pop-card' });
     K.lines(S, 'h29', 1, S.at(0), '問句「為什麼這麼危險？」');
     S.to('#h291', { yPercent: 0, duration: .8, ease: 'power4.out' }, S.word('因為病毒'), '念到「因為病毒」就出現大標「病毒會嚴重破壞腸道」');
     K.rise(S, '#c290', S.word('一開始'), '左卡「一開始：沒精神、不太吃、發燒」', { sfx: 'pop-card' });
@@ -40,12 +39,12 @@ K.scene('29', 1, {
 });
 K.scene('30', 1, {
   enter: 'push', bg: 'sky',
-  visuals: ['大標「還沒出現症狀」／「就可能傳染給其他狗」', '左邊開心玩球的狗（看起來沒事，身上藏著小病毒），箭頭傳到右邊兩隻狗，牠們身上冒出病毒', '下方：幼犬保護力還沒建立完整 → 少接觸其他狗（橘）'],
+  visuals: ['大標「還沒出現症狀」／「就可能傳染給其他狗」', '左邊開心玩球的狗（看起來沒事，身上藏著小病毒），箭頭傳到右邊兩隻狗（柯基、黃金獵犬），牠們身上冒出病毒', '下方：幼犬保護力還沒建立完整 → 少接觸其他狗（橘）'],
   mount: () => K.h('h30', ['還沒出現症狀', '~就可能傳染給其他狗'], { y: 170, size: 76 }) +
     K.dog('ball', { id: 'dg300', x: 140, y: 440, w: 300 }) + `<div class="pl" id="p30" style="left:150px;top:380px;font-size:26px;padding:10px 22px">看起來沒事</div>` +
     `<div class="ico" id="v300" style="left:350px;top:540px;width:80px;height:80px">${K.ic('Virus')}</div>` +
     K.arrow('w300', { x: 450, y: 480, w: 420, h: 160, d: 'M10 120 C 140 20, 280 20, 400 90' }) +
-    K.dog('sit', { id: 'dg301', x: 880, y: 420, w: 220 }) + K.dog('tilt', { id: 'dg302', x: 1180, y: 410, w: 230 }) +
+    K.dog('corgi', { id: 'dg301', x: 880, y: 430, w: 230 }) + K.dog('golden', { id: 'dg302', x: 1170, y: 400, w: 260 }) +
     `<div class="ico" id="v301" style="left:1010px;top:520px;width:80px;height:80px">${K.ic('Virus')}</div><div class="ico" id="v302" style="left:1330px;top:500px;width:80px;height:80px">${K.ic('Virus')}</div>` +
     `<div class="abs" id="r30" style="left:140px;top:860px;display:flex;gap:18px;align-items:center;font-size:34px;font-weight:900;white-space:nowrap"><span class="pl bt" style="position:static">幼犬：保護力還沒建立完整</span>→<span class="pl o" style="position:static">少接觸其他狗</span></div>`,
   init() { K.hideLines('h30', 2); gsap.set(['#dg300', '#dg301', '#dg302'], { opacity: 0, y: 40 }); gsap.set(['#v301', '#v302'], { opacity: 0 }); },

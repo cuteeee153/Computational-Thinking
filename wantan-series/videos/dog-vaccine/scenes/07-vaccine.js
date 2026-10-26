@@ -3,7 +3,7 @@
 K.scene('07', 0, {
   enter: 'wipe',
   visuals: ['小標「觀念一」；大標「疫苗讓身體」／「先認識病菌」（橘）', '右邊笑著的黑柴；針筒飛過來，針頭對準牠的背打進去', '中間一張白色通緝海報「病菌」，一條藍色虛線箭頭從海報指向狗（身體在認識病菌）', '產生抗體時海報消失，三個 Y 字抗體一個接一個在狗身邊冒出來，橘色標籤「抗體」'],
-  mount: () => K.kicker('k07', '01', '觀念一｜疫苗和抗體', { y: 250 }) + K.h('h07', ['疫苗讓身體', '<b class="o">先認識病菌</b>'], { y: 310, size: 96 }) +
+  mount: () => K.kicker('k07', '00', '觀念一｜疫苗和抗體', { y: 250 }) + K.h('h07', ['疫苗讓身體', '<b class="o">先認識病菌</b>'], { y: 310, size: 96 }) +
     K.dog('happy', { id: 'dg07', x: 1290, y: 330, w: 400 }) +
     `<div class="ico" id="sy07" style="left:1760px;top:400px;width:200px;height:200px">${K.ic('Syringe')}</div>` +
     `<div class="cd" id="ps07" style="left:780px;top:250px;width:330px;height:420px;padding:34px;text-align:center;transform:rotate(-3deg)"><div class="k">WANTED</div><div class="ic" style="width:210px;height:210px;margin:20px auto 10px">${K.ic('Virus')}</div><div class="t">病菌</div></div>` +
@@ -30,14 +30,14 @@ K.scene('07', 0, {
     const ta = S.word('產生', 0, .1);
     S.to(['#ps07', '#sc07'], { opacity: 0, scale: .8, duration: .35 }, ta - .1, '產生抗體時，病菌海報和虛線消失');
     K.pop(S, ['#ab070', '#ab071', '#ab072'], ta, '身體一個接一個產生抗體', { stagger: .35 });
-    K.pop(S, '#p07', ta + 1.1, '「抗體」橘色標籤', { sfx: 'ding-soft' });
+    K.pop(S, '#p07', ta, '念到「產生」：「抗體」橘色標籤', { sfx: 'ding-soft' });
   },
 });
 K.scene('08', 0, {
   enter: 'none',
   visuals: ['（接續）大標換成「抗體讓病菌」／「更快被擊退」（橘）', '念到「防衛部隊」：狗身邊出現藍色虛線防護圈，圍著狗的抗體變成盾牌，藍色標籤「防衛部隊」', '一隻真的病菌從右邊衝過來，撞到防護圈被彈開、打叉'],
   mount: () => K.h('h08', ['抗體讓病菌', '<b class="o">更快被擊退</b>'], { y: 310, size: 96 }) +
-    [[1250, 420], [1610, 400], [1630, 720]].map(([x, y], k) => `<div class="ico" id="sh08${k}" style="left:${x}px;top:${y}px;width:120px;height:120px">${K.ic('Shield')}</div>`).join('') +
+    [[1250, 420], [1610, 400], [1630, 720]].map(([x, y], k) => `<div class="ico" id="sh08${k}" style="left:${x}px;top:${y}px;width:120px;height:120px;z-index:2">${K.ic('Shield')}</div>`).join('') +
     `<div class="pl b" id="p08" style="left:1360px;top:240px">防衛部隊</div>` +
     `<div class="abs" id="ring08" style="left:1220px;top:380px;width:500px;height:500px;border-radius:50%;border:6px dashed var(--blue)"></div>` +
     `<div class="ico" id="v08" style="left:1960px;top:560px;width:150px;height:150px">${K.ic('Virus')}</div><div class="x" id="x08" style="left:1790px;top:580px"></div>`,

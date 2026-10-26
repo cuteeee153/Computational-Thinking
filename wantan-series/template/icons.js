@@ -5,6 +5,7 @@ function _defs(id) {
     <linearGradient id="${id}-cream2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4ECE1"/><stop offset="1" stop-color="#D9CCBB"/></linearGradient>
     <linearGradient id="${id}-or" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFA24D"/><stop offset="1" stop-color="#E5600C"/></linearGradient>
     <linearGradient id="${id}-or2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F57E2A"/><stop offset="1" stop-color="#C9520A"/></linearGradient>
+    <linearGradient id="${id}-bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6FA0F0"/><stop offset="1" stop-color="#2E6BD8"/></linearGradient>
     <filter id="${id}-sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#6B4A2A" flood-opacity=".22"/></filter>
   </defs>`;
 }
@@ -182,6 +183,9 @@ function iconSyringe(id) { // 疫苗針筒
     <path d="M82 72h14M82 84h14" stroke="#D6C8B6" stroke-width="4" stroke-linecap="round"/>
     <rect x="92" y="152" width="16" height="12" rx="3" fill="#DCCFBE"/><rect x="98" y="164" width="4" height="30" rx="2" fill="#BFB09D"/>
   </g></svg>`;
+}
+function iconSyringeBlue(id) { // 疫苗針筒（藍色藥劑、藍色推桿：單一疫苗）
+  return iconSyringe(id).replaceAll(`url(#${id}-or)`, `url(#${id}-bl)`);
 }
 function iconVaccineBook(id) { // 疫苗手冊（封面腳印）
   return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">

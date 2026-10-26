@@ -43,8 +43,8 @@ K.scene('65', 4, {
 });
 K.scene('66', 4, {
   enter: 'push', bg: 'sky',
-  visuals: ['大標「為什麼不一樣？」／「保護期不一樣」（灰）', '時間軸 1、2、3 年；兩條長條：核心疫苗（國際指引）長到 3 年「每 3 年補強」（橘）；鉤端螺旋體疫苗只到 1 年「每年補強」（藍）；字放在長條裡面、最上層（白字）'],
-  mount: () => K.h('h66', ['為什麼不一樣？', '~保護期不一樣'], { y: 150, size: 72 }) +
+  visuals: ['大標「為什麼不一樣？」／「保護期不一樣」（橘）', '時間軸 1、2、3 年；兩條長條：核心疫苗（國際指引）長到 3 年「每 3 年補強」（橘）；鉤端螺旋體疫苗只到 1 年「每年補強」（藍）；字放在長條裡面、最上層（白字）'],
+  mount: () => K.h('h66', ['為什麼不一樣？', '<b class="o">保護期不一樣</b>'], { y: 150, size: 72 }) +
     `<div class="cd" id="c66" style="left:140px;top:380px;width:1640px;height:330px;padding:40px 50px">
       <div style="position:relative;margin-left:340px;height:30px;font:800 26px 'Bricolage Grotesque';color:#9A9590">${[1, 2, 3].map(k => `<span class="abs" style="left:${k * 380 - 40}px">${k} 年</span>`).join('')}</div>
       ${[['核心疫苗', '#F97316', '每 3 年補強', 3], ['鉤端螺旋體疫苗', '#2E6BD8', '每年補強', 1]].map(([t, c, l, n], k) => `<div style="display:flex;align-items:center;margin-top:${k ? 30 : 20}px"><div style="width:340px;font-size:32px;font-weight:900">${t}</div><div class="bar" style="position:relative;width:1180px"><i id="br66${k}" style="width:${n * 380}px;background:${c}"></i><span id="bl66${k}" style="position:absolute;z-index:2;right:${1180 - n * 380 + 24}px;top:10px;font-size:26px;font-weight:900;color:#fff;white-space:nowrap">${l}</span></div></div>`).join('')}</div>`,
@@ -111,7 +111,7 @@ K.scene('69', 4, {
     K.pop(S, '#p69', S.word('不能直接套用'), '「不能套用到所有疫苗」', { sfx: 'pop-low' });
     K.rise(S, '#c691', S.word('而狂犬病'), '右卡藍框「狂犬病｜台灣法律規定，每年接種」', { sfx: 'pop-card' });
     K.pop(S, ['#dg69', '#t69'], S.word('狗狗和貓咪'), '黑柴和貓', { stagger: .15, sfx: 'pop' });
-    K.stamp(S, '#sp69', S.word('每年接種'), '藍色印章「每年都要打」');
+    K.stamp(S, '#sp69', S.word('每年接種'), '藍色印章「每年都要打」（擺正）', { straight: true });
   },
 });
 K.scene('70', 4, {

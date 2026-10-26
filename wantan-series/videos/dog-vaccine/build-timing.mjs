@@ -84,9 +84,11 @@ for (const sc of script.scenes) {
     if (show(p.text).length <= 18) pieces.push([p.text, p.t0, p.t1]);
     else {
       const k = Math.ceil(show(p.text).length / 18), chars = [...p.text]; let acc = '', cnt = 0, from = p.t0;
-      for (const ch of chars) {
+      for (const [ci, ch] of chars.entries()) {
+        if (!acc && pieces.length && /\s/.test(ch)) continue;   // 切開後的新一則不要以空格開頭
         acc += ch; if (/[一-鿿A-Za-z0-9]/.test(ch)) cnt++;
-        if (pieces.length < k - 1 && cnt >= Math.round(n * (pieces.length + 1) / k)) { const to = p.t0 + (p.t1 - p.t0) * cnt / n; pieces.push([acc, from, to]); acc = ''; from = to; }
+        const midWord = /[A-Za-z0-9]/.test(ch) && /[A-Za-z0-9]/.test(chars[ci + 1] || '');   // 英文字、數字不從中間切開
+        if (!midWord && pieces.length < k - 1 && cnt >= Math.round(n * (pieces.length + 1) / k)) { const to = p.t0 + (p.t1 - p.t0) * cnt / n; pieces.push([acc, from, to]); acc = ''; from = to; }
       }
       if (acc) pieces.push([acc, from, p.t1]);
     }

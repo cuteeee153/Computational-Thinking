@@ -8,8 +8,8 @@ K.scene('21', 1, {
     `<div class="stamp" id="sp21" style="left:150px;top:580px">發病後幾乎都會死亡</div>` +
     K.dog('sit', { id: 'dg21', x: 1000, y: 360, w: 300 }) + `<img class="abs" id="t21" src="assets/people/man-leash.png" style="left:1560px;top:250px;height:600px">` +
     K.arrow('w210', { x: 1290, y: 380, w: 240, h: 120, d: 'M10 90 C 70 20, 160 20, 225 80' }) + K.arrow('w211', { x: 1290, y: 700, w: 240, h: 120, d: 'M230 20 C 170 100, 80 100, 15 40' }) +
-    `<div class="pl b" id="p21" style="left:1265px;top:560px;font-size:28px;padding:12px 24px">人畜共通傳染病</div>`,
-  init() { gsap.set('#dh21n', { yPercent: 110 }); gsap.set(['#dg21', '#t21'], { opacity: 0 }); },
+    `<div class="pl b" id="p21" style="left:1410px;top:560px;font-size:28px;padding:12px 24px">人畜共通傳染病</div>`,
+  init() { gsap.set('#dh21n', { yPercent: 110 }); gsap.set(['#dg21', '#t21'], { opacity: 0 }); gsap.set('#p21', { xPercent: -50 }); },   // 標籤置中在兩支箭頭中間
   animate(S) {
     S.fromTo('#dh21', { opacity: 0 }, { opacity: 1, duration: .3 }, S.at(0));
     S.to('#dh21n', { yPercent: 0, duration: .8, ease: 'power4.out' }, S.at(0), '「狂犬病」大字冒出');
@@ -56,7 +56,7 @@ K.scene('23', 1, {
 });
 K.scene('24', 1, {
   enter: 'wipe',
-  visuals: ['左邊山區場景：山、帳篷、鼬獾、穿著胸背帶走在山路上的黑柴，藍色手寫標註「可能接觸到帶病毒的野生動物」', '念到「即使…待在家裡」：右邊房子圖示＋趴著的黑柴，大字「即使待在家裡」／「也不能忽略」／「狂犬病疫苗」（橘）'],
+  visuals: ['左邊山區場景：山、帳篷、鼬獾、穿著胸背帶走在山路上的黑柴，藍色手寫標註「可能接觸到帶病毒的野生動物」', '念到「即使…待在家裡」：右邊房子圖示＋趴著的黑柴，大字「即使待在家裡」／「也不能忽略」（黑）／「狂犬病疫苗」（橘，放大）'],
   mount: () => `<div class="sub" id="s24" style="left:140px;top:170px;font-size:34px">目前疫情主要在<b>野生動物</b>身上</div>` +
     K.tile('Mountain', { id: 't240', x: 150, y: 300, size: 230, rot: -4 }) + K.tile('Tent', { id: 't241', x: 420, y: 330, size: 170, rot: 5 }) +
     K.dog('harness-walk', { id: 'dg24', x: 250, y: 560, w: 330, flip: true }) +
@@ -64,7 +64,7 @@ K.scene('24', 1, {
     K.anno('a24', '', '可能接觸到<br>帶病毒的野生動物', { x: 600, y: 410, ss: 34 }) + K.arrow('w24', { x: 700, y: 520, w: 80, h: 120, d: 'M30 10 C 10 50, 30 80, 50 110' }) +
     `<div class="abs" id="v24" style="left:1000px;top:200px;width:4px;height:700px;background:#E4E1DC;border-radius:2px"></div>` +
     K.tile('House', { id: 't242', x: 1180, y: 300, size: 230, rot: -3 }) + K.dog('rest', { id: 'dg242', x: 1420, y: 380, w: 360 }) +
-    K.h('h24', ['即使待在家裡', '<b class="o">也不能忽略</b>', '<b class="o" style="position:relative">狂犬病疫苗<i id="ul24" style="position:absolute;left:0;right:0;bottom:-2px;height:10px;border-radius:5px;background:var(--or-b);transform-origin:0 50%"></i></b>'], { x: 1100, y: 610, size: 64 }),
+    K.h('h24', ['即使待在家裡', '也不能忽略', '<b class="o" style="position:relative;font-size:1.45em">狂犬病疫苗<i id="ul24" style="position:absolute;left:0;right:0;bottom:-2px;height:10px;border-radius:5px;background:var(--or-b);transform-origin:0 50%"></i></b>'], { x: 1100, y: 610, size: 64 }),
   init() { K.hideLines('h24', 3); gsap.set('#a24', { opacity: 0 }); gsap.set('#ul24', { scaleX: 0 }); },
   animate(S) {
     K.fadeIn(S, '#s24', S.at(0), '小字「目前疫情主要在野生動物身上」');

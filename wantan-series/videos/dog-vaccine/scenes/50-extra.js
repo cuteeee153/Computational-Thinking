@@ -2,8 +2,8 @@
 const EX50 = [['Cough', '犬舍咳相關'], ['Bacteria', '鉤端螺旋體'], ['Virus', '犬冠狀病毒']];
 K.scene('50', 3, {
   enter: 'push',
-  visuals: ['大標「多出來的疫苗，」／「有什麼作用？」（灰）', '三張卡念到時依序浮上：犬舍咳相關、鉤端螺旋體、犬冠狀病毒（編號 1、2、3）', '下方：要不要打 → 生活方式＋感染風險＋獸醫評估；藍色便條（擺正）「國際指引看法不完全相同，一個一個看」'],
-  mount: () => K.h('h50', ['多出來的疫苗，', '~有什麼作用？'], { y: 160, size: 72 }) +
+  visuals: ['大標「多出來的疫苗，」／「有什麼作用？」（橘）', '三張卡念到時依序浮上：犬舍咳相關、鉤端螺旋體、犬冠狀病毒（編號 1、2、3）', '下方：要不要打 → 生活方式＋感染風險＋獸醫評估；藍色便條（擺正）「國際指引看法不完全相同，一個一個看」'],
+  mount: () => K.h('h50', ['多出來的疫苗，', '<b class="o">有什麼作用？</b>'], { y: 160, size: 72 }) +
     EX50.map(([ic, t], k) => `<div class="cd" id="c50${k}" style="left:${140 + k * 400}px;top:400px;width:360px;height:340px;padding:34px;text-align:center"><div class="big abs" style="left:24px;top:16px;font-size:50px;color:var(--or)">${k + 1}</div><div class="ic" style="margin:20px auto 0;width:160px;height:160px">${K.ic(ic)}</div><div class="t" style="margin-top:18px">${t}</div></div>`).join('') +
     `<div class="abs" id="r50" style="left:140px;top:800px;display:flex;gap:16px;align-items:center;font-size:30px;font-weight:900;white-space:nowrap">要不要打 →<span class="pl bt" style="position:static">生活方式</span>＋<span class="pl bt" style="position:static">感染風險</span>＋<span class="pl ot" style="position:static">獸醫評估</span></div>` +
     `<div class="cd" id="n50" style="left:1400px;top:420px;width:380px;padding:30px;background:#EAF1FC;box-shadow:0 20px 40px -24px rgba(40,60,100,.4)"><div style="font-size:30px;font-weight:900;color:#1F55B8;line-height:1.4">國際指引看法<br>不完全相同</div><div style="font-size:26px;font-weight:700;color:#5E7DB5;margin-top:8px">一個一個來看 →</div></div>`,
@@ -60,8 +60,8 @@ K.scene('52', 3, {
 });
 K.scene('53', 3, {
   enter: 'wipe',
-  visuals: ['大標「那到底需不需要打？」／「兩份指引看法不同」（灰）', '美國動物醫院協會 AAHA 的時間軸：2022 年版「非核心」（灰卡）→ 箭頭 → 2024 年更新「核心疫苗：所有狗狗都建議」（橘框）'],
-  mount: () => K.h('h53', ['那到底需不需要打？', '~兩份指引看法不同'], { y: 160, size: 72 }) +
+  visuals: ['大標「那到底需不需要打？」／「兩份指引看法不同」（橘）', '美國動物醫院協會 AAHA 的時間軸：2022 年版「非核心」（灰卡）→ 箭頭 → 2024 年更新「核心疫苗：所有狗狗都建議」（橘框）'],
+  mount: () => K.h('h53', ['那到底需不需要打？', '<b class="o">兩份指引看法不同</b>'], { y: 160, size: 72 }) +
     `<div class="pl" id="p53" style="left:140px;top:400px;font-size:30px">${K.ic('Globe')}AAHA｜美國動物醫院協會</div>` +
     `<div class="cd" id="c530" style="left:140px;top:520px;width:640px;height:300px;padding:44px"><div class="big" style="font-size:80px;color:#9A9590">2022</div><div class="t" style="margin-top:10px;color:#7C7772">列為非核心疫苗</div></div>` +
     K.arrow('w53', { x: 800, y: 620, w: 200, h: 80, d: 'M10 40 C 70 10, 130 10, 185 40' }) +

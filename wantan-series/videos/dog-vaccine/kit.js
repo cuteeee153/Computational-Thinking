@@ -3,6 +3,7 @@
 (function () {
   const K = window.K = {};
   K.CHAPTERS = ['基本觀念', '四種疾病', '法律規定', '看懂幾合一', '施打時程', '重點整理'];
+  K.NAV_FROM = 1;   // 導覽的編號從幾開始（製作人要 0、1、2…就在第一個幕檔寫 K.NAV_FROM = 0）
   const RING = '0 0 0 5px #F97316,0 50px 90px -40px rgba(40,60,100,.32)';
   const PLAIN = '0 0 0 0px #F97316,0 50px 90px -40px rgba(40,60,100,.32)';
   K.RING = RING; K.PLAIN = PLAIN;
@@ -20,7 +21,7 @@
     if (!navMade) {
       navMade = true;
       const el = document.createElement('div'); el.id = 'nav';
-      el.innerHTML = K.CHAPTERS.map((c, k) => `<span id="nv${k}"><i>${k + 1}</i>${c}</span>`).join('');
+      el.innerHTML = K.CHAPTERS.map((c, k) => `<span id="nv${k}"><i>${k + K.NAV_FROM}</i>${c}</span>`).join('');
       document.getElementById('stage').appendChild(el);
       gsap.set('#nav', { opacity: 0 });
     }
@@ -31,7 +32,7 @@
   };
 
   // ---------- 版面元件（回傳 HTML 字串） ----------
-  // 狗：黏土黑柴（assets/dogs/clay/）sit 坐／tilt 歪頭／happy 開心／beg 站起來拜託／belly 翻肚／stand-side 側站（朝左）／yawn 打哈欠／sleep 睡覺／rest 趴著
+  // 狗：黏土黑柴（assets/dogs/clay/）sit 坐／tilt 歪頭／happy 開心／beg 站起來拜託／belly 翻肚／stand-side 側站（朝左）／yawn 打哈欠／sleep 睡覺／rest 趴著；其他狗：corgi 柯基／golden 黃金獵犬（坐，正面）
   K.dog = (pose, o = {}) => `<div class="cdog" id="${o.id || ''}" style="left:${o.x}px;top:${o.y}px;width:${o.w}px${o.flip ? ';transform:scaleX(-1)' : ''}${o.style ? ';' + o.style : ''}">` +
     (o.shadow === false ? '' : `<i class="gsh"></i>`) + `<img src="assets/dogs/clay/${pose}.png" alt=""></div>`;
   let uid = 0;

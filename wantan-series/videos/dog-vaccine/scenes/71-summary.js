@@ -24,8 +24,9 @@ K.scene('71', 5, {
 });
 K.scene('72', 5, {
   enter: 'none',
-  visuals: ['（接續總表）第二列「犬瘟熱」、第三列「犬小病毒」依序浮上：綜合疫苗都有｜核心疫苗'],
+  visuals: ['（接續總表）第二列「犬瘟熱」、第三列「犬小病毒」依序浮上，先只講「你需要知道的事」（右邊「疫苗在哪裡」的標籤先不出現）'],
   mount: () => K.sumRow(SUM[1], 1) + K.sumRow(SUM[2], 2),
+  init() { gsap.set(['#sm1 .pl', '#sm2 .pl'], { opacity: 0 }); },
   animate(S) {
     K.rise(S, '#sm1', S.word('犬瘟熱', 0, -.2), '第二列「犬瘟熱」浮上', { sfx: 'pop-card', dx: -60, dy: 0 });
     K.rise(S, '#sm2', S.word('犬小病毒', 0, -.2), '第三列「犬小病毒」浮上', { sfx: 'pop-card', dx: -60, dy: 0 });
@@ -33,12 +34,14 @@ K.scene('72', 5, {
 });
 K.scene('73', 5, {
   enter: 'none',
-  visuals: ['（這一幕還沒有錄音）（接續總表）第四列「犬傳染性肝炎」浮上；三列核心疾病右邊的標籤一起亮一下'],
+  visuals: ['（接續總表）第四列「犬傳染性肝炎」浮上', '念到「這三種常見的綜合疫苗都有包含」：三列核心疾病右邊的「綜合疫苗都有｜核心疫苗」標籤一起出現，三列一起亮橘框'],
   mount: () => K.sumRow(SUM[3], 3),
+  init() { gsap.set('#sm3 .pl', { opacity: 0 }); },
   animate(S) {
     K.rise(S, '#sm3', S.word('犬傳染性肝炎', 0, -.2), '第四列「犬傳染性肝炎」浮上', { sfx: 'pop-card', dx: -60, dy: 0 });
-    S.to(['#sm1', '#sm2', '#sm3'], { boxShadow: K.RING, duration: .3, yoyo: true, repeat: 1 }, S.word('核心疫苗', 1, -.2), '三列核心疾病一起亮橘框');
-    S.sfx(S.word('核心疫苗', 1, -.2), 'ding-soft', '亮起：輕「叮」');
+    K.pop(S, ['#sm1 .pl', '#sm2 .pl', '#sm3 .pl'], S.word('這三種'), '三列的「綜合疫苗都有｜核心疫苗」標籤一起出現', { stagger: .12, sfx: 'pop-card' });
+    S.to(['#sm1', '#sm2', '#sm3'], { boxShadow: K.RING, duration: .3, yoyo: true, repeat: 1 }, S.word('核心疫苗', 0, -.2), '三列核心疾病一起亮橘框');
+    S.sfx(S.word('核心疫苗', 0, -.2), 'ding-soft', '亮起：輕「叮」');
   },
 });
 const TAKE = [
@@ -75,8 +78,8 @@ K.scene('75', 5, {
 });
 K.scene('76', -1, {
   enter: 'rise',
-  visuals: ['小標「最後提醒」；大標「這是疫苗知識的整理，」／「不是施打時程建議」（灰）', '卡片：每隻狗狗的 年齡、健康狀況、接種紀錄、生活環境 都不一樣 → 橘色按鈕「和獸醫一起決定」'],
-  mount: () => K.kicker('k76', 'NOTE', '最後提醒', { y: 170 }) + K.h('h76', ['這是疫苗知識的整理，', '~不是施打時程建議'], { y: 220, size: 84 }) +
+  visuals: ['小標「最後提醒」；大標「這是疫苗知識的整理，」／「不是施打時程建議」（橘）', '卡片：每隻狗狗的 年齡、健康狀況、接種紀錄、生活環境 都不一樣 → 橘色按鈕「和獸醫一起決定」'],
+  mount: () => K.kicker('k76', 'NOTE', '最後提醒', { y: 170 }) + K.h('h76', ['這是疫苗知識的整理，', '<b class="o">不是施打時程建議</b>'], { y: 220, size: 84 }) +
     `<div class="vet card" id="vet76" style="top:560px"><span class="lb">每隻狗狗的</span>${['年齡', '健康狀況', '接種紀錄', '生活環境'].map((s, k) => `<span class="sym" id="sy76${k}">${s}</span>`).join('')}<span class="lb">都不一樣</span><span class="ar" id="ar76">→</span><span class="go" id="go76">和獸醫一起決定</span></div>`,
   init() { K.hideLines('h76', 2); gsap.set(['#ar76', '#go76'], { opacity: 0, x: -20 }); },
   animate(S) {

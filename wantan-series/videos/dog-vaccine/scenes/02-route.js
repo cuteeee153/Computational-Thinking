@@ -15,11 +15,11 @@ K.station = (S, k, t, label) => {
 };
 K.scene('02', -1, {
   enter: 'push', bg: 'sky',
-  visuals: ['淡藍底；上方橘色小標「今天的路線」、大標「從最基本的觀念開始」', '一條虛線路，五個站：基本觀念、四種疾病、法律規定、看懂幾合一、施打時程（白色圖示磚＋站名）', '黑柴（側站）從左邊出發，走到第一站「基本觀念」', '第一站下方依序出現三個小標籤：疫苗是什麼、每隻都建議打的疫苗、疫苗 vs 預防藥'],
+  visuals: ['淡藍底；上方橘色小標「今天的路線」、大標「從最基本的觀念開始」', '一條虛線路，五個站：00 基本觀念、01 四種疾病、02 法律規定、03 看懂幾合一、04 施打時程（白色圖示磚＋站名）', '黑柴（側站）從左邊出發，走到第一站「基本觀念」', '第一站下方依序出現三個小標籤：疫苗是什麼、每隻都建議打的疫苗、疫苗 vs 預防藥'],
   mount: () => `<div class="eyebrow abs" id="k02" style="left:140px;top:170px;font-size:26px">今天的路線</div>` + K.h('h02', ['從最基本的觀念開始'], { y: 220, size: 72 }) +
     `<svg class="abs" style="left:0;top:0" width="1920" height="1080"><path id="rd02" d="M150 ${K.ROUTE_Y + 40} C 500 ${K.ROUTE_Y - 20}, 800 ${K.ROUTE_Y + 90}, 1150 ${K.ROUTE_Y + 30} S 1650 ${K.ROUTE_Y + 10}, 1800 ${K.ROUTE_Y + 40}" fill="none" stroke="#C9D6E8" stroke-width="10" stroke-dasharray="2 26" stroke-linecap="round" pathLength="1000"/></svg>` +
     ST.map((s, k) => K.tile(s.ic, { id: 'st02' + k, x: s.x - 75, y: K.ROUTE_Y - 200 }) +
-      `<div class="abs" id="sl02${k}" style="left:${s.x - 150}px;top:${K.ROUTE_Y + 90}px;width:300px;text-align:center;font-size:32px;font-weight:900"><span class="big" style="font-size:30px;color:var(--or);margin-right:8px">0${k + 1}</span>${s.t}</div>`).join('') +
+      `<div class="abs" id="sl02${k}" style="left:${s.x - 150}px;top:${K.ROUTE_Y + 90}px;width:300px;text-align:center;font-size:32px;font-weight:900"><span class="big" style="font-size:30px;color:var(--or);margin-right:8px">0${k}</span>${s.t}</div>`).join('') +
     K.dog('stand-side', { id: 'dg02', x: 0, y: K.ROUTE_Y - 150, w: 190, flip: true }) +
     ['疫苗是什麼', '每隻都建議打的疫苗', '疫苗 vs 預防藥'].map((t, k) => `<div class="pl ot" id="c02${k}" style="left:${200}px;top:${K.ROUTE_Y + 160 + k * 74}px;font-size:26px;padding:10px 24px">${t}</div>`).join(''),
   init() { K.hideLines('h02', 1); gsap.set('#rd02', { strokeDashoffset: 1000 }); gsap.set('#dg02', { opacity: 0 }); },

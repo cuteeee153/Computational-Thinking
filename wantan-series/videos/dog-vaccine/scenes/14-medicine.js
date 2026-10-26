@@ -2,7 +2,7 @@
 K.scene('14', 0, {
   enter: 'iris', irisAt: [1500, 500], bg: 'sky',
   visuals: ['淡藍底，圓形轉場', '小標「觀念三」；超大字隨著旁白依序跑出：「疫苗」、「預防藥」、中間橘色「≠」', '下方重點（放大）：針筒和藥罐兩塊大圖示磚，藍色大字手寫標註「有些打針、吃藥，其實是預防藥」'],
-  mount: () => K.kicker('k14', '03', '觀念三｜疫苗和預防藥', { y: 220 }) +
+  mount: () => K.kicker('k14', '00', '觀念三｜疫苗和預防藥', { y: 220 }) +
     `<div class="h abs" style="left:140px;top:280px;font-size:150px;display:flex;gap:40px"><span class="ln"><span id="h140">疫苗</span></span><span class="ln"><span id="h141" class="o">≠</span></span><span class="ln"><span id="h142" class="g">預防藥</span></span></div>` +
     K.tile('Syringe', { id: 't140', x: 1040, y: 520, size: 270, rot: -6 }) + K.tile('Pill', { id: 't141', x: 1400, y: 570, size: 270, rot: 5 }) +
     K.anno('a14', '', '有些打針、吃藥<br>其實是預防藥', { x: 330, y: 610, ss: 64, align: 'right' }) + K.arrow('w14', { x: 790, y: 610, w: 260, h: 140, d: 'M10 80 C 90 20, 170 30, 240 80' }),

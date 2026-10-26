@@ -1,8 +1,8 @@
 // 幕 09–13｜觀念二：兩個國際組織把疫苗分成「核心」和「非核心」；非核心看生活習慣；指引不是法律。
 K.scene('09', 0, {
   enter: 'push', bg: 'sky',
-  visuals: ['小標「觀念二」；大標「核心疫苗？」／「非核心疫苗？」（灰）', '左邊兩張組織卡（地球圖示）：世界小動物獸醫協會 WSAVA、美國動物醫院協會 AAHA', '念到「分成兩大類」：箭頭指向右邊兩張空卡「核心疫苗」（橘）、「非核心疫苗」（藍）'],
-  mount: () => K.kicker('k09', '02', '觀念二｜核心與非核心', { y: 150 }) + K.h('h09', ['核心疫苗？', '~非核心疫苗？'], { y: 200, size: 76 }) +
+  visuals: ['小標「觀念二」；大標「核心疫苗？」／「非核心疫苗？」（藍）', '左邊兩張組織卡（地球圖示）：世界小動物獸醫協會 WSAVA、美國動物醫院協會 AAHA', '念到「分成兩大類」：箭頭指向右邊兩張空卡「核心疫苗」（橘）、「非核心疫苗」（藍）'],
+  mount: () => K.kicker('k09', '00', '觀念二｜核心與非核心', { y: 150 }) + K.h('h09', ['核心疫苗？', '<span class="bl">非核心疫苗？</span>'], { y: 200, size: 76 }) +
     [['世界小動物獸醫協會', 'WSAVA'], ['美國動物醫院協會', 'AAHA']].map(([t, e], k) =>
       `<div class="cd" id="o09${k}" style="left:140px;top:${470 + k * 230}px;width:640px;height:200px;padding:34px 40px;display:flex;gap:30px;align-items:center"><div class="ic" style="width:130px;height:130px;flex:none">${K.ic('Globe')}</div><div><div class="t" style="font-size:38px">${t}</div><div class="big" style="font-size:48px;color:var(--or);margin-top:8px">${e}</div></div></div>`).join('') +
     K.arrow('w09', { x: 800, y: 500, w: 260, h: 300, d: 'M10 150 C 120 150, 150 60, 240 40' }) + K.arrow('w09b', { x: 800, y: 560, w: 260, h: 300, d: 'M10 110 C 120 110, 150 230, 240 250' }) +

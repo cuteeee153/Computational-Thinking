@@ -33,7 +33,7 @@
   };
 
   // ---------- 版面元件（回傳 HTML 字串） ----------
-  // 狗：黏土黑柴（assets/dogs/clay/）sit 坐／tilt 歪頭／happy 開心／beg 站起來拜託／belly 翻肚／stand-side 側站（朝左）／yawn 打哈欠／sleep 睡覺／rest 趴著
+  // 狗：黏土黑柴（assets/dogs/clay/）sit 坐／tilt 歪頭／happy 開心／beg 站起來拜託／belly 翻肚／stand-side 側站（朝左）／yawn 打哈欠／sleep 睡覺／rest 趴著；其他狗：corgi 柯基／golden 黃金獵犬（坐，正面）
   K.dog = (pose, o = {}) => `<div class="cdog" id="${o.id || ''}" style="left:${o.x}px;top:${o.y}px;width:${o.w}px${o.flip ? ';transform:scaleX(-1)' : ''}${o.style ? ';' + o.style : ''}">` +
     (o.shadow === false ? '' : `<i class="gsh"></i>`) + `<img src="assets/dogs/clay/${pose}.png" alt=""></div>`;
   let uid = 0;
