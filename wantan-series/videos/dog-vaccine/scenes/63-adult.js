@@ -116,16 +116,14 @@ K.scene('69', 4, {
 });
 K.scene('70', 4, {
   enter: 'push', bg: 'sky',
-  visuals: ['大標「打疫苗前後，」／「主動告訴獸醫」（橘）', '左邊圓角框播放實拍（橫拍）：飼主抱著柴犬，醫師打針、打完摸摸頭（醫師和護理師的臉已模糊），左上角小標籤「實拍｜打疫苗那天」', '右邊三張字卡（念到時依序滑入、加橘框）：01 以前打完不舒服 → 提前說明；02 生病、懷孕、吃藥 → 讓獸醫評估接種時機；03 打完有異常 → 盡快聯絡獸醫，下次看診也要說'],
+  visuals: ['大標「打疫苗前後，」／「主動告訴獸醫」（橘）', '左邊圓角框播放實拍（橫拍）：飼主抱著柴犬，醫師打針、打完摸摸頭（醫師和護理師的臉已模糊）', '右邊三張字卡（念到時依序滑入、加橘框）：01 以前打完不舒服 → 提前說明；02 生病、懷孕、吃藥 → 讓獸醫評估接種時機；03 打完有異常 → 盡快聯絡獸醫，下次看診也要說'],
   mount: S => K.h('h70', ['打疫苗前後，', '<b class="o">主動告訴獸醫</b>'], { y: 130, size: 64 }) + S.footage() +
-    `<div class="pl" id="lb70" style="left:170px;top:350px;font-size:24px;padding:10px 20px;z-index:3">實拍｜打疫苗那天</div>` +
     [['以前打完不舒服', '一定要<b>提前說明</b>'], ['正在生病、懷孕、吃藥', '讓獸醫<b>評估接種時機</b>'], ['打完出現任何異常', '<b>盡快聯絡獸醫</b><br>下次看診也要說']].map(([t, d], k) =>
       `<div class="pt card" id="pt70${k}" style="left:1230px;top:${330 + k * 200}px;width:550px;min-height:175px;padding:26px 30px"><div class="nb">0${k + 1}</div><div><div class="tt" style="font-size:34px">${t}</div><div class="dl" style="font-size:26px;white-space:normal">${d}</div></div></div>`).join(''),
-  init() { K.hideLines('h70', 2); gsap.set('.pt', { opacity: 0, x: 40 }); gsap.set('#lb70', { opacity: 0 }); },
+  init() { K.hideLines('h70', 2); gsap.set('.pt', { opacity: 0, x: 40 }); },
   animate(S) {
     K.lines(S, 'h70', 2, S.at(0), '大標「打疫苗前後，主動告訴獸醫」');
     S.fromTo('#vf-70', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .7, ease: 'power3.out' }, S.start + .2, '實拍框跟著換幕浮上來，開始播放');
-    S.to('#lb70', { opacity: 1, duration: .4 }, S.start + .7);
     [['第一', 0], ['第二', 1], ['第三', 2]].forEach(([w, k]) => {
       const t = S.word(w, 0, -.15);
       if (k) K.ring(S, '#pt70' + (k - 1), t, false);
