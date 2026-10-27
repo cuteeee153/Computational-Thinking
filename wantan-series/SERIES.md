@@ -100,6 +100,7 @@
 **交件檔放哪裡**
 - `out/` 不進 git。
 - 交件時把 `out/video.mp4`、`out/video.srt`、`out/stems/` 複製到影片資料夾的 `final/`，再 commit。
+- GitHub 單一檔案上限 100MB：`video.mp4` 超過就不進 git（`final/.gitignore` 寫上它），直接傳給製作人；要重出就跑 `./make.sh video`。
 - 檔案超過 50MB 時告訴製作人，不要硬推。
 
 ### 資料怎麼放
