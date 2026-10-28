@@ -450,3 +450,129 @@ function iconHeart(id) { // 生命
     <ellipse cx="62" cy="68" rx="14" ry="9" fill="#fff" opacity=".45" transform="rotate(-30 62 68)"/>
   </g></svg>`;
 }
+
+// ---------- 第四集（潔牙）新增 ----------
+const _tooth = (id, x = 0, y = 0) => `<path transform="translate(${x} ${y})" d="M58 40 C 40 40 30 58 34 82 C 38 104 46 112 50 140 C 54 168 60 178 70 178 C 82 178 84 150 92 136 C 96 128 104 128 108 136 C 116 150 118 178 130 178 C 140 178 146 168 150 140 C 154 112 162 104 166 82 C 170 58 160 40 142 40 C 126 40 116 50 100 50 C 84 50 74 40 58 40 Z"`;
+function iconTooth(id) { // 乾淨的牙齒
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    ${_tooth(id, 4, 4)} fill="url(#${id}-cream2)"/>${_tooth(id)} fill="url(#${id}-cream)"/>
+    <path d="M58 58 C 50 62 48 74 50 84" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <g transform="translate(150 40)" fill="#FFB24D"><path d="M0 -16 L4 -4 L16 0 L4 4 L0 16 L-4 4 L-16 0 L-4 -4Z"/></g>
+  </g></svg>`;
+}
+function iconPlaque(id) { // 牙菌斑：牙齒表面一層黃色薄膜＋細菌點點
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    ${_tooth(id, 4, 4)} fill="url(#${id}-cream2)"/>${_tooth(id)} fill="url(#${id}-cream)"/>
+    <path d="M38 74 C 40 56 50 46 62 46 C 76 46 84 56 100 56 C 116 56 124 46 138 46 C 150 46 160 56 162 74 C 150 86 130 92 100 92 C 70 92 50 86 38 74 Z" fill="#F5D776" opacity=".85"/>
+    ${[[64, 66], [90, 74], [116, 68], [140, 64], [78, 82], [128, 82]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5.5" fill="#D9A93A"/>`).join('')}
+  </g></svg>`;
+}
+function iconTartar(id) { // 牙結石：牙齦邊緣硬硬的黃褐色塊
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    ${_tooth(id, 4, 4)} fill="url(#${id}-cream2)"/>${_tooth(id)} fill="url(#${id}-cream)"/>
+    <path d="M36 70 C 44 50 58 44 70 52 C 84 60 92 50 104 54 C 118 58 124 46 140 48 C 156 50 164 62 164 76 C 150 80 146 92 132 90 C 118 88 112 98 98 94 C 84 90 76 100 62 92 C 50 86 42 84 36 70 Z" fill="#B88A4E"/>
+    <path d="M52 62 C 60 58 66 62 72 64 M110 62 C 118 58 126 60 132 58" stroke="#D6AE74" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g></svg>`;
+}
+function iconToothbrush(id) { // 牙刷
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)" transform="rotate(-35 100 100)">
+    <rect x="26" y="94" width="120" height="22" rx="11" fill="url(#${id}-or2)"/><rect x="24" y="90" width="120" height="22" rx="11" fill="url(#${id}-or)"/>
+    <rect x="134" y="92" width="44" height="18" rx="8" fill="url(#${id}-cream2)"/>
+    ${[0, 1, 2, 3, 4].map(k => `<rect x="${138 + k * 8}" y="58" width="6" height="34" rx="3" fill="${k % 2 ? '#BFD6EE' : '#FFFFFF'}" stroke="#D8E4F2" stroke-width="1.5"/>`).join('')}
+    <path d="M40 98 L110 98" stroke="#FFC08E" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+  </g></svg>`;
+}
+function iconToothpaste(id) { // 牙膏（寵物用：條碼上有腳印）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)" transform="rotate(-20 100 100)">
+    <path d="M40 66 L136 58 Q150 58 150 72 L150 128 Q150 142 136 142 L40 134 Z" fill="url(#${id}-cream2)" transform="translate(4 4)"/>
+    <path d="M40 66 L136 58 Q150 58 150 72 L150 128 Q150 142 136 142 L40 134 Z" fill="url(#${id}-cream)"/>
+    <path d="M28 64 L40 66 L40 134 L28 136 Z" fill="#E7DCCD"/>
+    <rect x="150" y="84" width="16" height="32" rx="4" fill="url(#${id}-or)"/><rect x="164" y="80" width="18" height="40" rx="6" fill="url(#${id}-or2)"/>
+    <rect x="58" y="80" width="70" height="40" rx="10" fill="url(#${id}-or)"/>
+    <g fill="#FFF2E4"><ellipse cx="93" cy="106" rx="9" ry="7"/><circle cx="82" cy="94" r="4"/><circle cx="90" cy="89" r="4"/><circle cx="99" cy="89" r="4"/><circle cx="106" cy="94" r="4"/></g>
+  </g></svg>`;
+}
+function iconDentalBone(id) { // 潔牙骨（綠色、有凹槽）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)" transform="rotate(-30 100 100)">
+    <path d="M44 78 a20 20 0 1 1 22 -12 L134 66 a20 20 0 1 1 22 12 a20 20 0 1 1 -22 12 L66 90 a20 20 0 1 1 -22 -12z" transform="translate(0 22)" fill="#7FA05A"/>
+    <path d="M44 74 a20 20 0 1 1 22 -12 L134 62 a20 20 0 1 1 22 12 a20 20 0 1 1 -22 12 L66 86 a20 20 0 1 1 -22 -12z" transform="translate(0 22)" fill="#9DBE74"/>
+    ${[72, 88, 104, 120].map(x => `<circle cx="${x}" cy="96" r="4.5" fill="#7FA05A"/>`).join('')}
+  </g></svg>`;
+}
+function iconHardBone(id) { // 天然硬骨頭／鹿角（太硬）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)" transform="rotate(-30 100 100)">
+    <path d="M44 78 a20 20 0 1 1 22 -12 L134 66 a20 20 0 1 1 22 12 a20 20 0 1 1 -22 12 L66 90 a20 20 0 1 1 -22 -12z" transform="translate(0 26)" fill="#D9CCBB"/>
+    <path d="M44 74 a20 20 0 1 1 22 -12 L134 62 a20 20 0 1 1 22 12 a20 20 0 1 1 -22 12 L66 86 a20 20 0 1 1 -22 -12z" transform="translate(0 22)" fill="url(#${id}-cream)"/>
+    <path d="M92 86 L100 96 L94 104 L102 114" stroke="#B4A089" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></svg>`;
+}
+function iconSeal(id) { // 認證標章（通用，不是任何組織的商標）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M70 130 L54 186 L78 174 L92 194 L104 138Z M130 130 L146 186 L122 174 L108 194 L96 138Z" fill="url(#${id}-or2)"/>
+    <path d="${Array.from({ length: 24 }, (_, k) => { const a = k * Math.PI / 12, r = k % 2 ? 62 : 72; return `${k ? 'L' : 'M'}${(100 + r * Math.cos(a)).toFixed(1)} ${(88 + r * Math.sin(a)).toFixed(1)}`; }).join(' ')}Z" fill="url(#${id}-or)"/>
+    <circle cx="100" cy="88" r="48" fill="url(#${id}-cream)"/>
+    <path d="M78 90 L94 106 L124 72" stroke="#E5600C" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></svg>`;
+}
+function iconPowder(id) { // 潔牙粉：罐子＋粉末
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="58" y="62" width="88" height="110" rx="18" fill="url(#${id}-cream2)" transform="translate(4 4)"/><rect x="58" y="62" width="88" height="110" rx="18" fill="url(#${id}-cream)"/>
+    <rect x="52" y="40" width="100" height="30" rx="10" fill="url(#${id}-or2)"/><rect x="52" y="36" width="100" height="28" rx="10" fill="url(#${id}-or)"/>
+    <rect x="72" y="96" width="60" height="44" rx="10" fill="#FDE6D5"/>
+    <g transform="translate(83 99) scale(.19)">${_tooth(id)} fill="#fff"/></g>
+    ${[[160, 50], [172, 66], [164, 82], [178, 40]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5" fill="#F3E7D7"/>`).join('')}
+  </g></svg>`;
+}
+function iconWipe(id) { // 潔牙濕紙巾
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="34" y="70" width="132" height="96" rx="22" fill="#9FC0E6"/><rect x="34" y="64" width="132" height="96" rx="22" fill="url(#${id}-bl)"/>
+    <ellipse cx="100" cy="98" rx="38" ry="16" fill="#1F55B8"/>
+    <path d="M78 98 C 72 70 82 44 100 34 C 116 44 128 66 122 98 Z" fill="url(#${id}-cream)"/>
+    <path d="M92 52 C 96 62 96 74 94 86" stroke="#E6DACB" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g></svg>`;
+}
+function iconSpray(id) { // 口腔噴劑／凝膠
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="62" y="84" width="76" height="98" rx="20" fill="url(#${id}-cream2)" transform="translate(4 4)"/><rect x="62" y="84" width="76" height="98" rx="20" fill="url(#${id}-cream)"/>
+    <rect x="84" y="58" width="32" height="30" rx="6" fill="url(#${id}-or2)"/><path d="M80 40 L128 40 Q136 40 136 48 L136 56 L80 62 Z" fill="url(#${id}-or)"/>
+    <rect x="74" y="112" width="52" height="40" rx="10" fill="#FDE6D5"/>
+    ${[[154, 40], [166, 52], [160, 30], [172, 38]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5" fill="#9FC0E6"/>`).join('')}
+  </g></svg>`;
+}
+function iconXray(id) { // 牙科 X 光片
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="30" y="40" width="140" height="120" rx="16" fill="#3B4A63" transform="translate(4 4)"/><rect x="30" y="40" width="140" height="120" rx="16" fill="#2A3548"/>
+    <g transform="translate(34 46) scale(.42)">${_tooth(id)} fill="none" stroke="#DCE7F7" stroke-width="12"/></g>
+    <g transform="translate(96 48) scale(.42)">${_tooth(id)} fill="none" stroke="#DCE7F7" stroke-width="12"/></g>
+    <path d="M44 132 L156 132" stroke="#6FA0F0" stroke-width="4" stroke-dasharray="6 6"/>
+  </g></svg>`;
+}
+function iconGum(id) { // 牙齦紅腫：牙齒＋紅色牙齦＋小血滴
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    ${_tooth(id, 4, 4)} fill="url(#${id}-cream2)"/>${_tooth(id)} fill="url(#${id}-cream)"/>
+    <path d="M22 70 C 40 96 70 104 100 104 C 130 104 160 96 178 70 L178 30 C 160 50 140 58 100 58 C 60 58 40 50 22 30 Z" fill="#F08A8A" opacity=".92"/>
+    <path d="M100 108 C 92 120 92 128 100 132 C 108 128 108 120 100 108 Z" fill="#E5484D"/>
+  </g></svg>`;
+}
+function iconBreath(id) { // 口臭：嘴巴前面的臭味波浪
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <circle cx="70" cy="110" r="52" fill="url(#${id}-cream)"/><path d="M48 124 Q70 140 92 124" stroke="#6B4A2A" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <circle cx="54" cy="96" r="6" fill="#6B4A2A"/><circle cx="86" cy="96" r="6" fill="#6B4A2A"/>
+    ${[0, 1, 2].map(k => `<path d="M${120 + k * 6} ${80 + k * 26} q12 -10 24 0 t24 0" stroke="#9DBE74" stroke-width="8" fill="none" stroke-linecap="round"/>`).join('')}
+  </g></svg>`;
+}
+function iconMirror(id) { // 牙科口鏡
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)" transform="rotate(30 100 100)">
+    <rect x="94" y="80" width="12" height="104" rx="6" fill="#B9C3D0"/><rect x="92" y="78" width="12" height="104" rx="6" fill="#DDE3EA"/>
+    <circle cx="98" cy="50" r="36" fill="#B9C3D0"/><circle cx="98" cy="48" r="28" fill="#EAF1FB"/><path d="M82 40 a18 18 0 0 1 16 -12" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </g></svg>`;
+}
+function iconWaterBowl(id) { // 藍色水碗（裝水）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <ellipse cx="100" cy="96" rx="70" ry="18" fill="#BFD6EE"/><ellipse cx="100" cy="96" rx="58" ry="12" fill="#E3EEF9"/>
+    <path d="M26 98 L174 98 L160 154 Q157 166 144 166 L56 166 Q43 166 40 154 Z" fill="#2E6BD8"/>
+    <path d="M28 96 L172 96 L159 150 Q156 160 143 160 L57 160 Q44 160 41 150 Z" fill="url(#${id}-bl)"/>
+    <path d="M50 116 L150 116" stroke="#A9C6F2" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+    ${[[150, 50], [164, 66], [138, 70]].map(([x, y]) => `<path d="M${x} ${y - 10} C ${x + 6} ${y - 2} ${x + 7} ${y + 2} ${x + 7} ${y + 4} a7 7 0 0 1 -14 0 C ${x - 7} ${y + 2} ${x - 6} ${y - 2} ${x} ${y - 10}z" fill="#6FA0F0"/>`).join('')}
+  </g></svg>`;
+}

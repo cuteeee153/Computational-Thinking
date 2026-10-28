@@ -1,0 +1,54 @@
+/* 風格：清新亮色（2026-10 起新增）。疊在 core.css 之後，只換底色、陰影，並加上新元件。
+   沿用：頻道 logo、字型、亮色黏土感圖示（icons.js）、黑柴插畫、字幕樣式、橘色重點字與結論。
+   新增：藍色（手寫標註、手機畫面）、三種底色、圖示磚、手機畫面。 */
+:root{--bg:#F3F2F0;--card:#FFFFFF;--ink:#16130F;--mute:#8E8A86;--line:#E8E6E3;--blue:#2E6BD8;--blue-l:#E6EEFB}
+
+/* 底色：預設＝米白漸層到淡藍灰；.bg-mint＝淡綠到白；.bg-sky＝淡藍到白（寫在幕的 section 上：S.el.classList.add） */
+.scene{background:radial-gradient(1200px 900px at 85% 30%,#EAF0FA 0,transparent 70%),linear-gradient(100deg,#F6F2EC 0,#F3F2F1 55%,#EDF1F7 100%)}
+.scene.bg-mint{background:radial-gradient(1300px 1000px at 0% 10%,#E1EBDF 0,transparent 65%),linear-gradient(100deg,#F1F2EE 0,#F4F4F2 60%,#F1F2F4 100%)}
+.scene.bg-sky{background:radial-gradient(1300px 1000px at 0% 10%,#DCE6F6 0,transparent 65%),linear-gradient(100deg,#EEF1F6 0,#F4F4F3 60%,#F2F2F2 100%)}
+
+/* 頻道 logo：圓底透明，跟著那個角落的背景色 */
+.logo i,.endcard i{background:transparent;box-shadow:none}
+
+/* 大標：第一行黑字，第二行灰字（.g） */
+.h .g{color:#9A9590}
+.card,.doc{box-shadow:0 2px 0 #fff inset,0 50px 90px -40px rgba(40,60,100,.32),0 0 0 1px rgba(30,40,60,.04)}
+
+/* 圖示磚：白底大圓角＋柔影，裡面放 icons.js 的黏土圖示 */
+.tile{position:absolute;width:150px;height:150px;border-radius:38px;background:#fff;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 0 #fff inset,0 34px 60px -26px rgba(40,60,100,.32),0 0 0 1px rgba(30,40,60,.04)}
+.tile svg{width:112px;height:112px;overflow:visible}
+
+/* 手寫標註（藍）：大數字＋小字，搭配 .arrow 的手繪箭頭（SVG path） */
+.anno{position:absolute;color:var(--blue);text-align:center;line-height:1}
+.anno b{display:block;font-family:'Bricolage Grotesque';font-weight:800;font-size:120px;letter-spacing:-.04em}
+.anno span{display:block;font-weight:700;font-size:30px;margin-top:6px}
+.anno.row{display:flex;align-items:baseline;gap:18px;white-space:nowrap}
+.anno.row span{margin-top:0}
+.arrow{position:absolute;overflow:visible}
+.arrow path{fill:none;stroke:var(--blue);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+
+/* 手機畫面：放右邊，下緣超出畫面。.sky 是藍天漸層頂部，.sheet 是白色內容區 */
+.phone{position:absolute;left:1190px;top:72px;width:700px;height:1120px;border-radius:118px;background:#1B1B1D;padding:18px;
+  box-shadow:0 0 0 3px #3A3A3E inset,0 60px 120px -50px rgba(20,30,60,.5)}
+.phone .scr{position:relative;width:100%;height:100%;border-radius:100px;overflow:hidden;background:linear-gradient(180deg,#3F7FE0 0,#6FA2EC 30%,#DCE7F7 55%,#F3F5F9 70%)}
+.phone .scr::before{content:'';position:absolute;left:-10%;right:-10%;top:280px;height:200px;background:radial-gradient(closest-side,rgba(255,255,255,.55),transparent);filter:blur(10px)}
+.phone .island{position:absolute;left:50%;top:26px;width:200px;height:58px;margin-left:-100px;border-radius:30px;background:#0B0B0C}
+.phone .status{position:absolute;left:70px;right:56px;top:38px;display:flex;justify-content:space-between;align-items:center;color:#fff;font:600 30px 'Noto Sans TC'}
+.phone .nav{position:absolute;top:118px;width:64px;height:64px;border-radius:50%;border:2px solid rgba(255,255,255,.6);background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#fff}
+.phone .sheet{position:absolute;left:0;right:0;bottom:0;border-radius:44px 44px 0 0;background:#fff;padding:24px 22px}
+.phone .sec{border-radius:36px;background:#F4F3F1;padding:26px 28px;margin-bottom:18px}
+.phone .sec .hd{display:flex;align-items:center;gap:20px;font-size:30px;font-weight:700}
+.phone .sec .hd i{width:70px;height:70px;border-radius:20px;background:#ECEAE7;display:flex;align-items:center;justify-content:center;flex:none}
+.phone .sec .hd i svg{width:56px;height:56px;overflow:visible}
+.phone .li{display:flex;align-items:center;gap:14px;margin:14px 0 0 90px;font-size:27px;font-weight:500;color:#2A2622;white-space:nowrap}
+.phone .li em{font-style:normal;color:#9A9590}
+.phone .li.now{color:var(--or)}
+.chk{margin-left:auto;width:44px;height:44px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex:none}
+.chk.todo{background:none;border:3px dashed #F3A46B}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;border-radius:999px;background:#fff;font-size:26px;font-weight:700;box-shadow:0 8px 20px -12px rgba(30,40,80,.35)}
+.qin{position:absolute;left:24px;right:24px;bottom:40px;height:92px;border-radius:999px;background:#fff;display:flex;align-items:center;padding:0 10px 0 34px;font-size:28px;color:#2A2622;box-shadow:0 10px 30px -14px rgba(30,40,80,.4);white-space:nowrap;overflow:hidden}
+.qin .go{margin-left:auto;width:72px;height:72px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 0 0 5px #fff,0 0 0 7px rgba(46,107,216,.25)}
+.qb{align-self:flex-end;max-width:520px;padding:20px 28px;border-radius:30px 30px 8px 30px;background:var(--blue);color:#fff;font-size:27px;font-weight:500;line-height:1.45}
+.qa{align-self:flex-start;max-width:540px;padding:20px 28px;border-radius:30px 30px 30px 8px;background:#fff;color:#2A2622;font-size:27px;font-weight:500;line-height:1.45;box-shadow:0 8px 20px -14px rgba(30,40,80,.35)}

@@ -27,7 +27,7 @@ script = json.load(open(f'{root}/script.json', encoding='utf-8'))
 speed = script.get('speed', 1.5)
 scenes = script['scenes']
 SPOKEN = re.compile(r'[一-鿿A-Za-z0-9]')
-NOISE = set('嗯啊汪哦呃唔哈呵噢')   # 旁白裡的狗吠聲辨識起來常變成這些字
+NOISE = set('嗯啊汪哦呃唔哈呵噢來来')   # 旁白裡的狗吠聲辨識起來常變成這些字
 PHRASE = re.compile(r'[^，。、：；？！,|]+[，。、：；？！,|]?')
 
 m = [x for x in glob.glob(model + '/*.onnx') if 'int8' in x] or glob.glob(model + '/*.onnx')
