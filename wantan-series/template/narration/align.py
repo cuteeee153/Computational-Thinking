@@ -10,6 +10,7 @@
 #   1. ffmpeg silencedetect 依停頓切段，每段用 sherpa-onnx 中文 Paraformer 辨識（離線），段內的字平均分配時間
 #   2. 辨識結果和稿子（都轉簡體）逐字比對（difflib）；一幕裡沒對上的字用前後對上的字內插
 #   3. 時間除以加速倍率（script.json 的 speed）
+#   4. 不是旁白的短聲音（狗吠等，辨識成「嗯、汪」或認不出字）不剪掉：在兩幕之間的併進前一幕的結尾，檔案開頭的併進第一幕
 # 需要：pip install sherpa-onnx opencc-python-reimplemented numpy；模型見 setup.sh
 import difflib, glob, json, os, re, subprocess, sys, wave
 import numpy as np
@@ -26,6 +27,7 @@ script = json.load(open(f'{root}/script.json', encoding='utf-8'))
 speed = script.get('speed', 1.5)
 scenes = script['scenes']
 SPOKEN = re.compile(r'[一-鿿A-Za-z0-9]')
+NOISE = set('嗯啊汪哦呃唔哈呵噢')   # 旁白裡的狗吠聲辨識起來常變成這些字
 PHRASE = re.compile(r'[^，。、：；？！,|]+[，。、：；？！,|]?')
 
 m = [x for x in glob.glob(model + '/*.onnx') if 'int8' in x] or glob.glob(model + '/*.onnx')
@@ -47,16 +49,18 @@ def hear(path, name):
         if s - cur > .12: segs.append([cur, s])
         cur = e
     if dur - cur > .12: segs.append([cur, dur])
-    heard, lines = [], []
+    heard, lines, noises = [], [], []
     for a, b in segs:
         pad = int(.08 * SR)
         st = rec.create_stream(); st.accept_waveform(SR, audio[max(0, int(a * SR) - pad):int(b * SR) + pad]); rec.decode_stream(st)
         chars = [c for c in st.result.text if SPOKEN.match(c)]
         lines.append(f'{a:7.2f}–{b:7.2f}  {st.result.text}')
+        # 不是旁白的短聲音（狗吠等）：辨識不出字或只認成「嗯、啊、汪」→ 記下來，剪接時保留
+        if b - a < 2.5 and all(c in NOISE for c in st.result.text if SPOKEN.match(c)): noises.append((a, b, st.result.text))
         for i, c in enumerate(chars): heard.append((c.lower(), a + (b - a) * i / len(chars), a + (b - a) * (i + 1) / len(chars)))
     open(f'{here}/work/{name}.recognized.txt', 'w').write('\n'.join(lines) + '\n')
     os.remove(raw)
-    return heard, dur
+    return heard, dur, noises
 
 def match(heard, which):
     """稿子（which 這幾幕）逐字對到辨識結果；回傳 {幕索引: [(開始, 結束) 或 None, ...]}"""
@@ -73,9 +77,10 @@ files = sorted(f for f in glob.glob(f'{here}/rec/*') if re.search(r'\.(mp3|wav|m
 if not files: sys.exit('narration/rec/ 裡沒有錄音檔')
 ids = [s['id'] for s in scenes]
 best = {}   # 幕索引 → (比例, 檔名, 時間表, 長度)
+noises = {}  # 檔名 → [(開始, 結束, 辨識結果)]（原速秒數）：不是旁白的聲音
 for f in files:
     name = os.path.splitext(os.path.basename(f))[0]
-    heard, dur = hear(f, name)
+    heard, dur, noises[name] = hear(f, name)
     which = [ids.index(name)] if name in ids else range(len(scenes))
     for si, ts in match(heard, which).items():
         ratio = sum(x is not None for x in ts) / max(1, len(ts))
@@ -84,7 +89,7 @@ for f in files:
             best[si] = (ratio, name, ts, dur / speed, forced)
     print(f'{os.path.basename(f)}：{dur:.1f} 秒（加速後 {dur / speed:.1f} 秒）')
 
-out, report = {}, []
+out, report, kept = {}, [], []
 for si, sc in enumerate(scenes):
     if si not in best or best[si][0] < .6:
         report.append(f'  幕 {sc["id"]}：沒有錄音' + (f'（最像的是 {best[si][1]}，只對上 {best[si][0]:.0%}）' if si in best else '')); continue
@@ -116,6 +121,14 @@ for si, sc in enumerate(scenes):
         o0, o1 = oth[0][0] / speed, oth[-1][1] / speed
         if o1 <= first: a = max(a, (o1 + first) / 2)
         if o0 >= last: b = min(b, (last + o0) / 2)
+    if name == sc['id']: b = dur   # 用幕號命名的錄音整個檔都是這一幕：結尾不剪（裡面可能有狗吠聲）
+    # 製作人的旁白裡可能有狗吠聲，不能剪掉：緊接在這一幕最後一個字後面（1 秒內、在下一幕之前）的非旁白聲音，併進這一幕；檔案開頭緊接在第一個字前面的，併進第一幕
+    nxt = min([y[0][0] / speed for sj, x in best.items() if sj != si and x[1] == name and x[0] >= .6 for y in [[z for z in x[2] if z is not None]] if y and y[0][0] / speed >= last], default=dur)
+    prv = max([y[-1][1] / speed for sj, x in best.items() if sj != si and x[1] == name and x[0] >= .6 for y in [[z for z in x[2] if z is not None]] if y and y[-1][1] / speed <= first], default=None)
+    for n0, n1, txt in noises.get(name, []):
+        n0, n1 = n0 / speed, n1 / speed
+        if last <= n0 < min(nxt, last + 1): b = max(b, min(n1 + .15, nxt - .12)); kept.append(f'  幕 {sc["id"]}：保留結尾的非旁白聲音（{name} 原速 {n0 * speed:.1f} 秒，辨識成「{txt}」，可能是狗吠）')
+        elif prv is None and first - 1 < n1 <= first: a = min(a, max(0, n0 - .1)); kept.append(f'  幕 {sc["id"]}：保留開頭的非旁白聲音（{name} 原速 {n0 * speed:.1f} 秒，辨識成「{txt}」，可能是狗吠）')
     out[sc['id']] = {'text': sc['text'], 'src': f'{name}-{speed:g}x.wav', 'ratio': round(ratio, 3),
                      'cut': [round(a, 3), round(b, 3)], 'lead': round(first - a, 3), 'length': round(last - first, 3),
                      'phrases': [{'text': p['text'], 't0': round(p['t0'] - first, 3), 't1': round(p['t1'] - first, 3)} for p in phrases]}
@@ -124,3 +137,4 @@ json.dump({'speed': speed, 'method': 'sherpa-onnx paraformer-zh-small + difflib'
           open(f'{here}/aligned.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print(f'對時完成：{len(out)}／{len(scenes)} 幕有錄音')
 for r in report: print(r)
+for r in kept: print(r)
