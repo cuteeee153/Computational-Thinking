@@ -25,6 +25,7 @@ const [video, out, note = ''] = argv;
 if (!video || !out) { console.error('用法：node build-storyboard.mjs <影片.mp4> <輸出資料夾> [版本說明]'); process.exit(1); }
 const PARTIAL = FROM > 0 || UPTO < Infinity;
 for (const d of PARTIAL ? ['frames'] : ['frames', 'clips']) { fs.rmSync(path.join(out, d), { recursive: true, force: true }); fs.mkdirSync(path.join(out, d), { recursive: true }); }
+fs.mkdirSync(path.join(out, 'clips'), { recursive: true });   // 第一版只用分段輸出時，clips 資料夾還不存在
 const fmtM = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
 
 // 關鍵畫面：從動畫頁截圖（半解析度）
