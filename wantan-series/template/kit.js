@@ -4,6 +4,7 @@
 (function () {
   const K = window.K = {};
   K.CHAPTERS = [];
+  K.NAV_FROM = 1;   // 導覽的編號從幾開始；有「基本觀念」的影片在第一個幕檔寫 K.NAV_FROM = 0（基本觀念＝0，後面 1、2…）
   const RING = '0 0 0 5px #F97316,0 50px 90px -40px rgba(40,60,100,.32)';
   const PLAIN = '0 0 0 0px #F97316,0 50px 90px -40px rgba(40,60,100,.32)';
   K.RING = RING; K.PLAIN = PLAIN;
@@ -22,7 +23,7 @@
     if (!navMade) {
       navMade = true;
       const el = document.createElement('div'); el.id = 'nav';
-      el.innerHTML = K.CHAPTERS.map((c, k) => `<span id="nv${k}"><i>${k + 1}</i>${c}</span>`).join('');
+      el.innerHTML = K.CHAPTERS.map((c, k) => `<span id="nv${k}"><i>${k + K.NAV_FROM}</i>${c}</span>`).join('');
       document.getElementById('stage').appendChild(el);
       gsap.set('#nav', { opacity: 0 });
     }

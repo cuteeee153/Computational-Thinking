@@ -1,0 +1,30 @@
+/* 這支影片自己的樣式（各幕新增的元件）。系列共用的放 core.css。 */
+.concl{font-weight:900;letter-spacing:-.04em;color:var(--or);white-space:nowrap;line-height:1.2}
+.concl small{display:block;font-size:.5em;color:#9A9590;font-weight:700;letter-spacing:0;margin-top:10px}
+.phone{top:140px;height:1000px}
+.strike{position:relative}
+.strike::after{content:'';position:absolute;left:-6%;right:-6%;top:50%;height:6px;border-radius:3px;background:#E5484D;transform:scaleX(var(--s,0));transform-origin:0 50%}
+.gray{filter:grayscale(1);opacity:.6}
+/* 飼料包裝（K.bag） */
+.bag{overflow:hidden}
+.bag .band{height:96px;background:linear-gradient(90deg,#F97316,#E2620E);color:#fff;font-size:36px;font-weight:900;display:flex;align-items:center;padding:0 40px;letter-spacing:.02em}
+.bag .ln2{height:16px;border-radius:8px;background:#ECE8E3;margin:0 0 18px}
+.bag .stm{margin:0 36px;padding:22px 26px;border-radius:22px;border:3px solid #E8E4DE;font-size:28px;font-weight:700;line-height:1.45}
+.bag .stm .k{display:block;margin-bottom:6px}
+.bag .lrow{display:flex;align-items:center;gap:16px;padding:0 40px;height:78px;border-bottom:2px solid #F1EEEA;font-size:30px;font-weight:700}
+.bag .lrow .chk{margin-left:auto}
+/* 圓餅、長條 */
+.donut circle{fill:none}
+.vbar{position:absolute;bottom:0;width:180px;border-radius:24px 24px 8px 8px;transform-origin:50% 100%}
+/* 圓點格（食譜） */
+.dots200{position:absolute;display:grid;grid-template-columns:repeat(20,30px);gap:9px}
+.dots200 i{width:30px;height:30px;border-radius:50%;background:#E3E0DC;display:block}
+/* 時間軸（法案進度） */
+.tl-node{position:absolute;width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:0 0 0 6px #C9D6E8;margin:-22px 0 0 -22px}
+.tl-node.on{background:var(--or-b);box-shadow:0 0 0 6px #FDEBDD}
+.tl-lab{position:absolute;width:360px;margin-left:-180px;text-align:center}
+.tl-lab b{display:block;font-family:'Bricolage Grotesque','Noto Sans TC';font-weight:800;font-size:44px;color:var(--or)}
+.tl-lab span{display:block;font-size:30px;font-weight:700;margin-top:6px}
+/* 對話泡泡（引述） */
+.quote{position:absolute;padding:30px 40px;border-radius:40px 40px 40px 10px;background:#fff;font-size:40px;font-weight:900;letter-spacing:-.02em;box-shadow:0 30px 60px -30px rgba(40,60,100,.35)}
+.quote small{display:block;font-size:24px;font-weight:700;color:#9A9590;margin-bottom:8px;letter-spacing:0}

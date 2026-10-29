@@ -576,3 +576,142 @@ function iconWaterBowl(id) { // 藍色水碗（裝水）
     ${[[150, 50], [164, 66], [138, 70]].map(([x, y]) => `<path d="M${x} ${y - 10} C ${x + 6} ${y - 2} ${x + 7} ${y + 2} ${x + 7} ${y + 4} a7 7 0 0 1 -14 0 C ${x - 7} ${y + 2} ${x - 6} ${y - 2} ${x} ${y - 10}z" fill="#6FA0F0"/>`).join('')}
   </g></svg>`;
 }
+// ---- 第五集：狗飼料 ----
+function iconFoodBag(id) { // 飼料袋（乾糧）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M52 40 L148 40 L158 172 Q158 180 150 180 L50 180 Q42 180 42 172 Z" fill="url(#${id}-cream2)" transform="translate(4 4)"/>
+    <path d="M52 40 L148 40 L158 172 Q158 180 150 180 L50 180 Q42 180 42 172 Z" fill="url(#${id}-cream)"/>
+    <path d="M52 40 L148 40 L146 58 L54 58 Z" fill="url(#${id}-or)"/>
+    <path d="M60 30 L140 30 L148 40 L52 40 Z" fill="url(#${id}-or2)"/>
+    <circle cx="100" cy="112" r="30" fill="url(#${id}-or)"/>
+    ${_paw(100, 114, 15, '#FFF2E4')}
+    <rect x="70" y="152" width="60" height="9" rx="4.5" fill="#E7DCCD"/>
+  </g></svg>`;
+}
+function iconCan(id) { // 罐頭（濕糧）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="44" y="66" width="112" height="100" rx="14" fill="url(#${id}-cream2)"/>
+    <rect x="44" y="76" width="112" height="70" fill="url(#${id}-or)"/>
+    <ellipse cx="100" cy="66" rx="56" ry="18" fill="url(#${id}-cream)" stroke="#D9CCBB" stroke-width="3"/>
+    <ellipse cx="100" cy="66" rx="42" ry="12" fill="none" stroke="#D9CCBB" stroke-width="3"/>
+    <path d="M110 62 q20 -26 38 -14 q8 8 -6 14" fill="none" stroke="#C7B9A6" stroke-width="6" stroke-linecap="round"/>
+    ${_paw(100, 113, 14, '#FFF2E4')}
+  </g></svg>`;
+}
+function iconFresh(id) { // 市售鮮食：餐盒裡看得到肉、蔬菜
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="30" y="70" width="140" height="96" rx="24" fill="url(#${id}-cream2)" transform="translate(3 4)"/>
+    <rect x="30" y="70" width="140" height="96" rx="24" fill="url(#${id}-cream)"/>
+    <rect x="42" y="82" width="116" height="72" rx="16" fill="#F4ECE1"/>
+    <path d="M52 120 q14 -26 40 -16 q10 16 -8 30 q-26 8 -32 -14z" fill="#D9826A"/><path d="M60 118 q12 -10 26 -6" stroke="#F2B6A2" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <circle cx="118" cy="104" r="12" fill="#9DBE74"/><circle cx="132" cy="122" r="11" fill="#7FA05A"/><circle cx="112" cy="132" r="10" fill="#F5A340"/><circle cx="140" cy="100" r="8" fill="#F5A340"/>
+    <path d="M100 40 c 6 10 6 18 0 26 M118 44 c 6 10 6 18 0 26 M82 44 c 6 10 6 18 0 26" stroke="#E2D6C6" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </g></svg>`;
+}
+function iconPot(id) { // 自己煮（鍋子）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M100 30 c 8 12 8 22 0 32 M76 36 c 8 12 8 22 0 32 M124 36 c 8 12 8 22 0 32" stroke="#E2D6C6" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <rect x="16" y="92" width="34" height="16" rx="8" fill="url(#${id}-or2)"/><rect x="150" y="92" width="34" height="16" rx="8" fill="url(#${id}-or2)"/>
+    <path d="M40 86 L160 86 L154 156 Q152 172 136 172 L64 172 Q48 172 46 156 Z" fill="url(#${id}-or2)"/>
+    <path d="M40 82 L160 82 L154 150 Q152 166 136 166 L64 166 Q48 166 46 150 Z" fill="url(#${id}-or)"/>
+    <rect x="32" y="72" width="136" height="16" rx="8" fill="url(#${id}-cream)"/>
+    <path d="M62 112 L138 112" stroke="#FFC08E" stroke-width="5" stroke-linecap="round" opacity=".6"/>
+  </g></svg>`;
+}
+function iconJerky(id) { // 肉乾零食
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    ${[[-24, 70, 90], [8, 100, 70], [-6, 120, 120]].map(([r, x, y]) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-56" y="-17" width="112" height="34" rx="12" fill="#A9573A"/><rect x="-56" y="-20" width="112" height="32" rx="12" fill="#C9734F"/><path d="M-40 -8 q16 6 30 0 t30 0 t24 2" stroke="#E39A78" stroke-width="5" fill="none" stroke-linecap="round"/></g>`).join('')}
+  </g></svg>`;
+}
+function iconFlame(id) { // 熱量（大卡）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M100 22 C 120 56 156 76 156 122 a56 56 0 0 1 -112 0 C 44 92 62 76 72 56 C 78 76 88 82 96 84 C 92 62 92 42 100 22z" fill="url(#${id}-or)"/>
+    <path d="M100 96 C 110 112 128 122 128 142 a28 28 0 0 1 -56 0 C 72 124 88 114 100 96z" fill="#FFD79E"/>
+  </g></svg>`;
+}
+function iconGrain(id) { // 穀物（麥穗）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M100 182 L100 40" stroke="#D5A24A" stroke-width="8" stroke-linecap="round"/>
+    ${[0, 1, 2, 3, 4].map(k => { const y = 52 + k * 24; return `<ellipse cx="80" cy="${y}" rx="22" ry="11" fill="#F2C46A" transform="rotate(-35 80 ${y})"/><ellipse cx="120" cy="${y}" rx="22" ry="11" fill="#E7B14E" transform="rotate(35 120 ${y})"/>`; }).join('')}
+    <ellipse cx="100" cy="32" rx="11" ry="20" fill="#F2C46A"/>
+  </g></svg>`;
+}
+function iconPeas(id) { // 豌豆、扁豆
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M30 120 Q 60 52 150 50 Q 176 52 170 74 Q 150 140 54 150 Q 24 148 30 120z" fill="#7FA05A"/>
+    <path d="M38 118 Q 66 64 150 60 Q 164 62 160 76 Q 140 132 58 140 Q 34 140 38 118z" fill="#9DBE74"/>
+    ${[[66, 116], [92, 100], [118, 86], [142, 74]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="15" fill="#B9D88E"/><circle cx="${x - 5}" cy="${y - 5}" r="4" fill="#E2F0CC"/>`).join('')}
+  </g></svg>`;
+}
+function iconMeat(id) { // 肉
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M40 100 C 40 50 110 30 146 60 C 176 86 160 150 104 160 C 60 168 40 140 40 100z" fill="#B8553E"/>
+    <path d="M44 96 C 44 52 110 34 142 60 C 170 84 154 144 104 152 C 64 158 44 132 44 96z" fill="#D9826A"/>
+    <path d="M66 90 C 80 70 112 66 128 84" stroke="#F2C2B0" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <circle cx="140" cy="128" r="16" fill="url(#${id}-cream)"/>
+  </g></svg>`;
+}
+function iconVeg(id) { // 蔬菜（紅蘿蔔＋葉子）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M70 40 q-10 -20 6 -26 q8 14 0 30 M84 38 q6 -22 22 -16 q-4 16 -20 20" fill="#7FA05A"/>
+    <path d="M60 50 Q 100 40 96 70 L 56 176 Q 50 184 46 174 L 44 70 Q 44 52 60 50z" fill="#F08A2E"/>
+    <path d="M52 86 l14 4 M50 116 l14 4 M48 146 l10 3" stroke="#C9640E" stroke-width="5" stroke-linecap="round"/>
+    <path d="M120 170 C 110 120 120 80 160 60 C 176 100 168 150 120 170z" fill="#9DBE74"/><path d="M122 166 C 132 128 144 100 158 72" stroke="#7FA05A" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g></svg>`;
+}
+function iconLabel(id) { // 營養標示（包裝背面的表格）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="44" y="26" width="116" height="152" rx="14" fill="url(#${id}-cream2)" transform="translate(4 4)"/>
+    <rect x="44" y="26" width="116" height="152" rx="14" fill="url(#${id}-cream)"/>
+    <rect x="58" y="40" width="88" height="14" rx="7" fill="url(#${id}-or)"/>
+    ${[70, 92, 114, 136].map(y => `<rect x="58" y="${y}" width="50" height="9" rx="4.5" fill="#E7DCCD"/><rect x="120" y="${y}" width="26" height="9" rx="4.5" fill="#D9CCBB"/><line x1="58" y1="${y + 16}" x2="146" y2="${y + 16}" stroke="#EFE6DA" stroke-width="2"/>`).join('')}
+    <circle cx="150" cy="160" r="22" fill="url(#${id}-bl)"/><path d="M140 160 l7 7 l13 -14" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g></svg>`;
+}
+function iconFlask(id) { // 品質檢驗（燒瓶）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M80 30 L120 30 L120 76 L162 160 Q168 176 150 176 L50 176 Q32 176 38 160 L80 76 Z" fill="url(#${id}-cream)"/>
+    <path d="M60 126 L140 126 L156 160 Q160 168 150 168 L50 168 Q40 168 44 160 Z" fill="url(#${id}-bl)"/>
+    <rect x="72" y="22" width="56" height="16" rx="8" fill="url(#${id}-cream2)"/>
+    <circle cx="84" cy="148" r="7" fill="#fff" opacity=".7"/><circle cx="112" cy="140" r="5" fill="#fff" opacity=".7"/>
+  </g></svg>`;
+}
+function iconFactory(id) { // 製造
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="132" y="34" width="22" height="70" rx="5" fill="url(#${id}-cream2)"/>
+    <path d="M26 176 L26 92 L66 70 L66 92 L106 70 L106 92 L146 70 L174 84 L174 176 Z" fill="url(#${id}-cream)"/>
+    ${[44, 84, 124].map(x => `<rect x="${x}" y="116" width="24" height="24" rx="5" fill="url(#${id}-or)"/>`).join('')}
+    <rect x="80" y="150" width="40" height="26" rx="4" fill="#E7DCCD"/>
+  </g></svg>`;
+}
+function iconTrophy(id) { // 獲獎
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M56 50 q-34 0 -30 30 q4 24 34 28 M144 50 q34 0 30 30 q-4 24 -34 28" fill="none" stroke="#E2B04A" stroke-width="10"/>
+    <path d="M54 34 L146 34 L140 92 Q134 124 100 128 Q66 124 60 92 Z" fill="#F2C46A"/>
+    <path d="M72 46 Q70 80 86 104" stroke="#FBE3A8" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <rect x="90" y="126" width="20" height="26" fill="#E2B04A"/><rect x="62" y="150" width="76" height="24" rx="8" fill="url(#${id}-cream)"/>
+  </g></svg>`;
+}
+function iconCalcium(id) { // 鈣（骨頭＋Ca）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <g transform="rotate(-30 100 100)"><path d="M44 74 a20 20 0 1 1 22 -12 L134 62 a20 20 0 1 1 22 12 a20 20 0 1 1 -22 12 L66 86 a20 20 0 1 1 -22 -12z" transform="translate(0 18)" fill="url(#${id}-cream)"/></g>
+    <circle cx="140" cy="146" r="34" fill="url(#${id}-or)"/><text x="140" y="158" text-anchor="middle" font-family="Bricolage Grotesque" font-weight="800" font-size="34" fill="#fff">Ca</text>
+  </g></svg>`;
+}
+function iconChart(id) { // 研究數據（長條圖）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <rect x="28" y="32" width="144" height="140" rx="20" fill="url(#${id}-cream)"/>
+    ${[[52, 110], [86, 80], [120, 124], [146, 60]].map(([x, y], k) => `<rect x="${x - 4}" y="${y}" width="22" height="${150 - y}" rx="6" fill="${k === 3 ? `url(#${id}-or)` : '#E2D6C6'}"/>`).join('')}
+    <line x1="42" y1="150" x2="164" y2="150" stroke="#C7B9A6" stroke-width="4" stroke-linecap="round"/>
+  </g></svg>`;
+}
+function iconRaw(id) { // 生食（生肉＋警示）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <path d="M30 110 C 30 64 96 44 130 70 C 158 94 144 150 92 158 C 52 164 30 140 30 110z" fill="#E7909A"/>
+    <path d="M52 100 C 64 82 96 76 112 92" stroke="#F6C4CA" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M150 96 L186 160 L114 160 Z" fill="#F5B300" stroke="#F5B300" stroke-width="10" stroke-linejoin="round"/><rect x="146" y="114" width="8" height="26" rx="4" fill="#fff"/><circle cx="150" cy="150" r="5" fill="#fff"/>
+  </g></svg>`;
+}
+function iconKibble(id) { // 一碗飼料（主食）：狗碗，沒有成長箭頭
+  return iconBowl(id).replace(/<g transform="translate\(148 30\)">.*?<\/g>/s, '');
+}

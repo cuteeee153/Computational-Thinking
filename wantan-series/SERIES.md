@@ -133,7 +133,7 @@
 - 還沒有檔案的幕會自動顯示草稿卡（幕號、標題、旁白）。
 
 **版面小工具 `kit.js`／`kit.css`**
-- `K.scene('幕號', 章節, {...})` 取代 `WT.scene`：多了 `bg`（'mint'／'sky'）和右上角章節導覽（`K.CHAPTERS` 寫在第一個幕檔最上面）。
+- `K.scene('幕號', 章節, {...})` 取代 `WT.scene`：多了 `bg`（'mint'／'sky'）和右上角章節導覽（`K.CHAPTERS` 寫在第一個幕檔最上面；有「基本觀念」的影片再寫 `K.NAV_FROM = 0`，導覽編號就從 0 開始）。
 - 常用元件：`K.h` 大標、`K.kicker` 小標、`K.dog` 黏土黑柴、`K.tile` 圖示磚、`K.anno`＋`K.arrow` 藍色手寫標註、`K.phone` 手機畫面、`K.chk` 打勾。
 - 常用動畫：`K.lines` 大標冒出、`K.pop` 彈出、`K.rise` 浮上、`K.draw` 畫箭頭、`K.ring` 橘框、`K.count` 數字跑動、`K.stamp` 蓋印章、`K.type` 打字。都會自動配音效、寫進分鏡板。
 - 範例：`videos/dog-vaccine/scenes/`。
