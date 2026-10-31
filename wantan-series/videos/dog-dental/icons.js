@@ -457,7 +457,7 @@ function iconTooth(id) { // 乾淨的牙齒
   return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
     ${_tooth(id, 4, 4)} fill="url(#${id}-cream2)"/>${_tooth(id)} fill="url(#${id}-cream)"/>
     <path d="M58 58 C 50 62 48 74 50 84" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round"/>
-    <g transform="translate(150 40)" fill="#FFB24D"><path d="M0 -16 L4 -4 L16 0 L4 4 L0 16 L-4 4 L-16 0 L-4 -4Z"/></g>
+    <g class="spark" transform="translate(150 40)" fill="#FFB24D"><path d="M0 -16 L4 -4 L16 0 L4 4 L0 16 L-4 4 L-16 0 L-4 -4Z"/></g>
   </g></svg>`;
 }
 function iconPlaque(id) { // 牙菌斑：牙齒表面一層黃色薄膜＋細菌點點

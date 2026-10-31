@@ -26,7 +26,7 @@ K.scene('05', 0, {
 const BAC06 = [[1080, 220], [1560, 200], [1650, 420], [1040, 470], [1600, 650], [1100, 690]];
 K.scene('06', 0, {
   enter: 'wipe',
-  visuals: ['大標「牙菌斑＝」／「一層細菌薄膜」（橘）', '右邊一顆乾淨的大牙齒', '念到「細菌」：牙齒四周冒出細菌；念到「累積」：細菌一隻隻黏到牙齒上', '念到「形成牙菌斑」：牙齒表面變成黃色薄膜，藍色手寫標註「牙菌斑」＋箭頭'],
+  visuals: ['大標「牙菌斑＝」／「一層細菌薄膜」（橘）', '右邊一顆乾淨的大牙齒（有黃色星星）', '念到「細菌」：牙齒四周冒出細菌；念到「累積」：細菌一隻隻黏到牙齒上，黃色星星消失', '念到「形成牙菌斑」：牙齒表面變成黃色薄膜，藍色手寫標註「牙菌斑」＋箭頭'],
   mount: () => K.h('h06', ['牙菌斑＝', '<b class="o">一層細菌薄膜</b>'], { y: 330, size: 96 }) +
     K.icon('tA06', 'Tooth', 1150, 240, 480) + K.icon('tB06', 'Plaque', 1150, 240, 480) + K.icon('tC06', 'Tartar', 1150, 240, 480) +
     BAC06.map(([x, y], k) => K.icon('b06' + k, 'Bacteria', x, y, 110, { style: `transform:rotate(${k * 37}deg)` })).join('') +
@@ -39,6 +39,7 @@ K.scene('06', 0, {
     const ta = S.word('累積', 0, -.3);
     BAC06.forEach((_, k) => S.to('#b06' + k, { left: 1270 + (k % 3) * 90, top: 300 + Math.floor(k / 3) * 70, scale: .45, duration: .6, ease: 'power2.in' }, ta + k * .08, k ? '' : '念到「累積」：細菌一隻隻黏到牙齒上'));
     S.sfx(ta, 'pop', '黏上去：連續「啵」', { gain: .5 });
+    S.to('#tA06 .spark', { opacity: 0, scale: .3, transformOrigin: '50% 50%', duration: .3 }, ta + .3, '細菌黏上去時，乾淨牙齒上的黃色星星消失');
     const tf = S.word('形成牙菌斑', 0, -.2);
     S.to(BAC06.map((_, k) => '#b06' + k), { opacity: 0, duration: .3 }, tf);
     S.to('#tB06', { opacity: 1, duration: .5 }, tf, '牙齒表面變成黃色薄膜');
@@ -71,27 +72,28 @@ K.scene('07', 0, {
 // ---------- 幕 08｜刷牙清得掉牙菌斑，清不掉牙結石 ----------
 K.scene('08', 0, {
   enter: 'push', bg: 'sky',
-  visuals: ['淡藍底；小標「記住一件事」', '兩張大卡：左「牙菌斑｜刷牙可以清除」（藍色打勾），右「牙結石｜多刷幾下也清不掉」（紅叉）', '念到「刷牙清除」：牙刷在左邊的牙齒上來回刷，黃色薄膜消失', '念到「變硬的牙結石」：牙刷移到右邊來回刷，牙結石刷不掉，打紅叉'],
+  visuals: ['淡藍底；小標「記住一件事」', '兩張大卡：左「牙菌斑｜刷牙可以清除」（藍色打勾），右「牙結石｜多刷幾下也清不掉」（紅叉）', '念到「刷牙清除」：牙刷的毛對準左邊的牙齒來回刷，黃色薄膜消失，刷乾淨後牙齒冒出黃色星星', '念到「變硬的牙結石」：牙刷移到右邊、刷毛對準牙結石來回刷，牙結石刷不掉，打紅叉'],
   mount: () => `<div class="eyebrow abs" id="k08" style="left:140px;top:170px;font-size:26px">記住一件事</div>` +
-    `<div class="cd" id="c080" style="left:140px;top:240px;width:800px;height:640px"><div style="position:absolute;left:250px;top:50px;width:300px;height:300px">${K.ic('Tooth')}</div><div id="pq08" style="position:absolute;left:250px;top:50px;width:300px;height:300px">${K.ic('Plaque')}</div>` +
+    `<div class="cd" id="c080" style="left:140px;top:240px;width:800px;height:640px"><div id="tc08" style="position:absolute;left:250px;top:50px;width:300px;height:300px">${K.ic('Tooth')}</div><div id="pq08" style="position:absolute;left:250px;top:50px;width:300px;height:300px">${K.ic('Plaque')}</div>` +
     `<div class="t" style="position:absolute;left:0;right:0;top:400px;text-align:center;font-size:52px">牙菌斑</div><div class="d" style="position:absolute;left:0;right:0;top:490px;text-align:center;font-size:36px;display:flex;justify-content:center;gap:16px;align-items:center" id="r080">${K.chk().replace('class="chk"', 'class="chk" style="margin:0"')}<span style="color:#2A2622">刷牙可以清除</span></div></div>` +
     `<div class="cd" id="c081" style="left:980px;top:240px;width:800px;height:640px"><div style="position:absolute;left:250px;top:50px;width:300px;height:300px">${K.ic('Tartar')}</div>` +
     `<div class="t" style="position:absolute;left:0;right:0;top:400px;text-align:center;font-size:52px">牙結石</div><div class="d" style="position:absolute;left:0;right:0;top:490px;text-align:center;font-size:36px" id="r081"><span class="o">多刷幾下也清不掉</span></div></div>` +
     `<div class="x" id="x08" style="left:1560px;top:270px"></div>` +
-    K.icon('tb08', 'Toothbrush', 560, 200, 200),
-  init() { gsap.set(['#c080', '#c081', '#r080', '#r081', '#x08', '#tb08'], { opacity: 0 }); },
+    K.icon('tb08', 'Toothbrush', 470, 190, 200, { style: 'transform:rotate(180deg)' }),
+  init() { gsap.set(['#c080', '#c081', '#r080', '#r081', '#x08', '#tb08'], { opacity: 0 }); gsap.set('#tc08 .spark', { opacity: 0, scale: .3, transformOrigin: '50% 50%' }); gsap.set('#tb08', { rotate: 180 }); },
   animate(S) {
     S.fromTo('#k08', { opacity: 0 }, { opacity: 1, duration: .4 }, S.at(0));
     K.rise(S, '#c080', S.word('牙菌斑', 0, -.3), '左卡「牙菌斑」浮上', { sfx: 'pop-card' });
     const tb = S.word('刷牙', 0, -.2);
     S.to('#tb08', { opacity: 1, duration: .2 }, tb);
-    S.to('#tb08', { x: 90, duration: .16, yoyo: true, repeat: 7, ease: 'sine.inOut' }, tb, '念到「刷牙清除」：牙刷在牙齒上來回刷');
+    S.to('#tb08', { x: 90, duration: .16, yoyo: true, repeat: 7, ease: 'sine.inOut' }, tb, '念到「刷牙清除」：刷毛對準牙齒，來回刷');
     S.sfx(tb, 'brush', '刷牙聲', { dur: 1.3 });
     S.to('#pq08', { opacity: 0, duration: 1.2 }, tb + .1, '黃色薄膜被刷掉');
     K.pop(S, '#r080', S.word('清除', 0, -.1), '打勾「刷牙可以清除」', { sfx: 'ding-soft' });
+    S.to('#tc08 .spark', { opacity: 1, scale: 1, duration: .4, ease: 'back.out(3)' }, S.word('清除', 0, .1), '刷乾淨了：牙齒冒出黃色星星');
     K.rise(S, '#c081', S.word('牙結石', 0, -.5), '右卡「牙結石」浮上', { sfx: 'pop-card' });
     const tc = S.word('多刷幾下', 0, -.3);
-    S.to('#tb08', { left: 1400, duration: .4, ease: 'power2.inOut' }, tc - .45, '牙刷移到右邊來回刷');
+    S.to('#tb08', { left: 1310, duration: .4, ease: 'power2.inOut' }, tc - .45, '牙刷移到右邊，刷毛對準牙結石來回刷');
     S.to('#tb08', { x: 0, duration: 0 }, tc - .45);
     S.to('#tb08', { x: 90, duration: .16, yoyo: true, repeat: 7, ease: 'sine.inOut' }, tc);
     S.sfx(tc, 'brush', '刷牙聲', { dur: 1.3 });
@@ -106,7 +108,7 @@ K.scene('08', 0, {
 const PER09 = [['牙齦', 'Gum'], ['支撐牙齒的組織', 'Tooth'], ['骨頭', 'HardBone']];
 K.scene('09', 0, {
   enter: 'push',
-  visuals: ['大標「牙菌斑不只是髒髒的」／「還會造成牙周病」（橘）', '右邊大大的「牙齦紅腫」牙齒圖示', '念到「牙齦、支撐牙齒的組織、骨頭」：左邊三張小卡依序浮上', '念到「發炎和破壞」：右邊蓋上紅色印章「發炎、破壞」'],
+  visuals: ['大標「牙菌斑不只是髒髒的」／「還會造成牙周病」（橘）', '右邊大大的「牙齦紅腫」牙齒圖示', '念到「牙齦、支撐牙齒的組織、骨頭」：左邊三張小卡依序浮上（不加橘框）', '念到「發炎和破壞」：右邊蓋上紅色印章「發炎、破壞」'],
   mount: () => K.h('h09', ['牙菌斑不只是髒髒的', '<b class="o">還會造成牙周病</b>'], { y: 220, size: 84 }) +
     PER09.map(([t, ic], k) => K.bar('c09' + k, { x: 140, y: 500 + k * 140, w: 760, h: 120, ic, t, ts: 40 })).join('') +
     K.icon('g09', 'Gum', 1130, 240, 520) +
@@ -118,9 +120,7 @@ K.scene('09', 0, {
     K.pop(S, '#g09', S.word('牙周病', 0, -.1), '右邊大大的牙齦紅腫牙齒', { sfx: 'pop-card' });
     [['牙齦', 0], ['支撐牙齒的組織', 0], ['骨頭', 0]].forEach(([w, n], k) => {
       const t = S.word(w, n, -.2);
-      if (k) K.ring(S, '#c09' + (k - 1), t, false);
-      K.rise(S, '#c09' + k, t, k ? '' : '念到時三張小卡依序浮上、加橘框', { dx: -40, dy: 0 });
-      K.ring(S, '#c09' + k, t + .2);
+      K.rise(S, '#c09' + k, t, k ? '' : '念到時三張小卡依序浮上', { dx: -40, dy: 0 });
     });
     K.stamp(S, '#sp09', S.word('發炎', 0, -.1), '蓋上紅色印章「發炎、破壞」');
   },
@@ -129,13 +129,13 @@ K.scene('09', 0, {
 // ---------- 幕 10｜兩歲時多達八成 ----------
 K.scene('10', 0, {
   enter: 'zoom', bg: 'mint',
-  visuals: ['淡綠底；大標「狗狗到了兩歲」／「多達八成有牙周病」（橘）', '十隻黑柴大頭貼排兩排；念到「八成」：其中八隻依序加橘框，藍色手寫大字「八成」', '小字出處「資料來源：默克獸醫手冊」', '念到「年輕的狗狗」：下方橘字「年輕狗狗也可能有口腔問題」'],
+  visuals: ['淡綠底；大標「狗狗到了兩歲」／「多達八成有牙周病」（橘）', '十隻黑柴大頭貼排兩排；念到「八成」：其中八隻依序加橘框，右邊藍色大字「八成」（和標題同字體）', '小字出處「資料來源：默克獸醫手冊」', '念到「年輕的狗狗」：「兩歲時」正下方出現橘底白字標籤「年輕狗狗也可能有口腔問題」'],
   mount: () => K.h('h10', ['狗狗到了兩歲', '<b class="o">多達八成有牙周病</b>'], { y: 190, size: 84 }) +
     `<div class="abs" id="gr10" style="left:140px;top:450px;width:900px;display:grid;grid-template-columns:repeat(5,160px);gap:24px 25px">` +
     Array.from({ length: 10 }, (_, k) => `<div class="cd" id="a10${k}" style="position:relative;width:160px;height:160px;border-radius:50%;overflow:hidden"><img src="assets/dogs/clay/avatar.png" style="width:100%;height:100%;object-fit:cover"></div>`).join('') + `</div>` +
-    K.anno('an10', '八成', '兩歲時', { x: 1240, y: 470, bs: 200, ss: 40 }) +
+    K.anno('an10', '八成', '兩歲時', { x: 1100, y: 450, bs: 190, ss: 40 }) +
     `<div class="note" id="src10" style="left:140px;top:860px">資料來源：默克獸醫手冊</div>` +
-    K.concl('cn10', '年輕狗狗也可能有口腔問題', { x: 1100, y: 800, size: 46 }),
+    `<div class="abs" id="cn10" style="left:1100px;top:770px;width:640px;text-align:center"><span class="pl o" style="position:static;font-size:36px">年輕狗狗也可能有口腔問題</span></div>`,
   init() { K.hideLines('h10', 2); gsap.set('#gr10 .cd', { opacity: 0, scale: .6 }); gsap.set(['#an10', '#src10', '#cn10'], { opacity: 0 }); },
   animate(S) {
     K.fadeIn(S, '#src10', S.word('默克獸醫手冊'), '小字出處「資料來源：默克獸醫手冊」');
@@ -147,7 +147,7 @@ K.scene('10', 0, {
     S.sfx(t8, 'tick', '八成：「叮咚」');
     K.pop(S, '#an10', t8, '藍色手寫大字「八成」', { sfx: false });
     S.to(['#a108', '#a109'], { opacity: .35, duration: .3 }, t8 + .6);
-    K.showConcl(S, '#cn10', S.word('年輕的狗狗', 0, -.1), '橘字「年輕狗狗也可能有口腔問題」');
+    K.pop(S, '#cn10', S.word('年輕的狗狗', 0, -.1), '「兩歲時」下方橘底白字標籤「年輕狗狗也可能有口腔問題」', { sfx: 'tick', from: .7 });
   },
 });
 

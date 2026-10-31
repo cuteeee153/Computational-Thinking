@@ -5,3 +5,25 @@
 .strike{position:relative}
 .strike::after{content:'';position:absolute;left:-6%;right:-6%;top:50%;height:6px;border-radius:3px;background:#E5484D;transform:scaleX(var(--s,0));transform-origin:0 50%}
 .gray{filter:grayscale(1);opacity:.6}
+#an10{width:640px}
+#an10 b{font-family:'Noto Sans TC';font-weight:900;letter-spacing:-.04em;line-height:1.1}
+/* 示意的網頁查詢畫面（幕 16、22） */
+.web{position:absolute;border-radius:28px;background:#fff;overflow:hidden;box-shadow:0 60px 120px -50px rgba(20,30,60,.45),0 0 0 1px rgba(30,40,60,.08)}
+.web .wbar{height:64px;background:#EEF1F5;display:flex;align-items:center;gap:10px;padding:0 24px}
+.web .wbar i{width:16px;height:16px;border-radius:50%;background:#F08A8A}
+.web .wbar i:nth-child(2){background:#F5C76B}.web .wbar i:nth-child(3){background:#8FD19E}
+.web .url{flex:1;margin-left:18px;height:40px;border-radius:20px;background:#fff;display:flex;align-items:center;padding:0 20px;font-size:20px;font-weight:700;color:#7C7772}
+.web .url .tag{margin-left:auto;font-size:16px;color:#A29D97;font-weight:500}
+.web .site{display:flex;align-items:baseline;gap:20px;padding:22px 36px;border-bottom:2px solid #F0EEEB}
+.web .site b{font-family:'Bricolage Grotesque';font-weight:800;font-size:44px;color:#1F55B8;letter-spacing:-.02em}
+.web .site span{font-size:20px;color:#9A9590;font-weight:700}
+.web .site em{margin-left:auto;font-style:normal;font-size:22px;font-weight:900;color:#1F55B8;border-bottom:4px solid #1F55B8;padding-bottom:4px}
+.web .pg{padding:30px 36px}
+.web .wrow{display:flex;gap:24px;align-items:center;padding:24px 26px;border-radius:20px;background:#F6F7F9;margin-bottom:16px;font-weight:700}
+.web .wrow .lb{width:110px;color:#9A9590;font-size:24px;flex:none}
+.web .srch{display:flex;align-items:center;height:72px;border-radius:36px;border:2px solid #DCE3EE;padding:0 8px 0 28px;font-size:26px;margin-bottom:24px}
+.web .srch .go{margin-left:auto;width:56px;height:56px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center}
+.web .tbl{display:grid;grid-template-columns:1.4fr 1fr 1.3fr;border-radius:18px;overflow:hidden;border:2px solid #F0EEEB}
+.web .th,.web .td{display:flex;align-items:center;height:78px;padding:0 22px}
+.web .th{font-size:26px;font-weight:900;background-color:rgba(253,235,221,0);border-bottom:2px solid #F0EEEB}
+.web .td{background-color:rgba(253,235,221,0);gap:8px}
