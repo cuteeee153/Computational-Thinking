@@ -19,7 +19,8 @@ const aligned = fs.existsSync(path.join(here, 'narration/aligned.json')) ? rd('n
 const FPS = 30, fr = t => Math.round(t * FPS) / FPS;
 const nchar = s => (s.match(/[一-鿿A-Za-z0-9]/g) || []).length;
 const SPLIT = /[^，。、：；？！,|]+[，。、：；？！,|]?/g;
-const phrasesOf = text => (text.match(SPLIT) || []).map(p => p.trim()).filter(p => nchar(p));
+// 短句；緊接在標點後面的「|」（例如「，|」）也算強制斷開：在那個短句後面補一個「|」
+const phrasesOf = text => [...text.matchAll(SPLIT)].map(m => (s => text[m.index + m[0].length] === '|' && !s.endsWith('|') ? s + '|' : s)(m[0].trim())).filter(p => nchar(p));
 const D = { pre: .6, post: .7, hold: 0, ...script.defaults };
 
 let t = script.bumper?.length || 0;
@@ -76,14 +77,15 @@ for (const sc of script.scenes) {
     audio, phrases: phrases.map(({ text, t0, t1 }) => ({ text, t0, t1 })) });
   // 字幕
   const show = s => s.replace(/[「」『』|]/g, '').replace(/[，。、：；,]+$/, '');
+  const len18 = s => show(s).replace(/\s/g, '').length;   // 字數不算空格（英文、數字前後的空格）
   let cur = null;
   const push = () => { if (cur) captions.push(cur); cur = null; };
   for (const p of phrases) {
     // 太長的短句平均切開（優先在頓號）
     const pieces = []; const n = nchar(p.text);
-    if (show(p.text).length <= 18) pieces.push([p.text, p.t0, p.t1]);
+    if (len18(p.text) <= 18) pieces.push([p.text, p.t0, p.t1]);
     else {
-      const k = Math.ceil(show(p.text).length / 18), chars = [...p.text]; let acc = '', cnt = 0, from = p.t0;
+      const k = Math.ceil(len18(p.text) / 18), chars = [...p.text]; let acc = '', cnt = 0, from = p.t0;
       for (const [ci, ch] of chars.entries()) {
         if (!acc && pieces.length && /\s/.test(ch)) continue;   // 切開後的新一則不要以空格開頭
         acc += ch; if (/[一-鿿A-Za-z0-9]/.test(ch)) cnt++;
@@ -94,7 +96,7 @@ for (const sc of script.scenes) {
     }
     pieces.forEach(([txt, a0, a1], i) => {
       const forced = i > 0;
-      if (cur && !forced && !cur.stop && (show(cur.text) + txt).length <= 18) { cur.text += txt; cur.t1 = a1; }
+      if (cur && !forced && !cur.stop && len18(cur.text + txt) <= 18) { cur.text += txt; cur.t1 = a1; }
       else { push(); cur = { t0: a0, t1: a1, text: txt }; }
       if (i === pieces.length - 1) { cur.stop = /[。？！；：]$/.test(txt) || p.brk; if (cur.stop) push(); }
     });

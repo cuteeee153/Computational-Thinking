@@ -28,3 +28,12 @@
 /* 對話泡泡（引述） */
 .quote{position:absolute;padding:30px 40px;border-radius:40px 40px 40px 10px;background:#fff;font-size:40px;font-weight:900;letter-spacing:-.02em;box-shadow:0 30px 60px -30px rgba(40,60,100,.35)}
 .quote small{display:block;font-size:24px;font-weight:700;color:#9A9590;margin-bottom:8px;letter-spacing:0}
+/* 第五集 v2：白底橘框標籤、綠色打勾 */
+.pl.ob{background:#fff;border:4px solid var(--or-b);color:#16130F;box-shadow:0 14px 30px -16px rgba(30,40,80,.35)}
+.chk{background:#2FA866}
+.chk.todo{background:none}
+/* 官網截圖 */
+.shot{position:absolute;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 40px 80px -36px rgba(30,40,80,.45),0 0 0 1px rgba(30,40,60,.06)}
+.shot img{display:block;width:100%;height:auto}
+/* 手機：另一種底色（暖橘） */
+.phone.warm .scr{background:linear-gradient(180deg,#F08A3C 0,#F6AE73 30%,#FCE6D3 55%,#F7F4F0 70%)}

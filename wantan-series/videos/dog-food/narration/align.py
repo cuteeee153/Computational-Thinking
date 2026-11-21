@@ -71,7 +71,31 @@ def match(heard, which):
         for k in range(blk.size): t[blk.a + k] = heard[blk.b + k][1:]
     out = {si: [] for si in which}
     for (si, _), x in zip(chars, t): out[si].append(x)
-    return out
+    return {si: trim_far(ts) for si, ts in out.items()}
+
+def trim_far(ts, gap=1.5, run=3):
+    """頭尾零星對到的字（離本文超過 gap 秒、連續不到 run 個字）不算：常是別句裡碰巧同音的字"""
+    ts = list(ts)
+    for rev in (False, True):
+        while True:
+            idx = [i for i, x in enumerate(ts) if x is not None]
+            if rev: idx = idx[::-1]
+            if len(idx) <= run: break
+            k = 1
+            while k < len(idx) and abs(idx[k] - idx[k - 1]) == 1 and abs(ts[idx[k]][0] - ts[idx[k - 1]][1]) < gap: k += 1
+            if k >= run: break
+            nxt = idx[k]
+            if abs(ts[nxt][0] - ts[idx[k - 1]][1]) < gap and abs(nxt - idx[k - 1]) < 4: break
+            for i in idx[:k]: ts[i] = None
+    return ts
+
+def match_one(heard, si):
+    """只對一幕：先找最長的相同片段定位，再在那附近逐字比對"""
+    chars = [cc.convert(c).lower() for c in scenes[si]['text'] if SPOKEN.match(c)]
+    hs = [h[0] for h in heard]
+    blk = difflib.SequenceMatcher(None, chars, hs, autojunk=False).find_longest_match(0, len(chars), 0, len(hs))
+    lo = max(0, blk.b - blk.a - 15); hi = min(len(hs), blk.b - blk.a + len(chars) + 15)
+    return match(heard[lo:hi], [si])[si]
 
 files = sorted(f for f in glob.glob(f'{here}/rec/*') if re.search(r'\.(mp3|wav|m4a|aac|flac)$', f, re.I))
 if not files: sys.exit('narration/rec/ 裡沒有錄音檔')
@@ -82,7 +106,13 @@ for f in files:
     name = os.path.splitext(os.path.basename(f))[0]
     heard, dur, noises[name] = hear(f, name)
     which = [ids.index(name)] if name in ids else range(len(scenes))
-    for si, ts in match(heard, which).items():
+    got = match(heard, which)
+    # 幕的順序和錄音順序不一樣時（例如製作人把幾幕搬到後面），照順序對不到的幕再單獨到整個檔裡找一次
+    for si, ts in list(got.items()):
+        if len(which) > 1 and sum(x is not None for x in ts) / max(1, len(ts)) < .6:
+            loc = match_one(heard, si)
+            if sum(x is not None for x in loc) > sum(x is not None for x in ts): got[si] = loc
+    for si, ts in got.items():
         ratio = sum(x is not None for x in ts) / max(1, len(ts))
         forced, cur = name in ids, best.get(si)
         if forced or cur is None or (not cur[4] and ratio > cur[0]):
@@ -133,6 +163,17 @@ for si, sc in enumerate(scenes):
                      'cut': [round(a, 3), round(b, 3)], 'lead': round(first - a, 3), 'length': round(last - first, 3),
                      'phrases': [{'text': p['text'], 't0': round(p['t0'] - first, 3), 't1': round(p['t1'] - first, 3)} for p in phrases]}
     if ratio < .9: report.append(f'  幕 {sc["id"]}：只對上 {ratio:.0%}，可能念的和稿子不一樣（看 work/{name}.recognized.txt）')
+# 手動微調剪接點：narration/fixes.json，例如 {"07": {"a": 69.1}, "34": {"a": 374.7}}（加速後秒數；a＝開頭、b＝結尾）。重跑對時也會保留
+fx = json.load(open(f'{here}/fixes.json', encoding='utf-8')) if os.path.exists(f'{here}/fixes.json') else {}
+for k, f in fx.items():
+    g = out.get(k)
+    if not g or k.startswith('_'): continue
+    first = g['cut'][0] + g['lead']
+    if 'a' in f: g['cut'][0] = f['a']; g['lead'] = round(first - f['a'], 3); report.append(f'  幕 {k}：開頭照 fixes.json 剪在 {f["a"]} 秒')
+    if 'b' in f:
+        g['cut'][1] = f['b']
+        if f['b'] - .2 > first + g['length']: g['length'] = g['phrases'][-1]['t1'] = round(f['b'] - .2 - first, 3)   # 往後補的話，旁白結束時間也跟著延後
+        report.append(f'  幕 {k}：結尾照 fixes.json 剪在 {f["b"]} 秒')
 json.dump({'speed': speed, 'method': 'sherpa-onnx paraformer-zh-small + difflib', 'scenes': out},
           open(f'{here}/aligned.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print(f'對時完成：{len(out)}／{len(scenes)} 幕有錄音')

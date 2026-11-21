@@ -153,10 +153,10 @@ K.scene('62', 4, {
 // ---------- 幕 63｜研究團隊：不應拿來決定怎麼餵 → 跟獸醫討論 ----------
 K.scene('63', 4, {
   enter: 'push', bg: 'sky',
-  visuals: ['淡藍底；上方引述卡：「研究團隊也明確表示」＋「這項結果不應該拿來決定狗狗該怎麼餵」', '念到「一天一餐比一天兩餐或更多餐」：三塊圖示磚：一天一餐、一天兩餐、更多餐，下方灰色標籤「不能認定哪個更好」', '念到「年紀、健康狀況和生活需求」：三個標籤依序彈出；念到「與獸醫討論」：蓋上印章「與獸醫討論」'],
+  visuals: ['淡藍底；上方引述卡：「研究團隊也明確表示」＋「這項結果不應該拿來決定狗狗該怎麼餵」', '念到「一天一餐比一天兩餐或更多餐」：三塊圖示磚：一天一餐、一天兩餐、更多餐，下方白底橘框標籤「不能認定哪個更好」', '念到「年紀、健康狀況和生活需求」：三個標籤依序彈出；念到「與獸醫討論」：蓋上印章「與獸醫討論」'],
   mount: () => `<div class="cd" id="c63" style="left:140px;top:150px;width:1640px;height:200px;padding:36px 50px"><div class="k">研究團隊也明確表示</div><div class="t" style="font-size:50px;margin-top:14px">這項結果<span class="o">不應該</span>拿來決定狗狗該怎麼餵</div></div>` +
     [['一天一餐', 1], ['一天兩餐', 2], ['更多餐', 3]].map(([t, n], k) => `<div class="cd" id="m63${k}" style="left:${140 + k * 300}px;top:420px;width:260px;height:230px;padding:26px;text-align:center"><div style="display:flex;justify-content:center;gap:8px;height:90px;align-items:center">${Array.from({ length: n }, () => `<div style="width:${n > 2 ? 56 : 76}px;height:${n > 2 ? 56 : 76}px">${K.ic('Kibble')}</div>`).join('')}</div><div class="t" style="font-size:36px;margin-top:20px">${t}</div></div>`).join('') +
-    K.pill('g63', '不能認定哪個更好', 290, 690, 'gh', { fs: 36 }) +
+    K.pill('g63', '不能認定哪個更好', 290, 690, 'ob', { fs: 36 }) +
     ['年紀', '健康狀況', '生活需求'].map((t, k) => K.pill('f63' + k, t, 140 + k * 230, 830, '', { fs: 36 })).join('') +
     K.tile('Clinic', { id: 't63', x: 1300, y: 460, size: 240 }) +
     `<div class="stamp" id="sp63" style="left:1240px;top:760px">與獸醫討論</div>`,
@@ -167,7 +167,7 @@ K.scene('63', 4, {
     const t = S.word('一天一餐', 0, -.3);
     K.ring(S, '#c63', t, false);
     K.pop(S, ['#m630', '#m631', '#m632'], t, '三塊：一天一餐、一天兩餐、更多餐', { stagger: .2, sfx: 'pop-card' });
-    K.pop(S, '#g63', S.word('更多餐更好', 0, -.1), '灰色標籤「不能認定哪個更好」', { sfx: 'pop-low' });
+    K.pop(S, '#g63', S.word('更多餐更好', 0, -.1), '白底橘框標籤「不能認定哪個更好」', { sfx: 'pop-low' });
     ['年紀', '健康狀況', '生活需求'].forEach((w, k) => K.pop(S, '#f63' + k, S.word(w, 0, -.15), k ? '' : '三個標籤依序彈出：年紀、健康狀況、生活需求', { pitch: 1 + k * .1 }));
     K.pop(S, '#t63', S.word('與獸醫', 0, -.4), '右邊動物醫院圖示磚');
     K.stamp(S, '#sp63', S.word('與獸醫', 0, -.2), '蓋上印章「與獸醫討論」', { straight: true });

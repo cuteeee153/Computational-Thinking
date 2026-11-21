@@ -15,32 +15,9 @@ K.scene('05', 0, {
   },
 });
 
-// ---------- 幕 06｜第一件事：吃得飽 ≠ 營養夠 ----------
-K.scene('06', 0, {
-  enter: 'push', bg: 'sky',
-  visuals: ['淡藍底；小標「第一件事」，大標「吃得飽，」／「不代表營養夠」（橘）', '右邊一碗飼料，念到「有肉、有蔬菜」：肉和蔬菜圖示彈出；念到「先問大家一個問題」：藍色手寫大問號', '念到「每天的主食」：標籤「可以當每天的主食？」；念到「不一定喔」：蓋上橘色印章「不一定！」'],
-  mount: () => K.kicker('k06', '01', '第一件事', { y: 230 }) + K.h('h06', ['吃得飽，', '<b class="o">不代表營養夠</b>'], { y: 290, size: 96 }) +
-    K.tile('Kibble', { id: 't06', x: 1210, y: 240, size: 260 }) + K.tile('Meat', { id: 'm06', x: 1020, y: 330, size: 150 }) + K.tile('Veg', { id: 'v06', x: 1510, y: 330, size: 150 }) +
-    K.anno('q06', '?', '先問一個問題', { x: 1690, y: 160, bs: 180, ss: 32 }) +
-    K.pill('p06', '可以當每天的主食？', 1150, 590, '', { fs: 38 }) +
-    `<div class="stamp" id="s06" style="left:1250px;top:700px">不一定！</div>`,
-  init() { K.hideLines('h06', 2); gsap.set(['#q06', '#p06'], { opacity: 0 }); },
-  animate(S) {
-    S.fromTo('#k06', { opacity: 0 }, { opacity: 1, duration: .4 }, S.at(0));
-    K.lines(S, 'h06', 2, S.at(0) + .1, '大標「吃得飽，不代表營養夠」');
-    K.pop(S, '#t06', S.word('一包飼料', 0, -.2), '右邊一碗飼料彈出');
-    K.pop(S, '#m06', S.word('有肉', 0, -.1), '肉、蔬菜圖示彈出', { pitch: 1.1 });
-    K.pop(S, '#v06', S.word('有蔬菜', 0, -.1), '', { pitch: 1.2 });
-    K.pop(S, '#q06', S.word('一個問題', 0, -.3), '藍色手寫大問號', { sfx: 'boing' });
-    S.to('#q06', { opacity: 0, duration: .3 }, S.word('每天的主食', 0, -.6));
-    K.rise(S, '#p06', S.word('每天的主食', 0, -.4), '標籤「可以當每天的主食？」', { sfx: 'pop-card' });
-    K.stamp(S, '#s06', S.word('不一定', 0, -.2), '蓋上橘色印章「不一定！」');
-  },
-});
-
 // ---------- 幕 07｜營養素：不只蛋白質和脂肪 ----------
 const NU07 = [['蛋白質', '蛋白質'], ['脂肪', '脂肪'], ['維生素', '維生素'], ['礦物質', '礦物質'], ['其他營養素', '其他']];
-K.scene('07', 0, {
+K.scene('07', 1, {
   enter: 'push', bg: 'mint',
   visuals: ['淡綠底；大標「營養不只」／「蛋白質和脂肪」（橘）', '右邊五條營養長條，念到哪一種亮哪一種：蛋白質、脂肪、維生素、礦物質、其他營養素', '念到「長期不足」：「維生素」那條停在很低、變紅，藍色手寫「長期不足」；念到「比例不適合」：「礦物質」那條衝過頭', '念到「也不代表」：左下橘字「吃得很飽 ≠ 營養完整」'],
   mount: () => K.h('h07', ['營養不只', '<b class="o">蛋白質和脂肪</b>'], { y: 250, size: 96 }) +
@@ -70,18 +47,17 @@ K.scene('07', 0, {
 });
 
 // ---------- 幕 08｜營養完整：Complete and Balanced ----------
-K.scene('08', 0, {
+K.scene('08', 1, {
   enter: 'push', bg: 'sky',
-  visuals: ['淡藍底；小標「一個重要的概念」，大標「營養完整」（橘）', '右邊一包飼料（白色包裝、橘色色帶）；念到「Complete」：包裝上浮出標籤「Complete」，念到「Complete and Balanced」：擴成「Complete and Balanced」', '念到「特定生命階段」：藍色手寫「特定生命階段所需」；念到「日常主食」：蓋上印章「可以當主食」'],
+  visuals: ['淡藍底；小標「一個重要的概念」，大標「營養完整」（橘）', '右邊一包飼料（白色包裝、橘色色帶、中間一碗飼料圖示）；念到「Complete」：包裝上浮出標籤「Complete」，念到「Complete and Balanced」：擴成「Complete and Balanced」', '念到「日常主食」：蓋上擺正的印章「可以當主食」'],
   mount: () => K.ey('k08', '一個重要的概念', 140, 250) + K.h('h08', ['<b class="o">營養完整</b>'], { y: 300, size: 140 }) +
     `<div class="sub" id="s08" style="left:140px;top:520px">按照營養標準設計<br>提供特定生命階段需要的<b>完整營養</b></div>` +
-    K.bag('bg08', `<div style="height:150px;display:flex;align-items:center;justify-content:center"><div style="width:120px;height:120px">${K.ic('Paw')}</div></div>` +
+    K.bag('bg08', `<div style="height:150px;display:flex;align-items:center;justify-content:center"><div style="width:120px;height:120px">${K.ic('Kibble')}</div></div>` +
       `<div style="padding:0 40px"><div class="ln2" style="width:80%"></div><div class="ln2" style="width:60%"></div></div>` +
       `<div class="stm" id="cb08" style="text-align:center;font-family:'Bricolage Grotesque';font-size:38px;font-weight:800;letter-spacing:-.02em;white-space:nowrap;border-color:#F97316;color:#B4470A;background:#FFF6EE"><span id="cb08a">Complete</span><span id="cb08b"> and Balanced</span></div>`,
       { x: 1100, y: 180, w: 600, h: 640, title: 'DOG FOOD' }) +
-    K.anno('an08', '', '特定生命階段所需', { x: 1170, y: 840, ss: 34 }) +
     `<div class="stamp" id="sp08" style="left:1250px;top:620px">可以當主食</div>`,
-  init() { K.hideLines('h08', 1); gsap.set(['#s08', '#cb08', '#an08'], { opacity: 0 }); gsap.set('#cb08b', { opacity: 0 }); gsap.set('#bg08', { y: 60, opacity: 0 }); },
+  init() { K.hideLines('h08', 1); gsap.set(['#s08', '#cb08'], { opacity: 0 }); gsap.set('#cb08b', { opacity: 0 }); gsap.set('#bg08', { y: 60, opacity: 0 }); },
   animate(S) {
     K.eyIn(S, 'k08', S.at(0));
     S.to('#bg08', { y: 0, opacity: 1, duration: .7, ease: 'power3.out' }, S.at(0) + .2, '右邊一包飼料浮上');
@@ -92,14 +68,13 @@ K.scene('08', 0, {
     S.to('#cb08b', { opacity: 1, duration: .3 }, S.word('Balanced', 0, -.2), '擴成「Complete and Balanced」');
     S.sfx(S.word('Balanced', 0, -.2), 'pop', '「啵」', { pitch: 1.2 });
     K.rise(S, '#s08', S.word('簡單來說', 0, -.1), '左邊說明「按照營養標準設計，提供特定生命階段需要的完整營養」');
-    K.fadeIn(S, '#an08', S.word('特定生命階段', 0, -.2), '藍色手寫「特定生命階段所需」');
-    K.stamp(S, '#sp08', S.word('日常主食', 0, -.2), '蓋上印章「可以當主食」');
+    K.stamp(S, '#sp08', S.word('日常主食', 0, -.2), '蓋上印章「可以當主食」（擺正）', { straight: true });
   },
 });
 
 // ---------- 幕 09｜補充品、零食、短期餵食：不能當唯一的食物 ----------
 const C09 = [['Pill', '補充品', '補充品'], ['Jerky', '零食', '零食'], ['Clock', '短期、間歇性餵食', '短期']];
-K.scene('09', 0, {
+K.scene('09', 1, {
   enter: 'push', bg: 'mint',
   visuals: ['淡綠底；大標「這些產品，」／「不能當唯一的食物」（橘）', '念到時三張卡依序浮上：補充品、零食、短期、間歇性餵食；念到「唯一的食物」：三張卡一起打叉', '念到「除非有獸醫」：藍色標籤「特殊情況：獸醫指導」', '念到「下次買飼料時」：下方橘字「不只看有多少肉，確認是完整營養配方」'],
   mount: () => K.h('h09', ['這些產品，', '<b class="o">不能當唯一的食物</b>'], { y: 150, size: 80 }) +
@@ -117,62 +92,50 @@ K.scene('09', 0, {
   },
 });
 
-// ---------- 幕 10｜第二件事：AAFCO 和 FEDIAF 是什麼？ ----------
-K.scene('10', 0, {
+// ---------- 幕 10｜再來：兩個重要名稱 AAFCO 和 FEDIAF ----------
+K.scene('10', 1, {
   enter: 'push', bg: 'sky',
-  visuals: ['淡藍底；小標「第二件事」，大標「AAFCO 和 FEDIAF」／「是什麼？」（橘）', '右邊一包進口飼料，念到時包裝上依序出現標籤「AAFCO」「FEDIAF」', '念到「重要參考來源」：藍色手寫「營養標準的參考來源」＋箭頭指向兩個標籤；歪頭的黑柴'],
-  mount: () => K.kicker('k10', '02', '第二件事', { y: 230 }) + K.h('h10', ['AAFCO 和 FEDIAF', '<b class="o">是什麼？</b>'], { y: 290, size: 96 }) +
+  visuals: ['淡藍底；大標「AAFCO 和 FEDIAF」／「寵物食品營養標準」（橘）', '右邊一包進口飼料，念到「看過」：包裝上依序出現標籤「AAFCO」「FEDIAF」'],
+  mount: () => K.h('h10', ['AAFCO 和 FEDIAF', '<b class="o">寵物食品營養標準</b>'], { y: 280, size: 96 }) +
     K.bag('bg10', `<div style="height:200px;display:flex;align-items:center;justify-content:center"><div style="width:150px;height:150px">${K.ic('Globe')}</div></div>` +
       `<div style="padding:0 40px"><div class="ln2" style="width:80%"></div><div class="ln2" style="width:55%"></div></div>`, { x: 1180, y: 200, w: 520, h: 600, title: 'IMPORTED' }) +
-    K.pill('a10', 'AAFCO', 1240, 600, 'o', { fs: 40 }) + K.pill('f10', 'FEDIAF', 1450, 690, 'b', { fs: 40 }) +
-    K.anno('an10', '', '營養標準的參考來源', { x: 300, y: 650, ss: 40, align: 'left' }) +
-    K.arrow('ar10', { x: 760, y: 560, w: 440, h: 160, d: 'M10 120 C 150 150 300 120 430 60' }) +
-    K.dog('tilt', { id: 'dg10', x: 140, y: 700, w: 200, shadow: false }),
-  init() { K.hideLines('h10', 2); gsap.set(['#a10', '#f10', '#an10', '#dg10'], { opacity: 0 }); gsap.set('#bg10', { opacity: 0, y: 60 }); },
+    K.pill('a10', 'AAFCO', 1240, 600, 'o', { fs: 40 }) + K.pill('f10', 'FEDIAF', 1450, 690, 'b', { fs: 40 }),
+  init() { K.hideLines('h10', 2); gsap.set(['#a10', '#f10'], { opacity: 0 }); gsap.set('#bg10', { opacity: 0, y: 60 }); },
   animate(S) {
-    S.fromTo('#k10', { opacity: 0 }, { opacity: 1, duration: .4 }, S.at(0));
-    K.lines(S, 'h10', 2, S.at(0) + .1, '大標「AAFCO 和 FEDIAF 是什麼？」');
+    S.to('#h100', { yPercent: 0, duration: .8, ease: 'power4.out' }, S.word('AAFCO', 0, -.3), '大標第一行「AAFCO 和 FEDIAF」');
     S.to('#bg10', { opacity: 1, y: 0, duration: .7, ease: 'power3.out' }, S.word('進口飼料', 0, -.3), '右邊一包進口飼料浮上');
     S.sfx(S.word('進口飼料', 0, -.3), 'slide', '飼料浮上：輕「咻」');
-    K.pop(S, '#a10', S.word('AAFCO', 1, -.1), '包裝上出現標籤「AAFCO」', { sfx: 'pop-card' });
-    K.pop(S, '#f10', S.word('FEDIAF', 1, -.1), '包裝上出現標籤「FEDIAF」', { sfx: 'pop-card', pitch: 1.12 });
-    K.dogIn(S, '#dg10', S.word('到底是什麼', 0, -.2), '歪頭的黑柴');
-    K.fadeIn(S, '#an10', S.word('重要參考來源', 0, -.6), '藍色手寫「營養標準的參考來源」');
-    K.draw(S, '#ar10', S.word('重要參考來源', 0, -.4), '箭頭指向兩個標籤');
+    K.pop(S, '#a10', S.word('看過', 0, -.1), '包裝上依序出現標籤「AAFCO」「FEDIAF」', { sfx: 'pop-card' });
+    K.pop(S, '#f10', S.word('看過', 0, .2), '', { sfx: 'pop-card', pitch: 1.12 });
+    S.to('#h101', { yPercent: 0, duration: .8, ease: 'power4.out' }, S.word('寵物食品營養標準', 0, -.3), '大標第二行「寵物食品營養標準」（橘）');
+    S.sfx(S.word('寵物食品營養標準', 0, -.3), 'tick', '「叮咚」');
   },
 });
 
-// ---------- 幕 11｜美國、歐洲；依生命階段訂標準（手機畫面） ----------
-const ROW11 = [['AAFCO', '美國飼料管理協會', '美國飼料管理協會'], ['FEDIAF', '歐洲寵物食品工業聯合會', '歐洲寵物食品'], ['標準', '依不同生命階段訂定', '訂定']];
-K.scene('11', 0, {
+// ---------- 幕 11｜兩個官網：AAFCO 美國、FEDIAF 歐洲；依生命階段訂標準 ----------
+const SH11 = [['AAFCO', 'aafco', 'AAFCO'], ['FEDIAF', 'fediaf', 'FEDIAF']];
+K.scene('11', 1, {
   enter: 'push', bg: 'mint',
-  visuals: ['淡綠底；左邊大標「營養標準」／「依生命階段訂定」（橘）', '右邊手機畫面「兩個營養標準」，念到時三張資料卡依序滑入：AAFCO 美國飼料管理協會、FEDIAF 歐洲寵物食品工業聯合會、標準 依不同生命階段訂定', '念到「幼犬正在成長」：左下兩張卡：幼犬（成長）≠ 成犬（維持健康）', '念到「哪個階段設計的」：藍色手寫「確認是按哪個階段設計」'],
-  mount: () => K.h('h11', ['營養標準', '<b class="o">依生命階段訂定</b>'], { y: 200, size: 88 }) +
-    K.phone('ph11', `<div class="rows">${ROW11.map(([a, b], k) => `<div class="row" id="r11${k}"><span class="when" style="width:140px;font-family:'Space Mono';font-weight:700">${a}</span><span class="what" style="font-size:29px">${b}</span></div>`).join('')}</div>`, { title: '兩個營養標準' }) +
-    [['ball', '幼犬', '成長'], ['sit', '成犬', '維持健康']].map(([p, t, d], k) => `<div class="cd" id="c11${k}" style="left:${140 + k * 500}px;top:470px;width:420px;height:330px;padding:30px;text-align:center"><div style="height:190px;position:relative">${K.dog(p, { x: 115, y: 10, w: 130, shadow: false })}</div><div class="t" style="font-size:40px;margin-top:6px">${t}</div><div class="d">${d}</div></div>`).join('') +
-    `<div class="abs big" id="ne11" style="left:590px;top:560px;font-size:110px;color:var(--or)">≠</div>` +
-    K.anno('an11', '', '確認是按哪個階段設計', { x: 140, y: 840, ss: 36, align: 'left' }),
-  init() { K.hideLines('h11', 2); gsap.set('#ph11', { y: 900 }); gsap.set(['#c110', '#c111', '#ne11', '#an11'], { opacity: 0 }); },
+  visuals: ['淡綠底；兩張官網截圖並排，上面橘字標示：左「AAFCO」（美國飼料管理協會官網）、右「FEDIAF」（歐洲寵物食品工業聯合會官網），念到哪一個出現哪一個', '念到「生命階段」：截圖下方字卡「依不同的生命階段，訂定相應的營養標準」，加橘框'],
+  mount: () => SH11.map(([t, f], k) => `<div class="abs" id="l11${k}" style="left:${140 + k * 860}px;top:150px;font-family:'Bricolage Grotesque';font-weight:800;font-size:56px;color:var(--or);letter-spacing:-.02em">${t}</div>` +
+      `<div class="shot" id="s11${k}" style="left:${140 + k * 860}px;top:240px;width:780px"><img src="assets/shots/${f}.jpg" alt=""></div>`).join('') +
+    K.bar('c11', { x: 380, y: 760, w: 1160, h: 140, ic: 'Calendar', t: '依不同的生命階段，訂定相應的營養標準', ts: 44 }),
+  init() { gsap.set(['#l110', '#l111', '#s110', '#s111', '#c11'], { opacity: 0 }); },
   animate(S) {
-    K.phoneIn(S, '#ph11');
-    K.lines(S, 'h11', 2, S.at(0), '大標「營養標準，依生命階段訂定」');
-    ROW11.forEach(([, , w], k) => {
+    SH11.forEach(([, , w], k) => {
       const t = S.word(w, 0, -.3);
-      if (k) S.to('#r11' + (k - 1), { boxShadow: K.ROW0, duration: .3 }, t);
-      K.rise(S, '#r11' + k, t, k ? '' : '念到時三張資料卡依序滑入、加橘框', { dx: 60, dy: 0 });
-      S.to('#r11' + k, { boxShadow: K.ROW1, duration: .3 }, t + .2);
+      K.rise(S, ['#l11' + k, '#s11' + k], t, k ? '' : '念到哪一個，那一張官網截圖和橘字名稱浮上', { sfx: 'pop-card', stagger: .1 });
     });
-    K.rise(S, '#c110', S.word('幼犬正在成長', 0, -.2), '左下：幼犬（成長）', { sfx: 'pop-card' });
-    K.rise(S, '#c111', S.word('成犬維持', 0, -.2), '成犬（維持健康）', { sfx: 'pop-card' });
-    K.pop(S, '#ne11', S.word('不完全相同', 0, -.2), '中間橘色「≠」', { sfx: 'pop-low' });
-    K.fadeIn(S, '#an11', S.word('哪個階段', 0, -.3), '藍色手寫「確認是按哪個階段設計」');
+    const t = S.word('生命階段', 0, -.3);
+    K.rise(S, '#c11', t, '截圖下方字卡「依不同的生命階段，訂定相應的營養標準」，加橘框', { sfx: 'pop-card' });
+    K.ring(S, '#c11', t + .3);
   },
 });
 K.ROW0 = '0 0 0 0px #F97316,0 10px 24px -16px rgba(30,40,80,.35)'; K.ROW1 = '0 0 0 4px #F97316,0 10px 24px -16px rgba(30,40,80,.35)';
 
 // ---------- 幕 12｜營養聲明是重要線索；但不等於適合每一隻 ----------
 const F12 = [['Scale', '體重'], ['PlayTime', '活動量'], ['Heart', '健康狀況']];
-K.scene('12', 0, {
+K.scene('12', 1, {
   enter: 'push', bg: 'sky',
   visuals: ['淡藍底；大標「包裝上的營養聲明，」／「是重要線索」（橘），下方聲明卡「符合 AAFCO 某個生命階段的營養標準」＋放大鏡', '念到「不過」：大標換成「符合標準，」／「不等於適合每一隻」，聲明卡退場', '念到時三塊圖示磚依序彈出：體重、活動量、健康狀況；右邊三隻不同的狗（柯基、黑柴、黃金獵犬）'],
   mount: () => K.h('h12a', ['包裝上的營養聲明，', '<b class="o">是重要線索</b>'], { y: 180, size: 84 }) +
@@ -194,61 +157,53 @@ K.scene('12', 0, {
   },
 });
 
-// ---------- 幕 13｜台灣還沒有自己的標準；法案進度時間軸 ----------
+// ---------- 幕 13–14｜台灣還沒有自己的標準；法案進度；未來參考 AAFCO＋FEDIAF；出爐之前先看這兩個 ----------
 const TL13 = [
   { x: 300, b: '2025.5', s: '送行政院審議', at: '2025' },
   { x: 740, b: '2026.7', s: '通過行政院初審', at: '初審' },
   { x: 1180, b: '現在', s: '等院會排審', at: '排審' },
   { x: 1620, b: '之後', s: '送立法院', at: '立法院' },
 ];
-const TLY = 640;
-K.scene('13', 0, {
+const TLY = 560;
+K.scene('13', 1, {
   enter: 'push', bg: 'mint',
-  visuals: ['淡綠底；大標「台灣還沒有」／「自己的營養標準」（橘）', '念到「《寵物食品管理法》」：橘色標籤「《寵物食品管理法》草案」，下方時間軸畫出來', '念到時四個節點依序亮起：2025.5 送行政院審議 → 2026.7 通過行政院初審 → 現在 等院會排審 → 之後 送立法院（虛線、還沒到）'],
-  mount: () => K.h('h13', ['台灣還沒有', '<b class="o">自己的營養標準</b>'], { y: 150, size: 84 }) +
-    K.pill('p13', '《寵物食品管理法》草案', 1120, 230, 'o', { fs: 38 }) +
+  visuals: ['淡綠底；大標「台灣還沒有」／「自己的營養標準」（橘）', '念到「《寵物食品管理法》」：右上一張草案文件（紙張圖示，上面寫「《寵物食品管理法》草案」），中間時間軸畫出來', '念到時四個節點依序亮起：2025.5 送行政院審議 → 2026.7 通過行政院初審 → 現在 等院會排審 → 之後 送立法院（虛線、還沒到）', '念到「農業部官員也說」：下方一排：AAFCO ＋ FEDIAF → 台灣未來的標準'],
+  mount: () => K.h('h13a', ['台灣還沒有', '<b class="o">自己的營養標準</b>'], { y: 150, size: 80 }) +
+    K.h('h13b', ['標準出爐之前，', '<b class="o">先看這兩個</b>'], { y: 150, size: 80 }) +
+    `<div class="cd" id="dr13" style="left:1160px;top:120px;width:580px;height:230px;padding:30px 40px;border-radius:18px;display:flex;gap:26px;align-items:center"><div style="width:120px;height:150px;flex:none">${K.ic('Doc')}</div>` +
+    `<div style="flex:1"><div style="font-size:40px;font-weight:900;letter-spacing:-.03em">《寵物食品管理法》</div><div style="display:inline-block;margin-top:12px;padding:6px 22px;border:5px solid var(--or-b);border-radius:14px;color:var(--or-b);font-size:40px;font-weight:900">草案</div></div></div>` +
     `<div class="abs" id="ln13" style="left:300px;top:${TLY - 3}px;width:1320px;height:6px;border-radius:3px;background:linear-gradient(90deg,#F97316 0,#F97316 66%,transparent 66%),repeating-linear-gradient(90deg,#C9D6E8 0 18px,transparent 18px 30px);transform-origin:0 50%"></div>` +
-    TL13.map((n, k) => `<div class="tl-node${k < 3 ? ' on' : ''}" id="nd13${k}" style="left:${n.x}px;top:${TLY}px"></div><div class="tl-lab" id="lb13${k}" style="left:${n.x}px;top:${k % 2 ? TLY - 190 : TLY + 50}px"><b${k === 3 ? ' style="color:#A29D97"' : ''}>${n.b}</b><span>${n.s}</span></div>`).join(''),
-  init() { K.hideLines('h13', 2); gsap.set(['#p13'], { opacity: 0 }); gsap.set('#ln13', { scaleX: 0 }); gsap.set(TL13.map((_, k) => '#nd13' + k).concat(TL13.map((_, k) => '#lb13' + k)), { opacity: 0 }); },
+    TL13.map((n, k) => `<div class="tl-node${k < 3 ? ' on' : ''}" id="nd13${k}" style="left:${n.x}px;top:${TLY}px"></div><div class="tl-lab" id="lb13${k}" style="left:${n.x}px;top:${k % 2 ? TLY - 170 : TLY + 46}px"><b${k === 3 ? ' style="color:#A29D97"' : ''}>${n.b}</b><span>${n.s}</span></div>`).join('') +
+    `<div class="abs" id="row13" style="left:140px;top:780px;display:flex;align-items:center;gap:26px">` +
+    `<span class="pl o" id="a13" style="position:static;font-size:44px">AAFCO</span><span class="big" style="font-size:60px;color:#A29D97">＋</span><span class="pl b" id="f13" style="position:static;font-size:44px">FEDIAF</span>` +
+    `<span class="big" id="ar13" style="font-size:60px;color:var(--blue)">→</span><span class="pl" id="c13" style="position:static;font-size:40px">${K.ic('Flag')}台灣未來的標準</span></div>`,
+  init() { K.hideLines('h13a', 2); K.hideLines('h13b', 2); gsap.set(['#dr13', '#a13', '#f13', '#ar13', '#c13'], { opacity: 0 }); gsap.set('#row13 .big:not(#ar13)', { opacity: 0 }); gsap.set('#ln13', { scaleX: 0 }); gsap.set(TL13.map((_, k) => '#nd13' + k).concat(TL13.map((_, k) => '#lb13' + k)), { opacity: 0 }); },
   animate(S) {
-    K.lines(S, 'h13', 2, S.at(0), '大標「台灣還沒有自己的營養標準」');
+    K.lines(S, 'h13a', 2, S.at(0), '大標「台灣還沒有自己的營養標準」');
     const t = S.word('寵物食品管理法', 0, -.3);
-    K.pop(S, '#p13', t, '橘色標籤「《寵物食品管理法》草案」', { sfx: 'pop-card' });
-    S.to('#ln13', { scaleX: 1, duration: 1, ease: 'power2.inOut' }, t + .3, '下方時間軸畫出來');
+    K.pop(S, '#dr13', t, '右上草案文件「《寵物食品管理法》草案」', { sfx: 'pop-card', from: .8 });
+    S.to('#ln13', { scaleX: 1, duration: 1, ease: 'power2.inOut' }, t + .3, '中間時間軸畫出來');
     S.sfx(t + .3, 'draw', '畫出時間軸：筆刷聲', { dur: .9, gain: .5 });
     TL13.forEach((n, k) => {
       const tk = S.word(n.at, 0, -.2);
       K.pop(S, '#nd13' + k, tk, k ? '' : '念到時節點依序亮起', { pitch: 1 + k * .08 });
       K.rise(S, '#lb13' + k, tk + .1, '', { sfx: false, dy: 20 });
     });
+    K.pop(S, '#a13', S.word('AAFCO', 0, -.1), '下方一排：AAFCO ＋ FEDIAF → 台灣未來的標準', { sfx: 'pop-card' });
+    S.to('#row13 .big:not(#ar13)', { opacity: 1, duration: .2 }, S.word('FEDIAF', 0, -.3));
+    K.pop(S, '#f13', S.word('FEDIAF', 0, -.1), '', { sfx: 'pop-card', pitch: 1.12 });
+    K.fadeIn(S, '#ar13', S.word('共同標準', 0, -.3), '', .3);
+    K.pop(S, '#c13', S.word('共同標準', 0, 0), '', { sfx: 'pop-card', pitch: 1.2 });
   },
 });
-
-// ---------- 幕 14｜未來參考 AAFCO＋FEDIAF；出爐之前先看這兩個 ----------
-K.scene('14', 0, {
-  enter: 'push', bg: 'sky',
-  visuals: ['淡藍底；大標「未來台灣的標準，」／「參考兩者的共同標準」（橘）', '右邊：「AAFCO」「FEDIAF」兩個標籤，兩支藍色箭頭往下匯到「台灣未來的標準」卡片', '念到「最新公告」：藍色手寫「進度以農業部最新公告為準」', '念到「在台灣標準出爐之前」：大標換成「標準出爐之前，」／「先看這兩個」，兩個標籤加橘框'],
-  mount: () => K.h('h14a', ['未來台灣的標準，', '<b class="o">參考兩者的共同標準</b>'], { y: 200, size: 80 }) +
-    K.h('h14b', ['標準出爐之前，', '<b class="o">先看這兩個</b>'], { y: 200, size: 80 }) +
-    K.pill('a14', 'AAFCO', 1120, 240, 'o', { fs: 44 }) + K.pill('f14', 'FEDIAF', 1480, 240, 'b', { fs: 44 }) +
-    K.arrow('ar140', { x: 1180, y: 330, w: 220, h: 200, d: 'M30 10 C 40 90 120 150 200 180' }) +
-    K.arrow('ar141', { x: 1420, y: 330, w: 220, h: 200, d: 'M190 10 C 180 90 100 150 20 180' }) +
-    `<div class="cd" id="c14" style="left:1120px;top:540px;width:600px;height:200px;padding:30px;display:flex;align-items:center;gap:24px"><div style="width:130px;height:130px;flex:none">${K.ic('Flag')}</div><div class="t" style="font-size:40px">台灣未來的標準</div></div>` +
-    K.anno('an14', '', '進度以農業部最新公告為準', { x: 140, y: 560, ss: 36, align: 'left' }),
-  init() { K.hideLines('h14a', 2); K.hideLines('h14b', 2); gsap.set(['#a14', '#f14', '#c14', '#an14'], { opacity: 0 }); },
+K.scene('14', 1, {
+  enter: 'none',
+  visuals: ['（接續）念到「在台灣標準出爐之前」：大標換成「標準出爐之前，」／「先看這兩個」，AAFCO、FEDIAF 兩個標籤放大'],
   animate(S) {
-    K.lines(S, 'h14a', 2, S.at(0), '大標「未來台灣的標準，參考兩者的共同標準」');
-    K.pop(S, '#a14', S.word('AAFCO', 0, -.1), '標籤「AAFCO」', { sfx: 'pop-card' });
-    K.pop(S, '#f14', S.word('FEDIAF', 0, -.1), '標籤「FEDIAF」', { sfx: 'pop-card', pitch: 1.12 });
-    K.draw(S, '#ar140', S.word('共同標準', 0, -.4), '兩支藍色箭頭往下匯合', .5);
-    K.draw(S, '#ar141', S.word('共同標準', 0, -.3), '', .5);
-    K.rise(S, '#c14', S.word('共同標準', 0, .1), '卡片「台灣未來的標準」浮上', { sfx: 'pop-card' });
-    K.fadeIn(S, '#an14', S.word('最新公告', 0, -.4), '藍色手寫「進度以農業部最新公告為準」');
     const t = S.word('出爐之前', 0, -.4);
-    K.swapH(S, 'h14a', 2, 'h14b', 2, t, '大標換成「標準出爐之前，先看這兩個」');
-    S.to('#an14', { opacity: 0, duration: .3 }, t);
-    S.to(['#a14', '#f14'], { boxShadow: '0 0 0 6px #F97316,0 14px 30px -16px rgba(30,40,80,.35)', scale: 1.08, duration: .35, stagger: .1 }, S.word('AAFCO', 1, -.1), '兩個標籤加橘框、放大');
-    S.sfx(S.word('AAFCO', 1, -.1), 'ding-soft', '亮起：輕「叮」');
+    K.swapH(S, 'h13a', 2, 'h13b', 2, t, '大標換成「標準出爐之前，先看這兩個」');
+    S.to(['#a13', '#f13'], { scale: 1.18, duration: .35, ease: 'back.out(2)', stagger: .1 }, S.word('AAFCO', 0, -.1), 'AAFCO、FEDIAF 兩個標籤放大');
+    S.sfx(S.word('AAFCO', 0, -.1), 'ding-soft', '放大：輕「叮」');
   },
 });
 

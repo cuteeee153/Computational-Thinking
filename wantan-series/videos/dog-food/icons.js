@@ -715,3 +715,6 @@ function iconRaw(id) { // 生食（生肉＋警示）
 function iconKibble(id) { // 一碗飼料（主食）：狗碗，沒有成長箭頭
   return iconBowl(id).replace(/<g transform="translate\(148 30\)">.*?<\/g>/s, '');
 }
+// 換色的飼料袋：藍色、綠色（同一排放好幾包不同牌子時用）
+function iconFoodBagBlue(id) { return iconFoodBag(id).split(`url(#${id}-or2)`).join('#2457B5').split(`url(#${id}-or)`).join(`url(#${id}-bl)`); }
+function iconFoodBagGreen(id) { return iconFoodBag(id).split(`url(#${id}-or2)`).join('#5E8F3A').split(`url(#${id}-or)`).join('#86B95A'); }
