@@ -99,7 +99,7 @@ K.scene('19', 1, {
     K.rise(S, '#pt1', S.word('第二', 0, -.2), '第二張卡浮上、加橘框', { sfx: 'pop-card' });
     K.ring(S, '#pt1', S.word('第二'));
     K.count(S, '#n19', 0, 20, S.word('至少', 0, -.1), .9, '念到「至少 20%」：橘色大數字從 0 跑到 20');
-    S.fromTo('#g19', { color: '#E2620E' }, { color: '#1E9E5A', duration: .3 }, S.word('至少', 0, .8), '跳到 20% 時數字變成綠色（通過）');
+    S.fromTo('#g19', { color: '#E2620E' }, { color: '#32CD32', duration: .3 }, S.word('至少', 0, .8), '跳到 20% 時數字變成綠色（通過）');
     S.sfx(S.word('至少', 0, .8), 'tick', '20%：「叮咚」');
   },
 });
@@ -136,7 +136,7 @@ const COL22 = [['產品名稱', '產品名稱'], ['品牌', '品牌'], ['標章�
 const bars = w => `<i style="display:block;height:16px;width:${w}px;border-radius:8px;background:#E4E1DD"></i>`;
 K.scene('22', 1, {
   enter: 'push', bg: 'mint',
-  visuals: ['淡綠底；左邊大標「為什麼先看 VOHC？」／「可以公開查證」（橘）', '右邊網頁查詢畫面（示意的 VOHC 網站，分頁「犬用產品接受清單」）；搜尋框打字「犬用產品接受清單」', '念到「產品名稱、品牌、標章種類」：清單的三個欄位依序亮起（淡橘底）、欄名旁打勾', '念到「獸醫推薦」「有效減少牙結石」：左邊兩個灰色虛線標籤（包裝上寫的），第二個標籤正下方藍字「比較難自己核對」', '念到「更容易」：整個 VOHC 網站亮一下（綠色外框、放大一點點）'],
+  visuals: ['淡綠底；左邊大標「為什麼先看 VOHC？」／「可以公開查證」（橘）', '右邊網頁查詢畫面（示意的 VOHC 網站），一開始只有 VOHC 品牌名稱和搜尋框', '念到「查看犬用產品的接受清單」：搜尋框打字；查詢後右上角才出現藍字「犬用產品接受清單」，清單欄位跳出來', '念到「產品名稱、品牌、標章種類」：清單的三個欄位依序亮起（淡橘底）、欄名旁打勾', '念到「獸醫推薦」「有效減少牙結石」：左邊兩個灰色虛線標籤（包裝上寫的），第二個標籤正下方藍字「比較難自己核對」', '念到「更容易」：整個 VOHC 網站亮一下（綠色外框、放大一點點）'],
   mount: () => K.h('h22', ['為什麼先看 VOHC？', '<b class="o">可以公開查證</b>'], { y: 230, size: 80 }) +
     K.pill('g220', '包裝寫：獸醫推薦', 140, 520, 'gh', { fs: 32 }) + K.pill('g221', '包裝寫：有效減少牙結石', 140, 620, 'gh', { fs: 32 }) +
     K.anno('an22', '', '比較難自己核對', { x: 150, y: 720, ss: 36, align: 'left' }) +
@@ -144,13 +144,19 @@ K.scene('22', 1, {
       `<div class="tbl">` + COL22.map(([t], k) => `<div class="th c${k}" id="h22${k}">${t}${K.chk().replace('class="chk"', `class="chk" id="ck22${k}" style="margin:0 0 0 10px;width:34px;height:34px"`)}</div>`).join('') +
       [0, 1, 2].map(r => [bars([200, 170, 230][r]), bars([110, 140, 90][r]), r === 1 ? `<span class="pl ot" style="position:static;font-size:20px;padding:5px 12px">牙結石</span>` : `<span class="pl ot" style="position:static;font-size:20px;padding:5px 12px">牙菌斑</span>${r ? '' : ` <span class="pl ot" style="position:static;font-size:20px;padding:5px 12px">牙結石</span>`}`].map((h, k) => `<div class="td c${k}">${h}</div>`).join('')).join('') + `</div>`,
       { x: 900, y: 190, w: 900, h: 660, page: '犬用產品接受清單' }),
-  init() { K.hideLines('h22', 2); gsap.set('#wb22', { y: 900 }); gsap.set(['#g220', '#g221', '#an22'], { opacity: 0 }); gsap.set('#wb22 .chk', { opacity: 0, scale: .4 }); },
+  init() { K.hideLines('h22', 2); gsap.set('#wb22', { y: 900 }); gsap.set(['#wb22 .site span', '#wb22 .site em', '#wb22 .tbl'], { opacity: 0 }); gsap.set(['#g220', '#g221', '#an22'], { opacity: 0 }); gsap.set('#wb22 .chk', { opacity: 0, scale: .4 }); },
   animate(S) {
     S.to('#wb22', { y: 0, duration: .8, ease: 'power3.out' }, S.start, '網頁畫面跟著換幕滑上來');
     S.sfx(S.start, 'whoosh', '網頁滑上來：「咻」', { gain: .6 });
     K.lines(S, 'h22', 1, S.at(0), '大標第一行「為什麼先看 VOHC？」');
     S.to('#h221', { yPercent: 0, duration: .8, ease: 'power4.out' }, S.word('公開查證', 0, -.3), '念到「公開查證」：第二行「可以公開查證」');
-    K.type(S, '#ty22', S.word('官方網站', 0, -.4), '搜尋框打字「犬用產品接受清單」');
+    const tq = S.word('查看', 0, -.1);
+    K.type(S, '#ty22', tq, '念到「查看犬用產品的接受清單」：搜尋框打字「犬用產品接受清單」');
+    const tr = Math.min(S.wordEnd('接受清單', 0, .05), S.word('產品名稱', 0, -.45));
+    S.to('#wb22 .srch .go', { scale: .85, duration: .1, yoyo: true, repeat: 1 }, tr - .15);
+    S.sfx(tr - .15, 'click', '按下搜尋：「喀」');
+    S.to(['#wb22 .site em', '#wb22 .site span'], { opacity: 1, duration: .3 }, tr, '查詢後：右上角出現藍字「犬用產品接受清單」');
+    S.fromTo('#wb22 .tbl', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .4, ease: 'power3.out' }, tr, '查詢後：清單（產品名稱、品牌、標章種類欄位）跳出來');
     COL22.forEach(([, w], k) => {
       const t = S.word(w, 0, -.1);
       if (k) S.to('#wb22 .c' + (k - 1), { backgroundColor: 'rgba(253,235,221,0)', duration: .3 }, t);

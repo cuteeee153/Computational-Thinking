@@ -576,3 +576,17 @@ function iconWaterBowl(id) { // 藍色水碗（裝水）
     ${[[150, 50], [164, 66], [138, 70]].map(([x, y]) => `<path d="M${x} ${y - 10} C ${x + 6} ${y - 2} ${x + 7} ${y + 2} ${x + 7} ${y + 4} a7 7 0 0 1 -14 0 C ${x - 7} ${y + 2} ${x - 6} ${y - 2} ${x} ${y - 10}z" fill="#6FA0F0"/>`).join('')}
   </g></svg>`;
 }
+function iconDogMouth(id) { // 狗狗張開的嘴（正面：鼻子＋張嘴、牙齒、舌頭）
+  return `<svg viewBox="0 0 200 200">${_defs(id)}<g filter="url(#${id}-sh)">
+    <ellipse cx="100" cy="104" rx="78" ry="70" fill="#C98A52"/><ellipse cx="100" cy="100" rx="76" ry="68" fill="url(#${id}-cream)"/>
+    <ellipse cx="100" cy="58" rx="24" ry="16" fill="#2A211B"/><ellipse cx="93" cy="53" rx="7" ry="4" fill="#5A4A40"/>
+    <path d="M100 74 L100 90" stroke="#2A211B" stroke-width="5" stroke-linecap="round"/>
+    <path d="M52 98 Q100 86 148 98 Q144 158 100 162 Q56 158 52 98Z" fill="#7A2E2E"/>
+    <path d="M70 136 Q100 120 130 136 Q126 158 100 160 Q74 158 70 136Z" fill="#F08A8A"/><path d="M100 128 L100 152" stroke="#D96C6C" stroke-width="3" stroke-linecap="round"/>
+    ${[60, 74, 88, 102, 116, 130].map(x => `<path d="M${x} ${98 - (x === 60 || x === 130 ? 0 : 2)} l7 0 l-2 12 l-3 0z" fill="#fff"/>`).join('')}
+    <path d="M58 100 l6 16 l5 -14z M142 100 l-6 16 l-5 -14z" fill="#fff"/>
+  </g></svg>`;
+}
+function iconToothpasteHuman(id) { // 人類牙膏（標籤上是人頭）
+  return iconToothpaste(id).replace(/<g fill="#FFF2E4">[\s\S]*?<\/g>/, '<g fill="#FFF2E4"><circle cx="93" cy="92" r="8"/><path d="M78 114 a15 12 0 0 1 30 0z"/></g>');
+}

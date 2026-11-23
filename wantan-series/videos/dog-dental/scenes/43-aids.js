@@ -80,15 +80,24 @@ K.scene('46', 3, {
   },
 });
 
-// ---------- 幕 47–48｜注意二：越硬不一定越好；太硬可能咬斷牙齒 ----------
+// ---------- 幕 47（合併原本的 48）｜注意二：越硬不一定越好 → 太硬可能咬斷牙齒 ----------
+const HD48 = [['牛蹄', '牛蹄'], ['鹿角', '鹿角'], ['天然硬骨頭', '天然硬骨頭'], ['很硬的尼龍玩具', '尼龍']];
 K.scene('47', 3, {
   enter: 'push',
-  visuals: ['小標「注意二」；大標「潔牙骨」／「不能只看硬不硬」（橘）', '念到時三個標籤依序出現、中間箭頭：越硬 → 啃得越久 → 效果越好？', '念到「其實有風險」：蓋上紅色印章「其實有風險」'],
+  visuals: ['小標「注意二」；大標「潔牙骨」／「不能只看硬不硬」（橘）', '念到時三個標籤依序出現、中間箭頭：越硬 → 啃得越久 → 效果越好？', '念到「其實有風險」：蓋上紅色印章「其實有風險」', '念到「像是」：標籤和印章退場，大標換成「太硬」／「可能咬斷牙齒」；左邊四個標籤念到時依序出現：牛蹄、鹿角、天然硬骨頭、很硬的尼龍玩具', '右邊大牙齒，念到「斷裂」：紅色裂痕畫下去、牙齒抖一下', '下方結論橘字「安全性 > 能啃多久」'],
   mount: () => `<div class="eyebrow abs" id="k47" style="left:140px;top:170px;font-size:26px">注意二</div>` + K.h('h47', ['潔牙骨', '<b class="o">不能只看硬不硬</b>'], { y: 220, size: 96 }) +
     `<div class="abs" id="fl47" style="left:140px;top:560px;display:flex;align-items:center;gap:24px">` +
     ['越硬', '→', '啃得越久', '→', '效果越好？'].map((t, k) => k % 2 ? `<span id="f47${k}" style="font-size:52px;font-weight:900;color:var(--blue)">${t}</span>` : `<span class="pl" id="f47${k}" style="position:static;font-size:44px;padding:20px 38px">${t}</span>`).join('') + `</div>` +
-    `<div class="stamp" id="sp47" style="left:1180px;top:700px;border-color:#E5484D;color:#E5484D">其實有風險</div>`,
-  init() { K.hideLines('h47', 2); gsap.set(['#k47'], { opacity: 0 }); gsap.set('#fl47 > span', { opacity: 0 }); },
+    `<div class="stamp" id="sp47" style="left:1180px;top:700px;border-color:#E5484D;color:#E5484D">其實有風險</div>` +
+    K.h('h48', ['太硬', '<b class="o">可能咬斷牙齒</b>'], { y: 150, size: 90 }) +
+    HD48.map(([t], k) => K.pill('p48' + k, `${K.ic('HardBone')}${t}`, 140 + (k % 2) * 460, 430 + Math.floor(k / 2) * 120, '', { fs: 34 })).join('') +
+    K.icon('tt48', 'Tooth', 1250, 250, 440) +
+    `<svg class="abs" id="ck48" style="left:1250px;top:250px;overflow:visible" width="440" height="440"><path d="M230 70 L200 150 L250 210 L205 290" fill="none" stroke="#E5484D" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>` +
+    K.concl('cn48', '安全性 <b style="color:#16130F">&gt;</b> 能啃多久', { x: 140, y: 760, size: 64 }),
+  init() {
+    K.hideLines('h47', 2); K.hideLines('h48', 2); gsap.set(['#k47'], { opacity: 0 }); gsap.set('#fl47 > span', { opacity: 0 });
+    gsap.set(HD48.map((_, k) => '#p48' + k).concat(['#tt48', '#cn48']), { opacity: 0 }); gsap.set('#ck48 path', { strokeDasharray: 1, strokeDashoffset: 1 });
+  },
   animate(S) {
     K.fadeIn(S, '#k47', S.at(0), '小標「注意二」');
     K.lines(S, 'h47', 2, S.at(0) + .1, '大標「潔牙骨不能只看硬不硬」');
@@ -96,20 +105,11 @@ K.scene('47', 3, {
     K.rise(S, ['#f471', '#f472'], S.word('啃得越久', 0, -.2), '', { dx: -30, dy: 0, stagger: .1 });
     K.rise(S, ['#f473', '#f474'], S.word('效果', 0, -.2), '', { dx: -30, dy: 0, stagger: .1 });
     K.stamp(S, '#sp47', S.word('有風險', 0, -.3), '蓋上紅色印章「其實有風險」', { straight: true });
-  },
-});
-const HD48 = [['牛蹄', '牛蹄'], ['鹿角', '鹿角'], ['天然硬骨頭', '天然硬骨頭'], ['很硬的尼龍玩具', '尼龍']];
-K.scene('48', 3, {
-  enter: 'push', bg: 'sky',
-  visuals: ['淡藍底；大標「太硬」／「可能咬斷牙齒」（橘）', '左邊四個標籤念到時依序出現：牛蹄、鹿角、天然硬骨頭、很硬的尼龍玩具', '右邊大牙齒，念到「斷裂」：紅色裂痕畫下去、牙齒抖一下', '下方結論橘字「安全性 > 能啃多久」'],
-  mount: () => K.h('h48', ['太硬', '<b class="o">可能咬斷牙齒</b>'], { y: 150, size: 90 }) +
-    HD48.map(([t], k) => K.pill('p48' + k, `${K.ic('HardBone')}${t}`, 140 + (k % 2) * 460, 430 + Math.floor(k / 2) * 120, '', { fs: 34 })).join('') +
-    K.icon('tt48', 'Tooth', 1250, 250, 440) +
-    `<svg class="abs" id="ck48" style="left:1250px;top:250px;overflow:visible" width="440" height="440"><path d="M230 70 L200 150 L250 210 L205 290" fill="none" stroke="#E5484D" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>` +
-    K.concl('cn48', '安全性 <b style="color:#16130F">&gt;</b> 能啃多久', { x: 140, y: 760, size: 64 }),
-  init() { K.hideLines('h48', 2); gsap.set(HD48.map((_, k) => '#p48' + k), { opacity: 0 }); gsap.set('#ck48 path', { strokeDasharray: 1, strokeDashoffset: 1 }); gsap.set('#cn48', { opacity: 0 }); },
-  animate(S) {
-    K.lines(S, 'h48', 2, S.at(0), '大標「太硬，可能咬斷牙齒」');
+    const tp = S.word('像是', 0, -.3);
+    S.to(['#k47', '#fl47', '#sp47'], { opacity: 0, y: 30, duration: .35 }, tp, '念到「像是」：標籤和印章退場');
+    K.swapH(S, 'h47', 2, 'h48', 2, tp, '大標換成「太硬，可能咬斷牙齒」');
+    S.sfx(tp, 'whoosh', '換版面：「咻」', { gain: .6 });
+    K.pop(S, '#tt48', tp + .3, '右邊大牙齒', { sfx: false, from: .7 });
     HD48.forEach(([, w], k) => K.pop(S, '#p48' + k, S.word(w, 0, -.1), k ? '' : '念到時四個標籤依序出現：牛蹄、鹿角、天然硬骨頭、很硬的尼龍玩具', { sfx: 'pop-card', pitch: 1 + k * .06 }));
     const t = S.word('斷裂', 0, -.2);
     S.to('#ck48 path', { strokeDashoffset: 0, duration: .35, ease: 'power2.in' }, t, '念到「斷裂」：紅色裂痕畫下去');

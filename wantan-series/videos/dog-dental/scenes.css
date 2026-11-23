@@ -27,3 +27,14 @@
 .web .th,.web .td{display:flex;align-items:center;height:78px;padding:0 22px}
 .web .th{font-size:26px;font-weight:900;background-color:rgba(253,235,221,0);border-bottom:2px solid #F0EEEB}
 .web .td{background-color:rgba(253,235,221,0);gap:8px}
+.pl.rd{background:#FDECEC;color:#D93A3F;box-shadow:0 0 0 3px #F2A7A9}
+/* 幕 37：手機裡的電子商城 */
+.phone .shs{display:flex;align-items:center;gap:14px;height:76px;border-radius:38px;background:#fff;padding:0 28px;font-size:28px;font-weight:700;color:#2A2622;margin-bottom:22px;box-shadow:0 10px 24px -16px rgba(30,40,80,.35)}
+.phone .shc{display:flex;gap:22px;align-items:center;padding:22px;border-radius:30px;background:#fff;margin-bottom:16px;box-shadow:0 10px 24px -16px rgba(30,40,80,.35)}
+.phone .shi{width:150px;height:150px;border-radius:24px;background:#F4F3F1;flex:none;display:flex;align-items:center;justify-content:center}
+.phone .shi svg{width:120px;height:120px;overflow:visible}
+.phone .shn{font-size:32px;font-weight:900}
+.phone .sht{display:flex;gap:10px;margin-top:12px}
+.phone .sht span{padding:6px 16px;border-radius:999px;background:#FDEBDD;color:#B4470A;font-size:22px;font-weight:700}
+.phone .shp{margin-top:10px;font-size:22px;color:#F5B83D}
+.phone .shp i{font-style:normal}
